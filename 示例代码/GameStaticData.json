@@ -1,0 +1,98 @@
+{
+    "BuildingData": [
+        {
+            "ID": 0,
+            "name": "\u7528\u7231\u53D1\u7535",
+            "gold": 1,
+            "girlJuice": 1,
+            "needFavorable": 0,
+            "needGold": 30
+        },
+        {
+            "ID": 1,
+            "name": "\u624B\u6447\u53D1\u7535\u59EC",
+            "gold": 2,
+            "girlJuice": -1,
+            "needFavorable": 1,
+            "needGold": 20
+        },
+        {
+            "ID": 2,
+            "name": "\u624B\u52A8\u53D1\u7535\u59EC",
+            "gold": 5,
+            "girlJuice": -2,
+            "needFavorable": 2,
+            "needGold": 50
+        },
+        {
+            "ID": 3,
+            "name": "\u624B\u866B\u53D1\u7535\u59EC",
+            "gold": 10,
+            "girlJuice": -3,
+            "needFavorable": 5,
+            "needGold": 100
+        },
+        {
+            "ID": 4,
+            "name": "\u624B\u52A8\u69A8\u6C41\u59EC",
+            "gold": -1,
+            "girlJuice": 2,
+            "needFavorable": 1,
+            "needGold": 20
+        },
+        {
+            "ID": 5,
+            "name": "\u7535\u52A8\u69A8\u6C41\u59EC",
+            "gold": -3,
+            "girlJuice": 3,
+            "needFavorable": 3,
+            "needGold": 50
+        },
+        {
+            "ID": 6,
+            "name": "\u81EA\u52A8\u69A8\u6C41\u59EC",
+            "gold": -6,
+            "girlJuice": 4,
+            "needFavorable": 6,
+            "needGold": 100
+        }
+    ],
+    "TouchData": [
+        {
+            "ID": 100,
+            "name": "500\u5E74",
+            "needFavorable": 0,
+            "needGirlJuice": 0
+        },
+        {
+            "ID": 101,
+            "name": "\u4E45\u5B85",
+            "needFavorable": 1,
+            "needGirlJuice": 0
+        },
+        {
+            "ID": 102,
+            "name": "\u9075\u547D",
+            "needFavorable": 2,
+            "needGirlJuice": 0
+        },
+        {
+            "ID": 200,
+            "name": "\u996D\u56E2",
+            "needFavorable": 1,
+            "needGirlJuice": 0
+        },
+        {
+            "ID": 300,
+            "name": "\u8FC7\u5206",
+            "needFavorable": 0,
+            "needGirlJuice": 0
+        },
+        {
+            "ID": 301,
+            "name": "500\u5C81",
+            "needFavorable": 1,
+            "needGirlJuice": 0
+        }
+    ]
+}

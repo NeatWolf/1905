@@ -1,0 +1,95 @@
+--数据模型
+DataModel = {}
+
+--角色数据路径
+RoleDmcDataPath = CS.UnityEngine.Application.persistentDataPath .. '/RoleDynamicData.json'
+GameStaticDataPath = CS.UnityEngine.Application.persistentDataPath .. '/GameStaticData.json'
+GameStaticData = nil
+RoleDmcData = nil
+FinalData = nil
+
+print(GameStaticDataPath)
+
+--初始化数据
+function DataModel:Init()
+    --检查各文件和变量是否存在，不存在则初始化
+    local file = io.open(RoleDmcDataPath)
+    if (not file) then
+        local DmcData = ABManager:LoadAsset('textassets', 'RoleDynamicData')
+        CS.System.IO.File.WriteAllText(RoleDmcDataPath, DmcData.text)
+    end
+    file = io.open(GameStaticDataPath)
+    if (not file) then
+        local Data = ABManager:LoadAsset('textassets', 'GameStaticData')
+        CS.System.IO.File.WriteAllText(GameStaticDataPath, Data.text)
+    end
+    if file then
+        io.close(file)
+    end
+
+    local str = CS.System.IO.File.ReadAllText(GameStaticDataPath)
+    GameStaticData = JsonUtil.decode(str)
+    local str2 = CS.System.IO.File.ReadAllText(RoleDmcDataPath)
+    RoleDmcData = JsonUtil.decode(str2)
+    FinalData = self:Merge(GameStaticData, RoleDmcData)
+end
+
+--合并数据
+function DataModel:Merge(gameStatic, roleData)
+    local finalData = {}
+    finalData.gold = roleData.gold
+    finalData.girlJuice = roleData.girlJuice
+    finalData.favorable = roleData.favorable
+    finalData.touch = {}
+    finalData.building = {}
+    --合并动作
+    for i = 1, #roleData.touch do
+        for j = 1, #gameStatic.TouchData do
+            if gameStatic.TouchData[j].ID == roleData.touch[i] then
+                finalData.touch[i] = {
+                    ID = gameStatic.TouchData[j].ID,
+                    name = gameStatic.TouchData[j].name,
+                    needFavorable = gameStatic.TouchData[j].needFavorable,
+                    needGirlJuice = gameStatic.TouchData[j].needGirlJuice
+                }
+            end
+        end
+    end
+    --合并build
+    for i = 1, #roleData.building do
+        for j = 1, #gameStatic.BuildingData do
+            if (gameStatic.BuildingData[j].ID == roleData.building[i].ID) then
+                finalData.building[i] = {
+                    ID = roleData.building[i].ID,
+                    level = roleData.building[i].level,
+                    name = gameStatic.BuildingData[j].name,
+                    gold = gameStatic.BuildingData[j].gold,
+                    girlJuice = gameStatic.BuildingData[j].girlJuice,
+                    needFavorable = gameStatic.BuildingData[j].needFavorable,
+                    needGold = gameStatic.BuildingData[j].needGold
+                }
+            end
+        end
+    end
+    return finalData
+end
+
+--刷新数据
+function DataModel:UpdateData()
+    FinalData.gold = FinalData.gold + goldBuff
+    if FinalData.gold < 0 then
+        FinalData.gold = 0
+    end
+    FinalData.girlJuice = FinalData.girlJuice + girlJuiceBuff
+    if FinalData.girlJuice < 0 then 
+        FinalData.girlJuice = 0
+    end
+    RoleDmcData.gold = FinalData.gold
+    RoleDmcData.girlJuice = FinalData.girlJuice
+end
+
+--写入数据
+function DataModel:WriteData()
+    local str = JsonUtil.encode(RoleDmcData)
+    CS.System.IO.File.WriteAllText(RoleDmcDataPath, str)
+end

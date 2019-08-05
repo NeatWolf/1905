@@ -1,0 +1,87 @@
+require('ABManager.lua.txt')
+require('Loader.lua.txt')
+JsonUtil = require('JsonUtil.lua.txt')
+
+--可以运行从AB包中加载出的脚本
+--CS.Luax.Instance:DoString("print('666')")
+
+Core = {}
+
+function Core.Start()
+    --加载所有AB包
+    ABManager:LoadAB('animationclip')
+    ABManager:LoadAB('animator')
+    ABManager:LoadAB('audio')
+    ABManager:LoadAB('avatar')
+    ABManager:LoadAB('cubemap')
+    ABManager:LoadAB('font')
+    ABManager:LoadAB('fx')
+    ABManager:LoadAB('material')
+    ABManager:LoadAB('mesh')
+    ABManager:LoadAB('prefebs')
+    ABManager:LoadAB('sakura')
+    ABManager:LoadAB('shader')
+    ABManager:LoadAB('textassets')
+    ABManager:LoadAB('texture2d')
+    ABManager:LoadAB('ui')
+
+    --从AB包中加载脚本
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'MainMenuCtrl.lua').text)
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'RoleDataModel.lua').text)
+
+    --测试用直接加载脚本
+    require('/../AssetBundles/TextAssets/MainMenuCtrl.lua.txt')
+    require('/../AssetBundles/TextAssets/RoleDataModel.lua.txt')
+    require('/../AssetBundles/TextAssets/DataPanelCtrl.lua.txt')
+    require('/../AssetBundles/TextAssets/BuildingPanelCtrl.lua.txt')
+
+    --初始化用户数据
+    DataModel:Init()
+
+    --加载AB包中的八重樱
+    Loader:Load(ABManager:LoadAsset('prefebs', 'Sakura'))
+
+    --加载主菜单和资源显示
+    MainMenuCtrl:Init()
+    DataPanelCtrl:Init()
+
+    --刷新建筑数据
+    BuildingPanelCtrl:Init()
+    Core.SecondUpdate()
+end
+
+function Core.Update()
+    print('lua update')
+end
+
+--每秒刷新
+function Core.SecondUpdate()
+    --刷新数据显示
+    DataPanelCtrl:DisplayData()
+    BuildingPanelCtrl:DisplayBuildingData()
+
+    --刷新升级按钮状态
+    BuildingPanelCtrl:DisplayBuildingButton()
+
+    --刷新数据
+    DataModel:UpdateData()
+
+    --写入角色数据
+    DataModel:WriteData()
+end
+
+--鼠标移入事件
+function Core.MouseEnter(gameObject)
+    MainMenuCtrl.MouseEnter(gameObject)
+end
+
+--触摸
+function Core.GalTouch(touchType)
+    DataPanelCtrl:GalTouch(touchType)
+end
+
+--升级
+function Core.Upgrade(gameObject)
+    BuildingPanelCtrl:Upgrade(gameObject)
+end
+

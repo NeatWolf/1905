@@ -1,0 +1,44 @@
+Loader = {}
+
+--加载gameObject到指定对象下,根目录则传nil
+function Loader:Load(gameObject, parentPath, isLast)
+    local go = gameObject
+
+    if (parentPath ~= nil) then
+        local parent = CS.UnityEngine.GameObject.Find(parentPath).transform
+        go = CS.UnityEngine.Object.Instantiate(gameObject, parent)
+    else
+        go = CS.UnityEngine.Object.Instantiate(gameObject)
+    end
+    --改名
+    go.name = gameObject.name
+    --设置为最前
+    if isLast then 
+        go.transform:SetAsLastSibling()
+    else
+        go.transform:SetAsFirstSibling()
+    end
+    return go
+end
+
+--加载到指定位置
+function Loader:LoadAtPos(gameObject, parentPath, position)
+    local go = gameObject
+    local rotation = CS.UnityEngine.Quaternion.identity
+
+    if position == nil then
+        position = CS.UnityEngine.Vector3.zero
+    end
+
+    if (parentPath ~= nil) then
+        local parent = CS.UnityEngine.GameObject.Find(parentPath).transform
+        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation, parent)
+    else
+        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation)
+    end
+    --改名
+    go.name = gameObject.name
+    --设置为最前
+    go.transform:SetAsLastSibling()
+    return go
+end

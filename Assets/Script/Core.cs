@@ -30,7 +30,7 @@ public class Core : MonoBehaviour
         DontDestroyOnLoad(GameObject.Find("UI"));
         DontDestroyOnLoad(GameObject.Find("Core"));
 
-        table = Luax.Instance.DoString("require('Core.lua.txt')").Get<LuaTable>("Core");
+        table = Luax.Instance.DoString("require('Lua/Core.lua.txt')").Get<LuaTable>("Core");
         callLua.start = table.Get<UnityAction>("Start");
         callLua.update = table.Get<UnityAction>("Update");
         callLua.SecondUpdate = table.Get<UnityAction>("SecondUpdate");

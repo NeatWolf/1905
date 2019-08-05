@@ -21,15 +21,18 @@ function Core.Start()
 
     -- 第一次进入游戏，应该初始化角色数据
     -- if not CS.System.IO.File.Exists(DynamicRoleDataModel.FilePath) then
-    if true then
-        DynamicRoleDataModel:Init()
-    end
+    -- if true then
+    --     DynamicRoleDataModel:Init()
+    -- end
 
 
+    -- 加载启动界面
 
+    -- 加载账号登录界面
 
+    -- 加载进度条并完成所有数据操作
 
-
+    -- 进入游戏主场景
 end
 
 

@@ -12,15 +12,9 @@ public struct CallLua
     [CSharpCallLua]
     public delegate void GameObjectEvent(GameObject go);
 
-    [CSharpCallLua]
-    public delegate void TouchEvent(System.Object obj);
-
     public UnityAction start;
     public UnityAction update;
     public UnityAction SecondUpdate;
-    public GameObjectEvent mouseEnter;
-    public GameObjectEvent upgrade;
-    public TouchEvent touchEvent;
 }
 
 public class Core : MonoBehaviour
@@ -35,13 +29,11 @@ public class Core : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(GameObject.Find("UI"));
         DontDestroyOnLoad(GameObject.Find("Core"));
+
         table = Luax.Instance.DoString("require('Core.lua.txt')").Get<LuaTable>("Core");
         callLua.start = table.Get<UnityAction>("Start");
         callLua.update = table.Get<UnityAction>("Update");
         callLua.SecondUpdate = table.Get<UnityAction>("SecondUpdate");
-        callLua.mouseEnter = table.Get<CallLua.GameObjectEvent>("MouseEnter");
-        callLua.upgrade = table.Get<CallLua.GameObjectEvent>("Upgrade");
-        callLua.touchEvent = table.Get<CallLua.TouchEvent>("GalTouch");
 
 
     }
@@ -67,24 +59,8 @@ public class Core : MonoBehaviour
         callLua.start = null;
         callLua.update = null;
         callLua.SecondUpdate = null;
-        callLua.mouseEnter = null;
-        callLua.touchEvent = null;
-        callLua.upgrade = null;
+
         Luax.Instance.Dispose();
     }
 
-    public void MouseEnter(GameObject gameObject)
-    {
-        callLua.mouseEnter(gameObject);
-    }
-
-    public void TouchEvent(int touchType)
-    {
-        callLua.touchEvent(touchType);
-    }
-
-    public void Upgrade(GameObject go)
-    {
-        callLua.upgrade(go);
-    }
 }

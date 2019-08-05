@@ -1,0 +1,27 @@
+{
+	"User":"user1",
+	"Password":"password1",
+	"Name":"name1",
+	"TexturePath":"ABName,TextureName",
+	"StoreLevel":"1",
+	"Money":"10000",
+	"Diamond":"100",
+	"Heros":
+	[
+		{"HeroID":"10001" , "Level":"3" , "EnergyMax":"30" , "EnergyNow":"30" , "ColBuff":"1,2,3" , "InsBuff":"1,2"},
+		{"HeroID":"10002" , "Level":"1" , "EnergyMax":"10" , "EnergyNow":"10" , "ColBuff":"1,2,3" , "InsBuff":"1,2"},
+		{"HeroID":"10003" , "Level":"2" , "EnergyMax":"20" , "EnergyNow":"20" , "ColBuff":"1,2,3" , "InsBuff":"1,2"}
+	],
+	"Items":
+	[
+		{"ItemID":"10001" , "Count":"3"},
+		{"ItemID":"11001" , "Count":"69"},
+		{"ItemID":"12001" , "Count":"7"},
+		{"ItemID":"15001" , "Count":"15"},
+		{"ItemID":"16001" , "Count":"2"},
+		{"ItemID":"17001" , "Count":"3"},
+		{"ItemID":"18001" , "Count":"3"},
+		{"ItemID":"19001" , "Count":"2"},
+		{"ItemID":"19002" , "Count":"6"}
+	]
+}

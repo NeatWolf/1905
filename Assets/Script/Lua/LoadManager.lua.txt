@@ -1,7 +1,8 @@
-Loader = {}
+LoadManager = {}
 
 --加载gameObject到指定对象下,根目录则传nil
-function Loader:Load(gameObject, parentPath, isLast)
+--isLast:是否放在最上层
+function LoadManager:Load(gameObject, parentPath, isLast)
     local go = gameObject
 
     if (parentPath ~= nil) then
@@ -22,7 +23,8 @@ function Loader:Load(gameObject, parentPath, isLast)
 end
 
 --加载到指定位置
-function Loader:LoadAtPos(gameObject, parentPath, position)
+--position世界坐标系
+function LoadManager:LoadAtPos(gameObject, parentPath, position)
     local go = gameObject
     local rotation = CS.UnityEngine.Quaternion.identity
 

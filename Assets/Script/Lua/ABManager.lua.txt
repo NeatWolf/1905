@@ -1,13 +1,13 @@
 ABManager = {}
 
 --定义AB包根目录
-ABManager.path = CS.UnityEngine.Application.dataPath .. '/StreamingAssets/'
+ABManager.path = CS.UnityEngine.Application.dataPath .. '/../AssetBundles/'
 
 --已加载的AB包
 local loaded = {}
 
 --定义主包路径
-local mainAB = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. 'StreamingAssets')
+local mainAB = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. 'AssetBundles')
 local manifest = mainAB:LoadAsset('AssetBundleManifest')
 
 --加载资源
@@ -24,6 +24,7 @@ function ABManager:LoadAB(ABName)
     if (loaded[ABName] ~= nil) then
         return loaded[ABName]
     end
+
     --未加载过则加载依赖
     local names = manifest:GetAllDependencies(ABName)
     for i = 0, names.Length - 1 do
@@ -32,6 +33,7 @@ function ABManager:LoadAB(ABName)
             loaded[names[i]] = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. names[i])
         end
     end
+    
     --返回加载的AB
     loaded[ABName] = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. ABName)
     return loaded[ABName]

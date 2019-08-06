@@ -5,17 +5,17 @@ PlayerDataModel.FilePath = CS.UnityEngine.Application.persistentDataPath .. '/Ac
 
 -- 玩家的动态数据信息表
 PlayerDataModel.PlayerData = {}
+-- 玩家的动态数据信息表（合并后 完整的）
+PlayerDataModel.CompletePlayerData = {}
+
 
 -- 动态数据初始化
 function PlayerDataModel:Init()
     
-    -- 读取玩家初始策划表(json)
+    -- 读取 玩家初始数据的策划静态表(json)
     local ta = ABManager:LoadAsset('json', 'PlayerInit')
-
-    -- 写入 可读写路径
-    CS.System.IO.File.WriteAllText(self.FilePath, ta.text)
-    
-    self:ReadOut()
+    -- 写入
+    self:WriteIn(ta.text)
 
 end
 
@@ -27,8 +27,14 @@ function PlayerDataModel:ReadOut()
     self.PlayerData = JsonUtil.decode(str)
 
     -- 合并出完整信息
-    self.PlayerData = StaticDataModel:MergeData(self.PlayerData)
+    self.CompletePlayerData = StaticDataModel:MergeData(self.PlayerData)
 
-    return self.PlayerData
+    return self.CompletePlayerData
 end
 
+
+-- 写入 可读写路径
+function PlayerDataModel:WriteIn(data)
+    self.PlayerData = data
+    CS.System.IO.File.WriteAllText(self.FilePath , self.PlayerData)
+end

@@ -24,8 +24,6 @@ local function GameInit()
         PlayerDataModel:Init()
     end
 
-
-
 end
 
 
@@ -41,16 +39,16 @@ function Core.Start()
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'MainMenuCtrl.lua').text)
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'RoleDataModel.lua').text)
 
-    --测试用直接加载脚本
-    --require('/../AssetBundles/TextAssets/MainMenuCtrl.lua.txt')
-
+    -- 测试用直接加载脚本
     -- 加载启动界面
     require('/../AssetBundle/Script/GameStart/GameStart.lua.txt')
 
-    
 
     
 end
+
+
+
 
 -- 计时委托
 Core.timer = 0

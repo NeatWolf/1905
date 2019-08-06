@@ -29,12 +29,6 @@ function Core.Start()
 
     -- 加载启动界面
     require('/../AssetBundle/Script/GameStart/GameStart.lua.txt')
-
-    -- 加载账号登录界面
-
-    -- 加载进度条并完成所有数据操作
-
-    -- 进入游戏主场景
 end
 
 -- 计时委托

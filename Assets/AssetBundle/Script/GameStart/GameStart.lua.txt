@@ -15,4 +15,10 @@ function GameStartManager:LoadImage()
     )
 end
 
+-- 加载登录系统
+
+-- 登录成功，加载进度条，加载所有数据
+
+-- 进入游戏主场景
+
 GameStartManager:LoadImage()

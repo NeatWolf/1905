@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1694743675
+CRC: 4212053113
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6d40fee366443ca4f32d5470986b0a45
+    Hash: 865d25650c587d4505a06d9e5f97955c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d9fe965a6b253fb9dbd3e1cb08b7d66f
+    Hash: 4634dd52d6753c7b30170d238818c696
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,6 +25,18 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 65
   Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
 Assets:
 - Assets/AssetBundle/Prefeb/Cube.prefab
-Dependencies: []
+- Assets/AssetBundle/Prefeb/UI/Test.prefab
+Dependencies:
+- D:/Git/1905/AssetBundles/texture

@@ -28,7 +28,7 @@ public class Core : MonoBehaviour
     {
         Instance = this;
         DontDestroyOnLoad(GameObject.Find("UI"));
-        DontDestroyOnLoad(GameObject.Find("Core"));
+        DontDestroyOnLoad(GameObject.Find("Bootstrap"));
 
         table = Luax.Instance.DoString("require('Lua/Core.lua.txt')").Get<LuaTable>("Core");
         callLua.start = table.Get<UnityAction>("Start");

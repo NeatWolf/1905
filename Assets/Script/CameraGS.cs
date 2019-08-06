@@ -7,8 +7,6 @@ public class CameraGS : MonoBehaviour
     public bool on = true;
     public float horizontalSpeed = -1f;
     public float verticalSpeed = 1f;
-    float h = 0;
-    float v = 0;
     Vector3 oPoint;
 
     private void Start()

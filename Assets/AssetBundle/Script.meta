@@ -1,16 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: 2e3fd66f7251a144ea520f358b09daa6
-=======
-<<<<<<< HEAD:Assets/AssetBundle.meta
-guid: cb758815526130a4bbdfa22d780153ba
-=======
-guid: 2e3fd66f7251a144ea520f358b09daa6
->>>>>>> 修改Core.lua:Assets/AssetBundle/Script.meta
->>>>>>> 修改Core.lua
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
   userData: 
-  assetBundleName: 
+  assetBundleName: script
   assetBundleVariant: 

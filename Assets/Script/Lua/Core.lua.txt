@@ -1,6 +1,6 @@
-require('ABManager.lua.txt')
-require('LoadManager.lua.txt')
-JsonUtility = require('JsonUtil.lua.txt')
+require('Lua/ABManager.lua.txt')
+require('Lua/LoadManager.lua.txt')
+JsonUtility = require('Lua/JsonUtil.lua.txt')
 
 --可以运行从AB包中加载出的脚本
 --CS.Luax.Instance:DoString("print('666')")
@@ -27,6 +27,7 @@ function Core.Start()
 
 
     -- 加载启动界面
+    require('/../AssetBundle/Script/GameStart/GameStart.lua.txt')
 
     -- 加载账号登录界面
 

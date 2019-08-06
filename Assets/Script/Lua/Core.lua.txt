@@ -38,6 +38,8 @@ end
 -- 计时委托
 Core.timer = 0
 Core.timerEvent = nil
+-- 倒计时
+Core.countDown = 0
 
 --每帧刷新
 function Core.Update()
@@ -49,6 +51,11 @@ function Core.Update()
         if Core.timer <= 0 then
             Core.timerEvent()
         end
+    end
+
+    -- 倒计时减少
+    if Core.countDown > 0 then
+        Core.countDown  = Core.countDown - CS.UnityEngine.Time.deltaTime
     end
 end
 

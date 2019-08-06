@@ -41,19 +41,32 @@ function GameStartManager:Login()
     )
 end
 
+
+local isLoadingFinish = false
+
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
-    
 
-    LoadManager:Load(ABManager:LoadAsset("prefeb", "LoginTest"), "UI/Canvas", true)
-    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", true)
+    -- 加载 玩家的本地数据，并合并成完整数据
+    PlayerDataModel:ReadOut()
+    -- Print 测试数据的读取是否成功
+    print(PlayerDataModel.CompletePlayerData.Heros[1].Name)
+
+    -- 加载 进度条
+    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", false)
     barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent("Image")
-
-    barImage.fillAmount = 0.5
-    --test1
-
-    -- test2
+    Core.countDown = 2
+    local time = Core.countDown
+    Core.cdEvent = function()
+        barImage.fillAmount = 1 - Core.countDown/time
+        if barImage.fillAmount == 1 then
+            isLoadingFinish = true
+            -- print(isLoadingFinish)
+        end
+    end
 end
+
+
 
 -- 进入游戏主场景
 

@@ -26,7 +26,7 @@ function GameStartManager:LoadingBar()
     LoadingPanel  = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", false)
     barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent('Image')
 
-    
+    -- test2
 
  
     

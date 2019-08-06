@@ -1,0 +1,10 @@
+GameStartManager = {}
+
+-- 加载启动图
+function GameStartManager:LoadImage( )
+    image = LoadManager:Load(ABManager:LoadAsset('prefeb', 'Test'), 'UI/CameraMask', false)    
+
+end
+
+
+GameStartManager:LoadImage()

@@ -1,0 +1,50 @@
+require('Lua/ABManager.lua.txt')
+require('Lua/LoadManager.lua.txt')
+JsonUtility = require('Lua/JsonUtil.lua.txt')
+
+--可以运行从AB包中加载出的脚本
+--CS.Luax.Instance:DoString("print('666')")
+
+Core = {}
+
+function Core.Start()
+
+    --加载所有AB包
+    --ABManager:LoadAB('animationclip')
+
+    --从AB包中加载脚本
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'MainMenuCtrl.lua').text)
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'RoleDataModel.lua').text)
+
+    --测试用直接加载脚本
+    --require('/../AssetBundles/TextAssets/MainMenuCtrl.lua.txt')
+
+    -- 第一次进入游戏，应该初始化角色数据
+    -- if not CS.System.IO.File.Exists(DynamicRoleDataModel.FilePath) then
+    -- if true then
+    --     DynamicRoleDataModel:Init()
+    -- end
+
+
+    -- 加载启动界面
+    require('/../AssetBundle/Script/GameStart/GameStart.lua.txt')
+
+    -- 加载账号登录界面
+
+    -- 加载进度条并完成所有数据操作
+
+    -- 进入游戏主场景
+end
+
+
+--每帧刷新
+function Core.Update()
+    print('lua update')
+end
+
+
+--每秒刷新
+function Core.SecondUpdate()
+
+end
+

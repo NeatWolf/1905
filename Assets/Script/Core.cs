@@ -37,7 +37,8 @@ public class Core : MonoBehaviour
         callLua.SecondUpdate = table.Get<UnityAction>("SecondUpdate");
 
       
-        
+        //Image bar = GameObject.Find("Bar").GetComponent<Image>();
+        //bar.fillAmount
     }
 
     void Start()

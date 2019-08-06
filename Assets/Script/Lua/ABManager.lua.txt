@@ -38,3 +38,13 @@ function ABManager:LoadAB(ABName)
     loaded[ABName] = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. ABName)
     return loaded[ABName]
 end
+
+
+
+
+
+
+-- 释放loaded所有AB包
+function ABManager:function_name( )
+    
+end

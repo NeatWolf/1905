@@ -1,17 +1,41 @@
 require('Lua/ABManager.lua.txt')
 require('Lua/LoadManager.lua.txt')
 require('Lua/CutToCtrl.lua.txt')
-JsonUtility = require('Lua/JsonUtil.lua.txt')
+require('Lua/ModelTool.lua.txt')
+
+require('Lua/PlayerDataModel.lua.txt')
+require('Lua/StaticDataModel.lua.txt')
+
+JsonUtil = require('Lua/JsonUtil.lua.txt')
 
 --可以运行从AB包中加载出的脚本
 --CS.Luax.Instance:DoString("print('666')")
+
+
+-- 每次进入游戏时的初始化
+local function GameInit()
+
+    -- 读取静态表
+    StaticDataModel:ReadOut()
+
+    -- 第一次进入游戏，应该初始化角色数据
+    -- if not CS.System.IO.File.Exists(PlayerDataModel.FilePath) then
+    if true then
+        PlayerDataModel:Init()
+    end
+
+
+
+end
+
+
 
 Core = {}
 
 function Core.Start()
 
-    --加载所有AB包
-    --ABManager:LoadAB('animationclip')
+    -- 进入游戏的初始化
+    GameInit()
 
     --从AB包中加载脚本
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'MainMenuCtrl.lua').text)
@@ -20,17 +44,10 @@ function Core.Start()
     --测试用直接加载脚本
     --require('/../AssetBundles/TextAssets/MainMenuCtrl.lua.txt')
 
-    -- 第一次进入游戏，应该初始化角色数据
-    -- if not CS.System.IO.File.Exists(DynamicRoleDataModel.FilePath) then
-    -- if true then
-    --     DynamicRoleDataModel:Init()
-    -- end
-
-
     -- 加载启动界面
     require('/../AssetBundle/Script/GameStart/GameStart.lua.txt')
 
-
+    
 
     
 end
@@ -40,22 +57,27 @@ Core.timer = 0
 Core.timerEvent = nil
 -- 倒计时
 Core.countDown = 0
+Core.cdEvent = nil
 
 --每帧刷新
 function Core.Update()
     print('lua update')
-
     -- 时间到执行委托
     if Core.timer > 0 and Core.timerEvent ~= nil then
         Core.timer = Core.timer - CS.UnityEngine.Time.deltaTime
         if Core.timer <= 0 then
             Core.timerEvent()
+            Core.timerEvent = nil
         end
     end
 
-    -- 倒计时减少
-    if Core.countDown > 0 then
+    -- 倒计时中执行委托
+    if Core.countDown > 0 and Core.cdEvent ~= nil then
         Core.countDown  = Core.countDown - CS.UnityEngine.Time.deltaTime
+        Core.cdEvent()
+        if Core.countDown < 0 then
+            Core.cdEvent = nil
+        end
     end
 end
 
@@ -64,4 +86,5 @@ end
 function Core.SecondUpdate()
 
 end
+
 

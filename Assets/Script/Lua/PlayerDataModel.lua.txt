@@ -1,0 +1,34 @@
+PlayerDataModel = {}
+
+PlayerDataModel.FilePath = CS.UnityEngine.Application.persistentDataPath .. '/AccountData.json'
+--print(CS.UnityEngine.Application.persistentDataPath)
+
+-- 玩家的动态数据信息表
+PlayerDataModel.PlayerData = {}
+
+-- 动态数据初始化
+function PlayerDataModel:Init()
+    
+    -- 读取玩家初始策划表(json)
+    local ta = ABManager:LoadAsset('json', 'PlayerInit')
+
+    -- 写入 可读写路径
+    CS.System.IO.File.WriteAllText(self.FilePath, ta.text)
+    
+    self:ReadOut()
+
+end
+
+
+-- 读取 可读写路径中的数据
+function PlayerDataModel:ReadOut()
+    -- 从可读写路径中读取信息
+    local str = CS.System.IO.File.ReadAllText(self.FilePath)
+    self.PlayerData = JsonUtil.decode(str)
+
+    -- 合并出完整信息
+    self.PlayerData = StaticDataModel:MergeData(self.PlayerData)
+
+    return self.PlayerData
+end
+

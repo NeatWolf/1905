@@ -9,7 +9,7 @@ function GameStartManager:LoadImage()
         function()
             Core.timer = 2 -- 2秒后调用黑遮罩淡入
             Core.timerEvent = function()
-                CutToCtrl:BlackMaskAni(1, 0.5)
+                CutToCtrl:BlackMaskAni(1, 0.5 , function() self:LoadingBar() end)
             end
         end
     )
@@ -17,7 +17,21 @@ end
 
 -- 加载登录系统
 
+
 -- 登录成功，加载进度条，加载所有数据
+function GameStartManager:LoadingBar()
+    CameraMask = CS.UnityEngine.GameObject.Find("UI/CameraMask")
+    CameraMask:SetActive(false)
+
+    LoadingPanel  = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", false)
+    barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent('Image')
+
+    
+
+ 
+    
+end
+
 
 -- 进入游戏主场景
 

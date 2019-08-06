@@ -1,17 +1,17 @@
 ManifestFileVersion: 0
-CRC: 3279986053
+CRC: 2050159557
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: texture
-      Dependencies: {}
-    Info_1:
       Name: script
       Dependencies: {}
-    Info_2:
+    Info_1:
       Name: prefeb
       Dependencies:
         Dependency_0: texture
-    Info_3:
+    Info_2:
       Name: json
+      Dependencies: {}
+    Info_3:
+      Name: texture
       Dependencies: {}

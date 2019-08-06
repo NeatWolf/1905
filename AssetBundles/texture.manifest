@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3244423320
+CRC: 2460328491
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d9af8ba7a5e630574a360d657af804f8
+    Hash: 33fea12b0801103fd8fcb70bf7996ea3
   TypeTreeHash:
     serializedVersion: 2
     Hash: cb3f6df5cbc4a2990c44c2787bc9553a
@@ -15,5 +15,6 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/AssetBundle/Texture/Role/Test.jpg
+- Assets/AssetBundle/Texture/UI/LoadingBar.tif
 - Assets/AssetBundle/Texture/UI/Test.jpg
 Dependencies: []

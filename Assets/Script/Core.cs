@@ -36,9 +36,8 @@ public class Core : MonoBehaviour
         callLua.update = table.Get<UnityAction>("Update");
         callLua.SecondUpdate = table.Get<UnityAction>("SecondUpdate");
 
-        /*************************/
+      
         
-
     }
 
     void Start()

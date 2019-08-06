@@ -29,6 +29,10 @@ function Core.Start()
 
     -- 加载启动界面
     require('/../AssetBundle/Script/GameStart/GameStart.lua.txt')
+
+
+
+    
 end
 
 -- 计时委托

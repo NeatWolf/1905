@@ -57,6 +57,7 @@ public class Core : MonoBehaviour
 
     }
 
+
     void OnDestroy()
     {
         callLua.start = null;

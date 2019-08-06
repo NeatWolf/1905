@@ -2,39 +2,58 @@ GameStartManager = {}
 
 -- 加载启动图
 function GameStartManager:LoadImage()
-    image = LoadManager:Load(ABManager:LoadAsset("prefeb", "Test"), "UI/CameraMask", false)
+    local image = LoadManager:Load(ABManager:LoadAsset("prefeb", "Test"), "UI/Canvas", true)
     CutToCtrl:BlackMaskAni(
         0,
         0.5,
         function()
             Core.timer = 2 -- 2秒后调用黑遮罩淡入
             Core.timerEvent = function()
-                CutToCtrl:BlackMaskAni(1, 0.5 , function() self:LoadingBar() end)
+                CutToCtrl:BlackMaskAni(
+                    1,
+                    0.5,
+                    function()
+                        CS.UnityEngine.Object.Destroy(image.gameObject)
+                        GameStartManager:Login()
+                        CutToCtrl:BlackMaskAni(0, 0.5)
+                    end
+                )
             end
         end
     )
 end
 
 -- 加载登录系统
-
+function GameStartManager:Login()
+    local subObj = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoginTest"), "UI/Canvas", true):GetComponent("UISubObject")
+    subObj.buttons[0].onClick:AddListener(
+        function()
+            -- 黑遮罩淡入出，登陆成功
+            CutToCtrl:BlackMaskAni(
+                1,
+                0.25,
+                function()
+                    CutToCtrl:BlackMaskAni(0, 0.25, self.LoadingBar)
+                    CS.UnityEngine.Object.Destroy(subObj.gameObject)
+                end
+            )
+        end
+    )
+end
 
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
-    CameraMask = CS.UnityEngine.GameObject.Find("UI/CameraMask")
-    CameraMask:SetActive(false)
-
-    LoadingPanel  = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", false)
-    barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent('Image')
     
+
+    LoadManager:Load(ABManager:LoadAsset("prefeb", "LoginTest"), "UI/Canvas", true)
+    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", true)
+    barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent("Image")
+
     barImage.fillAmount = 0.5
     --test1
 
     -- test2
-
- 
-    
 end
-
 
 -- 进入游戏主场景
 

@@ -50,6 +50,7 @@ function GameStartManager:LoadingBar()
             -- print(isLoadingFinish)
         end
     end
+    
 end
 
 

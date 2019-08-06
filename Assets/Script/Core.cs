@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using XLua;
 using System.IO;
@@ -35,6 +36,8 @@ public class Core : MonoBehaviour
         callLua.update = table.Get<UnityAction>("Update");
         callLua.SecondUpdate = table.Get<UnityAction>("SecondUpdate");
 
+        /*************************/
+        
 
     }
 

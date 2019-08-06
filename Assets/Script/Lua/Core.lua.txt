@@ -1,5 +1,6 @@
 require('Lua/ABManager.lua.txt')
 require('Lua/LoadManager.lua.txt')
+require('Lua/CutToCtrl.lua.txt')
 JsonUtility = require('Lua/JsonUtil.lua.txt')
 
 --可以运行从AB包中加载出的脚本
@@ -36,10 +37,21 @@ function Core.Start()
     -- 进入游戏主场景
 end
 
+-- 计时委托
+Core.timer = 0
+Core.timerEvent = nil
 
 --每帧刷新
 function Core.Update()
     print('lua update')
+
+    -- 时间到执行委托
+    if Core.timer > 0 and Core.timerEvent ~= nil then
+        Core.timer = Core.timer - CS.UnityEngine.Time.deltaTime
+        if Core.timer <= 0 then
+            Core.timerEvent()
+        end
+    end
 end
 
 

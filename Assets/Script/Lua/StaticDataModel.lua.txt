@@ -155,7 +155,6 @@ local function CheckCouldSyn(synItemID)
     return result
 end
 
-<<<<<<< HEAD
 --[[
     @desc: 合并
     author:{author}
@@ -164,9 +163,6 @@ end
     @return:
 ]]
 function StaticDataModel:SynItem(itemData)
-=======
-function StaticDataModel:SynItem(itemID)
->>>>>>> 26ef77bbcbcab600fcd86b94fd22d2e03f8adead
     -- -- 扣除Copy表里相应的道具
     -- v.Count = v.Count - _needsList[2 * i]
     --
@@ -178,7 +174,6 @@ function StaticDataModel:SynItem(itemID)
     return
 end
 
-<<<<<<< HEAD
 -- 道具排序
 -- key：要排序的key "Level"(等级品质)/"Price"(出售的价格)
 -- changeWay：1 / -1
@@ -188,35 +183,10 @@ function StaticDataModel:SortItems(items, key, changeWay)
             local res = (tonumber(items[j][key]) - tonumber(items[j + 1][key])) * changeWay
             if res > 0 then
                 items[j], items[j + 1] = items[j + 1], items[j]
-=======
--- 按售出价格比较两个道具
--- changeWay：10(降序)/01(升序)
-local function CompareByPrice(item1, item2, changeWay)
-    if changeWay == 10 then
-        return item1.Prices >= item2.Prices
-    elseif changeWay == 01 then
-        return item1.Prices <= item2.Prices
-    end
-end
-
--- 道具排序
--- sortWay：排序方式 "Level"(等级品质)/"Price"(出售的价格)
--- changeWay：10(降序)/01(升序)
-function StaticDataModel:SynSortItems(items, sortWay, changeWay)
-    for i = 1, #items - 1 do
-        for j = 1, #items - i do
-            if sortWay == "Level" then
-            elseif sortWay == "Price" then
-                local res = CompareByPrice(items[j], items[j + 1], changeWay)
-                if res == false then
-                    items[j], items[j + 1] = items[j + 1], items[j]
-                end
->>>>>>> 26ef77bbcbcab600fcd86b94fd22d2e03f8adead
             end
         end
     end
 end
-<<<<<<< HEAD
 
 -- 筛选道具
 -- items：table：道具表表
@@ -226,5 +196,3 @@ end
 function StaticDataModel:ScreenItem(items, key, value)
     local newTable = {}
 end
-=======
->>>>>>> 26ef77bbcbcab600fcd86b94fd22d2e03f8adead

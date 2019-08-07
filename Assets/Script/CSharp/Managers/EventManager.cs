@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-class EventManager
+public class EventManager:MonoBehaviour
 {
     private static EventManager instance;
     public Dictionary<int, UnityEvent> EventListerDict = new Dictionary<int, UnityEvent>();

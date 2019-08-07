@@ -1,0 +1,58 @@
+ManifestFileVersion: 0
+CRC: 1124667844
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0cd6297c7a2ae790eb24e8d2af91afdd
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3957cb22add4555f9bfc51cb9b037245
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7a717a5bd6d7ebd4f83297eefa51f998, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/AssetBundle/Prefeb/UI/MainMenu/MainMenu_Right.prefab
+- Assets/AssetBundle/Prefeb/UI/MainMenu/P_MM_Temp.prefab
+- Assets/AssetBundle/Prefeb/UI/RoleMan/P_RoleMan.prefab
+- Assets/AssetBundle/Prefeb/UI/LoadingProcess.prefab
+- Assets/AssetBundle/Prefeb/UI/Explore/P_Explore.prefab
+- Assets/AssetBundle/Prefeb/UI/Login/LoginTest.prefab
+- Assets/AssetBundle/Prefeb/UI/Warehouse/P_Warehouse.prefab
+- Assets/AssetBundle/Prefeb/UI/Active/P_Active.prefab
+- Assets/AssetBundle/Prefeb/UI/MainMenu/MainMenu_Back.prefab
+- Assets/AssetBundle/Prefeb/UI/MainMenu/MainMenu_Left.prefab
+- Assets/AssetBundle/Prefeb/UI/Fabricate/P_Fabricate.prefab
+Dependencies:
+- D:/1905/AssetBundles/StandaloneWindows/texture
+- D:/1905/AssetBundles/StandaloneWindows/font

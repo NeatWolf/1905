@@ -10,6 +10,7 @@ public class UISubObject : MonoBehaviour
     public Text[] texts;
     public Image[] images;
     public InputField[] inputFields;
+    public GameObject[] go;
 
 
     [CSharpCallLua]

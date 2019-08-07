@@ -34,7 +34,7 @@ Core.cdEvent = nil
 
 --每帧刷新
 function Core.Update()
-    print("lua update")
+    --print("lua update")
     -- 时间到执行委托
     if Core.timer > 0 and Core.timerEvent ~= nil then
         Core.timer = Core.timer - CS.UnityEngine.Time.deltaTime

@@ -101,12 +101,9 @@ function StaticDataModel:MergeData(playerData)
         end
     end
 
-
     -- 返回 完整的玩家数据表
     return finalData
 end
-
-
 
 -- 参数1：传入仓库动态表
 function StaticDataModel:CheckAllSyn(itemsTable)
@@ -114,8 +111,6 @@ function StaticDataModel:CheckAllSyn(itemsTable)
         v.CouldSyn = CheckCouldSyn(v.ItemID)
     end
 end
-
-
 
 -- 判断此道具目前是否可合成
 -- 参数1(string)：需要进行判断的合成物ID
@@ -160,9 +155,14 @@ local function CheckCouldSyn(synItemID)
     return result
 end
 
-
-function StaticDataModel:SynItem(itemID)
-
+--[[
+    @desc: 合并
+    author:{author}
+    time:2019-08-07 20:01:37
+    --@itemData: 
+    @return:
+]]
+function StaticDataModel:SynItem(itemData)
     -- -- 扣除Copy表里相应的道具
     -- v.Count = v.Count - _needsList[2 * i]
     --
@@ -174,42 +174,25 @@ function StaticDataModel:SynItem(itemID)
     return
 end
 
-
-
-
--- 按售出价格比较两个道具
--- changeWay：10(降序)/01(升序)
-local function CompareByPrice(item1,item2,changeWay)
-
-    if changeWay == 10 then
-        return item1.Prices >= item2.Prices
-    elseif changeWay == 01 then
-        return item1.Prices <= item2.Prices
-    end
-    
-
-    
-end
-
-
-
 -- 道具排序
--- sortWay：排序方式 "Level"(等级品质)/"Price"(出售的价格)
--- changeWay：10(降序)/01(升序)
-function StaticDataModel:SynSortItems(items,sortWay,changeWay)
-
-    for i=1,#items-1 do
-        for j=1,#items-i do
-            if sortWay == "Level" then
-
-            elseif sortWay == "Price" then
-                local res = CompareByPrice(items[j],items[j+1],changeWay)
-                if res == false then
-                    items[j],items[j+1] = items[j+1],items[j]
-                end
+-- key：要排序的key "Level"(等级品质)/"Price"(出售的价格)
+-- changeWay：1 / -1
+function StaticDataModel:SortItems(items, key, changeWay)
+    for i = 1, #items do
+        for j = 1, #items - i do
+            local res = (tonumber(items[j][key]) - tonumber(items[j + 1][key])) * changeWay
+            if res > 0 then
+                items[j], items[j + 1] = items[j + 1], items[j]
             end
         end
     end
-
 end
 
+-- 筛选道具
+-- items：table：道具表表
+-- key：string：键
+-- value：string：要筛选出的值
+-- 返回一个只包含目标key value的表
+function StaticDataModel:ScreenItem(items, key, value)
+    local newTable = {}
+end

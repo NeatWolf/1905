@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using XLua;
 using System.IO;
@@ -35,7 +36,9 @@ public class Core : MonoBehaviour
         callLua.update = table.Get<UnityAction>("Update");
         callLua.SecondUpdate = table.Get<UnityAction>("SecondUpdate");
 
-
+      
+        //Image bar = GameObject.Find("Bar").GetComponent<Image>();
+        //bar.fillAmount
     }
 
     void Start()
@@ -54,13 +57,14 @@ public class Core : MonoBehaviour
 
     }
 
+
     void OnDestroy()
     {
         callLua.start = null;
         callLua.update = null;
         callLua.SecondUpdate = null;
 
-        Luax.Instance.Dispose();
+        // Luax.Instance.Dispose();
     }
 
 }

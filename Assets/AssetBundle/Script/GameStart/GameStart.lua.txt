@@ -1,10 +1,75 @@
 GameStartManager = {}
 
 -- 加载启动图
-function GameStartManager:LoadImage( )
-    image = LoadManager:Load(ABManager:LoadAsset('prefeb', 'Test'), 'UI/CameraMask', false)    
-
+function GameStartManager:LoadImage()
+    local image = LoadManager:Load(ABManager:LoadAsset("prefeb", "Test"), "UI/Canvas", true)
+    CutToCtrl:BlackMaskAni(
+        0,
+        0.5,
+        function()
+            Core.timer = 2 -- 2秒后调用黑遮罩淡入
+            Core.timerEvent = function()
+                CutToCtrl:BlackMaskAni(
+                    1,
+                    0.5,
+                    function()
+                        CS.UnityEngine.Object.Destroy(image.gameObject)
+                        GameStartManager:Login()
+                        CutToCtrl:BlackMaskAni(0, 0.5)
+                    end
+                )
+            end
+        end
+    )
 end
 
+-- 加载登录系统
+function GameStartManager:Login()
+    local subObj = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoginTest"), "UI/Canvas", true):GetComponent("UISubObject")
+    subObj.buttons[0].onClick:AddListener(
+        function()
+            -- 黑遮罩淡入出，登陆成功
+            CutToCtrl:BlackMaskAni(
+                1,
+                0.25,
+                function()
+                    CutToCtrl:BlackMaskAni(0, 0.25, self.LoadingBar)
+                    CS.UnityEngine.Object.Destroy(subObj.gameObject)
+                end
+            )
+        end
+    )
+end
+
+
+local isLoadingFinish = false
+
+-- 登录成功，加载进度条，加载所有数据
+function GameStartManager:LoadingBar()
+    -- 加载 进度条
+    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", true)
+    barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent("Image")
+    Core.countDown = 2
+    local time = Core.countDown
+    Core.cdEvent = function()
+        barImage.fillAmount = 1 - Core.countDown/time
+        if barImage.fillAmount == 1 then
+            isLoadingFinish = true
+            -- print(isLoadingFinish)
+        end
+    end
+    
+    StaticDataModel:ReadOut()
+    -- 加载 玩家的本地数据，并合并成完整数据
+    PlayerDataModel:ReadOut()
+    -- Print 测试数据的读取是否成功
+    print(PlayerDataModel.CompletePlayerData.Heros[1].Name)
+    
+    StaticDataModel.CheckCouldSyn(PlayerDataModel.PlayerData , "19015")
+end
+
+
+
+-- 进入游戏主场景
 
 GameStartManager:LoadImage()

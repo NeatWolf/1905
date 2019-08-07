@@ -1,0 +1,15 @@
+CutToCtrl = {}
+
+CutToCtrl.blackMask = nil
+
+-- 镜头黑遮罩动画,目标透明度、时间、[委托]
+function CutToCtrl:BlackMaskAni(alpha, time, event)
+    if self.blackMask == nil then
+        self.blackMask = CS.UnityEngine.GameObject.Find("UI/CameraMask/Panel"):GetComponent('Image')
+    end
+    if event then
+        CS.DG.Tweening.DOTweenModuleUI.DOFade(self.blackMask, alpha, time).onComplete = event
+    else
+        CS.DG.Tweening.DOTweenModuleUI.DOFade(self.blackMask, alpha, time)
+    end
+end

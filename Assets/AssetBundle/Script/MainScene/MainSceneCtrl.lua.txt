@@ -1,0 +1,10 @@
+MainSceneCtrl = {}
+
+function MainSceneCtrl:Init()
+    print("进入主场景")
+    -- 加载预制体
+
+    -- 添加委托
+
+    -- 刷新金币钻石等数据
+end

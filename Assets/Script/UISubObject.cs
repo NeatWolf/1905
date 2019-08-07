@@ -32,7 +32,5 @@ public class UISubObject : MonoBehaviour
         {
             inputFields[i].onEndEdit.RemoveAllListeners();
         }
-
-        Debug.Log("UI事件释放完成");
     }
 }

@@ -9,8 +9,7 @@ function GameStartManager:LoadImage()
         function()
             Core.timer = 2 -- 2秒后调用黑遮罩淡入
             Core.timerEvent = function()
-                CutToCtrl:BlackMaskAni(
-                    1,
+                CutToCtrl:CutTo(
                     0.5,
                     function()
                         CS.UnityEngine.Object.Destroy(image.gameObject)
@@ -29,18 +28,16 @@ function GameStartManager:Login()
     subObj.buttons[0].onClick:AddListener(
         function()
             -- 黑遮罩淡入出，登陆成功
-            CutToCtrl:BlackMaskAni(
-                1,
-                0.25,
+            CutToCtrl:CutTo(
+                0.5,
                 function()
-                    CutToCtrl:BlackMaskAni(0, 0.25, self.LoadingBar)
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
+                    self.LoadingBar()
                 end
             )
         end
     )
 end
-
 
 local isLoadingFinish = false
 
@@ -52,24 +49,53 @@ function GameStartManager:LoadingBar()
     Core.countDown = 2
     local time = Core.countDown
     Core.cdEvent = function()
-        barImage.fillAmount = 1 - Core.countDown/time
+        barImage.fillAmount = 1 - Core.countDown / time
         if barImage.fillAmount == 1 then
             isLoadingFinish = true
-            -- print(isLoadingFinish)
+            -- 加载完成，屏幕黑
+            CutToCtrl:CutTo(
+                0.5,
+                function()
+                    CutToCtrl:BlackMaskAni(0, 0.25)
+                    -- 进入游戏主场景，销毁不需要的UI，屏幕白
+                    CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
+                    MainSceneCtrl:Init()
+                end
+            )
         end
     end
-    
+
     StaticDataModel:ReadOut()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
-    -- Print 测试数据的读取是否成功
-    print(PlayerDataModel.CompletePlayerData.Heros[1].Name)
-    
-    StaticDataModel.CheckCouldSyn(PlayerDataModel.PlayerData , "19015")
+
+<<<<<<< HEAD
+
+
+
+    -- 测试排序功能
+    StaticDataModel:SynSortItems(PlayerDataModel.CompletePlayerData.Items , "Price" , 01)
+
+
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+        print(v.ItemID .. ": " .. v.Prices)
+    end
+
+
+
 end
 
+=======
+    -- 测试
+    result = StaticDataModel:CheckCouldSyn(PlayerDataModel.PlayerData, "19015")
+    print(result)
+>>>>>>> 9d1d4455495f01c986b2009111c7dfa6a9714549
 
+    print(StaticDataModel.ItemsTable)
 
--- 进入游戏主场景
+    -- 读取主场景脚本，清除GameStartManager占用
+    require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")
+    GameStartManager = nil
+end
 
 GameStartManager:LoadImage()

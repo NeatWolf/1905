@@ -6,54 +6,55 @@ StaticDataModel.HerosTable = {}
 StaticDataModel.MonstersTable = {}
 StaticDataModel.NPCsTable = {}
 
-
 -- 读取 所有的静态策划表
 function StaticDataModel:ReadOut()
     -- 读取道具静态表
-    local ta = ABManager:LoadAsset('json', 'ItemsTable')
+    local ta = ABManager:LoadAsset("json", "ItemsTable")
     self.ItemsTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.ItemsTable)
 
     -- 读取英雄静态表
-    ta = ABManager:LoadAsset('json', 'HerosTable')
+    ta = ABManager:LoadAsset("json", "HerosTable")
     self.HerosTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.HerosTable)
 
     -- 读取怪物静态表
-    ta = ABManager:LoadAsset('json', 'MonstersTable')
+    ta = ABManager:LoadAsset("json", "MonstersTable")
     self.MonstersTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.MonstersTable)
 
     -- 读取怪物静态表
-    ta = ABManager:LoadAsset('json', 'NPCsTable')
+    ta = ABManager:LoadAsset("json", "NPCsTable")
     self.NPCsTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.NPCsTable)
 end
 
-
 -- 合并出 完整的玩家数据信息
-function StaticDataModel:MergeData(PlayerData)
+function StaticDataModel:MergeData(playerData)
     local finalData = {}
 
-    finalData.User = PlayerData.User
-    finalData.Password = PlayerData.Password
-    finalData.Name = PlayerData.Name
-    finalData.TexturePath = PlayerData.TexturePath
-    finalData.StoreLevel = PlayerData.StoreLevel
-    finalData.Money = PlayerData.Money
-    finalData.Diamond = PlayerData.Diamond
+    finalData.User = playerData.User
+    finalData.Password = playerData.Password
+    finalData.Name = playerData.Name
+    finalData.TexturePath = playerData.TexturePath
+    finalData.StoreLevel = playerData.StoreLevel
+    finalData.Money = playerData.Money
+    finalData.Diamond = playerData.Diamond
 
     finalData.Heros = {}
     -- 合并完整的英雄信息表
-    for i=1 , #PlayerData.Heros do
-        for j=1 , #self.HerosTable do
+    for i = 1, #playerData.Heros do
+        for j = 1, #self.HerosTable do
             -- 如果ID匹配，则合并信息
-            if PlayerData.Heros[i].HeroID == self.HerosTable[j].HeroID then
-
+            if playerData.Heros[i].HeroID == self.HerosTable[j].HeroID then
                 local heroNow = {}
                 -- 动态表的数据
-                heroNow.HeroID = PlayerData.Heros[i].HeroID
-                heroNow.Level = PlayerData.Heros[i].Level
-                heroNow.EnergyMax = PlayerData.Heros[i].EnergyMax
-                heroNow.EnergyNow = PlayerData.Heros[i].EnergyNow
-                heroNow.ColBuff = PlayerData.Heros[i].ColBuff
-                heroNow.InsBuff = PlayerData.Heros[i].InsBuff
+                heroNow.HeroID = playerData.Heros[i].HeroID
+                heroNow.Level = playerData.Heros[i].Level
+                heroNow.EnergyMax = playerData.Heros[i].EnergyMax
+                heroNow.EnergyNow = playerData.Heros[i].EnergyNow
+                heroNow.ColBuff = playerData.Heros[i].ColBuff
+                heroNow.InsBuff = playerData.Heros[i].InsBuff
                 -- 静态表的数据
                 heroNow.Name = self.HerosTable[j].Name
                 heroNow.Age = self.HerosTable[j].Age
@@ -64,23 +65,22 @@ function StaticDataModel:MergeData(PlayerData)
                 heroNow.Speak2 = self.HerosTable[j].Speak2
                 heroNow.Speak3 = self.HerosTable[j].Speak3
 
-                table.insert(finalData.Heros , heroNow)
+                table.insert(finalData.Heros, heroNow)
+                break
             end
         end
     end
 
-
     finalData.Items = {}
     -- 合并完整的道具信息表
-    for i=1 , #PlayerData.Items do
-        for j=1 , #self.ItemsTable do
+    for i = 1, #playerData.Items do
+        for j = 1, #self.ItemsTable do
             -- 如果ID匹配，则合并信息
-            if PlayerData.Items[i].HeroID == self.ItemsTable[j].HeroID then
-                
+            if playerData.Items[i].ItemID == self.ItemsTable[j].ItemID then
                 local itemNow = {}
                 -- 动态表的数据
-                itemNow.ItemID = PlayerData.Items[i].ItemID
-                itemNow.Count = PlayerData.Items[i].Count
+                itemNow.ItemID = playerData.Items[i].ItemID
+                itemNow.Count = playerData.Items[i].Count
                 -- 静态表的数据
                 itemNow.Name = self.ItemsTable[j].Name
                 itemNow.Image = self.ItemsTable[j].Name
@@ -95,37 +95,44 @@ function StaticDataModel:MergeData(PlayerData)
                 itemNow.SynTime = self.ItemsTable[j].SynTime
                 itemNow.Description = self.ItemsTable[j].Description
 
-                table.insert(finalData.Items , itemNow)
+                table.insert(finalData.Items, itemNow)
+                break
             end
         end
     end
 
+
     -- 返回 完整的玩家数据表
     return finalData
-
 end
 
 
+
+-- 参数1：传入仓库动态表
+function StaticDataModel:CheckAllSyn(itemsTable)
+    for k, v in itemsTable do
+        v.CouldSyn = CheckCouldSyn(v.ItemID)
+    end
+end
+
+
+
 -- 判断此道具目前是否可合成
--- 参数1(table)：目前玩家的所有道具
--- 参数2(string)：需要进行判断的合成物ID
-function StaticDataModel:CheckCouldSyn(playerItems,synItemID)
+-- 参数1(string)：需要进行判断的合成物ID
+local function CheckCouldSyn(synItemID)
     -- 最终结果
     local result = false
-    -- 拷贝一份玩家道具数据
-    local _copyPlayerItems = ModelTool:CopyTable(playerItems)
-    
+
     -- 遍历静态策划表，获取此装备合成所需的道具列表
-    local _needsList = {}
-    for _,v in pairs(self.ItemsTable)
-    do
+    local _needsList = nil
+    for _, v in pairs(self.ItemsTable) do
         if v.ItemID == synItemID then
-            _needsList = v.SynNeeds
+            _needsList = ModelTool:Split(v.SynNeeds)
             break
         end
     end
 
-    if _needsList == {} then
+    if _needsList == nil then
         print("_needsList为空，未得到合成此道具所需的物品")
         return
     end
@@ -133,31 +140,76 @@ function StaticDataModel:CheckCouldSyn(playerItems,synItemID)
     -- 匹配数 满足一个条件+1
     local rightCount = 0
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
-    for i=1 , #(_needsList)/2 , 1
-    do
+    for i = 1, #(_needsList) / 2, 1 do
         -- 遍历玩家目前的所有道具
-        for k,v in pairs(_copyPlayerItems)
-        do
+        for k, v in pairs(PlayerDataModel.playerData.Items) do
             -- 如果ID匹配，且数量满足
-            if v.ItemID == _needsList[2*i-1] and v.Count >= _needsList[2*i] then
-                -- 扣除Copy表里相应的道具
-                v.Count = v.Count - _needsList[2*i]
+            if v.ItemID == _needsList[2 * i - 1] and v.Count >= _needsList[2 * i] then
                 -- 匹配数+1
                 rightCount = rightCount + 1
-                -- 如果道具数量为0，则去除此道具
-                if v.Count == 0 then
-                    _newPlayerItems[k] = nil
-                end
             end
         end
     end
 
+    -- print("rightCount:" .. rightCount)
     -- 匹配数满足，则true
-    if rightCount == #(_needsList)/2 then
+    if rightCount == #(_needsList) / 2 then
         result = true
     end
-    
+
     return result
+end
+
+
+function StaticDataModel:SynItem(itemID)
+
+    -- -- 扣除Copy表里相应的道具
+    -- v.Count = v.Count - _needsList[2 * i]
+    --
+    -- -- 如果道具数量为0，则去除此道具
+    -- if v.Count == 0 then
+    --     PlayerDataModel.playerData.Items[k] = nil
+    -- end
+
+    return
+end
+
+
+
+
+-- 按售出价格比较两个道具
+-- changeWay：10(降序)/01(升序)
+local function CompareByPrice(item1,item2,changeWay)
+
+    if changeWay == 10 then
+        return item1.Prices >= item2.Prices
+    elseif changeWay == 01 then
+        return item1.Prices <= item2.Prices
+    end
+    
+
+    
+end
+
+
+
+-- 道具排序
+-- sortWay：排序方式 "Level"(等级品质)/"Price"(出售的价格)
+-- changeWay：10(降序)/01(升序)
+function StaticDataModel:SynSortItems(items,sortWay,changeWay)
+
+    for i=1,#items-1 do
+        for j=1,#items-i do
+            if sortWay == "Level" then
+
+            elseif sortWay == "Price" then
+                local res = CompareByPrice(items[j],items[j+1],changeWay)
+                if res == false then
+                    items[j],items[j+1] = items[j+1],items[j]
+                end
+            end
+        end
+    end
 
 end
 

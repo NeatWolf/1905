@@ -15,7 +15,7 @@ JsonUtil = require("Lua/JsonUtil.lua.txt")
 Core = {}
 
 function Core.Start()
-    
+
     --从AB包中加载脚本
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'MainMenuCtrl.lua').text)
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'RoleDataModel.lua').text)

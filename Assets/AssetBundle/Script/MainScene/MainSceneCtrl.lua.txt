@@ -1,0 +1,6 @@
+MainSceneCtrl = {}
+
+function MainSceneCtrl:Init()
+    print("进入主场景")
+    -- 
+end

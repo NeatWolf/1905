@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 50487589
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: texture
+      Dependencies: {}
+    Info_1:
+      Name: prefeb
+      Dependencies:
+        Dependency_0: texture
+        Dependency_1: font
+    Info_2:
+      Name: script
+      Dependencies: {}
+    Info_3:
+      Name: json
+      Dependencies: {}
+    Info_4:
+      Name: font
+      Dependencies: {}

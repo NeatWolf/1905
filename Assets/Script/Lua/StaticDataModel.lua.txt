@@ -105,12 +105,11 @@ function StaticDataModel:MergeData(playerData)
     return finalData
 end
 
--- 参数1：传入仓库动态表
-function StaticDataModel:CheckAllSyn(itemsTable)
-    for k, v in itemsTable do
-        v.CouldSyn = CheckCouldSyn(v.ItemID)
-    end
-end
+
+
+
+
+
 
 -- 判断此道具目前是否可合成
 -- 参数1(string)：需要进行判断的合成物ID
@@ -120,7 +119,7 @@ local function CheckCouldSyn(synItemID)
 
     -- 遍历静态策划表，获取此装备合成所需的道具列表
     local _needsList = nil
-    for _, v in pairs(self.ItemsTable) do
+    for _, v in pairs(StaticDataModel.ItemsTable) do
         if v.ItemID == synItemID then
             _needsList = ModelTool:Split(v.SynNeeds)
             break
@@ -137,9 +136,9 @@ local function CheckCouldSyn(synItemID)
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
     for i = 1, #(_needsList) / 2, 1 do
         -- 遍历玩家目前的所有道具
-        for k, v in pairs(PlayerDataModel.playerData.Items) do
+        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
             -- 如果ID匹配，且数量满足
-            if v.ItemID == _needsList[2 * i - 1] and v.Count >= tonumber(_needsList[2 * i]) then
+            if v.ItemID == _needsList[2 * i - 1] and tonumber(v.Count) >= tonumber(_needsList[2 * i]) then
                 -- 匹配数+1
                 rightCount = rightCount + 1
             end
@@ -155,6 +154,21 @@ local function CheckCouldSyn(synItemID)
     return result
 end
 
+
+--[[
+    @desc: 检查所有道具，修改它的属性（是否可以合成）
+    author:{author}
+    time:2019-08-07 20:56:57
+    --@items: 筛选过后 当前所有所需显示的道具表
+]]
+function StaticDataModel:CheckAllSyn(items)
+    for k,v in pairs(items) do
+        items[k].CouldSyn = tostring(CheckCouldSyn(v.ItemID))
+    end
+end
+
+
+
 --[[
     @desc: 合成新的道具，扣除相应所需道具
     author:{author}
@@ -169,26 +183,28 @@ function StaticDataModel:SynItem(itemData)
     for i = 1, #(_needsList) / 2, 1 do
 
         -- 遍历玩家目前的所有道具
-        for k, v in pairs(PlayerDataModel.playerData.Items) do
+        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
             -- 扣除玩家表里相应的道具
-            v.Count = v.Count - tonumber(_needsList[2 * i])
+            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
             -- 如果道具数量为0，则去除此道具
-            if v.Count == 0 then
+            if v.Count == "0" then
                 PlayerDataModel.playerData.Items[k] = nil
             end
         end
 
         for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
             -- 扣除玩家表里相应的道具
-            v.Count = v.Count - tonumber(_needsList[2 * i])
+            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
             -- 如果道具数量为0，则去除此道具
-            if v.Count == 0 then
+            if v.Count == "0" then
                 PlayerDataModel.CompletePlayerData.Items[k] = nil
             end
         end
     end
 
 end
+
+
 
 -- 道具排序
 -- key：要排序的key "Level"(等级品质)/"Price"(出售的价格)
@@ -203,6 +219,9 @@ function StaticDataModel:SortItems(items, key, changeWay)
         end
     end
 end
+
+
+
 
 -- 筛选道具
 -- items：table：道具表

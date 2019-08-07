@@ -22,6 +22,11 @@ end
 
 -- 读取 可读写路径中的数据
 function PlayerDataModel:ReadOut()
+
+    if not CS.System.IO.File.Exists(PlayerDataModel.FilePath) then
+        PlayerDataModel:Init()
+    end
+
     -- 从可读写路径中读取信息
     local str = CS.System.IO.File.ReadAllText(self.FilePath)
     self.PlayerData = JsonUtil.decode(str)

@@ -1,54 +1,29 @@
-require('Lua/ABManager.lua.txt')
-require('Lua/LoadManager.lua.txt')
-require('Lua/CutToCtrl.lua.txt')
-require('Lua/ModelTool.lua.txt')
+require("Lua/ABManager.lua.txt")
+require("Lua/LoadManager.lua.txt")
+require("Lua/CutToCtrl.lua.txt")
+require("Lua/ModelTool.lua.txt")
 
-require('Lua/PlayerDataModel.lua.txt')
-require('Lua/StaticDataModel.lua.txt')
+require("Lua/PlayerDataModel.lua.txt")
+require("Lua/StaticDataModel.lua.txt")
 
-JsonUtil = require('Lua/JsonUtil.lua.txt')
+JsonUtil = require("Lua/JsonUtil.lua.txt")
 
 --可以运行从AB包中加载出的脚本
 --CS.Luax.Instance:DoString("print('666')")
 
 
--- 每次进入游戏时的初始化
-local function GameInit()
-
-    -- 读取静态表
-    StaticDataModel:ReadOut()
-
-    -- 第一次进入游戏，应该初始化角色数据
-    -- if not CS.System.IO.File.Exists(PlayerDataModel.FilePath) then
-    if true then
-        PlayerDataModel:Init()
-    end
-
-end
-
-
-
 Core = {}
 
 function Core.Start()
-
-    -- 进入游戏的初始化
-    GameInit()
-
+    
     --从AB包中加载脚本
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'MainMenuCtrl.lua').text)
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'RoleDataModel.lua').text)
 
     -- 测试用直接加载脚本
     -- 加载启动界面
-    require('/../AssetBundle/Script/GameStart/GameStart.lua.txt')
-
-
-    
+    require("/../AssetBundle/Script/GameStart/GameStart.lua.txt")
 end
-
-
-
 
 -- 计时委托
 Core.timer = 0
@@ -59,7 +34,7 @@ Core.cdEvent = nil
 
 --每帧刷新
 function Core.Update()
-    print('lua update')
+    print("lua update")
     -- 时间到执行委托
     if Core.timer > 0 and Core.timerEvent ~= nil then
         Core.timer = Core.timer - CS.UnityEngine.Time.deltaTime
@@ -71,7 +46,7 @@ function Core.Update()
 
     -- 倒计时中执行委托
     if Core.countDown > 0 and Core.cdEvent ~= nil then
-        Core.countDown  = Core.countDown - CS.UnityEngine.Time.deltaTime
+        Core.countDown = Core.countDown - CS.UnityEngine.Time.deltaTime
         Core.cdEvent()
         if Core.countDown < 0 then
             Core.cdEvent = nil
@@ -79,10 +54,6 @@ function Core.Update()
     end
 end
 
-
 --每秒刷新
 function Core.SecondUpdate()
-
 end
-
-

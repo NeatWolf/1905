@@ -1,5 +1,6 @@
 ﻿public enum EventDefine
 {
-
-    Btn,
+    LoadNormal,
+    LoadChange,
+    
 }

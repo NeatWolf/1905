@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Script/Tool.meta
-guid: c3a80b60266119f4c9292d7e056ae5df
-=======
 guid: 40e534f61c1c4564c9c89f5222abfb05
->>>>>>> 9d1d4455495f01c986b2009111c7dfa6a9714549:Assets/AssetBundle/Script/MainScene.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

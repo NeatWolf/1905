@@ -2,7 +2,7 @@ GameStartManager = {}
 
 -- 加载启动图
 function GameStartManager:LoadImage()
-    local image = LoadManager:Load(ABManager:LoadAsset("prefeb", "Test"), "UI/Canvas", true)
+    local image = LoadManager:Load(ABManager:LoadAsset("prefeb", "OpenGame"), "UI", true)
     CutToCtrl:BlackMaskAni(
         0,
         0.5,
@@ -24,7 +24,7 @@ end
 
 -- 加载登录系统
 function GameStartManager:Login()
-    local subObj = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoginTest"), "UI/Canvas", true):GetComponent("UISubObject")
+    local subObj = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoginTest"), "UI", true):GetComponent("UISubObject")
     subObj.buttons[0].onClick:AddListener(
         function()
             -- 黑遮罩淡入出，登陆成功
@@ -44,7 +44,7 @@ local isLoadingFinish = false
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
     -- 加载 进度条
-    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", true)
+    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI", true)
     barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent("Image")
     Core.countDown = 2
     local time = Core.countDown

@@ -58,6 +58,10 @@ MonoBehaviour:
   texts: []
   images: []
   inputFields: []
+  go:
+  - {fileID: 8726029914653075018}
+  - {fileID: 8726029914707551344}
+  - {fileID: 8726029914589230766}
 --- !u!114 &7285646726446269459
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,9 +1,7 @@
 ModelTool = {}
 
-
 -- 拷贝一份新表
 function ModelTool:CopyTable(t)
-
     local NewTable = nil
 
     if type(t) ~= "table" then
@@ -18,89 +16,47 @@ function ModelTool:CopyTable(t)
     return NewTable
 end
 
-
 -- 分割字符串
 -- 以参数2(char)分割参数1(string)
-function ModelTool:Split(str, splitChar)      
-
+function ModelTool:Split(str, splitChar)
     local finalStrs = {}
 
     while true do
+        local pos = string.find(str, splitChar)
 
-        local pos = string.find(str, splitChar) 
-
-        if not pos then              
-            table.insert(finalStrs,str)
+        if not pos then
+            table.insert(finalStrs, str)
             break
-        end  
+        end
 
-        local sub_str = string.sub(str, 1, pos - 1)              
+        local sub_str = string.sub(str, 1, pos - 1)
 
-        table.insert(finalStrs,sub_str)
+        table.insert(finalStrs, sub_str)
 
         str = string.sub(str, pos + 1, string.len(str))
-
     end
 
     return finalStrs
 end
 
-
--- function print(t)
---     if type(t) ~= "table" then
---         return t
---     end
-
---     local res = "{"
-
---     for k,v in pairs(t)
---     do
---         if type(v) == "table" then
---             ModelTool:SetMeta(v)
---         end
-
---         res = res .. v
-
---         if k ~= #t then
---             res = res .. ", "
---         end
---     end
-
---     res = res .. "}"
-
---     return res
--- end
-
--- local meta1 = {
---     __tostring = print(t)
--- }
-
-
-local meta = {
-    __tostring = function(t)
-        local res = "{"
-
-        for k, v in pairs(t) do
-            if type(v) == "table" then
-                res = res .. "TABLE"
-            else
-                res = res .. v
-            end
-
-            if k ~= #t then
-                res = res .. ", "
-            end
-        end
-
-        res = res .. "}"
-
-        return res
-    end
-}
-
-
 -- 设置元表
 function ModelTool:SetMeta(table)
-    setmetatable(table, meta)
+    return setmetatable(
+        table,
+        {
+            __tostring = function(myTable)
+                local str = '{'
+                for k,v in pairs(myTable) do
+                    if type(v) == 'table' then
+                        ModelTool:SetMeta(v)
+                        str = str .. '"' .. k .. '" = ' .. tostring(v) .. ", "
+                    else
+                        str = str .. '"' .. k .. '" = ' .. v .. ', ' 
+                    end
+                end
+                str = str .. '}'
+                return str
+            end
+        }
+    )
 end
-

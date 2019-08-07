@@ -9,8 +9,7 @@ function GameStartManager:LoadImage()
         function()
             Core.timer = 2 -- 2秒后调用黑遮罩淡入
             Core.timerEvent = function()
-                CutToCtrl:BlackMaskAni(
-                    1,
+                CutToCtrl:CutTo(
                     0.5,
                     function()
                         CS.UnityEngine.Object.Destroy(image.gameObject)
@@ -29,11 +28,9 @@ function GameStartManager:Login()
     subObj.buttons[0].onClick:AddListener(
         function()
             -- 黑遮罩淡入出，登陆成功
-            CutToCtrl:BlackMaskAni(
-                1,
-                0.25,
+            CutToCtrl:CutTo(
+                0.5,
                 function()
-                    CutToCtrl:BlackMaskAni(0, 0.25)
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
                     self.LoadingBar()
                 end
@@ -56,9 +53,8 @@ function GameStartManager:LoadingBar()
         if barImage.fillAmount == 1 then
             isLoadingFinish = true
             -- 加载完成，屏幕黑
-            CutToCtrl:BlackMaskAni(
-                1,
-                0.25,
+            CutToCtrl:CutTo(
+                0.5,
                 function()
                     CutToCtrl:BlackMaskAni(0, 0.25)
                     -- 进入游戏主场景，销毁不需要的UI，屏幕白
@@ -73,9 +69,12 @@ function GameStartManager:LoadingBar()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
 
-    result = StaticDataModel:CheckCouldSyn(PlayerDataModel.PlayerData , "19015")
+    -- 测试
+    result = StaticDataModel:CheckCouldSyn(PlayerDataModel.PlayerData, "19015")
     print(result)
-    
+
+    print(StaticDataModel.ItemsTable)
+
     -- 读取主场景脚本，清除GameStartManager占用
     require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")
     GameStartManager = nil

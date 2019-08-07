@@ -65,6 +65,8 @@ function GameStartManager:LoadingBar()
         end
     end
     
+    StaticDataModel.CheckCouldSyn(PlayerDataModel.PlayerData , "19015")
+
 end
 
 

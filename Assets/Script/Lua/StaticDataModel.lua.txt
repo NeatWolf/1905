@@ -106,6 +106,58 @@ function StaticDataModel:MergeData(PlayerData)
 end
 
 
+-- 判断此道具目前是否可合成
+-- 参数1(table)：目前玩家的所有道具
+-- 参数2(string)：需要进行判断的合成物ID
+function StaticDataModel:CheckCouldSyn(playerItems,synItemID)
+    -- 最终结果
+    local result = false
+    -- 拷贝一份玩家道具数据
+    local _copyPlayerItems = ModelTool:CopyTable(playerItems)
+    
+    -- 遍历静态策划表，获取此装备合成所需的道具列表
+    local _needsList = {}
+    for _,v in pairs(self.ItemsTable)
+    do
+        if v.ItemID == synItemID then
+            _needsList = v.SynNeeds
+            break
+        end
+    end
 
+    if _needsList == {} then
+        print("_needsList为空，未得到合成此道具所需的物品")
+        return
+    end
 
+    -- 匹配数 满足一个条件+1
+    local rightCount = 0
+    -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
+    for i=1 , #(_needsList)/2 , 1
+    do
+        -- 遍历玩家目前的所有道具
+        for k,v in pairs(_copyPlayerItems)
+        do
+            -- 如果ID匹配，且数量满足
+            if v.ItemID == _needsList[2*i-1] and v.Count >= _needsList[2*i] then
+                -- 扣除Copy表里相应的道具
+                v.Count = v.Count - _needsList[2*i]
+                -- 匹配数+1
+                rightCount = rightCount + 1
+                -- 如果道具数量为0，则去除此道具
+                if v.Count == 0 then
+                    _newPlayerItems[k] = nil
+                end
+            end
+        end
+    end
+
+    -- 匹配数满足，则true
+    if rightCount == #(_needsList)/2 then
+        result = true
+    end
+    
+    return result
+
+end
 

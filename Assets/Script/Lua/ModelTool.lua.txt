@@ -1,20 +1,48 @@
 ModelTool = {}
 
+
 -- 拷贝一份新表
-function ModelTool:CopyTable(table)
-    if type(table) ~= "table" then
-        return
-    end
+function ModelTool:CopyTable(t)
 
-    local NewTable = {}
+    local NewTable = nil
 
-    for k, v in pairs(table) do
-        if type(v) == "table" then
-            NewTable[k] = self.CopyTable(v)
+    if type(t) ~= "table" then
+        NewTable = t
+    else
+        NewTable = {}
+        for k, v in pairs(t) do
+            NewTable[self:CopyTable(k)] = self:CopyTable(v)
         end
     end
 
     return NewTable
+end
+
+
+-- 分割字符串
+-- 以参数2(char)分割参数1(string)
+function ModelTool:Split(str, splitChar)      
+
+    local finalStrs = {}
+
+    while true do
+
+        local pos = string.find(str, splitChar) 
+
+        if not pos then              
+            table.insert(finalStrs,str)
+            break
+        end  
+
+        local sub_str = string.sub(str, 1, pos - 1)              
+
+        table.insert(finalStrs,sub_str)
+
+        str = string.sub(str, pos + 1, string.len(str))
+
+    end
+
+    return finalStrs
 end
 
 
@@ -75,3 +103,4 @@ local meta = {
 function ModelTool:SetMeta(table)
     setmetatable(table, meta)
 end
+

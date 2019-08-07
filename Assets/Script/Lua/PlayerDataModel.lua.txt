@@ -23,8 +23,10 @@ end
 -- 读取 可读写路径中的数据
 function PlayerDataModel:ReadOut()
 
-    if not CS.System.IO.File.Exists(PlayerDataModel.FilePath) then
-        PlayerDataModel:Init()
+    --if not CS.System.IO.File.Exists(self.FilePath) then
+    -- 测试用：每次都初始化
+    if true then
+        self:Init()
     end
 
     -- 从可读写路径中读取信息

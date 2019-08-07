@@ -72,11 +72,9 @@ function GameStartManager:LoadingBar()
     StaticDataModel:ReadOut()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
-    -- Print 测试数据的读取是否成功
-    print(PlayerDataModel.CompletePlayerData.Heros[1].Name)
 
-    StaticDataModel.CheckCouldSyn(PlayerDataModel.PlayerData, "19015")
-
+    result = StaticDataModel:CheckCouldSyn(PlayerDataModel.PlayerData , "19015")
+    print(result)
     
     -- 读取主场景脚本，清除GameStartManager占用
     require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")

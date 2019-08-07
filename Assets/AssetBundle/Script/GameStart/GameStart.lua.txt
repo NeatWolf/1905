@@ -33,7 +33,8 @@ function GameStartManager:Login()
                 1,
                 0.25,
                 function()
-                    CutToCtrl:BlackMaskAni(0, 0.25, self.LoadingBar)
+                    CutToCtrl:BlackMaskAni(0, 0.25)
+                    self.LoadingBar()
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
                 end
             )

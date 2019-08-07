@@ -11,18 +11,22 @@ function StaticDataModel:ReadOut()
     -- 读取道具静态表
     local ta = ABManager:LoadAsset("json", "ItemsTable")
     self.ItemsTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.ItemsTable)
 
     -- 读取英雄静态表
     ta = ABManager:LoadAsset("json", "HerosTable")
     self.HerosTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.HerosTable)
 
     -- 读取怪物静态表
     ta = ABManager:LoadAsset("json", "MonstersTable")
     self.MonstersTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.MonstersTable)
 
     -- 读取怪物静态表
     ta = ABManager:LoadAsset("json", "NPCsTable")
     self.NPCsTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.NPCsTable)
 end
 
 -- 合并出 完整的玩家数据信息
@@ -167,6 +171,7 @@ function StaticDataModel:SynItem(itemID)
     --     PlayerDataModel.playerData.Items[k] = nil
     -- end
 
+    return
 end
 
 

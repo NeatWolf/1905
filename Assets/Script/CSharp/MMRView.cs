@@ -8,56 +8,74 @@ using UnityEngine.Events;
 public class MMRView : MonoBehaviour
 {
     Button btn_Active, btn_RoleMan, btn_Fabricate,
-        btn_Warehouse, btn_Lottery,btn_Explore;
-    Image ima_AV;
+        btn_Warehouse, btn_Lottery, btn_Explore, btn_AV;
+
+    Camera uiCam;
+    GameObject BG, MML, MMR;
     
    
     private void Awake()
     {
-        btn_Active = transform.Find("Btn_Active").GetComponent<Button>();
-        btn_RoleMan = transform.Find("Btn_RoleMan").GetComponent<Button>();
-        btn_Fabricate = transform.Find("Btn_Fabricate").GetComponent<Button>();
-        btn_Warehouse = transform.Find("Btn_Warehouse").GetComponent<Button>();
-        btn_Lottery = transform.parent.transform.Find("MainMenu_Left")
-            .transform.Find("Btn_Lottery").GetComponent<Button>();
-        ima_AV= transform.parent.transform.Find("MainMenu_Left")
-            .transform.Find("Btn_AV").transform.Find("AV").GetComponent<Image>();
-        btn_Explore = transform.parent.transform.Find("P_Explore")
-            .transform.Find("Btn_Explore").GetComponent<Button>();
+        uiCam = GameObject.Find("UICamera").GetComponent<Camera>();
+        UISubObject subObjs = transform.GetComponent<UISubObject>();
+        BG = subObjs.go[0];
+        MML = subObjs.go[1];
+        MMR = subObjs.go[2];
+        BG.GetComponent<Canvas>().worldCamera = uiCam;
+        MML.GetComponent<Canvas>().worldCamera = uiCam;
+        MMR.GetComponent<Canvas>().worldCamera = uiCam;
 
-        
+        btn_Active = subObjs.buttons[2];
+        btn_RoleMan = subObjs.buttons[3];
+
+        btn_Fabricate = subObjs.buttons[4];
+        btn_Warehouse = subObjs.buttons[5];
+        btn_Lottery = subObjs.buttons[0];
+        btn_AV = subObjs.buttons[1];
+        btn_Explore = subObjs.buttons[6];
+
+        SetButtonLeave();
+        StartCoroutine("ButtonEnter");
+
+       
+
 
     }
 
     private void Start()
     {
+        //设置位置到屏幕外
+
+        //入场动画
+
+        //添加点击动画
         btn_Active.onClick.AddListener(() =>
         {
-            EventCenter.Broadcast(EventDefine.LoadNormal);
+           // EventCenter.Broadcast(EventDefine.LoadNormal);
             btnActive_Move();
-            StartCoroutine("_ActiveBlack");
+           // StartCoroutine("_ActiveBlack");
             
         });
         btn_RoleMan.onClick.AddListener(() =>
         {
-            Prefabs.Load("UI/P_RoleMan");
+           // Prefabs.Load("UI/P_RoleMan");
             btnActive_Move();
            
         });
         btn_Fabricate.onClick.AddListener(() =>
         {
-            Prefabs.Load("UI/P_Fabricate");
+           // Prefabs.Load("UI/P_Fabricate");
             btnActive_Move();
             
         });
         btn_Warehouse.onClick.AddListener(() =>
         {
-            Prefabs.Load("UI/P_Warehouse");
+           // Prefabs.Load("UI/P_Warehouse");
             btnActive_Move();
             
         });
         btn_Lottery.onClick.AddListener(() => {
-
+            btnActive_Move();
         });
 
         btn_Explore.onClick.AddListener(() =>
@@ -92,13 +110,13 @@ public class MMRView : MonoBehaviour
         btn_Warehouse.transform.DOLocalMoveX(500,1);
         btn_Warehouse.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
 
-        btn_Lottery.transform.DOLocalMoveX(-500,0.5f);
+        btn_Lottery.transform.DOLocalMoveX(-1000,0.5f);
         btn_Lottery.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
         
 
-        ima_AV.transform.DOScale(1.2f,0.2f);
-        ima_AV.transform.DOScale(0,0.8f);
-        ima_AV.GetComponent<Image>().DOColor (new Color(1,1,1,0),0.8f);
+       btn_AV.transform.DOScale(1.2f,0.2f);
+       btn_AV.transform.DOScale(0,0.8f);
+       btn_AV.GetComponent<Image>().DOColor (new Color(1,1,1,0),0.8f);
 
         
 
@@ -115,8 +133,27 @@ public class MMRView : MonoBehaviour
         Destroy(btn_Fabricate.gameObject, 2);
         Destroy(btn_Warehouse.gameObject, 2);
         Destroy(btn_Lottery.gameObject,2);
-        Destroy(ima_AV.gameObject,2);
+        Destroy(btn_AV.gameObject,2);
     }
+
+    void SetButtonLeave() {
+        btn_Active.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_RoleMan.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_Fabricate.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_Warehouse.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_Lottery.transform.localPosition += new Vector3(-1000, 0, 0);
+       
+    }
+
+    IEnumerator ButtonEnter() {
+        yield return new WaitForSeconds(0.5f);
+        btn_Active.transform.DOLocalMoveX(-447, 0.3f);
+        btn_RoleMan.transform.DOLocalMoveX(-447, 0.5f);
+        btn_Fabricate.transform.DOLocalMoveX(-447, 0.5f);
+        btn_Warehouse.transform.DOLocalMoveX(-447, 0.5f);
+        btn_Lottery.transform.DOLocalMoveX(-100, 0.5f);
+    }
+
 
 
 }

@@ -73,12 +73,11 @@ function GameStartManager:LoadingBar()
     
     ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
     print(PlayerDataModel.CompletePlayerData.Items)
-    StaticDataModel:SortItems(PlayerDataModel.CompletePlayerData.Items, "Level", 1)
-    print(PlayerDataModel.CompletePlayerData.Items)
+    local newTable = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Items, "Level", "2")
+    ModelTool:SetMeta(newTable)
+    StaticDataModel:SortItems(newTable, "Prices", -1)
+    print(newTable)
 
-
-
-    print(StaticDataModel.ItemsTable)
 
     -- 读取主场景脚本，清除GameStartManager占用
     require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")

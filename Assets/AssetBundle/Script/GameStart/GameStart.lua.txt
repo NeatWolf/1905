@@ -46,14 +46,8 @@ local isLoadingFinish = false
 
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
-
-    -- 加载 玩家的本地数据，并合并成完整数据
-    PlayerDataModel:ReadOut()
-    -- Print 测试数据的读取是否成功
-    print(PlayerDataModel.CompletePlayerData.Heros[1].Name)
-
     -- 加载 进度条
-    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", false)
+    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefeb", "LoadingProcess"), "UI/Canvas", true)
     barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent("Image")
     Core.countDown = 2
     local time = Core.countDown
@@ -65,6 +59,12 @@ function GameStartManager:LoadingBar()
         end
     end
     
+    StaticDataModel:ReadOut()
+    -- 加载 玩家的本地数据，并合并成完整数据
+    PlayerDataModel:ReadOut()
+    -- Print 测试数据的读取是否成功
+    print(PlayerDataModel.CompletePlayerData.Heros[1].Name)
+
 end
 
 

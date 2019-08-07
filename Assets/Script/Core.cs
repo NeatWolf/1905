@@ -64,7 +64,7 @@ public class Core : MonoBehaviour
         callLua.update = null;
         callLua.SecondUpdate = null;
 
-        Luax.Instance.Dispose();
+        // Luax.Instance.Dispose();
     }
 
 }

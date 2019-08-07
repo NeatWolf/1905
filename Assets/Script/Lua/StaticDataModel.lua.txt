@@ -221,13 +221,23 @@ function StaticDataModel:SortItems(items, key, changeWay)
 end
 
 
-
-
--- 筛选道具
--- items：table：道具表
--- key：string：键
--- value：string：要筛选出的值
--- 返回一个只包含目标key value的表
+--[[
+    @desc: 筛选道具
+    author:{Jason}
+    time:2019-08-07 20:53:57
+    --@items:table：道具表
+	--@key:string：要筛选的key
+	--@value: string：要筛选的value
+    @return:table：只包含指定key value的新table
+]]
 function StaticDataModel:ScreenItem(items, key, value)
     local newTable = {}
+    local count = 1
+    for k,v in pairs(items) do
+        if v[key] == value then
+            newTable[count] = v
+            count = count + 1
+        end
+    end
+    return newTable
 end

@@ -68,6 +68,7 @@ function GameStartManager:LoadingBar()
     PlayerDataModel:ReadOut()
 
 
+<<<<<<< HEAD
     -- -- 测试排序
     -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
     -- print(PlayerDataModel.CompletePlayerData.Items)
@@ -86,6 +87,15 @@ function GameStartManager:LoadingBar()
 
     ModelTool:SetMeta(newList)
     print(newList)
+=======
+    
+    ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
+    print(PlayerDataModel.CompletePlayerData.Items)
+    local newTable = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Items, "Level", "2")
+    ModelTool:SetMeta(newTable)
+    StaticDataModel:SortItems(newTable, "Prices", -1)
+    print(newTable)
+>>>>>>> 7bc05f27534759054cd79cfd653ec22e211cb2f6
 
 
     -- 读取主场景脚本，清除GameStartManager占用

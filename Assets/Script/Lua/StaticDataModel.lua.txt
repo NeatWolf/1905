@@ -139,7 +139,7 @@ local function CheckCouldSyn(synItemID)
         -- 遍历玩家目前的所有道具
         for k, v in pairs(PlayerDataModel.playerData.Items) do
             -- 如果ID匹配，且数量满足
-            if v.ItemID == _needsList[2 * i - 1] and v.Count >= _needsList[2 * i] then
+            if v.ItemID == _needsList[2 * i - 1] and v.Count >= tonumber(_needsList[2 * i]) then
                 -- 匹配数+1
                 rightCount = rightCount + 1
             end
@@ -155,30 +155,41 @@ local function CheckCouldSyn(synItemID)
     return result
 end
 
-<<<<<<< HEAD
 --[[
-    @desc: 合并
+    @desc: 合成新的道具，扣除相应所需道具
     author:{author}
     time:2019-08-07 20:01:37
-    --@itemData: 
-    @return:
+    --@itemData: 需要合成的道具信息
 ]]
 function StaticDataModel:SynItem(itemData)
-=======
-function StaticDataModel:SynItem(itemID)
->>>>>>> 26ef77bbcbcab600fcd86b94fd22d2e03f8adead
-    -- -- 扣除Copy表里相应的道具
-    -- v.Count = v.Count - _needsList[2 * i]
-    --
-    -- -- 如果道具数量为0，则去除此道具
-    -- if v.Count == 0 then
-    --     PlayerDataModel.playerData.Items[k] = nil
-    -- end
 
-    return
+    local _needsList = ModelTool:Split(itemData.SynNeeds)
+
+    -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
+    for i = 1, #(_needsList) / 2, 1 do
+
+        -- 遍历玩家目前的所有道具
+        for k, v in pairs(PlayerDataModel.playerData.Items) do
+            -- 扣除玩家表里相应的道具
+            v.Count = v.Count - tonumber(_needsList[2 * i])
+            -- 如果道具数量为0，则去除此道具
+            if v.Count == 0 then
+                PlayerDataModel.playerData.Items[k] = nil
+            end
+        end
+
+        for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+            -- 扣除玩家表里相应的道具
+            v.Count = v.Count - tonumber(_needsList[2 * i])
+            -- 如果道具数量为0，则去除此道具
+            if v.Count == 0 then
+                PlayerDataModel.CompletePlayerData.Items[k] = nil
+            end
+        end
+    end
+
 end
 
-<<<<<<< HEAD
 -- 道具排序
 -- key：要排序的key "Level"(等级品质)/"Price"(出售的价格)
 -- changeWay：1 / -1
@@ -188,43 +199,16 @@ function StaticDataModel:SortItems(items, key, changeWay)
             local res = (tonumber(items[j][key]) - tonumber(items[j + 1][key])) * changeWay
             if res > 0 then
                 items[j], items[j + 1] = items[j + 1], items[j]
-=======
--- 按售出价格比较两个道具
--- changeWay：10(降序)/01(升序)
-local function CompareByPrice(item1, item2, changeWay)
-    if changeWay == 10 then
-        return item1.Prices >= item2.Prices
-    elseif changeWay == 01 then
-        return item1.Prices <= item2.Prices
-    end
-end
-
--- 道具排序
--- sortWay：排序方式 "Level"(等级品质)/"Price"(出售的价格)
--- changeWay：10(降序)/01(升序)
-function StaticDataModel:SynSortItems(items, sortWay, changeWay)
-    for i = 1, #items - 1 do
-        for j = 1, #items - i do
-            if sortWay == "Level" then
-            elseif sortWay == "Price" then
-                local res = CompareByPrice(items[j], items[j + 1], changeWay)
-                if res == false then
-                    items[j], items[j + 1] = items[j + 1], items[j]
-                end
->>>>>>> 26ef77bbcbcab600fcd86b94fd22d2e03f8adead
             end
         end
     end
 end
-<<<<<<< HEAD
 
 -- 筛选道具
--- items：table：道具表表
+-- items：table：道具表
 -- key：string：键
 -- value：string：要筛选出的值
 -- 返回一个只包含目标key value的表
 function StaticDataModel:ScreenItem(items, key, value)
     local newTable = {}
 end
-=======
->>>>>>> 26ef77bbcbcab600fcd86b94fd22d2e03f8adead

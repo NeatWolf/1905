@@ -69,10 +69,8 @@ function GameStartManager:LoadingBar()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
 
-<<<<<<< HEAD
 
     
-    print(11111111111111111111111)
     ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
     print(PlayerDataModel.CompletePlayerData.Items)
     StaticDataModel:SortItems(PlayerDataModel.CompletePlayerData.Items, "Level", 1)
@@ -81,15 +79,6 @@ function GameStartManager:LoadingBar()
 
 
     print(StaticDataModel.ItemsTable)
-=======
-    print(ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items))
-    
-    -- 测试排序功能
-    StaticDataModel:SynSortItems(PlayerDataModel.CompletePlayerData.Items, "Price", 01)
-    
-    print((PlayerDataModel.CompletePlayerData.Items))
-    
->>>>>>> 26ef77bbcbcab600fcd86b94fd22d2e03f8adead
 
     -- 读取主场景脚本，清除GameStartManager占用
     require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")

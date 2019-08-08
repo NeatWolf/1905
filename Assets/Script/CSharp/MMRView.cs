@@ -34,12 +34,13 @@ public class MMRView : MonoBehaviour
         btn_AV = subObjs.buttons[1];
         btn_Explore = subObjs.buttons[6];
 
+    }
+
+
+    private void OnEnable()
+    {
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
-
-       
-
-
     }
 
     private void Start()

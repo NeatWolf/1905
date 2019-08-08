@@ -9,7 +9,8 @@ public class ImageAni : EventTrigger, IPointerEnterHandler, IPointerExitHandler,
     private DOTweenAnimation ImageAnim;
     void Awake()
     {
-        ImageAnim = GetComponent<DOTweenAnimation>();
+        //ImageAnim = GetComponent<DOTweenAnimation>();
+        ImageAnim = GameObject.Find("ButtonAnimatorModel") .GetComponent<DOTweenAnimation>();
     }
     void Start()
     {

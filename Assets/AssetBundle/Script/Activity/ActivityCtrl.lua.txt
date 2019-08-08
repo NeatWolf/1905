@@ -1,0 +1,5 @@
+ActivityCtrl = {}
+
+function ActivityCtrl:Init( )
+    print("进入活动公告")
+end

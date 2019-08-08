@@ -1,0 +1,5 @@
+LotteryCtrl = {}
+
+function LotteryCtrl:Init()
+    print("进入抽奖")
+end

@@ -25,7 +25,9 @@
 		{"ItemID":"19002" , "Count":"6"},
 		{"ItemID":"13001" , "Count":"5"},
 		{"ItemID":"13003" , "Count":"5"},
-		{"ItemID":"11016" , "Count":"4"}
+		{"ItemID":"11016" , "Count":"5"},
+		{"ItemID":"11005" , "Count":"5"},
+		{"ItemID":"11008" , "Count":"5"}
 
 	]
 }

@@ -39,7 +39,6 @@ function GameStartManager:Login()
     )
 end
 
-local isLoadingFinish = false
 
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
@@ -51,7 +50,6 @@ function GameStartManager:LoadingBar()
     Core.cdEvent = function()
         barImage.fillAmount = 1 - Core.countDown / time
         if barImage.fillAmount == 1 then
-            isLoadingFinish = true
             -- 加载完成，屏幕黑
             CutToCtrl:CutTo(
                 0.5,
@@ -70,15 +68,35 @@ function GameStartManager:LoadingBar()
     PlayerDataModel:ReadOut()
 
 
+<<<<<<< HEAD
+    -- -- 测试排序
+    -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
+    -- print(PlayerDataModel.CompletePlayerData.Items)
+    -- StaticDataModel:SortItems(PlayerDataModel.CompletePlayerData.Items, "Level", 1)
+    -- print(PlayerDataModel.CompletePlayerData.Items)
+
+    -- 测试是否可以合成
+    local newList = {}
+    for k,v in pairs(StaticDataModel.ItemsTable) do
+        if v.Type == "2" then
+            newList[k] = v
+        end
+    end
+
+    StaticDataModel:CheckAllSyn(newList)
+
+    ModelTool:SetMeta(newList)
+    print(newList)
+=======
     
     ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
     print(PlayerDataModel.CompletePlayerData.Items)
-    StaticDataModel:SortItems(PlayerDataModel.CompletePlayerData.Items, "Level", 1)
-    print(PlayerDataModel.CompletePlayerData.Items)
+    local newTable = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Items, "Level", "2")
+    ModelTool:SetMeta(newTable)
+    StaticDataModel:SortItems(newTable, "Prices", -1)
+    print(newTable)
+>>>>>>> 7bc05f27534759054cd79cfd653ec22e211cb2f6
 
-
-
-    print(StaticDataModel.ItemsTable)
 
     -- 读取主场景脚本，清除GameStartManager占用
     require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")

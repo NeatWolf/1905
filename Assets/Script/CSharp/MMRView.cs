@@ -36,11 +36,11 @@ public class MMRView : MonoBehaviour
 
     }
 
-    private void OnEnable() {
-        
+
+    private void OnEnable()
+    {
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
-
     }
 
     private void Start()

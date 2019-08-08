@@ -71,7 +71,6 @@ function StaticDataModel:MergeData(playerData)
                 heroNow.Age = self.HerosTable[j].Age
                 heroNow.Gender = self.HerosTable[j].Gender
                 heroNow.TexturePath = self.HerosTable[j].TexturePath
-                heroNow.InsID = self.HerosTable[j].InsID
                 heroNow.Speak1 = self.HerosTable[j].Speak1
                 heroNow.Speak2 = self.HerosTable[j].Speak2
 
@@ -93,7 +92,6 @@ function StaticDataModel:MergeData(playerData)
                 itemNow.Count = playerData.Items[i].Count
                 -- 静态表的数据
                 itemNow.Name = self.ItemsTable[j].Name
-                itemNow.Image = self.ItemsTable[j].Name
                 itemNow.TexturePath = self.ItemsTable[j].TexturePath
                 itemNow.Type = self.ItemsTable[j].Type
                 itemNow.Level = self.ItemsTable[j].Level

@@ -114,6 +114,10 @@ function GameStartManager:LoadingBar()
 
 
 
+    -- StaticDataModel:CheckAllSyn(newList)
+
+    -- ModelTool:SetMeta(newList)
+    -- print(newList)
 
 
     -- 读取主场景脚本，清除GameStartManager占用

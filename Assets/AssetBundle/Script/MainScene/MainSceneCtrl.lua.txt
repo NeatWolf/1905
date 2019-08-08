@@ -1,10 +1,88 @@
 MainSceneCtrl = {}
 
-function MainSceneCtrl:Init()
-    print("进入主场景")
-    -- 加载预制体
+-- 主界面上的UISubObject脚本，内含所有UI对象
+MainSceneCtrl.Panel = nil
 
-    -- 添加委托
+function MainSceneCtrl:Init()
+    if MainSceneCtrl.Panel == nil then
+        -- 加载预制体
+        self.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "MainScene"), "UI", true):GetComponent("UISubObject")
+
+        -- 添加委托
+        self.Panel.buttons[0].onClick:AddListener(MainSceneCtrl.ToLottery)
+        self.Panel.buttons[1].onClick:AddListener(MainSceneCtrl.ToAccount)
+        self.Panel.buttons[2].onClick:AddListener(MainSceneCtrl.ToActivity)
+        self.Panel.buttons[3].onClick:AddListener(MainSceneCtrl.ToRole)
+        self.Panel.buttons[4].onClick:AddListener(MainSceneCtrl.ToMaker)
+        self.Panel.buttons[5].onClick:AddListener(MainSceneCtrl.ToWarehouse)
+    end
+    MainSceneCtrl.Panel.gameObject:SetActive(true)
 
     -- 刷新金币钻石等数据
+end
+
+function MainSceneCtrl:ToLottery()
+    require("/../AssetBundle/Script/Lottery/LotteryCtrl.lua.txt")
+    CutToCtrl:CutTo(
+        0.5,
+        function()
+            LotteryCtrl.Init()
+            MainSceneCtrl.Panel.gameObject:SetActive(false)
+        end
+    )
+end
+
+function MainSceneCtrl:ToAccount()
+    require("/../AssetBundle/Script/Account/AccountCtrl.lua.txt")
+    CutToCtrl:CutTo(
+        0.5,
+        function()
+            AccountCtrl.Init()
+            MainSceneCtrl.Panel.gameObject:SetActive(false)
+        end
+    )
+end
+
+function MainSceneCtrl:ToActivity()
+    require("/../AssetBundle/Script/Activity/ActivityCtrl.lua.txt")
+    CutToCtrl:CutTo(
+        0.5,
+        function()
+            ActivityCtrl.Init()
+            MainSceneCtrl.Panel.gameObject:SetActive(false)
+        end
+    )
+end
+
+function MainSceneCtrl:ToRole()
+    require("/../AssetBundle/Script/Role/RoleCtrl.lua.txt")
+    CutToCtrl:CutTo(
+        0.5,
+        function()
+            RoleCtrl.Init()
+            MainSceneCtrl.Panel.gameObject:SetActive(false)
+        end
+    )
+end
+
+function MainSceneCtrl:ToMaker()
+    require("/../AssetBundle/Script/Maker/MakerCtrl.lua.txt")
+    CutToCtrl:CutTo(
+        0.5,
+        function()
+            MakerCtrl.Init()
+            MainSceneCtrl.Panel.gameObject:SetActive(false)
+        end
+    )
+end
+
+function MainSceneCtrl:ToWarehouse()
+    require("/../AssetBundle/Script/Warehouse/WarehouseCtrl.lua.txt")
+    CutToCtrl:CutTo(
+        0.5,
+        function()
+            WarehouseCtrl.Init()
+            MainSceneCtrl.Panel.gameObject:SetActive(false)
+        end
+    )
 end

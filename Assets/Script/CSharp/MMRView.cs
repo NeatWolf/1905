@@ -34,43 +34,41 @@ public class MMRView : MonoBehaviour
         btn_AV = subObjs.buttons[1];
         btn_Explore = subObjs.buttons[6];
 
+    }
+
+
+    private void OnEnable()
+    {
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
-
-       
-
-
     }
 
     private void Start()
     {
-        //设置位置到屏幕外
+        
 
-        //入场动画
+        
 
         //添加点击动画
         btn_Active.onClick.AddListener(() =>
         {
            // EventCenter.Broadcast(EventDefine.LoadNormal);
             btnActive_Move();
-           // StartCoroutine("_ActiveBlack");
             
         });
         btn_RoleMan.onClick.AddListener(() =>
         {
-           // Prefabs.Load("UI/P_RoleMan");
             btnActive_Move();
            
         });
         btn_Fabricate.onClick.AddListener(() =>
         {
-           // Prefabs.Load("UI/P_Fabricate");
             btnActive_Move();
             
         });
         btn_Warehouse.onClick.AddListener(() =>
         {
-           // Prefabs.Load("UI/P_Warehouse");
+           
             btnActive_Move();
             
         });
@@ -97,7 +95,7 @@ public class MMRView : MonoBehaviour
    
 
     /// <summary>
-    /// Button退出界面动画
+    /// Button离场动画
     /// </summary>
     public void btnActive_Move() {
 
@@ -135,7 +133,9 @@ public class MMRView : MonoBehaviour
         Destroy(btn_Lottery.gameObject,2);
         Destroy(btn_AV.gameObject,2);
     }
-
+    /// <summary>
+    /// 设置位置到屏幕外
+    /// </summary>
     void SetButtonLeave() {
         btn_Active.transform.localPosition += new Vector3(1000, 0, 0);
         btn_RoleMan.transform.localPosition += new Vector3(1000, 0, 0);
@@ -145,6 +145,10 @@ public class MMRView : MonoBehaviour
        
     }
 
+    /// <summary>
+    /// Button入场动画
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ButtonEnter() {
         yield return new WaitForSeconds(0.5f);
         btn_Active.transform.DOLocalMoveX(-447, 0.3f);

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3757018558
+CRC: 4288234922
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6d9e2878d44b8d33538f2843f8f5cdec
+    Hash: 0b02da7c71beba24ab800cc5eb1e798c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: bad19f73773582e50b9cf45f6a2918d3
+    Hash: ee437e9b2941670e45d4b0a06c2a1969
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -50,11 +50,17 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 114
+  Script: {fileID: 40306178, guid: aa0b1eebb5db27a419fa4564bbe5c9c5, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4d0390bd8b8ffd640b34fe25065ff1df, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7a04c59d123fbc2449e1c794e607494c, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -69,12 +75,15 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/AssetBundle/Prefeb/UI/Warehouse/WarehouseScene.prefab
+- Assets/AssetBundle/Prefeb/UI/Test/Button.prefab
+- Assets/AssetBundle/Prefeb/UI/ButtonAnimModel/ButtonAnimatorModel.prefab
 - Assets/AssetBundle/Prefeb/UI/MainMenu/MainScene.prefab
 - Assets/AssetBundle/Prefeb/UI/MainMenu/P_MM_Temp.prefab
 - Assets/AssetBundle/Prefeb/UI/Login/OpenGame.prefab
 - Assets/AssetBundle/Prefeb/UI/LoadingProcess.prefab
 - Assets/AssetBundle/Prefeb/UI/Fabricate/FabricateSence.prefab
 - Assets/AssetBundle/Prefeb/UI/Login/LoginTest.prefab
+- Assets/AssetBundle/Prefeb/UI/Entrepot/EntrepotSence.prefab
 - Assets/AssetBundle/Prefeb/UI/Active/P_Active.prefab
 - Assets/AssetBundle/Prefeb/UI/RoleMan/RoleManScene.prefab
 Dependencies:

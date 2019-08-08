@@ -1266,7 +1266,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 152431599}
   m_HandleRect: {fileID: 152431598}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.9999974
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1689,7 +1689,7 @@ GameObject:
   - component: {fileID: 297072712}
   - component: {fileID: 297072711}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Btn_Rank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8259,7 +8259,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00044855688, y: -0.0038666415}
+  m_AnchoredPosition: {x: -0.00044855688, y: -0.00057571055}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2068927386

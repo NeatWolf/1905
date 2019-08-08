@@ -53,12 +53,10 @@ MonoBehaviour:
   - {fileID: 8726029914753197614}
   - {fileID: 8726029915552745279}
   - {fileID: 8726029914692991678}
-  - {fileID: 0}
   texts: []
   images: []
   inputFields: []
   go:
-  - {fileID: 0}
   - {fileID: 8726029914707551344}
   - {fileID: 8726029914589230766}
 --- !u!114 &7285646726446269459
@@ -112,7 +110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 36.734, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 4.74, y: 0}
+  m_AnchoredPosition: {x: 4.74, y: 3.71}
   m_SizeDelta: {x: 1080, y: 1920}
   m_Pivot: {x: 1.0000049, y: 0.4999999}
 --- !u!223 &8726029914589230755
@@ -334,7 +332,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 318.07, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1.49, y: 0}
+  m_AnchoredPosition: {x: -1.49, y: 3.710022}
   m_SizeDelta: {x: 1080, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8726029914707551349

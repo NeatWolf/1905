@@ -54,7 +54,18 @@ function StaticDataModel:MergeData(playerData)
                 heroNow.EnergyMax = playerData.Heros[i].EnergyMax
                 heroNow.EnergyNow = playerData.Heros[i].EnergyNow
                 heroNow.ColBuff = playerData.Heros[i].ColBuff
+                heroNow.ColBuffTem = playerData.Heros[i].ColBuffTem
                 heroNow.InsBuff = playerData.Heros[i].InsBuff
+                heroNow.Equips = {}
+                for k=1, #playerData.Heros[i].Equips do
+                    for v=1, #self.ItemsTable do
+                        if playerData.Heros[i].Equips[k].ItemID == self.ItemsTable[v].ItemID then
+                            table.insert(heroNow.Equips, self.ItemsTable[v])
+                        end
+                    end
+                end
+
+
                 -- 静态表的数据
                 heroNow.Name = self.HerosTable[j].Name
                 heroNow.Age = self.HerosTable[j].Age
@@ -63,7 +74,6 @@ function StaticDataModel:MergeData(playerData)
                 heroNow.InsID = self.HerosTable[j].InsID
                 heroNow.Speak1 = self.HerosTable[j].Speak1
                 heroNow.Speak2 = self.HerosTable[j].Speak2
-                heroNow.Speak3 = self.HerosTable[j].Speak3
 
                 table.insert(finalData.Heros, heroNow)
                 break
@@ -88,7 +98,7 @@ function StaticDataModel:MergeData(playerData)
                 itemNow.Type = self.ItemsTable[j].Type
                 itemNow.Level = self.ItemsTable[j].Level
                 itemNow.ObMethods = self.ItemsTable[j].ObMethods
-                itemNow.Prices = self.ItemsTable[j].Prices
+                itemNow.Price = self.ItemsTable[j].Price
                 itemNow.HeroBuff = self.ItemsTable[j].HeroBuff
                 itemNow.SuitID = self.ItemsTable[j].SuitID
                 itemNow.SynNeeds = self.ItemsTable[j].SynNeeds
@@ -121,7 +131,7 @@ local function CheckCouldSyn(synItemID)
     local _needsList = nil
     for _, v in pairs(StaticDataModel.ItemsTable) do
         if v.ItemID == synItemID then
-            _needsList = ModelTool:Split(v.SynNeeds)
+            _needsList = ModelTool:SplitStr(v.SynNeeds)
             break
         end
     end
@@ -177,7 +187,7 @@ end
 ]]
 function StaticDataModel:SynItem(itemData)
 
-    local _needsList = ModelTool:Split(itemData.SynNeeds)
+    local _needsList = ModelTool:SplitStr(itemData.SynNeeds)
 
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
     for i = 1, #(_needsList) / 2, 1 do

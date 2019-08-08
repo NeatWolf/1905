@@ -6,8 +6,8 @@ MainSceneCtrl.Panel = nil
 function MainSceneCtrl:Init()
     if MainSceneCtrl.Panel == nil then
         -- 加载预制体
-        self.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "MainScene"), "UI", true):GetComponent("UISubObject")
-        LoadManager:Load(ABManager:LoadAsset("prefeb", "Main Scene"), "Scene", true)
+        self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "MainSceneUI"), "UI", true):GetComponent("UISubObject")
+        LoadManager:Load(ABManager:LoadAsset("prefab", "Main Scene"), "Scene", true)
 
         -- 添加委托
         self.Panel.buttons[0].onClick:AddListener(MainSceneCtrl.ToLottery)

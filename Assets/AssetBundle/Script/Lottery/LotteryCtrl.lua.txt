@@ -4,5 +4,5 @@ LotteryCtrl.Panel = nil
 
 function LotteryCtrl:Init()
     print("进入抽奖")
-    --LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "FabricateSence"), "UI", true)
+    --LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateSence"), "UI", true)
 end

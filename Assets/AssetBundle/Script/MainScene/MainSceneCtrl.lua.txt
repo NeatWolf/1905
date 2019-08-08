@@ -1,10 +1,43 @@
 MainSceneCtrl = {}
 
+-- 主界面上的UISubObject脚本，内含所有UI对象
+MainSceneCtrl.Panel = nil
+
 function MainSceneCtrl:Init()
     print("进入主场景")
     -- 加载预制体
+    self.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "MainScene"), "UI", true):GetComponent("UISubObject")
 
     -- 添加委托
-
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            print("进入抽奖池")
+        end
+    )
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            print("点击头像")
+        end
+    )
+    self.Panel.buttons[2].onClick:AddListener(
+        function()
+            print("进入活动公告")
+        end
+    )
+    self.Panel.buttons[3].onClick:AddListener(
+        function()
+            print("进入角色管理")
+        end
+    )
+    self.Panel.buttons[4].onClick:AddListener(
+        function()
+            print("进入制品手造")
+        end
+    )
+    self.Panel.buttons[5].onClick:AddListener(
+        function()
+            print("进入仓库上架")
+        end
+    )
     -- 刷新金币钻石等数据
 end

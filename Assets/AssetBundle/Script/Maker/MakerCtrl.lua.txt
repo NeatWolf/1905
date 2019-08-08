@@ -1,0 +1,5 @@
+MakerCtrl = {}
+
+function MakerCtrl:Init( )
+    print("进入制品手造")
+end

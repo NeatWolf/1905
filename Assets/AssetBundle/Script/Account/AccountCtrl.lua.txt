@@ -1,0 +1,5 @@
+AccountCtrl = {}
+
+function AccountCtrl:Init( )
+    print("进入账号")
+end

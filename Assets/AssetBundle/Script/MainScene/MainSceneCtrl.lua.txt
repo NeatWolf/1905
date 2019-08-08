@@ -6,7 +6,7 @@ MainSceneCtrl.Panel = nil
 function MainSceneCtrl:Init()
     if MainSceneCtrl.Panel == nil then
         -- 加载预制体
-        self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "MainScene"), "UI", true):GetComponent("UISubObject")
+        self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "MainSceneUI"), "UI", true):GetComponent("UISubObject")
         LoadManager:Load(ABManager:LoadAsset("prefab", "Main Scene"), "Scene", true)
 
         -- 添加委托

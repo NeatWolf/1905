@@ -1,5 +1,8 @@
 LotteryCtrl = {}
+-- 预制体上的UISubObject脚本，内含所有UI对象
+LotteryCtrl.Panel = nil
 
 function LotteryCtrl:Init()
     print("进入抽奖")
+    --LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "FabricateSence"), "UI", true)
 end

@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class ImageAni : EventTrigger, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
-    private DOTweenAnimation ImageAnim;
+    public DOTweenAnimation ImageAnim;
     void Awake()
     {
         //ImageAnim = GetComponent<DOTweenAnimation>();

@@ -21,6 +21,7 @@ function LoadManager:Load(gameObject, parentPath, isLast)
     end
     --改名
     go.name = gameObject.name
+    
     --设置为最前
     if isLast then 
         go.transform:SetAsLastSibling()

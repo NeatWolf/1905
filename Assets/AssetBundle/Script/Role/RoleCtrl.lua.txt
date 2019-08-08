@@ -7,4 +7,109 @@ function RoleCtrl:Init( )
     print("进入角色管理")
     RoleCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "RoleMainScene"), "UI", true)
 
+    
+end
+
+
+
+--[[
+    @desc: 对英雄进行装备操作
+    author:{author}
+    time:2019-08-08 13:38:10
+    --@heroData: 装备信息
+	--@itemData: 英雄信息
+	--@equipWay: 1/-1 穿上/脱下
+    @return: 更改后的新的英雄信息
+]]
+function RoleCtrl:EquipHero(heroData, itemData, equipWay)
+    -- 处理数据：将装备Buff附加给英雄Buff
+    local _hbuff = ModelTool:SplitStr(heroData.ColBuff)
+    local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
+    _hbuff[1] = _hbuff[1] + (_ibuff[3] * equipWay)
+    _hbuff[2] = _hbuff[2] + (_ibuff[4] * equipWay)
+
+    -- 刷新 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 1.进行装备表的操作
+            if equipWay == 1 then
+                PlayerDataModel.PlayerData.Heros[k].Equips = ModelTool:MergeStr(PlayerDataModel.PlayerData.Heros[k].Equips , itemData.ItemID)
+            elseif equipWay == -1 then
+                PlayerDataModel.PlayerData.Heros[k].Equips = ModelTool:RemoveStr(PlayerDataModel.PlayerData.Heros[k].Equips , itemData.ItemID)
+            end
+            -- 2.赋值给英雄
+            v.ColBuff = _hbuff[1] .. "," .. _hbuff[2] .. "," .. _hbuff[3]
+            v.EnergyMax = tostring(v.EnergyMax + _ibuff[1])
+            break
+        end
+    end
+
+    -- 刷新 玩家动态完整数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 1.进行装备表的操作
+            if equipWay == 1 then
+                table.insert( PlayerDataModel.CompletePlayerData.Heros[k].Equips , itemData )
+                --ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[k].Equips)
+                --print(PlayerDataModel.CompletePlayerData.Heros[k].Equips)
+            elseif equipWay == -1 then
+                PlayerDataModel.CompletePlayerData.Heros[k].Equips = ModelTool:RemoveStr(PlayerDataModel.CompletePlayerData.Heros[k].Equips , tostring(itemData))
+            end
+            -- 2.赋值给英雄
+            v.ColBuff = _hbuff[1] .. "," .. _hbuff[2] .. "," .. _hbuff[3]
+            v.EnergyMax = tostring(v.EnergyMax + _ibuff[1])
+
+            -- 返回 刷新传入的信息
+            heroData =  ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
+            return heroData
+
+        end
+    end
+
+end
+
+
+
+-- 投喂英雄
+function RoleCtrl:FeedHero(heroData, itemData)
+    -- 处理数据：将食物Buff附加给英雄Buff
+    local _hbuffT = ModelTool:SplitStr(heroData.ColBuffTem)
+    local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
+    _hbuffT[1] = _hbuffT[1] + _ibuff[3]
+    _hbuffT[2] = _hbuffT[2] + _ibuff[4]
+
+
+    -- 修改 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 赋值给英雄
+            v.ColBuffTem = _hbuffT[1] .. "," .. _hbuffT[2]
+            v.EnergyNow = tostring(v.EnergyNow + _ibuff[2])
+            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
+                v.EnergyNow = v.EnergyMax
+            end
+            break
+        end
+    end
+
+    -- 修改 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 赋值给英雄
+            v.ColBuffTem = _hbuffT[1] .. "," .. _hbuffT[2]
+            v.EnergyNow = tostring(v.EnergyNow + _ibuff[2])
+            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
+                v.EnergyNow = v.EnergyMax
+            end
+            
+            heroData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
+            return heroData
+
+        end
+    end
+    
 end

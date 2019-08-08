@@ -39,7 +39,6 @@ function GameStartManager:Login()
     )
 end
 
-
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
     -- 加载 进度条
@@ -67,7 +66,6 @@ function GameStartManager:LoadingBar()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
 
-
     -- -- 测试排序
     -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
     -- print(PlayerDataModel.CompletePlayerData.Items)
@@ -80,12 +78,16 @@ function GameStartManager:LoadingBar()
     -- ModelTool:SetMeta(newList)
     -- print(newList)
 
+
+
+    -- require("/../AssetBundle/Script/Role/RoleCtrl.lua.txt")
+
     -- -- 测试为英雄穿上装备
     -- local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
     -- ModelTool:SetMeta(heroInfo)
     -- print(heroInfo)
-    -- heroInfo = PlayerDataModel:EquipHero(heroInfo,StaticDataModel.ItemsTable[160],1)
-    -- heroInfo = PlayerDataModel:EquipHero(heroInfo,StaticDataModel.ItemsTable[155],1)
+    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[160],1)
+    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[155],1)
     -- ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
     -- print(PlayerDataModel.PlayerData.Heros[2])
     -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
@@ -101,7 +103,7 @@ function GameStartManager:LoadingBar()
     -- ModelTool:SetMeta(heroInfo)
     -- print(heroInfo)
 
-    -- heroInfo = PlayerDataModel:FeedHero(heroInfo, StaticDataModel.ItemsTable[40])
+    -- heroInfo = RoleCtrl:FeedHero(heroInfo, StaticDataModel.ItemsTable[40])
     -- ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
     -- print(PlayerDataModel.PlayerData.Heros[2])
     -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
@@ -118,7 +120,6 @@ function GameStartManager:LoadingBar()
 
     -- ModelTool:SetMeta(newList)
     -- print(newList)
-
 
     -- 读取主场景脚本，清除GameStartManager占用
     require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")

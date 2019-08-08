@@ -18,10 +18,10 @@ public class MMRView : MonoBehaviour
     {
         uiCam = GameObject.Find("UICamera").GetComponent<Camera>();
         UISubObject subObjs = transform.GetComponent<UISubObject>();
-        BG = subObjs.go[0];
-        MML = subObjs.go[1];
-        MMR = subObjs.go[2];
-        BG.GetComponent<Canvas>().worldCamera = uiCam;
+        // BG = subObjs.go[0];
+        MML = subObjs.go[0];
+        MMR = subObjs.go[1];
+        // BG.GetComponent<Canvas>().worldCamera = uiCam;
         MML.GetComponent<Canvas>().worldCamera = uiCam;
         MMR.GetComponent<Canvas>().worldCamera = uiCam;
 
@@ -32,7 +32,7 @@ public class MMRView : MonoBehaviour
         btn_Warehouse = subObjs.buttons[5];
         btn_Lottery = subObjs.buttons[0];
         btn_AV = subObjs.buttons[1];
-        btn_Explore = subObjs.buttons[6];
+        // btn_Explore = subObjs.buttons[6];
 
     }
 
@@ -76,12 +76,12 @@ public class MMRView : MonoBehaviour
             btnActive_Move();
         });
 
-        btn_Explore.onClick.AddListener(() =>
-        {
-            btn_Explore.transform.DOScale(0.8f, 0.2f);
-            btn_Explore.transform.DOScale(100, 0.8f);
-            btn_Explore.GetComponent<Image>().DOColor(new Color(0, 0, 0, 1), 1);
-        });
+        // btn_Explore.onClick.AddListener(() =>
+        // {
+        //     btn_Explore.transform.DOScale(0.8f, 0.2f);
+        //     btn_Explore.transform.DOScale(100, 0.8f);
+        //     btn_Explore.GetComponent<Image>().DOColor(new Color(0, 0, 0, 1), 1);
+        // });
 
     }
     IEnumerator _ActiveBlack() {

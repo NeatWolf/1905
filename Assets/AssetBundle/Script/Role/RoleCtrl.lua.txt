@@ -1,5 +1,8 @@
 RoleCtrl = {}
 
+-- 预制体上的UISubObject脚本，内含所有UI对象
+RoleCtrl.Panel = nil
+
 function RoleCtrl:Init( )
     print("进入角色管理")
 end

@@ -18,16 +18,18 @@ end
 
 -- 分割字符串
 -- 以参数2(char)分割参数1(string)
-function ModelTool:Split(str, splitChar)    
+function ModelTool:SplitStr(str, charSplit)
     if str == nil then
-        print("string为nil")
+        print("SplitStr：string为nil")
+        return nil
     end
-      
-    splitChar = splitChar or ','
+    
+    charSplit = charSplit or ','
+    
     local finalStrs = {}
 
     while true do
-        local pos = string.find(str, splitChar)
+        local pos = string.find(str, charSplit)
 
         if not pos then
             table.insert(finalStrs, str)
@@ -43,6 +45,54 @@ function ModelTool:Split(str, splitChar)
 
     return finalStrs
 end
+
+-- 合并字符串
+function ModelTool:MergeStr(str,strAdd)
+    if str == nil then
+        print("MergeStr：string为nil")
+        return nil
+    end
+
+    if str == "" then
+        str = strAdd
+    else
+        str = str .. "," .. strAdd
+    end
+
+    return str
+end
+
+-- “xxx,xxx,xxx”格式中去除字符串
+function ModelTool:RemoveStr(str,strRemove,charSplit)
+    if str == nil then
+        print("RemoveStr：string为nil")
+        return nil
+    end
+    
+    charSplit = charSplit or ','
+
+    if str == "" then
+        print("RemoveStr：string为空字符串")
+    else
+        if str == strRemove then
+            str = ""
+        else
+            local _strs = self:SplitStr(str)
+            for k,v in pairs(_strs) do
+                if v == strRemove then
+                    if k == 1 then
+                        str = string.gsub( str , strRemove .. charSplit ,  "" )
+                    else
+                        str = string.gsub( str , charSplit .. strRemove ,  "" )
+                    end
+                end
+            end
+        end
+    end
+
+    return str
+end
+
 
 -- 设置元表
 function ModelTool:SetMeta(table)

@@ -1,5 +1,10 @@
 WarehouseCtrl = {}
 
+-- 预制体上的UISubObject脚本，内含所有UI对象
+WarehouseCtrl.Panel = nil
+
 function WarehouseCtrl:Init()
     print("进入仓库")
+    WarehouseCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "WarehouseScene"), "UI", true)
+
 end

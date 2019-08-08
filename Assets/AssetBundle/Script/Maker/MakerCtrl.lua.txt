@@ -1,5 +1,8 @@
 MakerCtrl = {}
+-- 预制体上的UISubObject脚本，内含所有UI对象
+MakerCtrl.Panel = nil
 
-function MakerCtrl:Init( )
+function MakerCtrl:Init()
     print("进入制品手造")
+    MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefeb", "FabricateSence"), "UI", true)
 end

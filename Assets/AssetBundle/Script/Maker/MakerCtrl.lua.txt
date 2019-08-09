@@ -6,10 +6,13 @@ local Tag1 = "Food"
 local Tag2 = "Prop"
 local Tag3 = "Equipment"
 
+local SortWay1 = "Level"
+local SortWay2 = "Price"
+
 -- 记录筛选条件
 local tag = Tag1
 -- 记录排序条件
-local sortWay = "Level"
+local sortWay = SortWay1
 local changeway = 1
 
 -- 当前选中的道具

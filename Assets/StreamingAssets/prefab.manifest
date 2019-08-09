@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1715058822
+CRC: 2699241852
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fe9190507d3e0d07440386678c686e92
+    Hash: 791097f3001e23eafe4cd58e9118955d
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d974e414e697ee626183c1a00279a0f4
+    Hash: 76a9ca2268723f3f7e4f8677affe8c36
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -38,6 +38,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
@@ -52,8 +54,6 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
@@ -62,20 +62,22 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 114
-  Script: {fileID: 40306178, guid: aa0b1eebb5db27a419fa4564bbe5c9c5, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 7a04c59d123fbc2449e1c794e607494c, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 4d0390bd8b8ffd640b34fe25065ff1df, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7245fcc16d8d0ee40a176682285487a4, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
   Script: {instanceID: 0}
 - Class: 212
   Script: {instanceID: 0}
@@ -89,14 +91,12 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/AssetBundle/Prefab/UI/Warehouse/WarehouseUI.prefab
-- Assets/AssetBundle/Prefab/UI/Test/Button.prefab
 - Assets/AssetBundle/Prefab/UI/ButtonAnimModel/ButtonAnimatorModel.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/P_MM_Temp.prefab
 - Assets/AssetBundle/Prefab/UI/Login/OpenGame.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/Main Scene.prefab
 - Assets/AssetBundle/Prefab/UI/Fabricate/FabricateUI.prefab
 - Assets/AssetBundle/Prefab/UI/Login/LoginTest.prefab
-- Assets/AssetBundle/Prefab/UI/Warehouse/WarehouseScene.prefab
 - Assets/AssetBundle/Prefab/UI/Entrepot/EntrepotUI.prefab
 - Assets/AssetBundle/Prefab/UI/Test/LoadingProcess.prefab
 - Assets/AssetBundle/Prefab/UI/Active/P_Active.prefab

@@ -1,0 +1,21 @@
+ManifestFileVersion: 0
+CRC: 2568075998
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: json
+      Dependencies: {}
+    Info_1:
+      Name: script
+      Dependencies: {}
+    Info_2:
+      Name: texture
+      Dependencies: {}
+    Info_3:
+      Name: prefab
+      Dependencies:
+        Dependency_0: texture
+        Dependency_1: shader
+    Info_4:
+      Name: shader
+      Dependencies: {}

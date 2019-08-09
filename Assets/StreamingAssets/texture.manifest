@@ -1,0 +1,184 @@
+ManifestFileVersion: 0
+CRC: 535554235
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c5ec350eeba5116d097e4b3d5310d764
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 99504e14330b5f996d4763976081255f
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/AssetBundle/Texture/Main Interface/house_right3/shop_peng.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left2/back.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/stair.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/table.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/window_down.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left1/window_side.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/ad.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/stair_langan.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/front_down.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/air_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/health_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/table.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/top.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/health_front.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/top.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/stairs.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_in.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/air_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/front.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/back.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_top.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/shop_table.png
+- Assets/AssetBundle/Texture/Main Interface/bg/Plane.mat
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/down.png
+- Assets/AssetBundle/Texture/Main Interface/house_left2/ad.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/side.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/health_front.png
+- Assets/AssetBundle/Texture/Main Interface/house_left2/peng_side.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/down.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/ramp.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left1/window_up.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/in.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/stairs.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/in.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/ad_word.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left1/langan.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/da_down.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/back.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/shop_in.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/ad_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/ramp.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/table.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/front_up.png
+- Assets/AssetBundle/Texture/UI/Main Interface/bg/Plane.mat
+- Assets/AssetBundle/Texture/Role/Test.jpg
+- Assets/AssetBundle/Texture/Main Interface/house_left1/window_front.png
+- Assets/AssetBundle/Texture/UI/LoadingBar.tif
+- Assets/AssetBundle/Texture/Main Interface/house_right1/front.png
+- Assets/AssetBundle/Texture/Main Interface/house_left1/back.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/front_down.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/window_down.png
+- Assets/AssetBundle/Texture/UI/Login/white_frame.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/front_up.png
+- Assets/AssetBundle/Texture/UI/Login/bg_login.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/ramp.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/ad_word.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/ramp.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left1/back.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/window_up.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/air_side.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/in.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/stairs_side.png
+- Assets/AssetBundle/Texture/Main Interface/house_left1/langan.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/stair_down.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/front_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/front_uo.png
+- Assets/AssetBundle/Texture/UI/Login/login_frame.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/back.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/stair_other.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/peng_side.png
+- Assets/AssetBundle/Texture/Main Interface/house_left2/peng_down.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/da_down.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/back.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_out.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/front_up.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/stairs_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/bg/Main_CityBG.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/window_up.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/ad_front.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/down.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/ad_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left2/peng_down.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/health_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/side.png
+- Assets/AssetBundle/Texture/Main Interface/bg/Main_BG.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/front_up.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/ad_word.png
+- Assets/AssetBundle/Texture/Main Interface/house_left1/roll.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/ad_front.png
+- Assets/AssetBundle/Texture/Main Interface/house_left1/window_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/stair_other.png
+- Assets/AssetBundle/Texture/Main Interface/house_left2/back.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/SPA.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/peng_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/health_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/front_down.png
+- Assets/AssetBundle/Texture/Main Interface/house_left1/window_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/peng.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_wall.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/front_down.png
+- "Assets/AssetBundle/Texture/UI/Login/\xA9CyberDataCompany.png"
+- Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/down.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/air_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_table.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/peng.png
+- Assets/AssetBundle/Texture/Main Interface/house_left1/window_up.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/stair_langan_side.png
+- Assets/AssetBundle/Texture/UI/Test.jpg
+- Assets/AssetBundle/Texture/Main Interface/house_right3/shop_wall.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/stair_stage.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left1/window_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left1/roll.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/back.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/peng_down.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/top.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/back.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/health_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left1/window_front.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right2/ad_word.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left2/peng_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/front_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/stair_stage.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/stair.png
+- Assets/AssetBundle/Texture/Main Interface/house_right1/yancong.png
+- Assets/AssetBundle/Texture/UI/Main Interface/bg/Main_BG.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/in.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/stair_langan_side.png
+- Assets/AssetBundle/Texture/UI/Login/CODE_CYBER.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/in.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/ramp.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/in.png
+- Assets/AssetBundle/Texture/Main Interface/house_right2/back.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/side.png
+- Assets/AssetBundle/Texture/UI/Login/role.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/stair_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/back.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/shop_out.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/stair_langan.png
+- Assets/AssetBundle/Texture/Main Interface/gacah_red/table.png
+- Assets/AssetBundle/Texture/Main Interface/bg/Main_CityBG.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/peng_side.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left2/ad.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/ad.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/shop_top.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/table.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/table.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/top.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_left3/stair_down.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/front_uo.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_peng.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/top.png
+- Assets/AssetBundle/Texture/Main Interface/house_left3/stair_down.png
+- Assets/AssetBundle/Texture/UI/Main Interface/house_right1/yancong.png
+- Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/side.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_yellow/top.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/front.png
+- Assets/AssetBundle/Texture/Main Interface/gacha_blue/ramp.png
+- Assets/AssetBundle/Texture/Main Interface/house_right3/SPA.png
+Dependencies: []

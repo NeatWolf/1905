@@ -43,10 +43,12 @@ public class Luax
     //自定义加载器
     byte[] myLoder(ref string name)
     {
-        string path = Application.dataPath + "/Script/" + name;
+        string path = Application.persistentDataPath + "/assets/" + name;
         if (!File.Exists(path))
-            //*用Lua 的 AB包管理器从Assets中读取Scripts包中的对应脚本
+        {       //*用Lua 的 AB包管理器从Assets中读取Scripts包中的对应脚本
+            Debug.Log("不存在");
             return null;
+        }
         return File.ReadAllBytes(path);
     }
 

@@ -7,7 +7,44 @@ function RoleCtrl:Init( )
     print("进入角色管理")
     RoleCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "RoleMainScene"), "UI", true)
 
+
+    -- -- 测试为英雄穿上装备
+    -- local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
+    -- ModelTool:SetMeta(heroInfo)
+    -- print(heroInfo)
+    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[160],1)
+    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[155],1)
+    -- ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
+    -- print(PlayerDataModel.PlayerData.Heros[2])
+    -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
+    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
+    -- ModelTool:SetMeta(heroInfo)
+    -- print(heroInfo)
+    -- heroInfo.Equips = nil
+    -- print(heroInfo)
+    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
+
+    -- 测试投喂英雄
+    local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
+    ModelTool:SetMeta(heroInfo)
+    print(heroInfo)
+
+    heroInfo = RoleCtrl:FeedHero(heroInfo, StaticDataModel.ItemsTable[40])
+    ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
+    print(PlayerDataModel.PlayerData.Heros[2])
+    ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
+    print(PlayerDataModel.CompletePlayerData.Heros[2])
+    ModelTool:SetMeta(heroInfo)
+    print(heroInfo)
+    heroInfo.ColBuffTem = nil
+    print(heroInfo)
+    print(PlayerDataModel.CompletePlayerData.Heros[2])
+
+
+
+
     
+
 end
 
 

@@ -27,7 +27,7 @@ function MainSceneCtrl:ToLottery()
     CutToCtrl:CutTo(
         0.5,
         function()
-            LotteryCtrl.Init()
+            LotteryCtrl:Init()
             MainSceneCtrl.Panel.gameObject:SetActive(false)
         end
     )
@@ -38,7 +38,7 @@ function MainSceneCtrl:ToAccount()
     CutToCtrl:CutTo(
         0.5,
         function()
-            AccountCtrl.Init()
+            AccountCtrl:Init()
             MainSceneCtrl.Panel.gameObject:SetActive(false)
         end
     )
@@ -49,7 +49,7 @@ function MainSceneCtrl:ToActivity()
     CutToCtrl:CutTo(
         0.5,
         function()
-            ActivityCtrl.Init()
+            ActivityCtrl:Init()
             MainSceneCtrl.Panel.gameObject:SetActive(false)
         end
     )
@@ -60,7 +60,7 @@ function MainSceneCtrl:ToRole()
     CutToCtrl:CutTo(
         0.5,
         function()
-            RoleCtrl.Init()
+            RoleCtrl:Init()
             MainSceneCtrl.Panel.gameObject:SetActive(false)
         end
     )
@@ -71,7 +71,7 @@ function MainSceneCtrl:ToMaker()
     CutToCtrl:CutTo(
         0.5,
         function()
-            MakerCtrl.Init()
+            MakerCtrl:Init()
             MainSceneCtrl.Panel.gameObject:SetActive(false)
         end
     )
@@ -82,7 +82,7 @@ function MainSceneCtrl:ToWarehouse()
     CutToCtrl:CutTo(
         0.5,
         function()
-            WarehouseCtrl.Init()
+            WarehouseCtrl:Init()
             MainSceneCtrl.Panel.gameObject:SetActive(false)
         end
     )

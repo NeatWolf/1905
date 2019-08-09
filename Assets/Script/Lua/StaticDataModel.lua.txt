@@ -118,115 +118,40 @@ end
 
 
 
-
--- 判断此道具目前是否可合成
--- 参数1(string)：需要进行判断的合成物ID
-local function CheckCouldSyn(synItemID)
-    -- 最终结果
-    local result = false
-
-    -- 遍历静态策划表，获取此装备合成所需的道具列表
-    local _needsList = nil
-    for _, v in pairs(StaticDataModel.ItemsTable) do
-        if v.ItemID == synItemID then
-            _needsList = ModelTool:SplitStr(v.SynNeeds)
-            break
-        end
-    end
-
-    if _needsList == nil then
-        print("_needsList为空，未得到合成此道具所需的物品")
-        return
-    end
-
-    -- 匹配数 满足一个条件+1
-    local rightCount = 0
-    -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
-    for i = 1, #(_needsList) / 2, 1 do
-        -- 遍历玩家目前的所有道具
-        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
-            -- 如果ID匹配，且数量满足
-            if v.ItemID == _needsList[2 * i - 1] and tonumber(v.Count) >= tonumber(_needsList[2 * i]) then
-                -- 匹配数+1
-                rightCount = rightCount + 1
-            end
-        end
-    end
-
-    -- print("rightCount:" .. rightCount)
-    -- 匹配数满足，则true
-    if rightCount == #(_needsList) / 2 then
-        result = true
-    end
-
-    return result
-end
-
-
 --[[
-    @desc: 检查所有道具，修改它的属性（是否可以合成）
+    @desc: 道具排序
     author:{author}
-    time:2019-08-07 20:56:57
-    --@items: 筛选过后 当前所有所需显示的道具表
+    time:2019-08-08 20:03:25
+    --@items: 道具列表
+	--@key1: 第一层排序的key（"CouldSyn" / "Type"）
+	--@value1: 第一层排序的value 需要放在前面的值（"true" / "1"）
+	--@key2: 第二层排序的key（"Level" / "Price"）
+	--@changeWay: 第二层排序的升序降序（ 1 / -1 ）
+    @return:
 ]]
-function StaticDataModel:CheckAllSyn(items)
-    for k,v in pairs(items) do
-        items[k].CouldSyn = tostring(CheckCouldSyn(v.ItemID))
-    end
-end
-
-
-
---[[
-    @desc: 合成新的道具，扣除相应所需道具
-    author:{author}
-    time:2019-08-07 20:01:37
-    --@itemData: 需要合成的道具信息
-]]
-function StaticDataModel:SynItem(itemData)
-
-    local _needsList = ModelTool:SplitStr(itemData.SynNeeds)
-
-    -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
-    for i = 1, #(_needsList) / 2, 1 do
-
-        -- 遍历玩家目前的所有道具
-        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
-            -- 扣除玩家表里相应的道具
-            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
-            -- 如果道具数量为0，则去除此道具
-            if v.Count == "0" then
-                PlayerDataModel.playerData.Items[k] = nil
-            end
-        end
-
-        for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
-            -- 扣除玩家表里相应的道具
-            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
-            -- 如果道具数量为0，则去除此道具
-            if v.Count == "0" then
-                PlayerDataModel.CompletePlayerData.Items[k] = nil
-            end
-        end
-    end
-
-end
-
-
-
--- 道具排序
--- key：要排序的key "Level"(等级品质)/"Price"(出售的价格)
--- changeWay：1 / -1
-function StaticDataModel:SortItems(items, key, changeWay)
+function StaticDataModel:SortItems(items, key1,value1, key2,changeWay)
     for i = 1, #items do
         for j = 1, #items - i do
-            local res = (tonumber(items[j][key]) - tonumber(items[j + 1][key])) * changeWay
-            if res > 0 then
+            -- 第一层排序
+            if items[j][key1] ~= value1 and items[j+1][key1] == value1 then
+                -- print(items[j][key1] .. " " .. items[j+1][key1])
+                -- print("change")
+                items[j], items[j + 1] = items[j + 1], items[j]
+            -- 第二层排序
+            elseif items[j][key1] == items[j+1][key1] and ( (tonumber(items[j][key2]) - tonumber(items[j + 1][key2])) * changeWay ) > 0 then
+                -- print((items[j][key2]) .. " " .. (items[j + 1][key2]))
+                -- print("change")
+                items[j], items[j + 1] = items[j + 1], items[j]
+            -- 第三层排序
+            elseif ( (tonumber(items[j][key2]) - tonumber(items[j + 1][key2])) * changeWay ) == 0 and ( tonumber(items[j].ItemID) - tonumber(items[j + 1].ItemID) ) > 0 then
+                -- print(items[j].ItemID .. " " .. items[j+1].ItemID)
+                -- print("change")
                 items[j], items[j + 1] = items[j + 1], items[j]
             end
         end
     end
 end
+
 
 
 --[[
@@ -238,14 +163,30 @@ end
 	--@value: string：要筛选的value
     @return:table：只包含指定key value的新table
 ]]
-function StaticDataModel:ScreenItem(items, key, value)
+-- function StaticDataModel:ScreenItem(items, key, value)
+--     local newTable = {}
+--     local count = 1
+--     for k,v in pairs(items) do
+--         if v[key] == value then
+--             newTable[count] = v
+--             count = count + 1
+--         end
+--     end
+--     return newTable
+-- end
+
+
+function StaticDataModel:ScreenItem(items, key, index, ... )
     local newTable = {}
-    local count = 1
     for k,v in pairs(items) do
-        if v[key] == value then
-            newTable[count] = v
-            count = count + 1
+        local _strs = ModelTool:SplitStr(v[key])
+        for i=1,select("#",...) do
+            if _strs[index] == select(i, ...) then
+                table.insert(newTable,v)
+            end
         end
     end
     return newTable
 end
+
+

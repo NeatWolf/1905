@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class MainMenuAnimation : MonoBehaviour
 {
     Button btn_Active, btn_RoleMan, btn_Fabricate,
-        btn_Warehouse, btn_Lottery, btn_Explore, btn_AV;
+        btn_Warehouse, btn_Lottery,  btn_AV;
 
     Camera uiCam;
     GameObject BG, MML, MMR;
@@ -32,7 +32,7 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Warehouse = subObjs.buttons[5];
         btn_Lottery = subObjs.buttons[0];
         btn_AV = subObjs.buttons[1];
-        btn_Explore = subObjs.buttons[6];
+        
 
     }
 
@@ -76,12 +76,13 @@ public class MainMenuAnimation : MonoBehaviour
             btnActive_Move();
         });
 
-        btn_Explore.onClick.AddListener(() =>
-        {
-            btn_Explore.transform.DOScale(0.8f, 0.2f);
-            btn_Explore.transform.DOScale(100, 0.8f);
-            btn_Explore.GetComponent<Image>().DOColor(new Color(0, 0, 0, 1), 1);
-        });
+        //探索按钮
+        //btn_Explore.onClick.AddListener(() =>
+        //{
+        //    btn_Explore.transform.DOScale(0.8f, 0.2f);
+        //    btn_Explore.transform.DOScale(100, 0.8f);
+        //    btn_Explore.GetComponent<Image>().DOColor(new Color(0, 0, 0, 1), 1);
+        //});
 
     }
     IEnumerator _ActiveBlack() {

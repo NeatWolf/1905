@@ -23,6 +23,7 @@ function MainSceneCtrl:Init()
 end
 
 function MainSceneCtrl:ToLottery()
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
     require("/../AssetBundle/Script/Lottery/LotteryCtrl.lua.txt")
     CutToCtrl:CutTo(
         0.5,

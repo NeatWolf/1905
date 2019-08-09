@@ -1,27 +1,5 @@
 GameStartManager = {}
 
--- 加载启动图
-function GameStartManager:LoadImage()
-    local image = LoadManager:Load(ABManager:LoadAsset("prefab", "OpenGame"), "UI", true)
-    CutToCtrl:BlackMaskAni(
-        0,
-        0.5,
-        function()
-            Core.timer = 2 -- 2秒后调用黑遮罩淡入
-            Core.timerEvent = function()
-                CutToCtrl:CutTo(
-                    0.5,
-                    function()
-                        CS.UnityEngine.Object.Destroy(image.gameObject)
-                        GameStartManager:Login()
-                        CutToCtrl:BlackMaskAni(0, 0.5)
-                    end
-                )
-            end
-        end
-    )
-end
-
 -- 加载登录系统
 function GameStartManager:Login()
     local subObj = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
@@ -32,7 +10,7 @@ function GameStartManager:Login()
                 0.5,
                 function()
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
-                    self.LoadingBar()
+                    GameStartManager:LoadingBar()
                 end
             )
         end
@@ -68,8 +46,8 @@ function GameStartManager:LoadingBar()
     PlayerDataModel:ReadOut()
 
     -- 读取主场景脚本，清除GameStartManager占用
-    require("/../AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt")
+    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
     GameStartManager = nil
 end
 
-GameStartManager:LoadImage()
+CutToCtrl:BlackMaskAni(0, 0.5, GameStartManager.Login)

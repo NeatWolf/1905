@@ -51,4 +51,4 @@ function GameStartManager:LoadingBar()
     GameStartManager = nil
 end
 
-CutToCtrl:BlackMaskAni(0, 0.5, GameStartManager.Login)
+CutToCtrl:CutTo(1, GameStartManager.Login)

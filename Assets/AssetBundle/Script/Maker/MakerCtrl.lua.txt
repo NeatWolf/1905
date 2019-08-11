@@ -21,7 +21,7 @@ local itemChoice = nil
 
 function MakerCtrl:Init()
     print("进入制品手造")
-    MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateSence"), "UI", true)
+    MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true)
 
     self:ShowItems()
 

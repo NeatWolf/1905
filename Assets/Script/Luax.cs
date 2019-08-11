@@ -47,6 +47,7 @@ public class Luax
         {
             if (File.Exists(MyConfig.LuaPaths[i] + name))
             {
+                //Debug.Log("加载脚本"+MyConfig.LuaPaths[i] + name);
                 return File.ReadAllBytes(MyConfig.LuaPaths[i] + name);
             }
         }

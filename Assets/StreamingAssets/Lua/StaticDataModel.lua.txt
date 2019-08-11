@@ -123,21 +123,21 @@ end
 	--@changeWay: 第二层排序的升序降序（ 1 / -1 ）
     @return:
 ]]
-function StaticDataModel:SortItems(items, key1, value1, key2, changeWay)
+function StaticDataModel:SortItems(items, key1,value1, key2,changeWay)
     for i = 1, #items do
         for j = 1, #items - i do
             -- 第一层排序
-            if items[j][key1] ~= value1 and items[j + 1][key1] == value1 then
-                -- 第二层排序
+            if items[j][key1] ~= value1 and items[j+1][key1] == value1 then
                 -- print(items[j][key1] .. " " .. items[j+1][key1])
                 -- print("change")
                 items[j], items[j + 1] = items[j + 1], items[j]
-            elseif items[j][key1] == items[j + 1][key1] and ((tonumber(items[j][key2]) - tonumber(items[j + 1][key2])) * changeWay) > 0 then
-                -- 第三层排序
+            -- 第二层排序
+            elseif items[j][key1] == items[j+1][key1] and ( (tonumber(items[j][key2]) - tonumber(items[j + 1][key2])) * changeWay ) > 0 then
                 -- print((items[j][key2]) .. " " .. (items[j + 1][key2]))
                 -- print("change")
                 items[j], items[j + 1] = items[j + 1], items[j]
-            elseif ((tonumber(items[j][key2]) - tonumber(items[j + 1][key2])) * changeWay) == 0 and (tonumber(items[j].ItemID) - tonumber(items[j + 1].ItemID)) > 0 then
+            -- 第三层排序
+            elseif ( (tonumber(items[j][key2]) - tonumber(items[j + 1][key2])) * changeWay ) == 0 and ( tonumber(items[j].ItemID) - tonumber(items[j + 1].ItemID) ) > 0 then
                 -- print(items[j].ItemID .. " " .. items[j+1].ItemID)
                 -- print("change")
                 items[j], items[j + 1] = items[j + 1], items[j]
@@ -179,3 +179,5 @@ function StaticDataModel:ScreenItem(items, key, index, ...)
     end
     return newTable
 end
+
+

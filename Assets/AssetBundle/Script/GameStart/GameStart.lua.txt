@@ -10,6 +10,7 @@ function GameStartManager:Login()
                 0.5,
                 function()
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
+                    print("登录")
                     GameStartManager:LoadingBar()
                 end
             )
@@ -20,9 +21,9 @@ end
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
     -- 加载 进度条
-    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoadingProcess"), "UI", true)
-    barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent("Image")
-    Core.countDown = 2
+    local LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoadingProcess"), "UI", true):GetComponent("UISubObject")
+    local barImage = LoadingPanel.images[0]
+    Core.countDown = 0.5
     local time = Core.countDown
     Core.cdEvent = function()
         barImage.fillAmount = 1 - Core.countDown / time
@@ -40,60 +41,10 @@ function GameStartManager:LoadingBar()
         end
     end
 
+    -- 加载 静态数据策划表
     StaticDataModel:ReadOut()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
-
-    -- -- 测试排序
-    -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Items)
-    -- print(PlayerDataModel.CompletePlayerData.Items)
-    -- StaticDataModel:SortItems(PlayerDataModel.CompletePlayerData.Items, "Level", 1)
-    -- print(PlayerDataModel.CompletePlayerData.Items)
-
-    -- -- 测试筛选+是否可以合成
-    -- local newList = StaticDataModel:ScreenItem(StaticDataModel.ItemsTable, "Type", "2")
-    -- StaticDataModel:CheckAllSyn(newList)
-    -- ModelTool:SetMeta(newList)
-    -- print(newList)
-
-    -- require("/../AssetBundle/Script/Role/RoleCtrl.lua.txt")
-
-    -- -- 测试为英雄穿上装备
-    -- local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[160],1)
-    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[155],1)
-    -- ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
-    -- print(PlayerDataModel.PlayerData.Heros[2])
-    -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-    -- heroInfo.Equips = nil
-    -- print(heroInfo)
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
-
-    -- -- 测试投喂英雄
-    -- local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-
-    -- heroInfo = RoleCtrl:FeedHero(heroInfo, StaticDataModel.ItemsTable[40])
-    -- ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
-    -- print(PlayerDataModel.PlayerData.Heros[2])
-    -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-    -- heroInfo.ColBuffTem = nil
-    -- print(heroInfo)
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
-
-    -- StaticDataModel:CheckAllSyn(newList)
-
-    -- ModelTool:SetMeta(newList)
-    -- print(newList)
 
     -- 读取主场景脚本，清除GameStartManager占用
     CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)

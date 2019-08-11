@@ -173,4 +173,7 @@ public class Core : MonoBehaviour
         File.WriteAllText(readPath + "/Config.txt", config);
         Debug.Log("配置文件：" + readPath + "/Config.txt");
     }
+
+
+
 }

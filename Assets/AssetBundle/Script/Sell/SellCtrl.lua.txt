@@ -6,4 +6,10 @@
 ]]
 SellCtrl = {}
 
-print("进入出售")
+SellCtrl.Panel = nil
+
+function SellCtrl:Init()
+    print("进入出售")
+
+end
+

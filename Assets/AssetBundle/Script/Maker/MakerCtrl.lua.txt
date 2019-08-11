@@ -2,7 +2,205 @@ MakerCtrl = {}
 -- 预制体上的UISubObject脚本，内含所有UI对象
 MakerCtrl.Panel = nil
 
+local Tag1 = "Food"
+local Tag2 = "Prop"
+local Tag3 = "Equipment"
+
+local SortWay1 = "Level"
+local SortWay2 = "Price"
+
+-- 记录筛选条件
+local tag = Tag1
+-- 记录排序条件
+local sortWay = SortWay1
+local changeway = 1
+
+-- 当前选中的道具
+local itemChoice = nil
+
+
 function MakerCtrl:Init()
     print("进入制品手造")
     MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateSence"), "UI", true)
+
+    self:ShowItems()
+
+    tag = Tag2
+    self:ShowHeros()
+
+
+
+
+end
+
+
+function MakerCtrl:ShowHeros()
+    local _herosList = {}
+    if tag == Tag1 then
+        _herosList = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Heros,"InsBuff",1,"2")
+    elseif tag == Tag2 then
+        _herosList = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Heros,"InsBuff",1,"3")
+    elseif tag == Tag3 then
+        _herosList = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Heros,"InsBuff",1,"4","5","6","7","8","9")
+    end
+
+
+    for k,v in pairs(_herosList) do
+        print(_herosList[k].InsBuff)
+    end
+    
+
+end
+
+
+
+
+
+-- 依序显示当前条件下的所有道具
+function MakerCtrl:ShowItems()
+    local items = {}
+    if tag == Tag1 then
+        items = StaticDataModel:ScreenItem(StaticDataModel.ItemsTable, "Type", 1, "2")
+    elseif tag == Tag2 then
+        items = StaticDataModel:ScreenItem(StaticDataModel.ItemsTable, "Type", 1, "3")
+    elseif tag == Tag3 then
+        items = StaticDataModel:ScreenItem(StaticDataModel.ItemsTable, "Type", 1, "4")
+    end
+
+    -- 筛选出可合成的道具
+    self:CheckAllSyn(items)
+    StaticDataModel:SortItems(items, "CouldSyn", "true", sortWay, changeway)
+    itemChoice = nil
+
+    -- 已经排好序的道具列表
+    --ModelTool:SetMeta(items)
+    --print(items)
+
+    itemChoice = items[1]
+    self:ShowSynNeeds()
+
+end
+
+-- 选中某道具
+function MakerCtrl:ShowSynNeeds()
+    local _needsList = {}
+    local _needsCount = {}
+    local _needsTexture = {}
+
+    -- 获取合成所需(id,count,id,count,...)
+    for k,v in pairs(StaticDataModel.ItemsTable) do
+        if v.ItemID == itemChoice.ItemID then
+            _needsList = v.SynNeeds
+            _needsList = ModelTool:SplitStr(_needsList)
+            break
+        end
+    end
+    
+
+    for i = 1, #(_needsList) / 2, 1 do
+        -- 遍历玩家目前的所有道具
+        for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+            -- 如果ID匹配
+            if v.ItemID == _needsList[2 * i - 1] then
+                -- 获取数量
+                _needsCount[i] = v.Count
+                -- 获取图片
+                _needsTexture[i] = v.TexturePath
+            end
+        end
+    end
+
+end
+
+
+
+-- 判断此道具目前是否可合成
+-- 参数1(string)：需要进行判断的合成物ID
+local function CheckCouldSyn(synItemID)
+    -- 最终结果
+    local result = false
+
+    -- 遍历静态策划表，获取此装备合成所需的道具列表
+    local _needsList = nil
+    for _, v in pairs(StaticDataModel.ItemsTable) do
+        if v.ItemID == synItemID then
+            _needsList = ModelTool:SplitStr(v.SynNeeds)
+            break
+        end
+    end
+
+    if _needsList == nil then
+        print("_needsList为空，未得到合成此道具所需的物品")
+        return
+    end
+
+    -- 匹配数 满足一个条件+1
+    local rightCount = 0
+    -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
+    for i = 1, #(_needsList) / 2, 1 do
+        -- 遍历玩家目前的所有道具
+        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
+            -- 如果ID匹配，且数量满足
+            if v.ItemID == _needsList[2 * i - 1] and tonumber(v.Count) >= tonumber(_needsList[2 * i]) then
+                -- 匹配数+1
+                rightCount = rightCount + 1
+            end
+        end
+    end
+
+    -- print("rightCount:" .. rightCount)
+    -- 匹配数满足，则true
+    if rightCount == #(_needsList) / 2 then
+        result = true
+    end
+
+    return result
+end
+
+
+
+--[[
+    @desc: 检查所有道具，修改它的属性（是否可以合成）
+    author:{author}
+    time:2019-08-07 20:56:57
+    --@items: 筛选过后 当前所有所需显示的道具表
+]]
+function MakerCtrl:CheckAllSyn(items)
+    for k, v in pairs(items) do
+        items[k].CouldSyn = tostring(CheckCouldSyn(v.ItemID))
+    end
+end
+
+
+
+--[[
+    @desc: 合成新的道具，扣除相应所需道具
+    author:{author}
+    time:2019-08-07 20:01:37
+    --@itemData: 需要合成的道具信息
+]]
+function MakerCtrl:SynItem(itemData)
+    local _needsList = ModelTool:SplitStr(itemData.SynNeeds)
+
+    -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
+    for i = 1, #(_needsList) / 2, 1 do
+        -- 遍历玩家目前的所有道具
+        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
+            -- 扣除玩家表里相应的道具
+            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
+            -- 如果道具数量为0，则去除此道具
+            if v.Count == "0" then
+                PlayerDataModel.playerData.Items[k] = nil
+            end
+        end
+
+        for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+            -- 扣除玩家表里相应的道具
+            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
+            -- 如果道具数量为0，则去除此道具
+            if v.Count == "0" then
+                PlayerDataModel.CompletePlayerData.Items[k] = nil
+            end
+        end
+    end
 end

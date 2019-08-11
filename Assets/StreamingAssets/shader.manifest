@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 943578043
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e996d6005e5f4298f3ecf5f58b713bdf
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6872b87c561f08cfccb851e91fe48bfa
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 109
+  Script: {instanceID: 0}
+Assets:
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface-Mobile.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMPro_Properties.cginc
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Custom-Atlas.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Masking.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_Bitmap-Mobile.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF Overlay.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMPro_Surface.cginc
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile Overlay.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_Bitmap.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMPro.cginc
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF-Mobile.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_Sprite.shader
+- Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF-Surface.shader
+Dependencies: []

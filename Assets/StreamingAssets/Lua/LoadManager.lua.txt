@@ -23,8 +23,11 @@ function LoadManager:Load(gameObject, parent, isLast)
         end
         go = CS.UnityEngine.Object.Instantiate(gameObject,parentObj)
     elseif parent ~= nil then
+        -- print("parent为object")
         go = CS.UnityEngine.Object.Instantiate(gameObject,parent)
     else
+        
+        -- print("parent为nil")
         go = CS.UnityEngine.Object.Instantiate(gameObject)
     end
     

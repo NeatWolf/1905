@@ -23,11 +23,31 @@ MakerCtrl.ItemChoice = nil
 
 function MakerCtrl:Init()
     print("进入制品手造")
-    MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
+    self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
     self:ShowItems()
+
+    self.Panel.toggles[1].onValueChanged:AddListener( function(isTrue) self:changeTag(isTrue) end)
+    self.Panel.toggles[2].onValueChanged:AddListener( function()
+        if self.Panel.toggles[1].isOn == true then
+            self.Tag = Tag2
+        end
+        self:ShowItems()
+    end)
+    self.Panel.toggles[3].onValueChanged:AddListener( function()
+        if self.Panel.toggles[1].isOn == true then
+            self.Tag = Tag3
+        end
+        self:ShowItems()
+    end)
 
 end
 
+ function MakerCtrl:changeTag(isTrue)
+    if isTrue == true then
+        self.Tag = Tag1
+    end
+    self:ShowItems()
+end
 
 function MakerCtrl:ShowHeros()
     local _herosList = {}
@@ -93,17 +113,24 @@ function MakerCtrl:ShowItems()
 
     -- end
 
-    -- for k , v in pairs(items) do
-    --     local RightContent = CS.UnityEngine.GameObject:Find("Fabricate_Right/BG_List/FabricateList_Scroll/Viewport/Content")
-    --     local go = ABManager:LoadAsset("prefab", "Button")
+    for k , v in pairs(items) do
+        local RightContent = CS.UnityEngine.GameObject.Find("Fabricate_Right/BG_List/FabricateList_Scroll/Viewport/Content")
+        local go = ABManager:LoadAsset("prefab", "Button")
+        self.RightItems[k] = LoadManager:Load(go,RightContent.transform,true)
 
-    --     self.RightItems[k] = LoadManager:Load(go,RightContent,true)
+        self.RightItems[k]:GetComponent("Button").onClick:AddListener(function()
+            self.ItemChoice = v
+            ModelTool:SetMeta(self.ItemChoice)
+            print(self.ItemChoice)
+            self:ShowSynNeeds()
+        end
+        )
+        -- 显示图片
+        self.RightItems[k]:GetComponent("Image").sprite = ABManager:LoadAsset("texture", "Test")
 
-    --     self.RightItems[k]:GetComponent("Image").sprite = ABManager:LoadAsset("texture", "Test")
+        self.RightItems[k].transform:Find("Text"):GetComponent("Text").text = ""
 
-    --     self.RightItems[k].transform:Find("Text"):GetComponent("Text").text = ""
-
-    -- end
+    end
 
 
     self.ItemChoice = items[1]
@@ -114,8 +141,6 @@ end
 -- 选中某道具
 function MakerCtrl:ShowSynNeeds()
     local _needsList = {}
-    local _needsCount = {}
-    local _needsTexture = {}
 
     -- 获取合成所需(id,count,id,count,...)
     for k,v in pairs(StaticDataModel.ItemsTable) do
@@ -125,18 +150,32 @@ function MakerCtrl:ShowSynNeeds()
             break
         end
     end
-    
 
-    for i = 1, #(_needsList) / 2, 1 do
-        -- 遍历玩家目前的所有道具
-        for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
-            -- 如果ID匹配
-            if v.ItemID == _needsList[2 * i - 1] then
-                -- 获取数量
-                _needsCount[i] = v.Count
-                -- 获取图片
-                _needsTexture[i] = v.TexturePath
+    print(_needsList[2] .. _needsList[4])
+    for i = 1, 3, 1 do
+        if _needsList[2 * i - 1] ~= nil then
+            -- 遍历玩家目前的所有道具
+            for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+                -- 如果ID匹配
+                if v.ItemID == _needsList[2 * i - 1] then
+                    -- 显示数量
+                    print(_needsList[2*i])
+                    self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = _needsList[2*i] .. "/" .. v.Count
+                    if tonumber(v.Count) >= tonumber(_needsList[2*i]) then
+                        -- 显示图片
+                        -- v.TexturePath
+                    else
+                        -- 显示图片
+                        -- v.TexturePath
+                    end
+                    break
+                -- 如果ID没有匹配到
+                elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
+                    self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = _needsList[2*i] .. "/0"
+                end
             end
+        else
+            self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = ""
         end
     end
 

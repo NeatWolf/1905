@@ -46,7 +46,10 @@ function GameStartManager:LoadingBar()
     PlayerDataModel:ReadOut()
 
     -- 读取主场景脚本，清除GameStartManager占用
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
+    -- 调试用
     require("MainScene/MainSceneCtrl.lua.txt")
+
     GameStartManager = nil
 end
 

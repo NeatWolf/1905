@@ -3,7 +3,7 @@ CRC: 1293164539
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: dc318070e2d204dd95a7e42437cc16c1
+    Hash: de104b1452beab292f9aa1d09545eb8b
   TypeTreeHash:
     serializedVersion: 2
     Hash: 201b503d9a309c7c8b86c27f598bae5e
@@ -110,5 +110,5 @@ Assets:
 - Assets/AssetBundle/Prefab/UI/Login/LoginTest.prefab
 - Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF.shader
 Dependencies:
-- E:/Code/Git/1905/DataPath/ab/texture
-- E:/Code/Git/1905/DataPath/ab/shader
+- "D:/U3D_lyx/Code\uFF1ACyber/111111/DataPath/ab/texture"
+- "D:/U3D_lyx/Code\uFF1ACyber/111111/DataPath/ab/shader"

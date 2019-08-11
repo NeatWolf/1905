@@ -21,7 +21,7 @@ local itemChoice = nil
 
 function MakerCtrl:Init()
     print("进入制品手造")
-    MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateSence"), "UI", true)
+    MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
 
     self:ShowItems()
 
@@ -75,6 +75,12 @@ function MakerCtrl:ShowItems()
     -- 已经排好序的道具列表
     --ModelTool:SetMeta(items)
     --print(items)
+    for k , v in pairs(items) do
+        --LoadManager:Load(ABManager:LoadAsset("prefab", "ItemCell"),"",false)
+        --self.Panel.images[k] = ABManager:LoadAsset("texture", "Test")
+    end
+
+
 
     itemChoice = items[1]
     self:ShowSynNeeds()
@@ -103,7 +109,7 @@ function MakerCtrl:ShowSynNeeds()
             -- 如果ID匹配
             if v.ItemID == _needsList[2 * i - 1] then
                 -- 获取数量
-                _playerItemsCount[i] = v.Count
+                _needsCount[i] = v.Count
                 -- 获取图片
                 _needsTexture[i] = v.TexturePath
             end

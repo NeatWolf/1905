@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1293164539
+CRC: 1100827296
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: de104b1452beab292f9aa1d09545eb8b
+    Hash: be9c2198f93a1ec691e3c887d0fcd3ed
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 201b503d9a309c7c8b86c27f598bae5e
+    Hash: c14b08d51ee94de8ec06bcf53d2d3baa
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -30,9 +30,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 34e150112c1c42ac83170b52d898e322, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2a4db7a114972834c8e4117be1d82ba3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7245fcc16d8d0ee40a176682285487a4, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
@@ -75,8 +79,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 7245fcc16d8d0ee40a176682285487a4, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -102,13 +104,20 @@ Assets:
 - Assets/AssetBundle/Prefab/UI/Login/OpenGame.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/Main Scene.prefab
 - Assets/AssetBundle/Prefab/UI/Login/LoadingProcess.prefab
+- Assets/AssetBundle/Prefab/UI/Fabricate/Button.prefab
 - Assets/AssetBundle/Prefab/UI/Fabricate/FabricateUI.prefab
+- Assets/AssetBundle/Prefab/UI/Fabricate/FabricateUI_ROLE.prefab
 - Assets/AssetBundle/Prefab/UI/Entrepot/EntrepotUI.prefab
+- Assets/AssetBundle/Prefab/UI/Common/ToggleSwitch.prefab
 - Assets/AssetBundle/Prefab/UI/Active/P_Active.prefab
+- Assets/AssetBundle/Prefab/UI/Lottery/LotteryUI.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/MainSceneUI.prefab
 - Assets/AssetBundle/Prefab/UI/RoleMan/RoleManUI.prefab
 - Assets/AssetBundle/Prefab/UI/Login/LoginTest.prefab
+- Assets/AssetBundle/Prefab/UI/Entrepot/Records.prefab
 - Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF.shader
+- Assets/AssetBundle/Prefab/UI/Common/Btn_back.prefab
 Dependencies:
 - "D:/U3D_lyx/Code\uFF1ACyber/111111/DataPath/ab/texture"
+- "D:/U3D_lyx/Code\uFF1ACyber/111111/DataPath/ab/font"
 - "D:/U3D_lyx/Code\uFF1ACyber/111111/DataPath/ab/shader"

@@ -7,7 +7,7 @@ function GameStartManager:Login()
         function()
             -- 黑遮罩淡入出，登陆成功
             CutToCtrl:CutTo(
-                0.5,
+                1,
                 function()
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
                     print("登录")
@@ -23,17 +23,16 @@ function GameStartManager:LoadingBar()
     -- 加载 进度条
     local LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoadingProcess"), "UI", true):GetComponent("UISubObject")
     local barImage = LoadingPanel.images[0]
-    Core.countDown = 0.5
+    Core.countDown = 1
     local time = Core.countDown
     Core.cdEvent = function()
         barImage.fillAmount = 1 - Core.countDown / time
         if barImage.fillAmount == 1 then
-            -- 加载完成，屏幕黑
+            -- 加载完成
             CutToCtrl:CutTo(
-                0.5,
+                1,
                 function()
-                    CutToCtrl:BlackMaskAni(0, 0.25)
-                    -- 进入游戏主场景，销毁不需要的UI，屏幕白
+                    -- 进入游戏主场景，销毁不需要的UI
                     CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
                     MainSceneCtrl:Init()
                 end
@@ -47,8 +46,8 @@ function GameStartManager:LoadingBar()
     PlayerDataModel:ReadOut()
 
     -- 读取主场景脚本，清除GameStartManager占用
-    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
+    require("MainScene/MainSceneCtrl.lua.txt")
     GameStartManager = nil
 end
 
-CutToCtrl:CutTo(1, GameStartManager.Login)
+CutToCtrl:CutTo(2, GameStartManager.Login)

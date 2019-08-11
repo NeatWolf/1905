@@ -43,7 +43,7 @@ public class Core : MonoBehaviour
 
         //Image bar = GameObject.Find("Bar").GetComponent<Image>();
 
-
+        
     }
 
     void Start()

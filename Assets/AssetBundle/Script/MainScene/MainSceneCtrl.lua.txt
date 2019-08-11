@@ -25,7 +25,7 @@ end
 function MainSceneCtrl:ToLottery()
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
     require("Lottery/LotteryCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             LotteryCtrl:Init()
@@ -36,7 +36,7 @@ end
 
 function MainSceneCtrl:ToAccount()
     require("Account/AccountCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             AccountCtrl:Init()
@@ -47,7 +47,7 @@ end
 
 function MainSceneCtrl:ToActivity()
     require("Activity/ActivityCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             ActivityCtrl:Init()
@@ -58,7 +58,7 @@ end
 
 function MainSceneCtrl:ToRole()
     require("Role/RoleCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             RoleCtrl:Init()
@@ -69,7 +69,7 @@ end
 
 function MainSceneCtrl:ToMaker()
     require("Maker/MakerCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             MakerCtrl:Init()
@@ -80,7 +80,7 @@ end
 
 function MainSceneCtrl:ToWarehouse()
     require("Warehouse/WarehouseCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             WarehouseCtrl:Init()

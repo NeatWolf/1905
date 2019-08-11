@@ -32,7 +32,6 @@ function GameStartManager:LoadingBar()
             CutToCtrl:CutTo(
                 0.5,
                 function()
-                    CutToCtrl:BlackMaskAni(0, 0.25)
                     -- 进入游戏主场景，销毁不需要的UI，屏幕白
                     CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
                     MainSceneCtrl:Init()

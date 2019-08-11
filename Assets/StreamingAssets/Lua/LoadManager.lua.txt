@@ -63,6 +63,17 @@ end
     @return:
 ]]
 function LoadManager:LoadSystem(systemName)
+    local file = nil
+    if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        file = io.open(CS.UnityEngine.Application.dataPath .. "/" .. "AssetBundle/Script/" .. systemName .. "/" .. systemName .. "Ctrl.lua.txt", "rb")
+    end
+
+    if file == nil then
+        print("系统脚本：" .. systemName .. "不存在")
+        return
+    end
+    file:close()
+
     if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
         require(systemName .. "/" .. systemName .. "Ctrl.lua.txt")
     else

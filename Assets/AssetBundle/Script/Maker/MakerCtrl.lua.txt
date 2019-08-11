@@ -2,6 +2,8 @@ MakerCtrl = {}
 -- 预制体上的UISubObject脚本，内含所有UI对象
 MakerCtrl.Panel = nil
 
+MakerCtrl.RightItems = nil
+
 local Tag1 = "Food"
 local Tag2 = "Prop"
 local Tag3 = "Equipment"
@@ -10,37 +12,30 @@ local SortWay1 = "Level"
 local SortWay2 = "Price"
 
 -- 记录筛选条件
-local tag = Tag1
+MakerCtrl.Tag = Tag1
 -- 记录排序条件
-local sortWay = SortWay1
-local changeway = 1
+MakerCtrl.SortWay = SortWay1
+MakerCtrl.ChangeWay = 1
 
 -- 当前选中的道具
-local itemChoice = nil
+MakerCtrl.ItemChoice = nil
 
 
 function MakerCtrl:Init()
     print("进入制品手造")
     MakerCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
-
     self:ShowItems()
-
-    tag = Tag2
-    self:ShowHeros()
-
-
-
 
 end
 
 
 function MakerCtrl:ShowHeros()
     local _herosList = {}
-    if tag == Tag1 then
+    if self.Tag == Tag1 then
         _herosList = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Heros,"InsBuff",1,"2")
-    elseif tag == Tag2 then
+    elseif self.Tag == Tag2 then
         _herosList = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Heros,"InsBuff",1,"3")
-    elseif tag == Tag3 then
+    elseif self.Tag == Tag3 then
         _herosList = StaticDataModel:ScreenItem(PlayerDataModel.CompletePlayerData.Heros,"InsBuff",1,"4","5","6","7","8","9")
     end
 
@@ -58,31 +53,60 @@ end
 
 -- 依序显示当前条件下的所有道具
 function MakerCtrl:ShowItems()
+    self.ItemChoice = nil
+    self.RightItems = {}
+    
+    
     local items = {}
-    if tag == Tag1 then
+    if self.Tag == Tag1 then
         items = StaticDataModel:ScreenItem(StaticDataModel.ItemsTable, "Type", 1, "2")
-    elseif tag == Tag2 then
+    elseif self.Tag == Tag2 then
         items = StaticDataModel:ScreenItem(StaticDataModel.ItemsTable, "Type", 1, "3")
-    elseif tag == Tag3 then
+    elseif self.Tag == Tag3 then
         items = StaticDataModel:ScreenItem(StaticDataModel.ItemsTable, "Type", 1, "4")
     end
 
     -- 筛选出可合成的道具
     self:CheckAllSyn(items)
-    StaticDataModel:SortItems(items, "CouldSyn", "true", sortWay, changeway)
-    itemChoice = nil
+    StaticDataModel:SortItems(items, "CouldSyn", "true", self.SortWay, self.ChangeWay)
 
     -- 已经排好序的道具列表
-    --ModelTool:SetMeta(items)
-    --print(items)
-    for k , v in pairs(items) do
-        --LoadManager:Load(ABManager:LoadAsset("prefab", "ItemCell"),"",false)
-        --self.Panel.images[k] = ABManager:LoadAsset("texture", "Test")
-    end
+    --ModelTool:SetMeta(items1)
+    --print(items1)
+    
+    -- for k , v in pairs(items) do
+    --     local go = ABManager:LoadAsset("prefab", "Button")
+    --     local img = ABManager:LoadAsset("texture", "Test")
+    --     go:GetComponent("Image").sprite = img
+
+    --     self.RightItems[k] = LoadManager:Load(go,"Fabricate_Right/BG_List/FabricateList_Scroll/Viewport/Content",true)
+        
+    --     --self.RightItems[k]:GetComponent("Image").color = CS.UnityEngine.Color.white
+    --     --self.RightItems[k]:GetComponent("Image").sprite = img
+    --     if self.RightItems[k]:GetComponent("Image").sprite == nil then
+    --         print("111111")
+    --     end
+    --     print("img:" .. img.name)
+    --     print(self.RightItems[k]:GetComponent("Image").name)
+
+    --     self.RightItems[k].transform:Find("Text"):GetComponent("Text").text = ""
+
+    -- end
+
+    -- for k , v in pairs(items) do
+    --     local RightContent = CS.UnityEngine.GameObject:Find("Fabricate_Right/BG_List/FabricateList_Scroll/Viewport/Content")
+    --     local go = ABManager:LoadAsset("prefab", "Button")
+
+    --     self.RightItems[k] = LoadManager:Load(go,RightContent,true)
+
+    --     self.RightItems[k]:GetComponent("Image").sprite = ABManager:LoadAsset("texture", "Test")
+
+    --     self.RightItems[k].transform:Find("Text"):GetComponent("Text").text = ""
+
+    -- end
 
 
-
-    itemChoice = items[1]
+    self.ItemChoice = items[1]
     self:ShowSynNeeds()
 
 end
@@ -95,7 +119,7 @@ function MakerCtrl:ShowSynNeeds()
 
     -- 获取合成所需(id,count,id,count,...)
     for k,v in pairs(StaticDataModel.ItemsTable) do
-        if v.ItemID == itemChoice.ItemID then
+        if v.ItemID == self.ItemChoice.ItemID then
             _needsList = v.SynNeeds
             _needsList = ModelTool:SplitStr(_needsList)
             break

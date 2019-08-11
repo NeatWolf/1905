@@ -1,24 +1,33 @@
 LoadManager = {}
 
+LoadManager.findedParents = {}
+
 --加载gameObject到指定对象下,根目录则传nil
 --isLast:是否放在最上层
-function LoadManager:Load(gameObject, parentPath, isLast)
+function LoadManager:Load(gameObject, parent, isLast)
     if gameObject == nil then
         print("要实例化的go为空")
         return
     end
     local go = gameObject
-
-    if (parentPath ~= nil) then
-        local parent = CS.UnityEngine.GameObject.Find(parentPath).transform
-        if parent == nil then
-            print("无此父对象")
-            return
+    local parentObj = nil
+    if type(parent) == "string" then
+        parentObj = self.findedParents[parent]
+        if parentObj == nil then
+            parentObj = CS.UnityEngine.GameObject.Find(parent).transform
+            self.findedParents[parent] = parentObj
+            if parentObj == nil then
+                print("寻找失败，无此父对象")
+                return
+            end
         end
-        go = CS.UnityEngine.Object.Instantiate(gameObject, parent)
+        go = CS.UnityEngine.Object.Instantiate(gameObject,parentObj)
+    elseif parent ~= nil then
+        go = CS.UnityEngine.Object.Instantiate(gameObject,parent)
     else
         go = CS.UnityEngine.Object.Instantiate(gameObject)
     end
+    
     --改名
     go.name = gameObject.name
 

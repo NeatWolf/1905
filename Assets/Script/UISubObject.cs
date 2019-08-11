@@ -13,6 +13,7 @@ public class UISubObject : MonoBehaviour
     public GameObject[] go;
 
 
+
     [CSharpCallLua]
     public void OnDestroy()
     {
@@ -34,6 +35,5 @@ public class UISubObject : MonoBehaviour
         }
 
 
-        
     }
 }

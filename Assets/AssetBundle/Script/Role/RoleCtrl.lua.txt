@@ -42,7 +42,6 @@ function RoleCtrl:Init()
     heroInfo.ColBuffTem = nil
     print(heroInfo)
     print(PlayerDataModel.CompletePlayerData.Heros[2])
-
 end
 
 function RoleCtrl:LeftChangeHeroClick()
@@ -59,9 +58,7 @@ function RoleCtrl:RightChangeHeroClick()
     self:ShowHero()
 end
 
-
 function RoleCtrl:ShowHero()
-
     if _LeftHeroIndex <= 0 then
         _LeftHeroIndex = PlayerDataModel.CompletePlayerData.Heros[#(PlayerDataModel.CompletePlayerData.Heros)]
     end
@@ -71,11 +68,8 @@ function RoleCtrl:ShowHero()
 
     -- PlayerDataModel.CompletePlayerData.Heros[_LeftHeroIndex].TexturePath
     -- PlayerDataModel.CompletePlayerData.Heros[_RightHeroIndex].TexturePath
-    
+
     local _CenterHeroData = PlayerDataModel.CompletePlayerData.Heros[_CenterHeroIndex]
-
-
-
 end
 
 --[[
@@ -172,3 +166,10 @@ function RoleCtrl:FeedHero(heroData, itemData)
         end
     end
 end
+
+UICtrl:CutTo(
+    1,
+    function()
+        RoleCtrl:Init()
+    end
+)

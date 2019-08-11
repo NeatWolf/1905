@@ -6,7 +6,7 @@ LoadManager.findedParents = {}
 --isLast:是否放在最上层
 function LoadManager:Load(gameObject, parent, isLast)
     if gameObject == nil then
-        print("要实例化的go为空")
+        print("要实例化的go:" .. tostring(gameObject) .. "为空")
         return
     end
     local go = gameObject
@@ -17,17 +17,17 @@ function LoadManager:Load(gameObject, parent, isLast)
             parentObj = CS.UnityEngine.GameObject.Find(parent).transform
             self.findedParents[parent] = parentObj
             if parentObj == nil then
-                print("寻找失败，无此父对象")
+                print("寻找失败，无此父对象:" .. tostring(parent))
                 return
             end
         end
-        go = CS.UnityEngine.Object.Instantiate(gameObject,parentObj)
+        go = CS.UnityEngine.Object.Instantiate(gameObject, parentObj)
     elseif parent ~= nil then
-        go = CS.UnityEngine.Object.Instantiate(gameObject,parent)
+        go = CS.UnityEngine.Object.Instantiate(gameObject, parent)
     else
         go = CS.UnityEngine.Object.Instantiate(gameObject)
     end
-    
+
     --改名
     go.name = gameObject.name
 

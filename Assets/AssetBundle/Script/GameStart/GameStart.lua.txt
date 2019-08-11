@@ -10,6 +10,7 @@ function GameStartManager:Login()
                 0.5,
                 function()
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
+                    print("登录")
                     GameStartManager:LoadingBar()
                 end
             )
@@ -20,8 +21,8 @@ end
 -- 登录成功，加载进度条，加载所有数据
 function GameStartManager:LoadingBar()
     -- 加载 进度条
-    LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoadingProcess"), "UI", true)
-    barImage = LoadingPanel.transform:Find("Bar").gameObject:GetComponent("Image")
+    local LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoadingProcess"), "UI", true):GetComponent("UISubObject")
+    local barImage = LoadingPanel.images[0]
     Core.countDown = 0.5
     local time = Core.countDown
     Core.cdEvent = function()

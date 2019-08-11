@@ -1,17 +1,16 @@
-GameStartManager = {}
+GameStartCtrl = {}
 
 -- 加载登录系统
-function GameStartManager:Login()
+function GameStartCtrl:Login()
     local subObj = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
     subObj.buttons[0].onClick:AddListener(
         function()
             -- 黑遮罩淡入出，登陆成功
-            CutToCtrl:CutTo(
-                0.5,
+            UICtrl:CutTo(
+                1,
                 function()
                     CS.UnityEngine.Object.Destroy(subObj.gameObject)
-                    print("登录")
-                    GameStartManager:LoadingBar()
+                    GameStartCtrl:LoadingBar()
                 end
             )
         end
@@ -19,20 +18,20 @@ function GameStartManager:Login()
 end
 
 -- 登录成功，加载进度条，加载所有数据
-function GameStartManager:LoadingBar()
+function GameStartCtrl:LoadingBar()
     -- 加载 进度条
     local LoadingPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoadingProcess"), "UI", true):GetComponent("UISubObject")
     local barImage = LoadingPanel.images[0]
-    Core.countDown = 0.5
+    Core.countDown = 1
     local time = Core.countDown
     Core.cdEvent = function()
         barImage.fillAmount = 1 - Core.countDown / time
         if barImage.fillAmount == 1 then
-            -- 加载完成，屏幕黑
-            CutToCtrl:CutTo(
-                0.5,
+            -- 加载完成
+            UICtrl:CutTo(
+                1,
                 function()
-                    -- 进入游戏主场景，销毁不需要的UI，屏幕白
+                    -- 进入游戏主场景，销毁不需要的UI
                     CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
                     MainSceneCtrl:Init()
                 end
@@ -45,12 +44,10 @@ function GameStartManager:LoadingBar()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
 
-    -- 读取主场景脚本，清除GameStartManager占用
-    -- CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
-    -- 调试用
-    require("MainScene/MainSceneCtrl.lua.txt")
+    -- 读取主场景脚本，清除GameStartCtrl占用
+    LoadManager:LoadSystem("MainScene")
 
-    GameStartManager = nil
+    GameStartCtrl = nil
 end
 
-CutToCtrl:CutTo(1, GameStartManager.Login)
+UICtrl:CutTo(2, GameStartCtrl.Login)

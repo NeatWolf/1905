@@ -30,9 +30,9 @@ function LoadManager:Load(gameObject, parent, isLast)
     
     --改名
     go.name = gameObject.name
-    
+
     --设置为最前
-    if isLast then 
+    if isLast then
         go.transform:SetAsLastSibling()
     else
         go.transform:SetAsFirstSibling()
@@ -61,4 +61,36 @@ function LoadManager:LoadAtPos(gameObject, parentPath, position)
     --设置为最前
     go.transform:SetAsLastSibling()
     return go
+end
+
+--[[
+    @desc: 加载Lua脚本，调试时自动从AssetBundle文件夹加载，打成包自动从AB包加载
+    脚本(MainScene)和按钮的名称(MainSceneCtrl)一致
+    author:{author}
+    time:2019-08-11 16:00:46
+    --@path: 系统模块名称，如：MainScene ， 应由按钮提供
+    @return:
+]]
+function LoadManager:LoadSystem(systemName)
+    if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        require(systemName .. "/" .. systemName .. "Ctrl.lua.txt")
+    else
+        CS.Luax.Instance:DoString(ABManager:LoadAsset("script", systemName .. "Ctrl.lua").text)
+    end
+end
+
+--[[
+    @desc: 加载Lua脚本，调试时自动从AssetBundle文件夹加载，打成包自动从AB包加载
+    author:{author}
+    time:2019-08-11 16:46:22
+    --@dirName: 如：MainScene
+    --@fileName: 如：MainSceneCtrl
+    @return:
+]]
+function LoadManager:LoadLua(dirName, ScriptName)
+    if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        require(dirName .. "/" .. ScriptName .. ".lua.txt")
+    else
+        CS.Luax.Instance:DoString(ABManager:LoadAsset("script", ScriptName .. ".lua").text)
+    end
 end

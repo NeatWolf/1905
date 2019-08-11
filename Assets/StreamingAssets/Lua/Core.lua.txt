@@ -1,6 +1,6 @@
 require("ABManager.lua.txt")
 require("LoadManager.lua.txt")
-require("CutToCtrl.lua.txt")
+require("UICtrl.lua.txt")
 require("ModelTool.lua.txt")
 
 require("PlayerDataModel.lua.txt")
@@ -16,13 +16,8 @@ JsonUtil = require("JsonUtil.lua.txt")
 Core = {}
 
 function Core.Start()
-    --从AB包中加载脚本
-    -- CS.Luax.Instance:DoString(ABManager:LoadAsset('script', 'GameStart.lua').text)
-    -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'RoleDataModel.lua').text)
-
-    -- 测试用直接加载脚本
     -- 加载启动界面
-    require("GameStart/GameStart.lua.txt")
+    LoadManager:LoadSystem("GameStart")
 end
 
 -- 计时委托

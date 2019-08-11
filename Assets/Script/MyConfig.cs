@@ -4,11 +4,19 @@ using UnityEngine;
 using XLua;
 using System.IO;
 
-public class MyConfig
+public static class MyConfig
 {
     public static readonly string[] LuaPaths = {
         Application.dataPath + "/AssetBundle/Script/",
         Application.dataPath + "/StreamingAssets/Lua/",
         Application.persistentDataPath + "/assets/"
         };
+
+    public const string AssetBundlesSavePathName = "/ab";
+
+    //打完AB包自动复制到StreamingAssets并生成Config文件
+    public static readonly bool CopyToStreamingAssets = true;
+
+    public static readonly string ABCopyPath = Application.streamingAssetsPath + "";
+    public static readonly string ABConfigName = Application.streamingAssetsPath + "/Config.txt";
 }

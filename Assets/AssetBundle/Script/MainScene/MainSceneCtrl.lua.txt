@@ -23,9 +23,9 @@ function MainSceneCtrl:Init()
 end
 
 function MainSceneCtrl:ToLottery()
-    --CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "LotteryCtrl.lua").text)
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
     require("Lottery/LotteryCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             LotteryCtrl:Init()
@@ -35,9 +35,8 @@ function MainSceneCtrl:ToLottery()
 end
 
 function MainSceneCtrl:ToAccount()
-    --CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "AccountCtrl.lua").text)
     require("Account/AccountCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             AccountCtrl:Init()
@@ -47,9 +46,8 @@ function MainSceneCtrl:ToAccount()
 end
 
 function MainSceneCtrl:ToActivity()
-    --CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "ActivityCtrl.lua").text)
     require("Activity/ActivityCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             ActivityCtrl:Init()
@@ -59,9 +57,8 @@ function MainSceneCtrl:ToActivity()
 end
 
 function MainSceneCtrl:ToRole()
-    --CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "RoleCtrl.lua").text)
     require("Role/RoleCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             RoleCtrl:Init()
@@ -71,10 +68,8 @@ function MainSceneCtrl:ToRole()
 end
 
 function MainSceneCtrl:ToMaker()
-    --CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MakerCtrl.lua").text)
     require("Maker/MakerCtrl.lua.txt")
-
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             MakerCtrl:Init()
@@ -84,9 +79,8 @@ function MainSceneCtrl:ToMaker()
 end
 
 function MainSceneCtrl:ToWarehouse()
-    --CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "WarehouseCtrl.lua").text)
     require("Warehouse/WarehouseCtrl.lua.txt")
-    CutToCtrl:CutTo(
+    UICtrl:CutTo(
         0.5,
         function()
             WarehouseCtrl:Init()

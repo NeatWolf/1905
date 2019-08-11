@@ -1228,7 +1228,7 @@ GameObject:
   - component: {fileID: 8665397427899687892}
   - component: {fileID: 8665397427899687893}
   m_Layer: 5
-  m_Name: Btn_Warehouse
+  m_Name: Warehouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1350,7 +1350,7 @@ GameObject:
   - component: {fileID: 8665397427965378372}
   - component: {fileID: 8665397427965378373}
   m_Layer: 5
-  m_Name: Btn_RoleMan
+  m_Name: Role
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2052,7 +2052,7 @@ GameObject:
   - component: {fileID: 8665397428871761862}
   - component: {fileID: 8665397428871761863}
   m_Layer: 5
-  m_Name: Btn_Active
+  m_Name: Activity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2641,7 +2641,7 @@ GameObject:
   - component: {fileID: 8665397429195660887}
   - component: {fileID: 8665397429195660884}
   m_Layer: 5
-  m_Name: Btn_Fabricate
+  m_Name: Maker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2921,7 +2921,7 @@ GameObject:
   - component: {fileID: 8665397429315754029}
   - component: {fileID: 8665397429315754026}
   m_Layer: 5
-  m_Name: Btn_Lottery
+  m_Name: Lottery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

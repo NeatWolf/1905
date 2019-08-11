@@ -52,7 +52,7 @@ public class Luax
             }
         }
 
-        Debug.LogError("MyConfig.LuaPath所有路径中找不到Lua脚本：" + name);
+        Debug.LogWarning("MyConfig.LuaPath所有路径中找不到Lua脚本：" + name);
         return null;
     }
 

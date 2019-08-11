@@ -4,8 +4,7 @@ LotteryCtrl.Panel = nil
 
 function LotteryCtrl:Init()
     print("进入抽奖")
-    --LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateSence"), "UI", true)
-    require("/../AssetBundle/Script/Lottery/LotteryModel.lua.txt")
+    LoadManager:LoadLua("Lottery", "LotteryModel")
 
     -- 刷新数据，显示能否抽卡
 
@@ -40,11 +39,9 @@ function LotteryCtrl:Get(type)
         local roleData = StaticDataModel:RandomTable(StaticDataModel.HerosTable)
         if StaticDataModel:Exist(PlayerDataModel.PlayerData.Heros, "HeroID", roleData.HeroID) then
             -- 转换成卷轴，显示转换成卷轴文字
-
             -- 角色添加到账号数据
         else
             -- 显示转换成卷轴文字
-
             -- 卷轴添加账号数据
         end
     else
@@ -54,3 +51,10 @@ function LotteryCtrl:Get(type)
 
     -- 保存账号数据，重新合并数据，刷新资源显示
 end
+
+UICtrl:CutTo(
+    1,
+    function()
+        LotteryCtrl:Init()
+    end
+)

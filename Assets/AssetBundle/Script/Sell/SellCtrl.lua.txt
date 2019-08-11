@@ -10,6 +10,11 @@ SellCtrl.Panel = nil
 
 function SellCtrl:Init()
     print("进入出售")
-
 end
 
+UICtrl:CutTo(
+    1,
+    function()
+        SellCtrl:Init()
+    end
+)

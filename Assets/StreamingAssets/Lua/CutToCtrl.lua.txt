@@ -22,8 +22,8 @@ function CutToCtrl:CutTo(time, event)
         1,
         time * 0.5,
         function()
-            CutToCtrl:BlackMaskAni(0, time * 0.5)
             event()
+            CutToCtrl:BlackMaskAni(0, time * 0.5)
         end
     )
 end

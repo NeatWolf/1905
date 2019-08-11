@@ -43,13 +43,16 @@ public class Luax
     //自定义加载器
     byte[] myLoder(ref string name)
     {
-        string path = Application.persistentDataPath + "/assets/" + name;
-        if (!File.Exists(path))
-        {       //*用Lua 的 AB包管理器从Assets中读取Scripts包中的对应脚本
-            Debug.Log("不存在");
-            return null;
+        for (int i = 0; i < MyConfig.LuaPaths.Length; i++)
+        {
+            if (File.Exists(MyConfig.LuaPaths[i] + name))
+            {
+                return File.ReadAllBytes(MyConfig.LuaPaths[i] + name);
+            }
         }
-        return File.ReadAllBytes(path);
+
+        Debug.LogError("MyConfig.LuaPath所有路径中找不到Lua脚本：" + name);
+        return null;
     }
 
     public void Dispose()

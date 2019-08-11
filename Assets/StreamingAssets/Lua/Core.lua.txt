@@ -1,13 +1,12 @@
-require("Lua/ABManager.lua.txt")
-require("Lua/LoadManager.lua.txt")
-require("Lua/CutToCtrl.lua.txt")
-require("Lua/ModelTool.lua.txt")
+require("ABManager.lua.txt")
+require("LoadManager.lua.txt")
+require("CutToCtrl.lua.txt")
+require("ModelTool.lua.txt")
 
-require("Lua/PlayerDataModel.lua.txt")
-require("Lua/StaticDataModel.lua.txt")
+require("PlayerDataModel.lua.txt")
+require("StaticDataModel.lua.txt")
 
-JsonUtil = require("Lua/JsonUtil.lua.txt")
-
+JsonUtil = require("JsonUtil.lua.txt")
 
 --可以运行从AB包中加载出的脚本
 --CS.Luax.Instance:DoString("print('666')")
@@ -17,14 +16,13 @@ JsonUtil = require("Lua/JsonUtil.lua.txt")
 Core = {}
 
 function Core.Start()
-
     --从AB包中加载脚本
-    CS.Luax.Instance:DoString(ABManager:LoadAsset('script', 'GameStart.lua').text)
+    -- CS.Luax.Instance:DoString(ABManager:LoadAsset('script', 'GameStart.lua').text)
     -- CS.Luax.Instance:DoString(ABManager:LoadAsset('textassets', 'RoleDataModel.lua').text)
 
     -- 测试用直接加载脚本
     -- 加载启动界面
-    -- require("/../AssetBundle/Script/GameStart/GameStart.lua.txt")
+    require("GameStart/GameStart.lua.txt")
 end
 
 -- 计时委托

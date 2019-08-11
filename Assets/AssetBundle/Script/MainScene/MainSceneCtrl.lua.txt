@@ -23,8 +23,8 @@ function MainSceneCtrl:Init()
 end
 
 function MainSceneCtrl:ToLottery()
-    -- CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MainSceneCtrl.lua").text)
-    require("/../AssetBundle/Script/Lottery/LotteryCtrl.lua.txt")
+    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "LotteryCtrl.lua").text)
+    --require("/../AssetBundle/Script/Lottery/LotteryCtrl.lua.txt")
     CutToCtrl:CutTo(
         0.5,
         function()
@@ -35,7 +35,8 @@ function MainSceneCtrl:ToLottery()
 end
 
 function MainSceneCtrl:ToAccount()
-    require("/../AssetBundle/Script/Account/AccountCtrl.lua.txt")
+    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "AccountCtrl.lua").text)
+    --require("/../AssetBundle/Script/Account/AccountCtrl.lua.txt")
     CutToCtrl:CutTo(
         0.5,
         function()
@@ -46,7 +47,8 @@ function MainSceneCtrl:ToAccount()
 end
 
 function MainSceneCtrl:ToActivity()
-    require("/../AssetBundle/Script/Activity/ActivityCtrl.lua.txt")
+    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "ActivityCtrl.lua").text)
+    --require("/../AssetBundle/Script/Activity/ActivityCtrl.lua.txt")
     CutToCtrl:CutTo(
         0.5,
         function()
@@ -57,7 +59,8 @@ function MainSceneCtrl:ToActivity()
 end
 
 function MainSceneCtrl:ToRole()
-    require("/../AssetBundle/Script/Role/RoleCtrl.lua.txt")
+    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "RoleCtrl.lua").text)
+    --require("/../AssetBundle/Script/Role/RoleCtrl.lua.txt")
     CutToCtrl:CutTo(
         0.5,
         function()
@@ -68,7 +71,8 @@ function MainSceneCtrl:ToRole()
 end
 
 function MainSceneCtrl:ToMaker()
-    require("/../AssetBundle/Script/Maker/MakerCtrl.lua.txt")
+    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MakerCtrl.lua").text)
+    --require("/../Maker/MakerCtrl.lua.txt")
     CutToCtrl:CutTo(
         0.5,
         function()
@@ -79,7 +83,8 @@ function MainSceneCtrl:ToMaker()
 end
 
 function MainSceneCtrl:ToWarehouse()
-    require("/../AssetBundle/Script/Warehouse/WarehouseCtrl.lua.txt")
+    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "WarehouseCtrl.lua").text)
+    --require("/../AssetBundle/Script/Warehouse/WarehouseCtrl.lua.txt")
     CutToCtrl:CutTo(
         0.5,
         function()

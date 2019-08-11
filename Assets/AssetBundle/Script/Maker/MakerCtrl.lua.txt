@@ -103,7 +103,7 @@ function MakerCtrl:ShowSynNeeds()
             -- 如果ID匹配
             if v.ItemID == _needsList[2 * i - 1] then
                 -- 获取数量
-                _playerItemsCount[i] = v.Count
+                _needsCount[i] = v.Count
                 -- 获取图片
                 _needsTexture[i] = v.TexturePath
             end

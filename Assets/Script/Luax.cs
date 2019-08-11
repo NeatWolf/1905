@@ -47,11 +47,12 @@ public class Luax
         {
             if (File.Exists(MyConfig.LuaPaths[i] + name))
             {
+                //Debug.Log("加载脚本"+MyConfig.LuaPaths[i] + name);
                 return File.ReadAllBytes(MyConfig.LuaPaths[i] + name);
             }
         }
 
-        Debug.LogError("MyConfig.LuaPath所有路径中找不到Lua脚本：" + name);
+        Debug.LogWarning("MyConfig.LuaPath所有路径中找不到Lua脚本：" + name);
         return null;
     }
 

@@ -6,5 +6,11 @@ WarehouseCtrl.Panel = nil
 function WarehouseCtrl:Init()
     print("进入仓库")
     WarehouseCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "WarehouseUI"), "UI", true)
-
 end
+
+UICtrl:CutTo(
+    1,
+    function()
+        WarehouseCtrl:Init()
+    end
+)

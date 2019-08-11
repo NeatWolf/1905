@@ -7,3 +7,9 @@ function EntrepotCtrl:Init()
     EntrepotCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "EntrepotUI"), "UI", true)
 end
 
+UICtrl:CutTo(
+    1,
+    function()
+        EntrepotCtrl:Init()
+    end
+)

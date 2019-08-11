@@ -10,86 +10,18 @@ function MainSceneCtrl:Init()
         LoadManager:Load(ABManager:LoadAsset("prefab", "Main Scene"), "Scene", true)
 
         -- 添加委托
-        self.Panel.buttons[0].onClick:AddListener(MainSceneCtrl.ToLottery)
-        self.Panel.buttons[1].onClick:AddListener(MainSceneCtrl.ToAccount)
-        self.Panel.buttons[2].onClick:AddListener(MainSceneCtrl.ToActivity)
-        self.Panel.buttons[3].onClick:AddListener(MainSceneCtrl.ToRole)
-        self.Panel.buttons[4].onClick:AddListener(MainSceneCtrl.ToMaker)
-        self.Panel.buttons[5].onClick:AddListener(MainSceneCtrl.ToWarehouse)
+        for i = 0, self.Panel.buttons.Length - 1 do
+            if self.Panel.buttons[i] ~= nil then
+                self.Panel.buttons[i].onClick:AddListener(
+                    function()
+                        LoadManager:LoadSystem(self.Panel.buttons[i].name)
+                        MainSceneCtrl.Panel.gameObject:SetActive(false)
+                    end
+                )
+            end
+        end
     end
     MainSceneCtrl.Panel.gameObject:SetActive(true)
 
     -- 刷新金币钻石等数据
-end
-
-function MainSceneCtrl:ToLottery()
-    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "LotteryCtrl.lua").text)
-    --require("/../AssetBundle/Script/Lottery/LotteryCtrl.lua.txt")
-    CutToCtrl:CutTo(
-        0.5,
-        function()
-            LotteryCtrl:Init()
-            MainSceneCtrl.Panel.gameObject:SetActive(false)
-        end
-    )
-end
-
-function MainSceneCtrl:ToAccount()
-    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "AccountCtrl.lua").text)
-    --require("/../AssetBundle/Script/Account/AccountCtrl.lua.txt")
-    CutToCtrl:CutTo(
-        0.5,
-        function()
-            AccountCtrl:Init()
-            MainSceneCtrl.Panel.gameObject:SetActive(false)
-        end
-    )
-end
-
-function MainSceneCtrl:ToActivity()
-    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "ActivityCtrl.lua").text)
-    --require("/../AssetBundle/Script/Activity/ActivityCtrl.lua.txt")
-    CutToCtrl:CutTo(
-        0.5,
-        function()
-            ActivityCtrl:Init()
-            MainSceneCtrl.Panel.gameObject:SetActive(false)
-        end
-    )
-end
-
-function MainSceneCtrl:ToRole()
-    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "RoleCtrl.lua").text)
-    --require("/../AssetBundle/Script/Role/RoleCtrl.lua.txt")
-    CutToCtrl:CutTo(
-        0.5,
-        function()
-            RoleCtrl:Init()
-            MainSceneCtrl.Panel.gameObject:SetActive(false)
-        end
-    )
-end
-
-function MainSceneCtrl:ToMaker()
-    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "MakerCtrl.lua").text)
-    --require("/../Maker/MakerCtrl.lua.txt")
-    CutToCtrl:CutTo(
-        0.5,
-        function()
-            MakerCtrl:Init()
-            MainSceneCtrl.Panel.gameObject:SetActive(false)
-        end
-    )
-end
-
-function MainSceneCtrl:ToWarehouse()
-    CS.Luax.Instance:DoString(ABManager:LoadAsset("script", "WarehouseCtrl.lua").text)
-    --require("/../AssetBundle/Script/Warehouse/WarehouseCtrl.lua.txt")
-    CutToCtrl:CutTo(
-        0.5,
-        function()
-            WarehouseCtrl:Init()
-            MainSceneCtrl.Panel.gameObject:SetActive(false)
-        end
-    )
 end

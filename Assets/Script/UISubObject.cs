@@ -7,10 +7,12 @@ using XLua;
 public class UISubObject : MonoBehaviour
 {
     public Button[] buttons;
+    public Toggle[] toggles;
     public Text[] texts;
     public Image[] images;
     public InputField[] inputFields;
     public GameObject[] go;
+
 
 
     [CSharpCallLua]
@@ -33,7 +35,5 @@ public class UISubObject : MonoBehaviour
             inputFields[i].onEndEdit.RemoveAllListeners();
         }
 
-
-        
     }
 }

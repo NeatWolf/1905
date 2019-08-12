@@ -255,10 +255,3 @@ function MakerCtrl:SynItem(itemData)
         end
     end
 end
-
-UICtrl:CutTo(
-    1,
-    function()
-        MakerCtrl:Init()
-    end
-)

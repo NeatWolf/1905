@@ -4321,7 +4321,8 @@ MonoBehaviour:
   - {fileID: 1460083043}
   texts: []
   tmps: []
-  images: []
+  images:
+  - {fileID: 653727413584771556}
   inputFields: []
   go:
   - {fileID: 9006479662982117448}

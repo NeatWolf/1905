@@ -51,10 +51,3 @@ function LotteryCtrl:Get(type)
 
     -- 保存账号数据，重新合并数据，刷新资源显示
 end
-
-UICtrl:CutTo(
-    1,
-    function()
-        LotteryCtrl:Init()
-    end
-)

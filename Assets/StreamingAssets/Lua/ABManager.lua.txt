@@ -1,27 +1,34 @@
 ABManager = {}
 
 --定义AB包根目录
-ABManager.path = CS.UnityEngine.Application.persistentDataPath .. '/assets/'
+ABManager.path = CS.UnityEngine.Application.persistentDataPath .. "/assets/"
 
 --已加载的AB包
 local loaded = {}
 
 --定义主包路径
 
-if not CS.System.IO.File.Exists(ABManager.path .. 'ab') then
+if not CS.System.IO.File.Exists(ABManager.path .. "ab") then
     print("主包不存在")
 end
-print(ABManager.path .. 'ab')
+print(ABManager.path .. "ab")
 
-local mainAB = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. 'ab')
-local manifest = mainAB:LoadAsset('AssetBundleManifest')
+local mainAB = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. "ab")
+local manifest = mainAB:LoadAsset("AssetBundleManifest")
 
 --加载资源
-function ABManager:LoadAsset(ABName, fileName)
+function ABManager:LoadAsset(ABName, fileName, type)
     --加载AB包
     local ab = ABManager:LoadAB(ABName)
+    if ab == nil then
+        print(ABName .. "is loaded erorr")
+    end
     --返回资源
-    return ab:LoadAsset(fileName)
+    if type then
+        return ab:LoadAsset(fileName, typeof(type))
+    else
+        return ab:LoadAsset(fileName)
+    end
 end
 
 --加载AB包
@@ -39,18 +46,12 @@ function ABManager:LoadAB(ABName)
             loaded[names[i]] = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. names[i])
         end
     end
-    
+
     --返回加载的AB
     loaded[ABName] = CS.UnityEngine.AssetBundle.LoadFromFile(ABManager.path .. ABName)
     return loaded[ABName]
 end
 
-
-
-
-
-
 -- 释放loaded所有AB包
-function ABManager:function_name( )
-    
+function ABManager:function_name()
 end

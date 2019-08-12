@@ -28,17 +28,12 @@ function GameStartCtrl:LoadingBar()
         barImage.fillAmount = 1 - Core.countDown / time
         if barImage.fillAmount == 1 then
             -- 加载完成
-            UICtrl:CutTo(
-                1,
-                function()
-                    -- 进入游戏主场景，销毁不需要的UI
-                    CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
-                    -- 读取主场景脚本，清除GameStartCtrl占用
-                    LoadManager:LoadSystem("MainScene")
+            -- 进入游戏主场景，销毁不需要的UI
+            CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
+            -- 读取主场景脚本，清除GameStartCtrl占用
+            LoadManager:LoadSystem("MainScene")
 
-                    GameStartCtrl = nil
-                end
-            )
+            GameStartCtrl = nil
         end
     end
 

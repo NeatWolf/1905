@@ -232,9 +232,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8829720447844561178}
-  - component: {fileID: 5332297654235128450}
+  - component: {fileID: 9002573783343864469}
   m_Layer: 5
-  m_Name: Toggle (1)
+  m_Name: NoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,7 +261,7 @@ RectTransform:
   m_AnchoredPosition: {x: -27.28, y: 12.8}
   m_SizeDelta: {x: 54.55, y: 19.7}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5332297654235128450
+--- !u!114 &9002573783343864469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,7 +270,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4799037907734571017}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -301,15 +301,11 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 7825673240894560099}
-  toggleTransition: 1
-  graphic: {fileID: 0}
-  m_Group: {fileID: 0}
-  onValueChanged:
+  m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
 --- !u!1 &4967460661447515531
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,9 +474,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9094213993957870882}
-  - component: {fileID: 8092637389761414667}
+  - component: {fileID: 2620127278186372485}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: YesButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -507,7 +503,7 @@ RectTransform:
   m_AnchoredPosition: {x: -27.28, y: 40}
   m_SizeDelta: {x: 54.55, y: 19.7}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8092637389761414667
+--- !u!114 &2620127278186372485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -516,7 +512,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5592461125505788704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -547,15 +543,11 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 6247612524226941398}
-  toggleTransition: 1
-  graphic: {fileID: 0}
-  m_Group: {fileID: 0}
-  onValueChanged:
+  m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
 --- !u!1 &5873169701265423055
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7305305359525650600}
   m_Layer: 5
-  m_Name: ToggleSwitch
+  m_Name: ButtonChoice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

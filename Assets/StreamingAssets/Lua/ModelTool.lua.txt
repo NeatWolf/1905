@@ -16,6 +16,24 @@ function ModelTool:CopyTable(t)
     return NewTable
 end
 
+function ModelTool:MergeTable( ... )
+    local tables = { ... }
+    -- 如果输入的表只有一个或零
+    if select("#", ...) <= 1 then
+        return tables
+    end
+    -- 如果有多个表
+    local resTable = self:CopyTable( select(1, ...) )
+    for i = 2, select("#", ...) do
+        for k,v in pairs(select(i, ...)) do
+            table.insert(resTable, v)
+        end
+    end
+
+    return resTable
+end
+
+
 -- 分割字符串
 -- 以参数2(char)分割参数1(string)
 function ModelTool:SplitStr(str, charSplit)

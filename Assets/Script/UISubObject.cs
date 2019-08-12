@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using XLua;
+using TMPro;
 
 public class UISubObject : MonoBehaviour
 {
     public Button[] buttons;
     public Toggle[] toggles;
     public Text[] texts;
+    public TextMeshProUGUI[] tmps;
     public Image[] images;
     public InputField[] inputFields;
     public GameObject[] go;
-
-
 
     [CSharpCallLua]
     public void OnDestroy()

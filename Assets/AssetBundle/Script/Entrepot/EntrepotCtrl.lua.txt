@@ -5,11 +5,5 @@ EntrepotCtrl.Panel = nil
 function EntrepotCtrl:Init()
     print("进入货架")
     EntrepotCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "EntrepotUI"), "UI", true)
+    
 end
-
-UICtrl:CutTo(
-    1,
-    function()
-        EntrepotCtrl:Init()
-    end
-)

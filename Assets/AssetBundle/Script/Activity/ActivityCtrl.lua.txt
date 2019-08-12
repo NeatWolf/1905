@@ -3,10 +3,3 @@ ActivityCtrl = {}
 function ActivityCtrl:Init()
     print("进入活动公告")
 end
-
-UICtrl:CutTo(
-    1,
-    function()
-        ActivityCtrl:Init()
-    end
-)

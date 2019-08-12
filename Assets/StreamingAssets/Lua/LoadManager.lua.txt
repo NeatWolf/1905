@@ -25,7 +25,6 @@ function LoadManager:Load(gameObject, parent, isLast)
     elseif parent ~= nil then
         go = CS.UnityEngine.Object.Instantiate(gameObject, parent)
     else
-        
         -- print("parent为nil")
         go = CS.UnityEngine.Object.Instantiate(gameObject)
     end
@@ -70,10 +69,11 @@ end
     脚本(MainScene)和按钮的名称(MainSceneCtrl)一致
     author:{author}
     time:2019-08-11 16:00:46
-    --@path: 系统模块名称，如：MainScene ， 应由按钮提供
+    --@systemName: 系统模块名称，如：MainScene ， 应由按钮提供
+    --@time: 不传默认延迟0.5秒，传则自定义延迟
     @return:
 ]]
-function LoadManager:LoadSystem(systemName)
+function LoadManager:LoadSystem(systemName, time)
     local file = nil
     if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
         file = io.open(CS.UnityEngine.Application.dataPath .. "/" .. "AssetBundle/Script/" .. systemName .. "/" .. systemName .. "Ctrl.lua.txt", "rb")
@@ -89,6 +89,21 @@ function LoadManager:LoadSystem(systemName)
         require(systemName .. "/" .. systemName .. "Ctrl.lua.txt")
     else
         CS.Luax.Instance:DoString(ABManager:LoadAsset("script", systemName .. "Ctrl.lua").text)
+    end
+
+    -- 调用Init
+    if time == nil then
+        Core.timer = 0.5
+    else
+        Core.timer = time
+    end
+    Core.timerEvent = function()
+        UICtrl:CutTo(
+            1,
+            function()
+                CS.Luax.Instance:DoString(systemName .. "Ctrl:Init()")
+            end
+        )
     end
 end
 

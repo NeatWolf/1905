@@ -8,12 +8,14 @@ using UnityEngine.Events;
 public class MainMenuAnimation : MonoBehaviour
 {
     Button btn_Active, btn_RoleMan, btn_Fabricate,
-        btn_Warehouse, btn_Lottery, btn_AV;
+        btn_Warehouse, btn_Lottery, btn_AV,btn_Explore;
+    Camera mainCam;
 
 
 
     private void Awake()
     {
+        
         UISubObject subObjs = transform.GetComponent<UISubObject>();
         btn_Active = subObjs.buttons[2];
         btn_RoleMan = subObjs.buttons[3];
@@ -23,14 +25,25 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Lottery = subObjs.buttons[0];
         btn_AV = subObjs.buttons[1];
 
+        btn_Explore = GameObject.Find("Scene/Main Scene/Btn_Explore/P_Explore/Btn_Explore").GetComponent<Button>();
+        Debug.Log("探索按钮"+btn_Explore.name);
+
 
     }
 
 
     private void OnEnable()
     {
+        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        if (mainCam.gameObject.active == false)
+        {
+            mainCam.gameObject.SetActive(true);
+        }
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
+
+        
+
     }
 
     private void Start()
@@ -68,12 +81,12 @@ public class MainMenuAnimation : MonoBehaviour
         });
 
         //探索按钮
-        //btn_Explore.onClick.AddListener(() =>
-        //{
-        //    btn_Explore.transform.DOScale(0.8f, 0.2f);
-        //    btn_Explore.transform.DOScale(100, 0.8f);
-        //    btn_Explore.GetComponent<Image>().DOColor(new Color(0, 0, 0, 1), 1);
-        //});
+        btn_Explore.onClick.AddListener(() =>
+        {
+            btn_Explore.transform.DOScale(0.8f, 0.2f);
+            btn_Explore.transform.DOScale(100, 0.8f);
+            btn_Explore.GetComponent<Image>().DOColor(new Color(0, 0, 0, 1), 1);
+        });
 
     }
     IEnumerator _ActiveBlack()

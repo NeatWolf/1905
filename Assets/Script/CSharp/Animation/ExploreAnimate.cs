@@ -8,11 +8,16 @@ public class ExploreAnimate : MonoBehaviour
     Slider sld;
     Camera mainCam;
     Camera oldCam;
+    Button[] SceneBtn;
     private void Awake()
     {
         sld = transform.Find("Slider").GetComponent<Slider>();
         mainCam = GameObject.Find("Scene/Explore/Main Camera").GetComponent<Camera>();
         oldCam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        for (int i = 0; i < 4; i++)
+        {
+            SceneBtn[i] = mainCam.transform.parent.transform.GetComponent<Button>();
+        }
 
     }
     private void OnEnable()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ExploreAnimate : MonoBehaviour
 {
@@ -16,14 +17,23 @@ public class ExploreAnimate : MonoBehaviour
         oldCam = GameObject.Find("Main Camera").GetComponent<Camera>();
         for (int i = 0; i < 4; i++)
         {
-            SceneBtn[i] = mainCam.transform.parent.transform.GetComponent<Button>();
+            Debug.Log(SceneBtn[i].name);
+            SceneBtn[i] =GameObject.Find("Scene/Explore").GetComponent<UISubObject>().buttons[i];
+            
+            
         }
+        
 
     }
     private void OnEnable()
     {
+        
         oldCam.gameObject.SetActive(false);
         mainCam.gameObject.SetActive(true);
+        for (int i = 0; i < 4; i++)
+        {
+            SceneBtn[i].transform.DORotate(Vector3.up,3,RotateMode.FastBeyond360);
+        }
         
     }
     

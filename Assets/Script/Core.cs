@@ -24,7 +24,7 @@ public class Core : MonoBehaviour
     LuaTable table;
     CallLua callLua;
     float timer = 0;
-
+    
     void Awake()
     {
         Instance = this;
@@ -50,7 +50,7 @@ public class Core : MonoBehaviour
     {
         callLua.start();
     }
-
+    
     void Update()
     {
         if (Time.time - timer > 1)

@@ -1,0 +1,109 @@
+LoadManager = {}
+
+LoadManager.findedParents = {}
+
+--加载gameObject到指定对象下,根目录则传nil
+--isLast:是否放在最上层
+function LoadManager:Load(gameObject, parent, isLast)
+    if gameObject == nil then
+        print("要实例化的go:" .. tostring(gameObject) .. "为空")
+        return
+    end
+    local go = gameObject
+    local parentObj = nil
+    if type(parent) == "string" then
+        parentObj = self.findedParents[parent]
+        if parentObj == nil then
+            parentObj = CS.UnityEngine.GameObject.Find(parent).transform
+            self.findedParents[parent] = parentObj
+            if parentObj == nil then
+                print("寻找失败，无此父对象:" .. tostring(parent))
+                return
+            end
+        end
+        go = CS.UnityEngine.Object.Instantiate(gameObject, parentObj)
+    elseif parent ~= nil then
+        go = CS.UnityEngine.Object.Instantiate(gameObject, parent)
+    else
+        
+        -- print("parent为nil")
+        go = CS.UnityEngine.Object.Instantiate(gameObject)
+    end
+
+    --改名
+    go.name = gameObject.name
+
+    --设置为最前
+    if isLast then
+        go.transform:SetAsLastSibling()
+    else
+        go.transform:SetAsFirstSibling()
+    end
+    return go
+end
+
+--加载到指定位置
+--position世界坐标系
+function LoadManager:LoadAtPos(gameObject, parentPath, position)
+    local go = gameObject
+    local rotation = CS.UnityEngine.Quaternion.identity
+
+    if position == nil then
+        position = CS.UnityEngine.Vector3.zero
+    end
+
+    if (parentPath ~= nil) then
+        local parent = CS.UnityEngine.GameObject.Find(parentPath).transform
+        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation, parent)
+    else
+        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation)
+    end
+    --改名
+    go.name = gameObject.name
+    --设置为最前
+    go.transform:SetAsLastSibling()
+    return go
+end
+
+--[[
+    @desc: 加载Lua脚本，调试时自动从AssetBundle文件夹加载，打成包自动从AB包加载
+    脚本(MainScene)和按钮的名称(MainSceneCtrl)一致
+    author:{author}
+    time:2019-08-11 16:00:46
+    --@path: 系统模块名称，如：MainScene ， 应由按钮提供
+    @return:
+]]
+function LoadManager:LoadSystem(systemName)
+    local file = nil
+    if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        file = io.open(CS.UnityEngine.Application.dataPath .. "/" .. "AssetBundle/Script/" .. systemName .. "/" .. systemName .. "Ctrl.lua.txt", "rb")
+    end
+
+    if file == nil then
+        print("系统脚本：" .. systemName .. "不存在")
+        return
+    end
+    file:close()
+
+    if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        require(systemName .. "/" .. systemName .. "Ctrl.lua.txt")
+    else
+        CS.Luax.Instance:DoString(ABManager:LoadAsset("script", systemName .. "Ctrl.lua").text)
+    end
+end
+
+--[[
+    @desc: 加载Lua脚本，调试时自动从AssetBundle文件夹加载，打成包自动从AB包加载
+    author:{author}
+    time:2019-08-11 16:46:22
+    --@dirName: 如：MainScene
+    --@fileName: 如：MainSceneCtrl
+    @return:
+]]
+function LoadManager:LoadLua(dirName, ScriptName)
+    if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        require(dirName .. "/" .. ScriptName .. ".lua.txt")
+    else
+        CS.Luax.Instance:DoString(ABManager:LoadAsset("script", ScriptName .. ".lua").text)
+    end
+end

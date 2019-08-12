@@ -1,0 +1,27 @@
+MainSceneCtrl = {}
+
+-- 主界面上的UISubObject脚本，内含所有UI对象
+MainSceneCtrl.Panel = nil
+
+function MainSceneCtrl:Init()
+    if MainSceneCtrl.Panel == nil then
+        -- 加载预制体
+        self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "MainSceneUI"), "UI", true):GetComponent("UISubObject")
+        LoadManager:Load(ABManager:LoadAsset("prefab", "Main Scene"), "Scene", true)
+
+        -- 添加委托
+        for i = 0, self.Panel.buttons.Length - 1 do
+            if self.Panel.buttons[i] ~= nil then
+                self.Panel.buttons[i].onClick:AddListener(
+                    function()
+                        LoadManager:LoadSystem(self.Panel.buttons[i].name)
+                        MainSceneCtrl.Panel.gameObject:SetActive(false)
+                    end
+                )
+            end
+        end
+    end
+    MainSceneCtrl.Panel.gameObject:SetActive(true)
+
+    -- 刷新金币钻石等数据
+end

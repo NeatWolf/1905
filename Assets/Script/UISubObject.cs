@@ -20,18 +20,22 @@ public class UISubObject : MonoBehaviour
     {
         for (int i = 0; i < buttons.Length; i++)
         {
+            if(buttons[i]!=null)
             buttons[i].onClick.RemoveAllListeners();
         }
         for (int i = 0; i < texts.Length; i++)
         {
+            if (texts[i] != null)
             texts[i].onCullStateChanged.RemoveAllListeners();
         }
         for (int i = 0; i < images.Length; i++)
         {
+            if (images[i] != null)
             images[i].onCullStateChanged.RemoveAllListeners();
         }
         for (int i = 0; i < inputFields.Length; i++)
         {
+            if (inputFields[i] != null)
             inputFields[i].onEndEdit.RemoveAllListeners();
         }
 

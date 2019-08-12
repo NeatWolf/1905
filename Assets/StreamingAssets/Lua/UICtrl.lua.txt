@@ -34,6 +34,40 @@ end
     time:2019-08-11 16:40:23
     @return:
 ]]
-function UICtrl:Pop( )
-    
+function UICtrl:Pop()
+end
+
+--[[
+    @desc: 退出弹窗
+    author:{author}
+    time:2019-08-11 21:19:15
+    @return:
+]]
+function UICtrl:Back()
+end
+
+--[[
+    @desc: 返回主场景
+    author:{author}
+    time:2019-08-11 21:19:58
+    @return:
+]]
+function UICtrl:Back2MainScene()
+    UICtrl:CutTo(
+        0.5,
+        function()
+            -- 销毁除MainSceneUI以外的组件
+            if LoadManager.findedParents["UI"] == nil then
+                LoadManager.findedParents["UI"] = CS.UnityEngine.GameObject.Find("UI")
+            end
+            for i = 0, LoadManager.findedParents["UI"].transform.childCount - 1 do
+                local go = LoadManager.findedParents["UI"].transform:GetChild(i)
+                if go.name ~= "MainSceneUI" and go.name ~= "CameraMask" then
+                    CS.UnityEngine.Object.Destroy(go.gameObject)
+                end
+            end
+            -- 激活主场景
+            MainSceneCtrl:Init()
+        end
+    )
 end

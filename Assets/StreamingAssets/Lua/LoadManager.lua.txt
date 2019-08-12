@@ -25,7 +25,6 @@ function LoadManager:Load(gameObject, parent, isLast)
     elseif parent ~= nil then
         go = CS.UnityEngine.Object.Instantiate(gameObject, parent)
     else
-        
         -- print("parent为nil")
         go = CS.UnityEngine.Object.Instantiate(gameObject)
     end
@@ -90,6 +89,14 @@ function LoadManager:LoadSystem(systemName)
     else
         CS.Luax.Instance:DoString(ABManager:LoadAsset("script", systemName .. "Ctrl.lua").text)
     end
+
+    -- 调用Init
+    UICtrl:CutTo(
+        1,
+        function()
+            CS.Luax.Instance:DoString(systemName .. "Ctrl:Init()")
+        end
+    )
 end
 
 --[[

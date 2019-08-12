@@ -1,7 +1,7 @@
 GameStartCtrl = {}
 
 -- 加载登录系统
-function GameStartCtrl:Login()
+function GameStartCtrl:Init()
     local subObj = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
     subObj.buttons[0].onClick:AddListener(
         function()
@@ -33,7 +33,10 @@ function GameStartCtrl:LoadingBar()
                 function()
                     -- 进入游戏主场景，销毁不需要的UI
                     CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
-                    MainSceneCtrl:Init()
+                    -- 读取主场景脚本，清除GameStartCtrl占用
+                    LoadManager:LoadSystem("MainScene")
+
+                    GameStartCtrl = nil
                 end
             )
         end
@@ -43,11 +46,4 @@ function GameStartCtrl:LoadingBar()
     StaticDataModel:ReadOut()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
-
-    -- 读取主场景脚本，清除GameStartCtrl占用
-    LoadManager:LoadSystem("MainScene")
-
-    GameStartCtrl = nil
 end
-
-UICtrl:CutTo(2, GameStartCtrl.Login)

@@ -12,8 +12,6 @@ public class UISubObject : MonoBehaviour
     public Image[] images;
     public InputField[] inputFields;
     public GameObject[] go;
-    
-    
 
 
 
@@ -22,19 +20,23 @@ public class UISubObject : MonoBehaviour
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            buttons[i].onClick.RemoveAllListeners();
+            if (buttons[i] != null)
+                buttons[i].onClick.RemoveAllListeners();
         }
         for (int i = 0; i < texts.Length; i++)
         {
-            texts[i].onCullStateChanged.RemoveAllListeners();
+            if (texts[i] != null)
+                texts[i].onCullStateChanged.RemoveAllListeners();
         }
         for (int i = 0; i < images.Length; i++)
         {
-            images[i].onCullStateChanged.RemoveAllListeners();
+            if (images[i] != null)
+                images[i].onCullStateChanged.RemoveAllListeners();
         }
         for (int i = 0; i < inputFields.Length; i++)
         {
-            inputFields[i].onEndEdit.RemoveAllListeners();
+            if (inputFields[i] != null)
+                inputFields[i].onEndEdit.RemoveAllListeners();
         }
 
     }

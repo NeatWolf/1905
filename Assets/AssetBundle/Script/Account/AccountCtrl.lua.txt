@@ -3,10 +3,3 @@ AccountCtrl = {}
 function AccountCtrl:Init()
     print("进入账号")
 end
-
-UICtrl:CutTo(
-    1,
-    function()
-        AccountCtrl:Init()
-    end
-)

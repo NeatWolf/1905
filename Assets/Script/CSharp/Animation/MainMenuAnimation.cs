@@ -11,8 +11,9 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Warehouse, btn_Lottery, btn_AV,btn_Explore;
     Camera mainCam;
 
+    Color color;
 
-
+    
     private void Awake()
     {
         
@@ -29,6 +30,7 @@ public class MainMenuAnimation : MonoBehaviour
         Debug.Log("探索按钮"+btn_Explore.name);
 
 
+        color = btn_RoleMan.GetComponent<Image>().color;
     }
 
 
@@ -126,7 +128,7 @@ public class MainMenuAnimation : MonoBehaviour
 
 
 
-        DestroyButton();
+        //DestroyButton();
 
     }
     /// <summary>
@@ -147,10 +149,15 @@ public class MainMenuAnimation : MonoBehaviour
     void SetButtonLeave()
     {
         btn_Active.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_Active.GetComponent<Image>().color = color;
         btn_RoleMan.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_RoleMan.GetComponent<Image>().color = color;
         btn_Fabricate.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_Fabricate.GetComponent<Image>().color = color;
         btn_Warehouse.transform.localPosition += new Vector3(1000, 0, 0);
+        btn_Warehouse.GetComponent<Image>().color = color;
         btn_Lottery.transform.localPosition += new Vector3(-1000, 0, 0);
+        btn_Lottery.GetComponent<Image>().color = color;
 
     }
 

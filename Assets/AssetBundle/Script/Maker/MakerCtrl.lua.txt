@@ -23,9 +23,11 @@ MakerCtrl.ItemChoice = nil
 function MakerCtrl:Init()
     print("进入制品手造")
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
+    
     self:ShowItems()
-
+    
     self.Panel.toggles[1].onValueChanged:AddListener( function(isTrue) self:changeTag(isTrue) end)
+    
     self.Panel.toggles[2].onValueChanged:AddListener( function()
         if self.Panel.toggles[1].isOn == true then
             self.Tag = Tag2
@@ -43,6 +45,7 @@ end
 
  function MakerCtrl:changeTag(isTrue)
     if isTrue == true then
+        
         self.Tag = Tag1
     end
     self:ShowItems()
@@ -65,6 +68,7 @@ end
 
 -- 依序显示当前条件下的所有道具
 function MakerCtrl:ShowItems()
+
     self.ItemChoice = nil
     self.RightItems = {}
 

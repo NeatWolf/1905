@@ -33,6 +33,7 @@ function GameStartCtrl:LoadingBar()
                 function()
                     -- 进入游戏主场景，销毁不需要的UI
                     CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
+                    
                     MainSceneCtrl:Init()
                 end
             )

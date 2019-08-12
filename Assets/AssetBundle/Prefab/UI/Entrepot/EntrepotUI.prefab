@@ -1232,6 +1232,7 @@ MonoBehaviour:
   - {fileID: 2991455062369489701}
   - {fileID: 2022136829278535264}
   - {fileID: 1990571355}
+  toggles: []
   texts: []
   images: []
   inputFields: []
@@ -3949,12 +3950,12 @@ PrefabInstance:
     - target: {fileID: 1782855269000303335, guid: 57a0180e14d3a2e4ca8c61a30a9031e5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 205.85704
+      value: 205.83977
       objectReference: {fileID: 0}
     - target: {fileID: 1782855269000303335, guid: 57a0180e14d3a2e4ca8c61a30a9031e5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.002394454
+      value: -0.0024414062
       objectReference: {fileID: 0}
     - target: {fileID: 3775211402569733416, guid: 57a0180e14d3a2e4ca8c61a30a9031e5,
         type: 3}

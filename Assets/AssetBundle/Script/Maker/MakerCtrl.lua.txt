@@ -130,6 +130,7 @@ function MakerCtrl:ShowHeroCells(_herosList)
 end
 
 function MakerCtrl:ShowHeroChoice()
+    -- self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "self.HeroChoice.TexturePath" , CS.UnityEngine.Sprite)
 end
 
 -- 显示英雄选择界面
@@ -165,7 +166,7 @@ function MakerCtrl:ShowHeros()
     elseif self.Tag == Tag3 then
         _, _, _herosList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Heros, "InsBuff", 1, "4", "5", "6", "7", "8", "9")
     end
-
+    _ = nil
     self:ShowHeroCells(_herosList)
 end
 
@@ -236,6 +237,7 @@ function MakerCtrl:ShowItems()
     LoadManager:DeleteAllChilds(self.RightContent)
 
     local items = {}
+    local _ = nil
     if self.Tag == Tag1 then
         items,_,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "2")
     elseif self.Tag == Tag2 then
@@ -243,6 +245,7 @@ function MakerCtrl:ShowItems()
     elseif self.Tag == Tag3 then
         items,_,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "4")
     end
+    _ = nil
 
     -- 判断是否可合成
     self:CheckAllSyn(items)
@@ -306,7 +309,9 @@ function MakerCtrl:ShowSynNeeds()
     end
 
     for i = 1, 3, 1 do
-        if _needsList[2 * i - 1] ~= nil then
+        -- 如果有所需合成的道具
+        if 2*i <= #_needsList then
+            print("_needsList:" .. _needsList[2 * i - 1] .. "," .. _needsList[2 * i])
             -- 遍历玩家目前的所有道具
             for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
                 -- 如果ID匹配
@@ -315,7 +320,14 @@ function MakerCtrl:ShowSynNeeds()
                     -- 显示数量
                     self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = _needsList[2 * i] .. "/" .. v.Count
                     -- 显示图片
-                    self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = ABManager:LoadAsset("texture", v.TexturePath , CS.UnityEngine.Sprite)
+                    if ABManager:LoadAsset("texture", v.TexturePath , CS.UnityEngine.Sprite) ~= nil then
+                        print("sprite is not nil")
+                        self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = ABManager:LoadAsset("texture", v.TexturePath , CS.UnityEngine.Sprite)
+                    else
+                        print("sprite is nil")
+                        self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = nil
+                    end
+
                     if tonumber(v.Count) < tonumber(_needsList[2 * i]) then
                         -- 显示不够时的效果
                     end
@@ -323,10 +335,13 @@ function MakerCtrl:ShowSynNeeds()
                 -- 如果ID匹配不到
                 elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
                     self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = _needsList[2 * i] .. "/0"
+                    self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = nil
                 end
             end
+        -- 如果不需要道具了
         else
             self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = ""
+            self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = nil
         end
     end
 end

@@ -367,17 +367,11 @@ MonoBehaviour:
   - {fileID: 8893994424402476556}
   - {fileID: 2871065121648413230}
   - {fileID: 3314904017232613759}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   toggles: []
   texts: []
   images: []
   inputFields: []
   go:
-  - {fileID: 0}
   - {fileID: 8665397427885128987}
   - {fileID: 8665397428271951813}
 --- !u!114 &7224734697953107320

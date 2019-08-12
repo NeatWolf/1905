@@ -12,7 +12,7 @@ public struct CallLua
 {
     [CSharpCallLua]
     public delegate void GameObjectEvent(GameObject go);
-
+    
     public UnityAction start;
     public UnityAction update;
     public UnityAction SecondUpdate;

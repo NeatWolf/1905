@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Events;
 
-
 public class MainMenuAnimation : MonoBehaviour
 {
     Button btn_Active, btn_RoleMan, btn_Fabricate,

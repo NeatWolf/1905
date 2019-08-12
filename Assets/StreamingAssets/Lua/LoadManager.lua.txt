@@ -101,6 +101,11 @@ function LoadManager:LoadSystem(systemName, time)
         UICtrl:CutTo(
             1,
             function()
+                if MainSceneCtrl then
+                    if MainSceneCtrl.Panel and systemName ~= "MainScene" then
+                        MainSceneCtrl.Panel.gameObject:SetActive(false)
+                    end
+                end
                 CS.Luax.Instance:DoString(systemName .. "Ctrl:Init()")
             end
         )
@@ -123,9 +128,8 @@ function LoadManager:LoadLua(dirName, ScriptName)
     end
 end
 
-
 function LoadManager:DeleteAllChilds(parent)
-    for i=parent.transform.childCount-1 , 1 , -1 do
+    for i = parent.transform.childCount - 1, 1, -1 do
         CS.UnityEngine.Object.Destroy(parent.transform:GetChild(i).gameObject)
         print(i)
     end

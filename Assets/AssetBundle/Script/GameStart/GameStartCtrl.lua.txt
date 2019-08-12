@@ -29,9 +29,15 @@ function GameStartCtrl:LoadingBar()
         if barImage.fillAmount == 1 then
             -- 加载完成
             -- 进入游戏主场景，销毁不需要的UI
-            CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
             -- 读取主场景脚本，清除GameStartCtrl占用
             LoadManager:LoadSystem("MainScene")
+            UICtrl:BlackMaskAni(
+                1,
+                0.5,
+                function()
+                    CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
+                end
+            )
 
             GameStartCtrl = nil
         end

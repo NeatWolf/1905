@@ -107,3 +107,11 @@ function LoadManager:LoadLua(dirName, ScriptName)
         CS.Luax.Instance:DoString(ABManager:LoadAsset("script", ScriptName .. ".lua").text)
     end
 end
+
+
+function LoadManager:DeleteAllChilds(parent)
+    for i=parent.transform.childCount-1 , 1 , -1 do
+        CS.UnityEngine.Object.Destroy(parent.transform:GetChild(i).gameObject)
+        print(i)
+    end
+end

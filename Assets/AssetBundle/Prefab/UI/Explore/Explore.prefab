@@ -2891,7 +2891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4041672854436874611
 Transform:
   m_ObjectHideFlags: 0
@@ -9876,6 +9876,7 @@ MonoBehaviour:
   - {fileID: 9005392110880386331}
   toggles: []
   texts: []
+  tmps: []
   images: []
   inputFields: []
   go: []

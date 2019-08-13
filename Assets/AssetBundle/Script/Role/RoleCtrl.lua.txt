@@ -3,9 +3,6 @@ RoleCtrl = {}
 -- 预制体上的UISubObject脚本，内含所有UI对象
 RoleCtrl.Panel = nil
 
-local _CenterHeroIndex = 1
-local _LeftHeroIndex = _CenterHeroIndex - 1
-local _RightHeroIndex = _CenterHeroIndex + 1
 
 function RoleCtrl:Init()
     print("进入角色管理")
@@ -51,32 +48,13 @@ function RoleCtrl:Init()
     -- print(PlayerDataModel.CompletePlayerData.Heros[2])
 end
 
-function RoleCtrl:LeftChangeHeroClick()
-    _RightHeroIndex = _CenterHeroIndex
-    _CenterHeroIndex = _LeftHeroIndex
-    _LeftHeroIndex = _LeftHeroIndex - 1
-    self:ShowHero()
+
+function RoleCtrl:ShowHerosList()
+
 end
 
-function RoleCtrl:RightChangeHeroClick()
-    _LeftHeroIndex = _CenterHeroIndex
-    _CenterHeroIndex = _RightHeroIndex
-    _RightHeroIndex = _RightHeroIndex + 1
-    self:ShowHero()
-end
+function RoleCtrl:ShowHeroInfo()
 
-function RoleCtrl:ShowHero()
-    if _LeftHeroIndex <= 0 then
-        _LeftHeroIndex = PlayerDataModel.CompletePlayerData.Heros[#(PlayerDataModel.CompletePlayerData.Heros)]
-    end
-    if _RightHeroIndex >= #(PlayerDataModel.CompletePlayerData.Heros) then
-        _RightHeroIndex = PlayerDataModel.CompletePlayerData.Heros[1]
-    end
-
-    -- PlayerDataModel.CompletePlayerData.Heros[_LeftHeroIndex].TexturePath
-    -- PlayerDataModel.CompletePlayerData.Heros[_RightHeroIndex].TexturePath
-
-    local _CenterHeroData = PlayerDataModel.CompletePlayerData.Heros[_CenterHeroIndex]
 end
 
 --[[

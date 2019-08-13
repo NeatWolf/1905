@@ -173,7 +173,7 @@ public static class AnimateManager
     public static void TroopsPreviousnimate(GameObject troops,GameObject bg,GameObject title){
         troops.SetActive(false);
         bg.GetComponent<Image>().color=new Color(0.1803922f,0.01568628f,0.2666667f,0);
-        title.transform.localPosition=new Vector3(1000,);
+        // title.transform.localPosition=new Vector3(1000,);
 
     }
 

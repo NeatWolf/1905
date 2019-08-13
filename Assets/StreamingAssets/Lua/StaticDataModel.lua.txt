@@ -112,6 +112,29 @@ function StaticDataModel:MergeData(playerData)
     return finalData
 end
 
+
+-- 按key的第index个值 进行筛选
+function StaticDataModel:ScreenList(list, key, index, ...)
+    -- 1.满足条件的
+    local list1 = {}
+    -- 2.不满足条件的
+    local list2 = {}
+    for k, v in pairs(list) do
+        local _strs = ModelTool:SplitStr(v[key])
+        for i = 1, select("#", ...) do
+            if _strs[index] == select(i, ...) then
+                table.insert(list1, v)
+            elseif i == select("#", ...) then
+                table.insert(list2, v)
+            end
+        end
+    end
+
+    return list1,list2
+end
+
+
+
 --[[
     @desc: 道具排序
     author:{author}
@@ -123,7 +146,7 @@ end
 	--@changeWay: 第二层排序的升序降序（ 1 / -1 ）
     @return:
 ]]
-function StaticDataModel:Sort(list, key1,value1, key2,changeWay)
+function StaticDataModel:SortItem(list, key1,value1, key2,changeWay)
     for i = 1, #list do
         for j = 1, #list - i do
             -- 第一层排序
@@ -147,26 +170,39 @@ function StaticDataModel:Sort(list, key1,value1, key2,changeWay)
 end
 
 
+-- 按InsBuff的值对英雄进行排序
+function StaticDataModel:SortHeroByInsBuff(herosList, ...)
+    local list1 = {}
+    local list2 = {}
+    list1,list2 = StaticDataModel:ScreenList(herosList, "InsBuff",1, ...)
 
+    for i = 1, #list1 do
+        for j = 1, #list1 - i do
 
-function StaticDataModel:ScreenList(list, key, index, ...)
-    -- 1.满足条件的
-    local newTable1 = {}
-    -- 2.不满足条件的
-    local newTable2 = {}
-    -- 3.满足条件+不满足条件
-    local newTable3 = {}
-    for k, v in pairs(list) do
-        local _strs = ModelTool:SplitStr(v[key])
-        for i = 1, select("#", ...) do
-            if _strs[index] == select(i, ...) then
-                table.insert(newTable1, v)
-            elseif i == select("#", ...) then
-                table.insert(newTable2, v)
+            local _buff1 = ModelTool:SplitStr(list1[j].InsBuff)
+            local _buff2 = ModelTool:SplitStr(list1[j+1].InsBuff)
+            if tonumber(_buff1[2]) < tonumber(_buff2[2])  then
+                -- print(_buff1[2] .. " " .. _buff2[2])
+                -- print("change")
+                list1[j], list1[j + 1] = list1[j + 1], list1[j]
+            -- 第三层排序 ID
+            elseif tonumber(_buff1[2]) == tonumber(_buff2[2]) and tonumber(list1[j].HeroID) > tonumber(list1[j+1].HeroID) then
+                -- print( list1[j].HeroID .. " " .. list1[j+1].HeroID )
+                -- print("change")
+                list1[j], list1[j + 1] = list1[j + 1], list1[j]
             end
         end
     end
-    newTable3 = ModelTool:MergeTable(newTable1,newTable2)
-    return newTable1,newTable2,newTable3
-end
 
+    for i = 1, #list2 do
+        for j = 1, #list2 - i do
+            if  tonumber(list2[j].HeroID) > tonumber(list2[j+1].HeroID) then
+                -- print( list2[j].HeroID .. " " .. list2[j+1].HeroID )
+                -- print("change")
+                list2[j], list2[j + 1] = list2[j + 1], list2[j]
+            end
+        end
+    end
+    
+    return ModelTool:MergeTable(list1,list2)
+end

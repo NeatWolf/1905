@@ -1,0 +1,91 @@
+NPCsCtrl = {}
+-- 预制体上的UISubObject脚本，内含所有UI对象
+NPCsCtrl.Panel = nil
+
+-- 数据表
+NPCsCtrl.Name1 = nil
+NPCsCtrl.Name2 = nil
+NPCsCtrl.Name3 = nil
+NPCsCtrl.SpeakYes = nil
+NPCsCtrl.SpeakNo = nil
+
+-- 购买记录表
+NPCsCtrl.Records = nil
+
+function NPCsCtrl:Init()
+    self.Name1 = ModelTool:SplitStr(StaticDataModel.NPCsTable.Name1)
+    self.Name2 = ModelTool:SplitStr(StaticDataModel.NPCsTable.Name2)
+    self.Name3 = ModelTool:SplitStr(StaticDataModel.NPCsTable.Name3)
+    self.SpeakYes = ModelTool:SplitStr(StaticDataModel.NPCsTable.SpeakYes)
+    self.SpeakNo = ModelTool:SplitStr(StaticDataModel.NPCsTable.SpeakNo)
+    self.Records = {}
+end
+
+
+function NPCsCtrl:RandomNPC()
+    local _npc = {}
+    local _name1 = self.Name1[math.random(#self.Name1)]
+    local _name2 = self.Name2[math.random(#self.Name2)]
+    local _name3 = self.Name3[math.random(#self.Name3)]
+    _npc.Name = _name1 .. "." .. _name2 .. "." .. _name3
+    print("随机NPC名字：" .. _npc.Name)
+    
+    if math.random(2) == 1 then
+        _npc.willBuy = true
+        _npc.Speak = self.SpeakYes[math.random(#self.SpeakYes)]
+    else
+        _npc.willBuy = false
+        _npc.Speak = self.SpeakNo[math.random(#self.SpeakNo)]
+    end
+
+    return _npc
+
+    -- local res = "random test: "
+    -- math.randomseed(tostring(os.time()):reverse():sub(1, 7))
+    -- for i=0, 10 do
+    --     local n = math.random(5)
+    --     res = res .. n
+    -- end
+    -- print(res)
+
+end
+
+
+function NPCsCtrl:RandomSth()
+    local _sth = {}
+    -- 随机 当前货架上的物品
+    local EntrepotItems = PlayerDataModel.CompletePlayerData.Items
+    local _target = EntrepotItems[math.random(#EntrepotItems)]
+    _sth = _target
+    _sth.Count = tostring( math.random(tonumber(_target.Count)) )
+
+    return _sth
+end
+
+
+function NPCsCtrl:BuySth()
+    local _NPC = self:RandomNPC()
+    print("_NPC.willBuy:" .. tostring(_NPC.willBuy))
+
+    -- 如果没有购买
+    if _NPC.willBuy == false then
+        -- 显示没有购买的消息
+        return
+    end
+
+    -- 如果购买了
+    -- 随机购买的道具信息
+    local _Sth = self:RandomSth()
+    -- 显示购买的消息
+
+    -- 记下购买记录
+    table.insert(self.Records, _NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name)
+
+
+    -- 测试打印
+    ModelTool:SetMeta(self.Records)
+    print(_NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name)
+end
+
+NPCsCtrl:Init()
+NPCsCtrl:BuySth()

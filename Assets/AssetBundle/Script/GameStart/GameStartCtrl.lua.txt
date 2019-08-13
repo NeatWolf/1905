@@ -47,4 +47,8 @@ function GameStartCtrl:LoadingBar()
     StaticDataModel:ReadOut()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
+
+    
+    -- 测试NPCsCtrl程序
+    LoadManager:LoadLua("Entrepot", "NPCsCtrl")
 end

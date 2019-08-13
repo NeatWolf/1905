@@ -2911,6 +2911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3174459823517317579}
   - component: {fileID: 4422993380570731289}
+  - component: {fileID: 310229711}
   m_Layer: 5
   m_Name: LotteryUI
   m_TagString: Untagged
@@ -2952,9 +2953,26 @@ MonoBehaviour:
   - {fileID: 439816059}
   toggles: []
   texts: []
+  tmps: []
   images: []
   inputFields: []
-  go: []
+  go:
+  - {fileID: 1732490308}
+  - {fileID: 439816057}
+  - {fileID: 8765896621481263596}
+  - {fileID: 8586909597335067268}
+--- !u!114 &310229711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3415583257672742963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3a289e71d643c42bba9ba0d30868c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3727658921798883706
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ public class MainMenuAnimation : MonoBehaviour
     private void OnEnable()
     {
         mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        if (mainCam.gameObject.active == false)
+        if (mainCam.gameObject.activeSelf == false)
         {
             mainCam.gameObject.SetActive(true);
         }
@@ -122,9 +122,8 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Lottery.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
 
 
-        btn_AV.transform.DOScale(1.2f, 0.2f);
-        btn_AV.transform.DOScale(0, 0.8f);
-        btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
+        btn_AV.transform.DOScale(0, 0.5f);
+        btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.5f);
 
 
 
@@ -173,6 +172,9 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Fabricate.transform.DOLocalMoveX(-447, 0.5f);
         btn_Warehouse.transform.DOLocalMoveX(-447, 0.5f);
         btn_Lottery.transform.DOLocalMoveX(300, 0.5f);
+        
+        btn_AV.transform.DOScale(3, 0.5f);
+        btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 0.5f);
     }
 
 

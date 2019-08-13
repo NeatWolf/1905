@@ -1190,8 +1190,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4527658775330947871}
   m_HandleRect: {fileID: 4527658775330947868}
   m_Direction: 2
-  m_Value: 0.99999803
-  m_Size: 0.721487
+  m_Value: 0.9999902
+  m_Size: 0.7214869
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2581,7 +2581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0007324219}
+  m_AnchoredPosition: {x: 0, y: 0.0036010742}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4527658774525421099
@@ -6461,6 +6461,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953784389031175029, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953784389031175029, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953784389031175029, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7953784389031175029, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 790230355647952079, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 790230355647952079, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 790230355647952079, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 790230355647952079, guid: 2cf45a930d8af2347a7fdee53215d1ea,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cf45a930d8af2347a7fdee53215d1ea, type: 3}

@@ -15,7 +15,6 @@ function MainSceneCtrl:Init()
                 self.Panel.buttons[i].onClick:AddListener(
                     function()
                         LoadManager:LoadSystem(self.Panel.buttons[i].name)
-                        MainSceneCtrl.Panel.gameObject:SetActive(false)
                     end
                 )
             end

@@ -14,7 +14,16 @@ public class RoleManAnimation : MonoBehaviour
     }
     private void OnEnable()
     {
+        
         AnimateManager.AddCams(canvas);
         AnimateManager.AddButtonsAnimate(btns);
+    }
+
+    private void Start() {
+        btns[3].onClick.AddListener(()=>{
+            
+
+
+        });
     }
 }

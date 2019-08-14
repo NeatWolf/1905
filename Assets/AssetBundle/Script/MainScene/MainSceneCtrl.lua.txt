@@ -3,6 +3,18 @@ MainSceneCtrl = {}
 -- 主界面上的UISubObject脚本，内含所有UI对象
 MainSceneCtrl.Panel = nil
 
+-- 测试NPCsCtrl程序
+LoadManager:LoadLua("Entrepot", "NPCsCtrl")
+
+MainSceneCtrl.DayState = 1
+MainSceneCtrl.NightChange = false
+MainSceneCtrl.DayChange = false
+
+local dayTimer = 0
+local NpcTimer = 0
+local NpcMinTime = 40 * 0.1
+local NpcMaxTime = 60 * 0.1
+
 function MainSceneCtrl:Init()
     if MainSceneCtrl.Panel == nil then
         -- 加载预制体
@@ -23,4 +35,47 @@ function MainSceneCtrl:Init()
     MainSceneCtrl.Panel.gameObject:SetActive(true)
 
     -- 刷新金币钻石等数据
+
+
+    -- 随机白天/夜晚
+    if math.random(2) == 1 then
+        self.DayState = 1
+    else
+        self.DayState = -1
+    end
+    -- 随机当前时间
+    dayTimer = math.random(Core.GamePeriod/2)
+    -- 在Core里添加 NPC购买事件的周期检测
+    Core.updateEvent = function() self:GameStartPeriod() end
+    -- Core.secondEvent = function() self:NpcStartBuy() end
 end
+
+-- 开始游戏白天黑夜周期
+function MainSceneCtrl:GameStartPeriod()
+    dayTimer  = dayTimer + CS.UnityEngine.Time.deltaTime
+    if dayTimer >= Core.GamePeriod/2 then
+        self.DayState = self.DayState * -1
+        if self.DayState == -1 then
+            self.NightChange = true
+            self.DayChange = false
+        else
+            self.DayChange = true
+            self.NightChange = false
+        end
+        dayTimer = 0
+    end
+end
+
+-- 开始NPC随机购买事件
+function MainSceneCtrl:NpcStartBuy()
+    NpcTimer = NpcTimer + 1
+    if NpcTimer >= NpcMinTime then
+        local r = math.random(3)
+        if r == 3 or NpcTimer >= NpcMaxTime then
+            -- 触发npc来的事件
+            NPCsCtrl:NpcCome()
+            NpcTimer = 0
+        end
+    end
+end
+

@@ -20,19 +20,20 @@ function Core.Start()
     LoadManager:LoadSystem("GameStart")
 end
 
+-- 游戏一天一夜循环周期
 Core.GamePeriod = 1800 * 0.1
+
 -- 计时委托
 Core.timer = 0
 Core.timerEvent = nil
 -- 倒计时
 Core.countDown = 0
 Core.cdEvent = nil
-Core.DayState = 1
 
-local dayTimer = 0
-local NpcTimer = 0
-local NpcMinTime = 20 * 0.1
-local NpcMaxTime = 30 * 0.1
+Core.updateEvent = nil
+
+Core.secondEvent = nil
+
 
 --每帧刷新
 function Core.Update()
@@ -55,26 +56,15 @@ function Core.Update()
         end
     end
 
-    dayTimer  = dayTimer + CS.UnityEngine.Time.deltaTime
-    if dayTimer >= Core.GamePeriod/2 then
-        Core.DayState = Core.DayState * -1
-        NpcTimer = 0
+    if Core.updateEvent ~= nil then
+        Core.updateEvent()
     end
-
-
-
 
 end
 
 --每秒刷新
 function Core.SecondUpdate()
-    NpcTimer = dayTimer + 1
-    if NpcTimer >= NpcMinTime then
-        local r = math.random(10)
-        print(r)
-        if r == 10 or NpcTimer >= NpcMaxTime then
-            -- 触发npc来购买的事件
-            NpcTimer = 0
-        end
+    if Core.secondEvent ~= nil then
+        Core.secondEvent()
     end
 end

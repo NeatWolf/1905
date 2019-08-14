@@ -12,6 +12,8 @@ NPCsCtrl.SpeakNo = nil
 -- 购买记录表
 NPCsCtrl.Records = nil
 
+local specialNpcCome = 0
+
 function NPCsCtrl:Init()
     self.Name1 = ModelTool:SplitStr(StaticDataModel.NPCsTable.Name1)
     self.Name2 = ModelTool:SplitStr(StaticDataModel.NPCsTable.Name2)
@@ -23,22 +25,13 @@ end
 
 
 function NPCsCtrl:RandomNPC()
-    local _npc = {}
+
     local _name1 = self.Name1[math.random(#self.Name1)]
     local _name2 = self.Name2[math.random(#self.Name2)]
     local _name3 = self.Name3[math.random(#self.Name3)]
-    _npc.Name = _name1 .. "." .. _name2 .. "." .. _name3
-    print("随机NPC名字：" .. _npc.Name)
+    local name = _name1 .. "." .. _name2 .. "." .. _name3
     
-    if math.random(2) == 1 then
-        _npc.willBuy = true
-        _npc.Speak = self.SpeakYes[math.random(#self.SpeakYes)]
-    else
-        _npc.willBuy = false
-        _npc.Speak = self.SpeakNo[math.random(#self.SpeakNo)]
-    end
-
-    return _npc
+    return name
 
     -- local res = "random test: "
     -- math.randomseed(tostring(os.time()):reverse():sub(1, 7))
@@ -53,39 +46,93 @@ end
 
 function NPCsCtrl:RandomSth()
     local _sth = {}
-    -- 随机 当前货架上的物品
-    local EntrepotItems = PlayerDataModel.CompletePlayerData.Items
-    local _target = EntrepotItems[math.random(#EntrepotItems)]
-    _sth = _target
-    _sth.Count = tostring( math.random(tonumber(_target.Count)) )
-
-    return _sth
+    local EntrepotItems = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Items)
+    -- 判断货架上是否有物品
+    if EntrepotItems == {} then
+        return nil
+    else
+        -- 随机 当前货架上的物品
+        local _sth = EntrepotItems[math.random(#EntrepotItems)]
+        print(_sth.ItemID .. " 现有数量："  .. _sth.Count)
+        _sth.Count = tostring( math.random(tonumber(_sth.Count)) )
+        return _sth
+    end
 end
 
 
-function NPCsCtrl:BuySth()
-    local _NPC = self:RandomNPC()
-    print("_NPC.willBuy:" .. tostring(_NPC.willBuy))
+function NPCsCtrl:RandomBuy()
+    -- 需要显示在消息栏的内容
+    local _message = ""
+
+    local _NPC = {}
+    
+    -- 随机生成NPC
+    _NPC.Name = self:RandomNPC()
+
+    -- 随机是否购买
+    if math.random(2) == 1 then
+        _NPC.willBuy = true
+        _NPC.Speak = "\"" .. self.SpeakYes[math.random(#self.SpeakYes)] .. "\""
+    else
+        _NPC.willBuy = false
+        _NPC.Speak = "\"" .. self.SpeakNo[math.random(#self.SpeakNo)] .. "\""
+    end
 
     -- 如果没有购买
     if _NPC.willBuy == false then
         -- 显示没有购买的消息
-        return
+        _message = _NPC.Speak .. _NPC.Name .. "來瞧了瞧，但並沒有買到心儀的物品。"
+    else
+        -- 如果购买了
+        -- 随机购买的道具信息
+        local _Sth = self:RandomSth()
+        -- 如果货架上没有东西
+        if _Sth == nil then
+            -- 显示没有购买的消息
+            _message = _NPC.Speak .. _NPC.Name .. "來瞧了瞧，但货架上空空如也。"
+        else
+            -- 显示购买的消息
+            _message = _NPC.Speak .. _NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name .. "。"
+            -- 记下购买记录
+            table.insert(self.Records, _NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name .. "。")
+            -- 玩家道具进行扣除
+            PlayerDataModel:RemoveItem(_Sth)
+        end
     end
 
-    -- 如果购买了
-    -- 随机购买的道具信息
-    local _Sth = self:RandomSth()
-    -- 显示购买的消息
-
-    -- 记下购买记录
-    table.insert(self.Records, _NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name)
-
-
-    -- 测试打印
-    ModelTool:SetMeta(self.Records)
-    print(_NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name)
+    -- 返回消息内容
+    return _message
 end
 
+local sNpcTimer = 0
+local addTimer = 0
+local function SpecialNpcCome()
+    sNpcTimer = sNpcTimer + CS.UnityEngine.Time.deltaTime
+    if sNpcTimer >= Core.GamePeriod/10 then
+        addTimer = addTimer + 1
+    end
+    -- -------------------------------------------------------------------------
+end
+
+function NPCsCtrl:NpcCome()
+    -- 随机是否购买
+    local Message = NPCsCtrl:RandomBuy()
+    -- 测试打印
+    print(Message)
+    
+    -- 判断白天还是夜晚
+    if MainSceneCtrl.DayState == -1 and MainSceneCtrl.NightChange == true then
+        -- 如果是夜晚，随机特殊角色来不来
+        if math.random(2) == 2 then
+            specialNpcCome = math.random(10)
+        end
+        MainSceneCtrl.NightChange = fasle
+    end
+
+    
+
+end
+
+
+
 NPCsCtrl:Init()
-NPCsCtrl:BuySth()

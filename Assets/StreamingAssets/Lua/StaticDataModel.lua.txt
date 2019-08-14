@@ -29,6 +29,69 @@ function StaticDataModel:ReadOut()
     ModelTool:SetMeta(StaticDataModel.NPCsTable)
 end
 
+-- 合并一个英雄数据
+function StaticDataModel:MergeHero(playerHero)
+    for i = 1, #self.HerosTable do
+        -- 如果ID匹配，则合并信息
+        if playerHero.HeroID == self.HerosTable[i].HeroID then
+            local heroNow = {}
+            -- 动态表的数据
+            heroNow.HeroID = playerHero.HeroID
+            heroNow.Level = playerHero.Level
+            heroNow.EnergyMax = playerHero.EnergyMax
+            heroNow.EnergyNow = playerHero.EnergyNow
+            heroNow.ColBuff = playerHero.ColBuff
+            heroNow.ColBuffTem = playerHero.ColBuffTem
+            heroNow.InsBuff = playerHero.InsBuff
+            heroNow.Equips = {}
+            for k = 1, #playerHero.Equips do
+                for v = 1, #self.ItemsTable do
+                    if playerHero.Equips[k].ItemID == self.ItemsTable[v].ItemID then
+                        table.insert(heroNow.Equips, self.ItemsTable[v])
+                    end
+                end
+            end
+            -- 静态表的数据
+            heroNow.Name = self.HerosTable[i].Name
+            heroNow.Age = self.HerosTable[i].Age
+            heroNow.Gender = self.HerosTable[i].Gender
+            heroNow.TexturePath = self.HerosTable[i].TexturePath
+            heroNow.Speak1 = self.HerosTable[i].Speak1
+            heroNow.Speak2 = self.HerosTable[i].Speak2
+
+            return heroNow
+        end
+    end
+end
+
+-- 合并一个道具数据
+function StaticDataModel:MergeItem(playerItem)
+    for i = 1, #self.ItemsTable do
+        -- 如果ID匹配，则合并信息
+        if playerItem.ItemID == self.ItemsTable[i].ItemID then
+            local itemNow = {}
+            -- 动态表的数据
+            itemNow.ItemID = playerItem.ItemID
+            itemNow.Count = playerItem.Count
+            -- 静态表的数据
+            itemNow.Name = self.ItemsTable[i].Name
+            itemNow.TexturePath = self.ItemsTable[i].TexturePath
+            itemNow.Type = self.ItemsTable[i].Type
+            itemNow.Level = self.ItemsTable[i].Level
+            itemNow.ObMethods = self.ItemsTable[i].ObMethods
+            itemNow.Price = self.ItemsTable[i].Price
+            itemNow.HeroBuff = self.ItemsTable[i].HeroBuff
+            itemNow.SuitID = self.ItemsTable[i].SuitID
+            itemNow.SynNeeds = self.ItemsTable[i].SynNeeds
+            itemNow.SynTime = self.ItemsTable[i].SynTime
+            itemNow.Description = self.ItemsTable[i].Description
+
+            return itemNow
+        end
+    end
+end
+
+
 -- 合并出 完整的玩家数据信息
 function StaticDataModel:MergeData(playerData)
     local finalData = {}
@@ -44,68 +107,15 @@ function StaticDataModel:MergeData(playerData)
     finalData.Heros = {}
     -- 合并完整的英雄信息表
     for i = 1, #playerData.Heros do
-        for j = 1, #self.HerosTable do
-            -- 如果ID匹配，则合并信息
-            if playerData.Heros[i].HeroID == self.HerosTable[j].HeroID then
-                local heroNow = {}
-                -- 动态表的数据
-                heroNow.HeroID = playerData.Heros[i].HeroID
-                heroNow.Level = playerData.Heros[i].Level
-                heroNow.EnergyMax = playerData.Heros[i].EnergyMax
-                heroNow.EnergyNow = playerData.Heros[i].EnergyNow
-                heroNow.ColBuff = playerData.Heros[i].ColBuff
-                heroNow.ColBuffTem = playerData.Heros[i].ColBuffTem
-                heroNow.InsBuff = playerData.Heros[i].InsBuff
-                heroNow.Equips = {}
-                for k = 1, #playerData.Heros[i].Equips do
-                    for v = 1, #self.ItemsTable do
-                        if playerData.Heros[i].Equips[k].ItemID == self.ItemsTable[v].ItemID then
-                            table.insert(heroNow.Equips, self.ItemsTable[v])
-                        end
-                    end
-                end
-
-                -- 静态表的数据
-                heroNow.Name = self.HerosTable[j].Name
-                heroNow.Age = self.HerosTable[j].Age
-                heroNow.Gender = self.HerosTable[j].Gender
-                heroNow.TexturePath = self.HerosTable[j].TexturePath
-                heroNow.Speak1 = self.HerosTable[j].Speak1
-                heroNow.Speak2 = self.HerosTable[j].Speak2
-
-                table.insert(finalData.Heros, heroNow)
-                break
-            end
-        end
+        local heroNow = self:MergeHero(playerData.Heros[i])
+        table.insert(finalData.Heros, heroNow)
     end
 
     finalData.Items = {}
     -- 合并完整的道具信息表
     for i = 1, #playerData.Items do
-        for j = 1, #self.ItemsTable do
-            -- 如果ID匹配，则合并信息
-            if playerData.Items[i].ItemID == self.ItemsTable[j].ItemID then
-                local itemNow = {}
-                -- 动态表的数据
-                itemNow.ItemID = playerData.Items[i].ItemID
-                itemNow.Count = playerData.Items[i].Count
-                -- 静态表的数据
-                itemNow.Name = self.ItemsTable[j].Name
-                itemNow.TexturePath = self.ItemsTable[j].TexturePath
-                itemNow.Type = self.ItemsTable[j].Type
-                itemNow.Level = self.ItemsTable[j].Level
-                itemNow.ObMethods = self.ItemsTable[j].ObMethods
-                itemNow.Price = self.ItemsTable[j].Price
-                itemNow.HeroBuff = self.ItemsTable[j].HeroBuff
-                itemNow.SuitID = self.ItemsTable[j].SuitID
-                itemNow.SynNeeds = self.ItemsTable[j].SynNeeds
-                itemNow.SynTime = self.ItemsTable[j].SynTime
-                itemNow.Description = self.ItemsTable[j].Description
-
-                table.insert(finalData.Items, itemNow)
-                break
-            end
-        end
+        local itemNow = self:MergeItem(playerData.Items[i])
+        table.insert(finalData.Items, itemNow)
     end
 
     -- 返回 完整的玩家数据表

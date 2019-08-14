@@ -42,3 +42,49 @@ function PlayerDataModel:WriteIn(data)
     CS.System.IO.File.WriteAllText(self.FilePath, self.PlayerData)
 end
 
+function PlayerDataModel:RemoveItem(itemData)
+
+    -- 遍历玩家目前的所有道具
+    for k,v in pairs(self.PlayerData.Items) do
+        if itemData.ItemID == v.ItemID then
+            -- 扣除玩家表里相应的道具
+            v.Count = tostring(tonumber(v.Count) - tonumber(itemData.Count))
+            print(v.ItemID .. " 剩余数量：" .. v.Count)
+            -- 如果道具数量为0，则去除此道具
+            if v.Count == "0" then
+                PlayerDataModel.PlayerData[k] = nil
+            end
+            break
+        end
+    end
+    for k,v in pairs(self.CompletePlayerData.Items) do
+        if itemData.ItemID == v.ItemID then
+            v.Count = tostring(tonumber(v.Count) - tonumber(itemData.Count))
+            print(v.ItemID .. " 剩余数量：" .. v.Count)
+            if v.Count == "0" then
+                PlayerDataModel.CompletePlayerData[k] = nil
+            end
+            break
+        end
+    end
+
+end
+
+function PlayerDataModel:AddItem(itemID , count)
+
+    local newItem = {}
+    newItem.ItemID = itemID
+    newItem.Count  = tostring(count)
+    -- 增加到玩家动态表
+    table.insert( self.PlayerData.Items , newItem)
+
+    -- 合并出完整道具信息
+    local completeItem = StaticDataModel:MergeItem(newItem)
+    -- 增加到完整的玩家动态表
+    table.insert( self.CompletePlayerData.Items , completeItem)
+
+    -- -- 测试打印
+    -- ModelTool:SetMeta(completeItem)
+    -- print(completeItem)
+
+end

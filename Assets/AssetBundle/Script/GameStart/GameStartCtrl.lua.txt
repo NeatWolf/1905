@@ -49,6 +49,4 @@ function GameStartCtrl:LoadingBar()
     PlayerDataModel:ReadOut()
 
     
-    -- 测试NPCsCtrl程序
-    LoadManager:LoadLua("Entrepot", "NPCsCtrl")
 end

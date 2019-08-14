@@ -1,9 +1,25 @@
 MakerCtrl = {}
--- 预制体上的UISubObject脚本，内含所有UI对象
-MakerCtrl.Panel = nil
-MakerCtrl.RoleWindow = nil
 
-MakerCtrl.RightContent = nil
+-- -- 预制体上的UISubObject脚本，内含所有UI对象
+-- MakerCtrl.Panel = nil
+-- MakerCtrl.RoleWindow = nil
+-- -- 右侧道具列表
+-- MakerCtrl.RightContent = nil
+
+-- -- 记录筛选条件
+-- MakerCtrl.Tag = Tag1
+-- -- 记录排序条件
+-- MakerCtrl.SortWay = SortWay1
+-- MakerCtrl.ChangeWay = 1
+
+-- -- 当前显示的所有道具
+-- MakerCtrl.ItemsNow = nil
+-- -- 当前选中的道具
+-- MakerCtrl.ItemChoice = nil
+-- -- 当前选择的英雄
+-- MakerCtrl.HeroChoice = nil
+-- -- 临时选择的英雄
+-- MakerCtrl._heroChoiceTem = nil
 
 local Tag1 = "Food"
 local Tag2 = "Item"
@@ -12,23 +28,30 @@ local Tag3 = "Equipment"
 local SortWay1 = "Level"
 local SortWay2 = "Price"
 
--- 记录筛选条件
-MakerCtrl.Tag = Tag1
--- 记录排序条件
-MakerCtrl.SortWay = SortWay1
-MakerCtrl.ChangeWay = 1
-
--- 当前显示的所有道具
-MakerCtrl.ItemsNow = nil
--- 当前选中的道具
-MakerCtrl.ItemChoice = nil
--- 当前选择的英雄
-MakerCtrl.HeroChoice = nil
--- 临时选择的英雄
-MakerCtrl._heroChoiceTem = nil
 
 function MakerCtrl:Init()
     print("进入制品手造")
+
+    -- 预制体上的UISubObject脚本，内含所有UI对象
+    MakerCtrl.Panel = nil
+    MakerCtrl.RoleWindow = nil
+
+    MakerCtrl.RightContent = nil
+    -- 记录筛选条件
+    MakerCtrl.Tag = Tag1
+    -- 记录排序条件
+    MakerCtrl.SortWay = SortWay1
+    MakerCtrl.ChangeWay = 1
+
+    -- 当前显示的所有道具
+    MakerCtrl.ItemsNow = nil
+    -- 当前选中的道具
+    MakerCtrl.ItemChoice = nil
+    -- 当前选择的英雄
+    MakerCtrl.HeroChoice = nil
+    -- 临时选择的英雄
+    MakerCtrl._heroChoiceTem = nil
+
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
     if (self.Panel == nil) then
         print("self.Panel == nil")
@@ -36,18 +59,28 @@ function MakerCtrl:Init()
     self.RightContent = CS.UnityEngine.GameObject.Find("Fabricate_Right/BG_List/FabricateList_Scroll/Viewport/Content")
     self:ShowItems()
 
+    -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
+        function()
+
+            UICtrl:Back2MainScene()
+        end
+    )
+    -- 选择英雄按钮
+    self.Panel.buttons[1].onClick:AddListener(
         function()
             self:ShowHerosWindow()
         end
     )
-    self.Panel.buttons[1].onClick:AddListener(
+    -- 合成按钮
+    self.Panel.buttons[2].onClick:AddListener(
         function()
-            self:SynItem()
+            self:SynItem(self.ItemChoice)
         end
     )
-    self.Panel.buttons[1].interactable = false
+    self.Panel.buttons[2].interactable = false
 
+    -- 筛选1：食物
     self.Panel.toggles[0].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -55,9 +88,9 @@ function MakerCtrl:Init()
                 self.ItemChoice = nil
             end
             self:ShowItems()
-            self.Panel.buttons[1].interactable = false
         end
     )
+    -- 筛选2：道具
     self.Panel.toggles[1].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -65,9 +98,9 @@ function MakerCtrl:Init()
                 self.ItemChoice = nil
             end
             self:ShowItems()
-            self.Panel.buttons[1].interactable = false
         end
     )
+    -- 筛选3：武器
     self.Panel.toggles[2].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -75,10 +108,10 @@ function MakerCtrl:Init()
                 self.ItemChoice = nil
             end
             self:ShowItems()
-            self.Panel.buttons[1].interactable = false
         end
     )
 
+    -- 排序1：等级
     self.Panel.toggles[3].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -90,6 +123,7 @@ function MakerCtrl:Init()
             self:ShowItems()
         end
     )
+    -- 排序2：价格
     self.Panel.toggles[4].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -308,7 +342,7 @@ function MakerCtrl:ShowItems()
         local go = ABManager:LoadAsset("prefab", "Button")
         self.ItemsNow[k] = {}
         self.ItemsNow[k].obj = LoadManager:Load(go, self.RightContent.transform, true)
-        self.ItemsNow[k].data = v
+        self.ItemsNow[k].data = ModelTool:CopyTable(v)
         -- 添加事件
         self.ItemsNow[k].obj:GetComponent("Button").onClick:AddListener(
             function()
@@ -318,9 +352,9 @@ function MakerCtrl:ShowItems()
                 print(self.ItemChoice)
                 self:ShowSynNeeds()
                 if v.CouldSyn == "true" then
-                    self.Panel.buttons[1].interactable = true
+                    self.Panel.buttons[2].interactable = true
                 else
-                    self.Panel.buttons[1].interactable = false
+                    self.Panel.buttons[2].interactable = false
                 end
             end
         )
@@ -346,7 +380,7 @@ end
     @return:
 ]]
 function MakerCtrl:ShowSynNeeds()
-    print("ShowSynNeeds is running")
+    -- print("ShowSynNeeds is running")
     local _needsList = {}
 
     if self.ItemChoice == nil then
@@ -355,8 +389,11 @@ function MakerCtrl:ShowSynNeeds()
             self.Panel.images[i].sprite = nil -- ABManager:LoadAsset("texture", "空白图" , CS.UnityEngine.Sprite)
             self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0)
         end
+        self.Panel.buttons[2].interactable = false
         return
     end
+
+    self.ItemChoice.CouldSyn =  CheckCouldSyn(self.ItemChoice)
 
     -- 获取合成所需(id,count,id,count,...)
     _needsList = ModelTool:SplitStr(self.ItemChoice.SynNeeds)
@@ -390,7 +427,7 @@ function MakerCtrl:ShowSynNeeds()
             end
         -- 如果不需要道具
         else
-            print("3：_needsList is nil")
+            -- print("3：_needsList is nil")
             self.Panel.texts[i].text = ""
             self.Panel.images[i].sprite = nil
             self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0)
@@ -399,9 +436,10 @@ function MakerCtrl:ShowSynNeeds()
 
     
     if self.ItemChoice ~=nil and self.ItemChoice.CouldSyn == "true" then
-        self.Panel.buttons[1].interactable = true
+        print("self.ItemChoice ~=nil and self.ItemChoice.CouldSyn == 'true'")
+        self.Panel.buttons[2].interactable = true
     else
-        self.Panel.buttons[1].interactable = false
+        self.Panel.buttons[2].interactable = false
     end
 
 end
@@ -412,36 +450,21 @@ end
     author:{author}
     time:2019-08-07 20:01:37
 ]]
-function MakerCtrl:SynItem()
-    local _needsList = ModelTool:SplitStr(self.ItemChoice.SynNeeds)
+function MakerCtrl:SynItem(item)
+    
+    local _needsList = ModelTool:SplitStr(item.SynNeeds)
 
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
     for i = 1, #(_needsList) / 2, 1 do
-        -- 遍历玩家目前的所有道具
-        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
-            if v.ItemID == _needsList[2*i-1] then
-                -- 扣除玩家表里相应的道具
-                v.Count = tostring(tonumber(v.Count) - tonumber(_needsList[2 * i]))
-                -- 如果道具数量为0，则去除此道具
-                if v.Count == "0" then
-                    PlayerDataModel.PlayerData.Items[k] = nil
-                end
-                break
-            end
-        end
-
-        for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
-            if v.ItemID == _needsList[2*i-1] then
-                -- 扣除玩家表里相应的道具
-                v.Count = tostring(tonumber(v.Count) - tonumber(_needsList[2 * i]))
-                -- 如果道具数量为0，则去除此道具
-                if v.Count == "0" then
-                    PlayerDataModel.CompletePlayerData.Items[k] = nil
-                end
-                break
-            end
-        end
+        local needItemData = {}
+        needItemData.ItemID = _needsList[2*i-1]
+        needItemData.Count = _needsList[2*i]
+        -- 扣除所需物品
+        PlayerDataModel:RemoveItem(needItemData)
     end
+
+    -- 添加合成的道具
+    PlayerDataModel:AddItem(item.ItemID , 1)
 
     -- 刷新界面
     self:ShowItems()

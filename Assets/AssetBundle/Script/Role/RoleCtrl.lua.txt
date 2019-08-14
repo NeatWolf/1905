@@ -123,7 +123,7 @@ function RoleCtrl:EquipHero(heroData, itemData, equipWay)
 end
 
 -- 投喂英雄
-function RoleCtrl:FeedHero(heroData, itemData)
+function RoleCtrl:FeedHero(heroData, itemData, count)
     -- 处理数据：将食物Buff附加给英雄Buff
     local _hbuffT = ModelTool:SplitStr(heroData.ColBuffTem)
     local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
@@ -156,7 +156,9 @@ function RoleCtrl:FeedHero(heroData, itemData)
             end
 
             heroData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
-            return heroData
+            break
         end
     end
+    
+    return heroData
 end

@@ -2,7 +2,10 @@ RoleCtrl = {}
 
 -- 预制体上的UISubObject脚本，内含所有UI对象
 RoleCtrl.Panel = nil
-
+-- 当前选择的角色在子物体中的Index
+RoleCtrl.currentIndex = -1
+-- 当前选择的角色ID
+RoleCtrl.currentID = -1
 
 function RoleCtrl:Init()
     print("进入角色管理")
@@ -14,6 +17,10 @@ function RoleCtrl:Init()
             UICtrl:Back2MainScene()
         end
     )
+    RoleCtrl.Panel.go[2]:GetComponent("RolePanelSelectAnimation").changeRoleEvent = self.ChangeCurrentRole
+
+    RoleCtrl:ShowHerosList()
+    RoleCtrl:ShowHeroInfo()
 
     -- -- 测试为英雄穿上装备
     -- local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
@@ -48,13 +55,15 @@ function RoleCtrl:Init()
     -- print(PlayerDataModel.CompletePlayerData.Heros[2])
 end
 
-
 function RoleCtrl:ShowHerosList()
-
+    -- 根据PlayerDataModel.CompletePlayerData加载roles，改名为ID
 end
 
 function RoleCtrl:ShowHeroInfo()
+end
 
+function RoleCtrl:ChangeCurrentRole()
+    print("当前角色改变")
 end
 
 --[[

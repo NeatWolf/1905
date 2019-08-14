@@ -9,7 +9,7 @@ public static class MyConfig
     public static readonly string[] LuaPaths = {
         Application.dataPath + "/AssetBundle/Script/",
         Application.dataPath + "/StreamingAssets/Lua/",
-        Application.persistentDataPath + "/assets/"
+        Application.persistentDataPath + "/assets/Lua/"
         };
 
     public const string AssetBundlesSavePathName = "/ab";

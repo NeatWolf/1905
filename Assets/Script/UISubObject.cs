@@ -38,9 +38,8 @@ public class UISubObject : MonoBehaviour
             if (inputFields[i] != null)
                 inputFields[i].onEndEdit.RemoveAllListeners();
         }
-        //images[1].color = new Color(0.5f,0.5f,0.5f,0.5f);
-        //buttons[1].GetComponent<Image>().color = UnityEngine.Color.yellow;
-        //go[0].GetComponent<ToggleGroup>().allowSwitchOff = false;
+
+    
     
     }
 

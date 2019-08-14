@@ -38,14 +38,15 @@ end
 
 -- 写入 可读写路径
 function PlayerDataModel:WriteIn(data)
-    self.PlayerData = data
+    if data ~= nil then
+        self.PlayerData = data
+    end
     CS.System.IO.File.WriteAllText(self.FilePath, self.PlayerData)
 end
 
 function PlayerDataModel:RemoveItem(itemData)
-
     -- 遍历玩家目前的所有道具
-    for k,v in pairs(self.PlayerData.Items) do
+    for k, v in pairs(self.PlayerData.Items) do
         if itemData.ItemID == v.ItemID then
             -- 扣除玩家表里相应的道具
             v.Count = tostring(tonumber(v.Count) - tonumber(itemData.Count))
@@ -57,7 +58,7 @@ function PlayerDataModel:RemoveItem(itemData)
             break
         end
     end
-    for k,v in pairs(self.CompletePlayerData.Items) do
+    for k, v in pairs(self.CompletePlayerData.Items) do
         if itemData.ItemID == v.ItemID then
             v.Count = tostring(tonumber(v.Count) - tonumber(itemData.Count))
             print(v.ItemID .. " 剩余数量：" .. v.Count)
@@ -67,24 +68,25 @@ function PlayerDataModel:RemoveItem(itemData)
             break
         end
     end
-
 end
 
-function PlayerDataModel:AddItem(itemID , count)
-
+function PlayerDataModel:AddItem(itemID, count)
     local newItem = {}
     newItem.ItemID = itemID
-    newItem.Count  = tostring(count)
+    newItem.Count = tostring(count)
     -- 增加到玩家动态表
-    table.insert( self.PlayerData.Items , newItem)
+    table.insert(self.PlayerData.Items, newItem)
 
     -- 合并出完整道具信息
     local completeItem = StaticDataModel:MergeItem(newItem)
     -- 增加到完整的玩家动态表
-    table.insert( self.CompletePlayerData.Items , completeItem)
+    table.insert(self.CompletePlayerData.Items, completeItem)
 
     -- -- 测试打印
     -- ModelTool:SetMeta(completeItem)
     -- print(completeItem)
+end
 
+function PlayerDataModel:LotteryProp(type)
+    
 end

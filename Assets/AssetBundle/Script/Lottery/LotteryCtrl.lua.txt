@@ -5,28 +5,35 @@ LotteryCtrl.Panel = nil
 function LotteryCtrl:Init()
     print("进入抽奖")
     LoadManager:LoadLua("Lottery", "LotteryModel")
+    LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LotteryUI"), "UI", true):GetComponent("UISubObject")
+    -- 注册委托
+    LotteryCtrl.Panel.buttons[0].onClick:AddListener(
+        function()
+            UICtrl:Back2MainScene()
+        end
+    )
+    LotteryCtrl.Panel.buttons[1].onClick:AddListener(
+        function()
+            LotteryCtrl:Lottery("Normal")
+        end
+    )
+    LotteryCtrl.Panel.buttons[2].onClick:AddListener(
+        function()
+            LotteryCtrl:Lottery("NormalPlus")
+        end
+    )
 
     -- 刷新数据，显示能否抽卡
-
-    -- 注册委托
+    LotteryCtrl:DisplayInfo()
 
     -- 无事抽一发------------------------
-    --[[
-
-        for i = 1, 1000 do
-            self:Get("Normal")
-        end
-        ]]
+    -- for i = 1, 1000 do
+    --     self:Lottery("Normal")
+    -- end
 end
 
-function LotteryCtrl:Exit()
-    -- 销毁go
-    -- 调用主界面Init
-    -- 释放本系统下所有脚本
-end
-
--- 抽卡。type（string）：卡池(Normal\Plus)
-function LotteryCtrl:Get(type)
+-- 抽卡。type（string）：卡池(Normal\NormalPlus\Diamond\DiamondPlus)
+function LotteryCtrl:Lottery(type)
     -- 显示抽卡UI效果
 
     -- 扣除资源
@@ -37,17 +44,39 @@ function LotteryCtrl:Get(type)
     if CS.UnityEngine.Random.value < LotteryModel[type].roleProbability then
         -- 抽到角色
         local roleData = StaticDataModel:RandomTable(StaticDataModel.HerosTable)
+
         if StaticDataModel:Exist(PlayerDataModel.PlayerData.Heros, "HeroID", roleData.HeroID) then
             -- 转换成卷轴，显示转换成卷轴文字
-            -- 角色添加到账号数据
-        else
-            -- 显示转换成卷轴文字
+            print("转换成卷轴")
             -- 卷轴添加账号数据
+
+        else
+            -- 显示抽到角色UI效果
+            print(roleData.Name)
+
+            -- 角色添加到账号数据
+            --table.insert(PlayerDataModel.PlayerData.Heros, roleData)
         end
     else
-        -- 抽到道具，显示获得物品
+        -- 抽取道具
+
+        -- 显示获得物品
+
+
         -- 道具添加到账号数据
     end
 
     -- 保存账号数据，重新合并数据，刷新资源显示
+    PlayerDataModel:WriteIn()
+    PlayerDataModel:ReadOut()
+
+    LotteryCtrl:DisplayInfo()
+end
+
+-- 刷新数据，显示能否抽卡
+function LotteryCtrl:DisplayInfo()
+    LotteryCtrl.Panel.buttons[1].interactable = LotteryModel:Inquire("Normal")
+    LotteryCtrl.Panel.buttons[2].interactable = LotteryModel:Inquire("NormalPlus")
+    LotteryCtrl.Panel.tmps[0].text = PlayerDataModel.PlayerData.Money
+    LotteryCtrl.Panel.tmps[1].text = PlayerDataModel.PlayerData.Diamond
 end

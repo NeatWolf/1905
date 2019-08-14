@@ -2,23 +2,53 @@ LotteryModel = {}
 
 -- 定义概率
 LotteryModel.Normal = {}
-LotteryModel.Plus = {}
+LotteryModel.NormalPlus = {}
+LotteryModel.Diamond = {}
+LotteryModel.DiamondPlus = {}
+LotteryModel.Normal.price = 1000 -- 普通卡池金币消耗
 LotteryModel.Normal.roleProbability = 0.2 -- 角色概率
 LotteryModel.Normal.L3ItemProbability = 0.2 -- L3道具
 LotteryModel.Normal.L2ItemProbability = 0.5 -- L2道具
-LotteryModel.Plus.roleProbability = 0.2 -- 角色概率
-LotteryModel.Plus.L3ItemProbability = 0.2 -- L3道具
-LotteryModel.Plus.L2ItemProbability = 0.5 -- L2道具
+LotteryModel.Diamond.price = 100 -- 钻石卡池消耗
+LotteryModel.Diamond.roleProbability = 0.2 -- 角色概率
+LotteryModel.Diamond.L3ItemProbability = 0.2 -- L3道具
+LotteryModel.Diamond.L2ItemProbability = 0.5 -- L2道具
+-- 赋值
+LotteryModel.NormalPlus = LotteryModel.Normal
+LotteryModel.NormalPlus.price = 9500
+LotteryModel.DiamondPlus = LotteryModel.DiamondPlus
+LotteryModel.DiamondPlus.price = 950
 
--- 扣资源
+-- 扣除资源
 function LotteryModel:DeductAsset(type)
-    -- 扣除资源 =============================== 定义抽卡价格
     if type == "Normal" then
-        PlayerDataModel.PlayerData.Money = PlayerDataModel.PlayerData.Money - 5000
-    elseif type == "Plus" then
-        PlayerDataModel.CompletePlayerData.Diamond = PlayerDataModel.CompletePlayerData.Diamond - 100
+        PlayerDataModel.PlayerData.Money = PlayerDataModel.PlayerData.Money - LotteryModel.Normal.price
+    elseif type == "Diamond" then
+        PlayerDataModel.PlayerData.Diamond = PlayerDataModel.PlayerData.Diamond - LotteryModel.Diamond.price
+    elseif type == "NormalPlus" then
+        PlayerDataModel.PlayerData.Money = PlayerDataModel.PlayerData.Money - LotteryModel.NormalPlus.price
+    elseif type == "DiamondPlus" then
+        PlayerDataModel.PlayerData.Diamond = PlayerDataModel.PlayerData.Diamond - LotteryModel.DiamondPlus.price
     else
-        print("暂无此卡池类型")
+        print("扣无此卡池类型")
         return
+    end
+    PlayerDataModel.CompletePlayerData.Money = PlayerDataModel.PlayerData.Money
+    PlayerDataModel.CompletePlayerData.Diamond = PlayerDataModel.PlayerData.Diamond
+end
+
+-- 查询资源够不够抽
+function LotteryModel:Inquire(type)
+    if type == "Normal" then
+        return PlayerDataModel.PlayerData.Money +0 >= LotteryModel.Normal.price
+    elseif type == "Diamond" then
+        return PlayerDataModel.PlayerData.Diamond +0>= LotteryModel.Diamond.price
+    elseif type == "NormalPlus" then
+        return PlayerDataModel.PlayerData.Money +0>= LotteryModel.NormalPlus.price
+    elseif type == "DiamondPlus" then
+        return PlayerDataModel.PlayerData.Diamond +0>= LotteryModel.DiamondPlus.price
+    else
+        print("查无此卡池类型")
+        return false
     end
 end

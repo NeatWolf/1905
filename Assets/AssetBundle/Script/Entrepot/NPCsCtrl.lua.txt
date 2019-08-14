@@ -96,7 +96,7 @@ function NPCsCtrl:RandomBuy()
             -- 记下购买记录
             table.insert(self.Records, _NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name .. "。")
             -- 玩家道具进行扣除
-            PlayerDataModel:RemoveItem(_Sth)
+            PlayerDataModel:RemoveItem(_Sth.ItemID, _Sth.Count)
         end
     end
 

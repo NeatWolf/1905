@@ -2,69 +2,302 @@ RoleCtrl = {}
 
 -- 预制体上的UISubObject脚本，内含所有UI对象
 RoleCtrl.Panel = nil
+RoleCtrl.LevelWindow = nil
 -- 当前选择的角色在子物体中的Index
-RoleCtrl.currentIndex = -1
--- 当前选择的角色ID
-RoleCtrl.currentID = -1
+-- RoleCtrl.currentIndex = -1
+-- 当前选择的角色数据
+RoleCtrl.CurrentHero = nil
+
+RoleCtrl.RoleSelectAniCSharp = nil
 
 function RoleCtrl:Init()
     print("进入角色管理")
-    RoleCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "RoleManUI"), "UI", true):GetComponent("UISubObject")
+    self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "RoleManUI"), "UI", true):GetComponent("UISubObject")
+    self.LevelWindow = self.Panel.go[3]:GetComponent("UISubObject")
 
     -- 添加委托
-    RoleCtrl.Panel.buttons[0].onClick:AddListener(
+    -- 返回按钮
+    self.Panel.buttons[0].onClick:AddListener(
         function()
-            UICtrl:Back2MainScene()
+            self:Back2MainScene()
         end
     )
-    RoleCtrl.Panel.go[2]:GetComponent("RolePanelSelectAnimation").changeRoleEvent = self.ChangeCurrentRole
+    -- 升级按钮
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            self:ShowLevelWindow()
+        end
+    )
 
-    RoleCtrl:ShowHerosList()
-    RoleCtrl:ShowHeroInfo()
+    -- 升级窗口的按钮事件
+    self.LevelWindow.buttons[0].onClick:AddListener(
+        function ()
+            self:LevelUp(self.CurrentHero)
+        end
+    )
+    self.LevelWindow.buttons[1].onClick:AddListener(
+        function ()
+            self.Panel.go[3]:SetActive(fasle)
+            self:ChangeCurrentRole()
+        end
+    )
 
-    -- -- 测试为英雄穿上装备
-    -- local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[160],1)
-    -- heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[155],1)
-    -- ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
-    -- print(PlayerDataModel.PlayerData.Heros[2])
-    -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-    -- heroInfo.Equips = nil
-    -- print(heroInfo)
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
+    -- 按ID排序 可在每次抽卡后就进行排序
+    StaticDataModel:SortHeroByHeroID(PlayerDataModel.CompletePlayerData.Heros)
+    -- 加载显示英雄列表
+    self:ShowHerosList(PlayerDataModel.CompletePlayerData.Heros)
+
+    -- 英雄列表的Content上的动画CSharp脚本
+    self.RoleSelectAniCSharp = self.Panel.go[2]:GetComponent("RolePanelSelectAnimation")
+    self.RoleSelectAniCSharp:Init()
+    self.RoleSelectAniCSharp.changeRoleEvent = function() self:ChangeCurrentRole() end
+
+    self:ChangeCurrentRole()
+
+
+
+    --[[
+    -- 测试为英雄穿上装备
+    local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
+    ModelTool:SetMeta(heroInfo)
+    print(heroInfo)
+    heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[160],1)
+    heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[155],1)
+    ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
+    print(PlayerDataModel.PlayerData.Heros[2])
+    ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
+    print(PlayerDataModel.CompletePlayerData.Heros[2])
+    ModelTool:SetMeta(heroInfo)
+    print(heroInfo)
+    heroInfo.Equips = nil
+    print(heroInfo)
+    print(PlayerDataModel.CompletePlayerData.Heros[2])
 
     -- 测试投喂英雄
-    -- local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-
-    -- heroInfo = RoleCtrl:FeedHero(heroInfo, StaticDataModel.ItemsTable[40])
-    -- ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
-    -- print(PlayerDataModel.PlayerData.Heros[2])
-    -- ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
-    -- ModelTool:SetMeta(heroInfo)
-    -- print(heroInfo)
-    -- heroInfo.ColBuffTem = nil
-    -- print(heroInfo)
-    -- print(PlayerDataModel.CompletePlayerData.Heros[2])
+    local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
+    ModelTool:SetMeta(heroInfo)
+    print(heroInfo)
+    heroInfo = RoleCtrl:FeedHero(heroInfo, StaticDataModel.ItemsTable[40])
+    ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
+    print(PlayerDataModel.PlayerData.Heros[2])
+    ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
+    print(PlayerDataModel.CompletePlayerData.Heros[2])
+    ModelTool:SetMeta(heroInfo)
+    print(heroInfo)
+    heroInfo.ColBuffAdd = nil
+    print(heroInfo)
+    print(PlayerDataModel.CompletePlayerData.Heros[2])
+    --]]
 end
 
-function RoleCtrl:ShowHerosList()
-    -- 根据PlayerDataModel.CompletePlayerData加载roles，改名为ID
+-- 显示英雄列表
+function RoleCtrl:ShowHerosList(herosList)
+    -- 根据PlayerDataModel.CompletePlayerData加载Role预制体
+    for k,v in pairs(herosList) do
+        local _Hero = {}
+        _Hero.data = ModelTool:CopyTable(v)
+        _Hero.UISub = LoadManager:Load(ABManager:LoadAsset("prefab", "Role"), RoleCtrl.Panel.go[2].transform, true):GetComponent("UISubObject")
+        -- 加载图片
+        --_Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Hero.data.TexturePath, CS.UnityEngine.Sprite)
+        _Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", "male", CS.UnityEngine.Sprite)
+    end
 end
 
-function RoleCtrl:ShowHeroInfo()
+-- 显示英雄详细信息
+function RoleCtrl:ShowHeroInfo(heroData)
+    -- 显示名字
+    self.Panel.tmps[0].text = (ModelTool:SplitStr(heroData.Name))[2]
+    self.Panel.tmps[0].text = heroData.HeroID
+    -- 显示等级
+    if heroData.Level == "4" then
+        self.Panel.buttons[1].interactable = false
+        self.Panel.tmps[1].text = "Level " .. heroData.Level
+    else
+        self.Panel.buttons[1].interactable = true
+        self.Panel.tmps[1].text = "Level " .. heroData.Level .. " ↑"
+    end
+    -- 显示耐力
+    self.Panel.tmps[2].text = heroData.EnergyMax
+
+    -- 显示采集增益相关
+    local _colBuff = ModelTool:SplitStr(heroData.ColBuff)
+    local _colBuffAdd = ModelTool:SplitStr(heroData.ColBuffAdd)
+    local _colCount = tonumber(_colBuff[1]) + tonumber(_colBuffAdd[1])
+    local _colLevel = tonumber(_colBuff[2]) + tonumber(_colBuffAdd[2])
+    local _colTimeScale = tonumber(_colBuff[3])
+    -- 显示幸运值
+    
+    -- 显示采集时间
+    if _colTimeScale < 1 then
+        self.Panel.tmps[4].text = "慢"
+    elseif _colTimeScale == 1 then
+        self.Panel.tmps[4].text = "中"
+    else
+        self.Panel.tmps[4].text = "快"
+    end
+
+    -- 显示合成增益相关
+    local _insBuff = ModelTool:SplitStr(heroData.InsBuff)
+    -- 显示设施
+    if _insBuff[1] == "2" then
+        self.Panel.tmps[5].text = "食物"
+    elseif _insBuff[2] == "3" then
+        self.Panel.tmps[5].text = "道具"
+    else
+        self.Panel.tmps[5].text = "裝備"
+    end
+    -- 显示效率
+    local _insSpeed = tonumber(_insBuff[2])
+    if _insSpeed < 1 then
+        self.Panel.tmps[6].text = "低"
+    elseif _insSpeed == 1 then
+        self.Panel.tmps[6].text = "中"
+    else
+        self.Panel.tmps[6].text = "高"
+    end
+
+
 end
 
+-- 切换英雄
 function RoleCtrl:ChangeCurrentRole()
-    print("当前角色改变")
+    self.CurrentHero = ModelTool:CopyTable( PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1] )
+    -- print("当前角色改变为：" .. self.CurrentHero.Name)
+    RoleCtrl:ShowHeroInfo(self.CurrentHero)
 end
+
+-- 获取所需的卷轴信息
+local function GetScrollNeed(heroLevel)
+    local _needScroll = {}
+    -- 获取卷轴列表
+    local ScrollsList = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "0")
+    -- ModelTool:SetMeta(ScrollsList)
+    -- print(ScrollsList)
+    -- 获取信息
+    for k,v in pairs(ScrollsList) do
+        if v.Level == heroLevel then
+            _needScroll.ItemID = v.ItemID
+            _needScroll.Name = v.Name
+            _needScroll.TexturePath = v.TexturePath
+            break
+        end
+    end
+    -- 获取数量
+    if heroLevel == "1" then
+        _needScroll.Count = 5
+    elseif heroLevel == "2" then
+        _needScroll.Count = 3
+    else
+        _needScroll.Count = 1
+    end
+    -- 返回卷轴信息
+    return _needScroll
+end
+
+--[[
+    @desc: 英雄升级
+    author:{author}
+    time:2019-08-14 19:54:45
+    --@heroData: 英雄原信息
+]]
+function RoleCtrl:LevelUp(heroData)
+    -- 扣除所需的卷轴
+    local _needScroll = GetScrollNeed(heroData.Level)
+    PlayerDataModel:RemoveItem(_needScroll.ItemID , _needScroll.Count)
+    print( "ID: " .. _needScroll.ItemID .. ",count: " .. _needScroll.Count)
+
+    -- 英雄升级
+    heroData.Level = tostring(tonumber(heroData.Level) + 1)     -- 现等级
+    local _buffAdd = ModelTool:SplitStr(heroData.LevelUp)       -- 获取升级的增比
+    heroData.EnergyMax = tostring(tonumber(heroData.EnergyMax) + tonumber(_buffAdd[1]))     -- 现总耐力
+
+    local _heroColBuff = ModelTool:SplitStr(heroData.ColBuff)   -- 原收集增益
+    local _heroInsBuff = ModelTool:SplitStr(heroData.InsBuff)   -- 原设施增益
+    local _colBuff1New = tostring(tonumber(_heroColBuff[1]) * tonumber(_buffAdd[2]))        -- 现采集数量系数
+    local _colBuff2New = tostring(tonumber(_heroColBuff[2]) * tonumber(_buffAdd[3]))        -- 现采集爆率系数
+    local _colBuff3New = tostring(tonumber(_heroColBuff[3]) * tonumber(_buffAdd[4]))        -- 现采集时间倍率
+    local _insBuffNew = tostring(tonumber(_heroInsBuff[2]) * tonumber(_buffAdd[5]))         -- 现合成速度倍率
+    heroData.ColBuff = _colBuff1New .. "," .. _colBuff2New .. "," .. _colBuff3New
+    heroData.InsBuff = _heroInsBuff[1] .. "," .. _insBuffNew
+    
+    -- 测试打印
+    print("升级后： Level:" .. heroData.Level .. " ,EnergyMax:" .. heroData.EnergyMax .. " ,ColBuff:" .. heroData.ColBuff .. " ,InsBuff:" .. heroData.InsBuff)
+
+    -- 修改玩家动态表
+    for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
+        if v.HeroID == heroData.HeroID then
+            v.Level = heroData.Level
+            v.EnergyMax = heroData.EnergyMax
+            v.ColBuff = heroData.ColBuff
+            v.InsBuff = heroData.InsBuff
+            -- 测试打印
+            ModelTool:SetMeta(v)
+            print(v)
+            break
+        end
+    end
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        if v.HeroID == heroData.HeroID then
+            v.Level = heroData.Level
+            v.EnergyMax = heroData.EnergyMax
+            v.ColBuff = heroData.ColBuff
+            v.InsBuff = heroData.InsBuff
+            -- 测试打印
+            ModelTool:SetMeta(v)
+            print(v)
+            break
+        end
+    end
+
+end
+
+-- 显示升级窗口
+function RoleCtrl:ShowLevelWindow()
+
+    local _needScroll = GetScrollNeed(self.CurrentHero.Level)
+
+    -- 显示卷轴数量 并判断Yes按钮是否可以点击
+    local couldYes = false
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+        -- 如果玩家有此卷轴
+        if v.ItemID == _needScroll.ItemID then
+            -- 显示卷轴数量
+            self.LevelWindow.tmps[0].text = _needScroll.Count .. "/" .. v.Count
+            -- 如果数量满足条件
+            if tonumber(v.Count) >= _needScroll.Count then
+                couldYes = true
+            else
+                couldYes = false
+            end
+        -- 如果玩家没有此卷轴
+        elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
+            -- 显示卷轴数量
+            self.LevelWindow.tmps[0].text = _needScroll.Count .. "/" .. 0
+            couldYes = false
+        end
+    end
+
+    -- 显示Yes按钮状态
+    if couldYes == true then
+        --self.LevelWindow.buttons[0].interactable = true
+        self.LevelWindow.buttons[0].transform:Find("Background"):GetComponent("Image").color = self.LevelWindow.buttons[1].transform:Find("Background"):GetComponent("Image").color
+    else
+        --self.LevelWindow.buttons[0].interactable = false
+        self.LevelWindow.buttons[0].transform:Find("Background"):GetComponent("Image").color = CS.UnityEngine.Color.gray
+    end
+    
+    -- 显示卷轴图片
+    self.LevelWindow.images[0].sprite = ABManager:LoadAsset("texture", _needScroll.TexturePath, CS.UnityEngine.Sprite)
+    -- 显示卷轴名字
+    self.LevelWindow.tmps[1].text = _needScroll.Name
+    -- 显示当前等级
+    self.LevelWindow.tmps[2].text = self.CurrentHero.Level
+    
+    self.Panel.go[3]:SetActive(true)
+end
+
+
+
 
 --[[
     @desc: 对英雄进行装备操作
@@ -125,18 +358,23 @@ end
 -- 投喂英雄
 function RoleCtrl:FeedHero(heroData, itemData, count)
     -- 处理数据：将食物Buff附加给英雄Buff
-    local _hbuffT = ModelTool:SplitStr(heroData.ColBuffTem)
+    local _hbuffT = ModelTool:SplitStr(heroData.ColBuffAdd)
     local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
-    _hbuffT[1] = _hbuffT[1] + _ibuff[3]
-    _hbuffT[2] = _hbuffT[2] + _ibuff[4]
+    -- 如果英雄当前的临时Buff 小于 道具的加成Buff，进行赋值
+    if _hbuffT[1] < _ibuff[3] then
+        _hbuffT[1] = _ibuff[3]
+    end
+    if _hbuffT[2] < _ibuff[4] then
+        _hbuffT[2] = _ibuff[4]
+    end
 
     -- 修改 玩家动态数据 里相应的英雄信息
     for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
         -- 找到相应英雄
         if v.HeroID == heroData.HeroID then
             -- 赋值给英雄
-            v.ColBuffTem = _hbuffT[1] .. "," .. _hbuffT[2]
-            v.EnergyNow = tostring(v.EnergyNow + _ibuff[2])
+            v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2]*count)
             if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
                 v.EnergyNow = v.EnergyMax
             end
@@ -149,8 +387,8 @@ function RoleCtrl:FeedHero(heroData, itemData, count)
         -- 找到相应英雄
         if v.HeroID == heroData.HeroID then
             -- 赋值给英雄
-            v.ColBuffTem = _hbuffT[1] .. "," .. _hbuffT[2]
-            v.EnergyNow = tostring(v.EnergyNow + _ibuff[2])
+            v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2]*count)
             if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
                 v.EnergyNow = v.EnergyMax
             end

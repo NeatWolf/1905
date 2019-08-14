@@ -160,8 +160,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8909965850367920772}
   - component: {fileID: 6531348701888676549}
+  - component: {fileID: 6556969590259094243}
   m_Layer: 5
-  m_Name: Roles
+  m_Name: Role
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,3 +234,23 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6556969590259094243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8909965850367920771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a717a5bd6d7ebd4f83297eefa51f998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons: []
+  toggles: []
+  texts: []
+  tmps: []
+  images:
+  - {fileID: 6458621666465320676}
+  inputFields: []
+  go: []

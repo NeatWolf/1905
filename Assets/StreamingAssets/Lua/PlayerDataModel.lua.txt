@@ -42,13 +42,13 @@ function PlayerDataModel:WriteIn(data)
     CS.System.IO.File.WriteAllText(self.FilePath, self.PlayerData)
 end
 
-function PlayerDataModel:RemoveItem(itemData)
+function PlayerDataModel:RemoveItem(itemID , count)
 
     -- 遍历玩家目前的所有道具
     for k,v in pairs(self.PlayerData.Items) do
-        if itemData.ItemID == v.ItemID then
+        if itemID == v.ItemID then
             -- 扣除玩家表里相应的道具
-            v.Count = tostring(tonumber(v.Count) - tonumber(itemData.Count))
+            v.Count = tostring(tonumber(v.Count) - tonumber(count))
             print(v.ItemID .. " 剩余数量：" .. v.Count)
             -- 如果道具数量为0，则去除此道具
             if v.Count == "0" then
@@ -58,8 +58,8 @@ function PlayerDataModel:RemoveItem(itemData)
         end
     end
     for k,v in pairs(self.CompletePlayerData.Items) do
-        if itemData.ItemID == v.ItemID then
-            v.Count = tostring(tonumber(v.Count) - tonumber(itemData.Count))
+        if itemID == v.ItemID then
+            v.Count = tostring(tonumber(v.Count) - tonumber(count))
             print(v.ItemID .. " 剩余数量：" .. v.Count)
             if v.Count == "0" then
                 PlayerDataModel.CompletePlayerData[k] = nil
@@ -72,19 +72,32 @@ end
 
 function PlayerDataModel:AddItem(itemID , count)
 
-    local newItem = {}
-    newItem.ItemID = itemID
-    newItem.Count  = tostring(count)
-    -- 增加到玩家动态表
-    table.insert( self.PlayerData.Items , newItem)
-
-    -- 合并出完整道具信息
-    local completeItem = StaticDataModel:MergeItem(newItem)
-    -- 增加到完整的玩家动态表
-    table.insert( self.CompletePlayerData.Items , completeItem)
-
-    -- -- 测试打印
-    -- ModelTool:SetMeta(completeItem)
-    -- print(completeItem)
+    for k1,v1 in pairs(self.PlayerData.Items) do
+        -- 如果有这个Item
+        if v1.ItemID == itemID then
+            v1.Count = v1.Count + count
+            for _,v2 in pairs(self.CompletePlayerData.Items) do
+                v2.Count = v2.Count + count
+                break
+            end
+            break
+        -- 如果没有这个Item
+        elseif k1 == #(self.PlayerData.Items) then
+            local newItem = {}
+            newItem.ItemID = itemID
+            newItem.Count  = tostring(count)
+            -- 增加到玩家动态表
+            table.insert( self.PlayerData.Items , newItem)
+        
+            -- 合并出完整道具信息
+            local completeItem = StaticDataModel:MergeItem(newItem)
+            -- 增加到完整的玩家动态表
+            table.insert( self.CompletePlayerData.Items , completeItem)
+        
+            -- -- 测试打印
+            -- ModelTool:SetMeta(completeItem)
+            -- print(completeItem)
+        end
+    end
 
 end

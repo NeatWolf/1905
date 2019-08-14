@@ -10,7 +10,7 @@ public class RoleManAnimation : MonoBehaviour
     private void Awake()
     {
         btns = GetComponent<UISubObject>().buttons;
-        canvas=GetComponent<UISubObject>().go;
+        canvas = GetComponent<UISubObject>().go;
     }
     private void OnEnable()
     {

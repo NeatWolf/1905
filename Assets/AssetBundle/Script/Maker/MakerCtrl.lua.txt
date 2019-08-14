@@ -456,11 +456,8 @@ function MakerCtrl:SynItem(item)
 
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
     for i = 1, #(_needsList) / 2, 1 do
-        local needItemData = {}
-        needItemData.ItemID = _needsList[2*i-1]
-        needItemData.Count = _needsList[2*i]
         -- 扣除所需物品
-        PlayerDataModel:RemoveItem(needItemData)
+        PlayerDataModel:RemoveItem(_needsList[2*i-1] , _needsList[2*i])
     end
 
     -- 添加合成的道具

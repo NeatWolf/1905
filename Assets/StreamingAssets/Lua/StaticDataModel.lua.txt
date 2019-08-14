@@ -41,7 +41,7 @@ function StaticDataModel:MergeHero(playerHero)
             heroNow.EnergyMax = playerHero.EnergyMax
             heroNow.EnergyNow = playerHero.EnergyNow
             heroNow.ColBuff = playerHero.ColBuff
-            heroNow.ColBuffTem = playerHero.ColBuffTem
+            heroNow.ColBuffAdd = playerHero.ColBuffAdd
             heroNow.InsBuff = playerHero.InsBuff
             heroNow.Equips = {}
             for k = 1, #playerHero.Equips do
@@ -56,6 +56,7 @@ function StaticDataModel:MergeHero(playerHero)
             heroNow.Age = self.HerosTable[i].Age
             heroNow.Gender = self.HerosTable[i].Gender
             heroNow.TexturePath = self.HerosTable[i].TexturePath
+            heroNow.LevelUp = self.HerosTable[i].LevelUp
             heroNow.Speak1 = self.HerosTable[i].Speak1
             heroNow.Speak2 = self.HerosTable[i].Speak2
 
@@ -179,8 +180,20 @@ function StaticDataModel:SortItem(list, key1,value1, key2,changeWay)
     end
 end
 
+-- 按HeroID对英雄进行排序
+function StaticDataModel:SortHeroByHeroID(heroList)
+    for i = 1, #heroList do
+        for j = 1, #heroList - i do
+            if  tonumber(heroList[j].HeroID) > tonumber(heroList[j+1].HeroID) then
+                -- print( heroList[j].HeroID .. " " .. heroList[j+1].HeroID )
+                -- print("change")
+                heroList[j], heroList[j + 1] = heroList[j + 1], heroList[j]
+            end
+        end
+    end
+end
 
--- 按InsBuff的值对英雄进行排序
+-- 按InsBuff对英雄进行排序
 function StaticDataModel:SortHeroByInsBuff(herosList, ...)
     local list1 = {}
     local list2 = {}
@@ -204,15 +217,8 @@ function StaticDataModel:SortHeroByInsBuff(herosList, ...)
         end
     end
 
-    for i = 1, #list2 do
-        for j = 1, #list2 - i do
-            if  tonumber(list2[j].HeroID) > tonumber(list2[j+1].HeroID) then
-                -- print( list2[j].HeroID .. " " .. list2[j+1].HeroID )
-                -- print("change")
-                list2[j], list2[j + 1] = list2[j + 1], list2[j]
-            end
-        end
-    end
+    StaticDataModel:SortHeroByHeroID(list2)
     
     return ModelTool:MergeTable(list1,list2)
 end
+

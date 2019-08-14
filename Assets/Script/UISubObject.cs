@@ -40,8 +40,12 @@ public class UISubObject : MonoBehaviour
         }
         //images[1].color = new Color(0.5f,0.5f,0.5f,0.5f);
         //buttons[1].GetComponent<Image>().color = UnityEngine.Color.yellow;
+        //buttons[1].interactable = false;
         //go[0].GetComponent<ToggleGroup>().allowSwitchOff = false;
-    
+        //tmps[1].text = "1111";
+        //go[1].SetActive(true);
+        //images[1].color = Color.gray;
+        
     }
 
 }

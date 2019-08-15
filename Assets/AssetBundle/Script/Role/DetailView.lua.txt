@@ -1,0 +1,140 @@
+-- 详细信息窗口
+
+DetailView = {}
+
+DetailView.Panel = nil
+DetailView.HeroData = nil
+DetailView.EquipList = nil
+
+function DetailView:Init()
+    -- print("进入详情视图")
+    self.Panel = RoleCtrl.Panel.go[4]:GetComponent("UISubObject")
+
+    self.Panel.buttons[0].onClick:AddListener(
+        function ()
+            self.Panel.gameObject:SetActive(fasle)
+            RoleView:ShowHeroInfo(self.HeroData)
+        end
+    )
+    self.Panel.buttons[1].onClick:AddListener(
+        function ()
+            self.Panel.gameObject:SetActive(fasle)
+            RoleCtrl:ChangeCurrentRole()
+        end
+    )
+    self.Panel.buttons[2].onClick:AddListener(
+        function ()
+
+        end
+    )
+
+end
+
+
+function DetailView:ShowDetailWindow(heroData)
+    self.HeroData = heroData
+    -- 显示英雄简介
+    self.Panel.tmps[0].text = heroData.Description
+    -- 显示装备
+    self.EquipList = {}
+    for k,v in pairs(heroData.Equips) do
+        if v.Type == "4" then
+            self.EquipList[1] = v
+        elseif v.Type == "5" then
+            self.EquipList[2] = v
+        elseif v.Type == "6" then
+            self.EquipList[3] = v
+        elseif v.Type == "7" then
+            self.EquipList[4] = v
+        elseif v.Type == "8" then
+            self.EquipList[5] = v
+        elseif v.Type == "9" then
+            self.EquipList[6] = v
+        end
+    end
+
+    for i=1, 6 do
+        if self.EquipList[i] ~= nil then
+            self.Panel.texts[i-1] = ""
+            --self.Panel.images[i-1].sprite = ABManager:LoadAsset("texture", self.EquipList[i].TexturePath, CS.UnityEngine.Sprite)
+            self.Panel.images[i-1].sprite = ABManager:LoadAsset("texture", "Test", CS.UnityEngine.Sprite)
+            self.Panel.images[i-1].color = CS.UnityEngine.Color(1,1,1,1)
+        else
+            self.Panel.images[i-1].sprite = nil
+            self.Panel.images[i-1].color = CS.UnityEngine.Color(1,1,1,0.5)
+            if i == 1 then
+                self.Panel.texts[i-1] = "頭盔"
+            elseif i == 2 then
+                self.Panel.texts[i-1] = "衣服"
+            elseif i == 3 then
+                self.Panel.texts[i-1] = "褲腿"
+            elseif i == 4 then
+                self.Panel.texts[i-1] = "鞋子"
+            elseif i == 5 then
+                self.Panel.texts[i-1] = "飾品"
+            elseif i == 6 then
+                self.Panel.texts[i-1] = "武器"
+            end
+        end
+    end
+
+
+end
+
+
+
+--[[
+    @desc: 对英雄进行装备操作
+    author:{author}
+    time:2019-08-08 13:38:10
+    --@heroData: 装备信息
+	--@itemData: 英雄信息
+	--@equipWay: 1/-1 穿上/脱下
+    @return: 更改后的新的英雄信息
+]]
+function DetailView:EquipHero(heroData, itemData, equipWay)
+    -- 处理数据：将装备Buff附加给英雄Buff
+    local _hbuff = ModelTool:SplitStr(heroData.ColBuff)
+    local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
+    _hbuff[1] = _hbuff[1] + (_ibuff[3] * equipWay)
+    _hbuff[2] = _hbuff[2] + (_ibuff[4] * equipWay)
+
+    -- 刷新 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 1.进行装备表的操作
+            if equipWay == 1 then
+                PlayerDataModel.PlayerData.Heros[k].Equips = ModelTool:MergeStr(PlayerDataModel.PlayerData.Heros[k].Equips, itemData.ItemID)
+            elseif equipWay == -1 then
+                PlayerDataModel.PlayerData.Heros[k].Equips = ModelTool:RemoveStr(PlayerDataModel.PlayerData.Heros[k].Equips, itemData.ItemID)
+            end
+            -- 2.赋值给英雄
+            v.ColBuff = _hbuff[1] .. "," .. _hbuff[2] .. "," .. _hbuff[3]
+            v.EnergyMax = tostring(v.EnergyMax + _ibuff[1])
+            break
+        end
+    end
+
+    -- 刷新 玩家动态完整数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 1.进行装备表的操作
+            if equipWay == 1 then
+                --ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[k].Equips)
+                --print(PlayerDataModel.CompletePlayerData.Heros[k].Equips)
+                table.insert(PlayerDataModel.CompletePlayerData.Heros[k].Equips, itemData)
+            elseif equipWay == -1 then
+                PlayerDataModel.CompletePlayerData.Heros[k].Equips = ModelTool:RemoveStr(PlayerDataModel.CompletePlayerData.Heros[k].Equips, tostring(itemData))
+            end
+            -- 2.赋值给英雄
+            v.ColBuff = _hbuff[1] .. "," .. _hbuff[2] .. "," .. _hbuff[3]
+            v.EnergyMax = tostring(v.EnergyMax + _ibuff[1])
+
+            -- 返回 刷新传入的信息
+            heroData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
+            return heroData
+        end
+    end
+end

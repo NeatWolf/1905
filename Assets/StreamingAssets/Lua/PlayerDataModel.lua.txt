@@ -12,6 +12,11 @@ ModelTool:SetMeta(PlayerDataModel.CompletePlayerData)
 
 -- 动态数据初始化
 function PlayerDataModel:Init()
+    --if not CS.System.IO.File.Exists(self.FilePath) then
+    -- 测试用：每次都初始化
+    if false then
+        return
+    end
     -- 读取 玩家初始数据的策划静态表(json)
     local ta = ABManager:LoadAsset("json", "PlayerInit")
     -- 写入
@@ -20,12 +25,6 @@ end
 
 -- 读取 可读写路径中的数据
 function PlayerDataModel:ReadOut()
-    --if not CS.System.IO.File.Exists(self.FilePath) then
-    -- 测试用：每次都初始化
-    if true then
-        self:Init()
-    end
-
     -- 从可读写路径中读取信息
     local str = CS.System.IO.File.ReadAllText(self.FilePath)
     self.PlayerData = JsonUtil.decode(str)
@@ -36,9 +35,72 @@ function PlayerDataModel:ReadOut()
     return self.CompletePlayerData
 end
 
--- 写入 可读写路径
+-- 写入 可读写路径,提供table或文本或默认写入玩家数据
 function PlayerDataModel:WriteIn(data)
-    self.PlayerData = data
-    CS.System.IO.File.WriteAllText(self.FilePath, self.PlayerData)
+    if type(data) == "string" then
+        CS.System.IO.File.WriteAllText(self.FilePath, data)
+    elseif type(data) == "table" then
+        CS.System.IO.File.WriteAllText(self.FilePath, JsonUtil.encode(data))
+    else
+        CS.System.IO.File.WriteAllText(self.FilePath, JsonUtil.encode(self.PlayerData))
+    end
 end
 
+function PlayerDataModel:RemoveItem(itemID, count)
+    -- 遍历玩家目前的所有道具
+    for k, v in pairs(self.PlayerData.Items) do
+        if itemID == v.ItemID then
+            -- 扣除玩家表里相应的道具
+            v.Count = tostring(tonumber(v.Count) - tonumber(count))
+            print(v.ItemID .. " 剩余数量：" .. v.Count)
+            -- 如果道具数量为0，则去除此道具
+            if v.Count == "0" then
+                PlayerDataModel.PlayerData[k] = nil
+            end
+            break
+        end
+    end
+    for k, v in pairs(self.CompletePlayerData.Items) do
+        if itemID == v.ItemID then
+            v.Count = tostring(tonumber(v.Count) - tonumber(count))
+            print(v.ItemID .. " 剩余数量：" .. v.Count)
+            if v.Count == "0" then
+                PlayerDataModel.CompletePlayerData[k] = nil
+            end
+            break
+        end
+    end
+end
+
+function PlayerDataModel:AddItem(itemID, count)
+    for k1, v1 in pairs(self.PlayerData.Items) do
+        -- 如果有这个Item
+        if v1.ItemID == itemID then
+            -- 如果没有这个Item
+            v1.Count = v1.Count + count
+            for _, v2 in pairs(self.CompletePlayerData.Items) do
+                v2.Count = v2.Count + count
+                break
+            end
+            break
+        elseif k1 == #(self.PlayerData.Items) then
+            local newItem = {}
+            newItem.ItemID = itemID
+            newItem.Count = tostring(count)
+            -- 增加到玩家动态表
+            table.insert(self.PlayerData.Items, newItem)
+
+            -- 合并出完整道具信息
+            local completeItem = StaticDataModel:MergeItem(newItem)
+            -- 增加到完整的玩家动态表
+            table.insert(self.CompletePlayerData.Items, completeItem)
+
+        -- -- 测试打印
+        -- ModelTool:SetMeta(completeItem)
+        -- print(completeItem)
+        end
+    end
+end
+
+function PlayerDataModel:LotteryProp(type)
+end

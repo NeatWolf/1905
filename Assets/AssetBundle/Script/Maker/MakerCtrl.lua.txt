@@ -1,9 +1,25 @@
 MakerCtrl = {}
--- 预制体上的UISubObject脚本，内含所有UI对象
-MakerCtrl.Panel = nil
-MakerCtrl.RoleWindow = nil
 
-MakerCtrl.RightContent = nil
+-- -- 预制体上的UISubObject脚本，内含所有UI对象
+-- MakerCtrl.Panel = nil
+-- MakerCtrl.RoleWindow = nil
+-- -- 右侧道具列表
+-- MakerCtrl.RightContent = nil
+
+-- -- 记录筛选条件
+-- MakerCtrl.Tag = Tag1
+-- -- 记录排序条件
+-- MakerCtrl.SortWay = SortWay1
+-- MakerCtrl.ChangeWay = 1
+
+-- -- 当前显示的所有道具
+-- MakerCtrl.ItemsNow = nil
+-- -- 当前选中的道具
+-- MakerCtrl.ItemChoice = nil
+-- -- 当前选择的英雄
+-- MakerCtrl.HeroChoice = nil
+-- -- 临时选择的英雄
+-- MakerCtrl._heroChoiceTem = nil
 
 local Tag1 = "Food"
 local Tag2 = "Item"
@@ -12,21 +28,30 @@ local Tag3 = "Equipment"
 local SortWay1 = "Level"
 local SortWay2 = "Price"
 
--- 记录筛选条件
-MakerCtrl.Tag = Tag1
--- 记录排序条件
-MakerCtrl.SortWay = SortWay1
-MakerCtrl.ChangeWay = 1
-
--- 当前选中的道具
-MakerCtrl.ItemChoice = nil
--- 当前选择的英雄
-MakerCtrl.HeroChoice = nil
--- 临时选择的英雄
-MakerCtrl._heroChoiceTem = nil
 
 function MakerCtrl:Init()
     print("进入制品手造")
+
+    -- 预制体上的UISubObject脚本，内含所有UI对象
+    MakerCtrl.Panel = nil
+    MakerCtrl.RoleWindow = nil
+
+    MakerCtrl.RightContent = nil
+    -- 记录筛选条件
+    MakerCtrl.Tag = Tag1
+    -- 记录排序条件
+    MakerCtrl.SortWay = SortWay1
+    MakerCtrl.ChangeWay = 1
+
+    -- 当前显示的所有道具
+    MakerCtrl.ItemsNow = nil
+    -- 当前选中的道具
+    MakerCtrl.ItemChoice = nil
+    -- 当前选择的英雄
+    MakerCtrl.HeroChoice = nil
+    -- 临时选择的英雄
+    MakerCtrl._heroChoiceTem = nil
+
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
     if (self.Panel == nil) then
         print("self.Panel == nil")
@@ -34,12 +59,28 @@ function MakerCtrl:Init()
     self.RightContent = CS.UnityEngine.GameObject.Find("Fabricate_Right/BG_List/FabricateList_Scroll/Viewport/Content")
     self:ShowItems()
 
+    -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            self:ShowHeros()
+
+            UICtrl:Back2MainScene()
         end
     )
+    -- 选择英雄按钮
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            self:ShowHerosWindow()
+        end
+    )
+    -- 合成按钮
+    self.Panel.buttons[2].onClick:AddListener(
+        function()
+            self:SynItem(self.ItemChoice)
+        end
+    )
+    self.Panel.buttons[2].interactable = false
 
+    -- 筛选1：食物
     self.Panel.toggles[0].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -49,6 +90,7 @@ function MakerCtrl:Init()
             self:ShowItems()
         end
     )
+    -- 筛选2：道具
     self.Panel.toggles[1].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -58,6 +100,7 @@ function MakerCtrl:Init()
             self:ShowItems()
         end
     )
+    -- 筛选3：武器
     self.Panel.toggles[2].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -68,6 +111,7 @@ function MakerCtrl:Init()
         end
     )
 
+    -- 排序1：等级
     self.Panel.toggles[3].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -79,6 +123,7 @@ function MakerCtrl:Init()
             self:ShowItems()
         end
     )
+    -- 排序2：价格
     self.Panel.toggles[4].onValueChanged:AddListener(
         function(isTrue)
             if isTrue == true then
@@ -96,77 +141,109 @@ end
 
 -- 显示每一个英雄的框
 function MakerCtrl:ShowHeroCells(_herosList)
-    print("_herosList:" .. #_herosList)
+    -- print("_herosList:" .. #_herosList)
 
     for k, v in pairs(_herosList) do
+
         -- print(_herosList[k].InsBuff)
         -- 分割字符串得到增益种类和加成
         local _buff = ModelTool:SplitStr(_herosList[k].InsBuff)
-        -- 英雄Toggle的gameObject
+
+        -- 加载英雄Toggle的gameObject
         local _hero = LoadManager:Load(ABManager:LoadAsset("prefab", "Toggle_Role"), self.RoleWindow.go[0].transform, true)
-        _hero:GetComponent("Toggle").group = self.RoleWindow.go[0]:GetComponent("ToggleGroup")
-        -- 英雄Toggle的事件
-        _hero:GetComponent("Toggle").onValueChanged:AddListener(
+        local _heroTog = _hero:GetComponent("Toggle")
+        _heroTog.group = self.RoleWindow.go[0]:GetComponent("ToggleGroup")
+
+        -- 添加英雄Toggle的点击事件
+        _heroTog.onValueChanged:AddListener(
             function(isTrue)
                 if isTrue == true then
+                    self.RoleWindow.go[0]:GetComponent("ToggleGroup").allowSwitchOff = false
+                    _heroTog:Select()
                     self._heroChoiceTem = v
                     print("切换英雄成功：" .. self._heroChoiceTem.HeroID)
+                else
+                    self.RoleWindow.go[0]:GetComponent("ToggleGroup").allowSwitchOff = true
+                    _heroTog:OnDeselect()
+                    self._heroChoiceTem = nil
+                    print("取消英雄选择")
                 end
             end
         )
+
         -- 显示英雄头像
-        --
-        -- 显示增益
-        local _itemType = ""
+        _hero.transform:Find("AV"):GetComponent("Image").sprite = ABManager:LoadAsset("texture", "female" , CS.UnityEngine.Sprite)
+        -- 显示增益信息
+        local _buffInfo = "增益類型:"
         if _buff[1] == "2" then
-            _itemType = "Food"
+            _buffInfo = _buffInfo .. "食物"
         elseif _buff[1] == "3" then
-            _itemType = "Item"
+            _buffInfo = _buffInfo .. "道具"
         else
-            _itemType = "Equipment"
+            _buffInfo = _buffInfo .. "裝備"
         end
-        _hero.transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = _itemType .. "\n" .. _buff[2]
+        _hero.transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = _buffInfo .. "\n" .. _buff[2]
+
+        -- 显示当前选中的英雄
+        if self.HeroChoice ~=nil then
+            self._heroChoiceTem = self.HeroChoice
+            if v.HeroID == self._heroChoiceTem.HeroID then
+                _heroTog.isOn = true
+                _heroTog:Select()
+            end
+        end
+        
     end
 end
 
+-- 显示选择的英雄的头像
 function MakerCtrl:ShowHeroChoice()
     -- self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "self.HeroChoice.TexturePath" , CS.UnityEngine.Sprite)
+    self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "female" , CS.UnityEngine.Sprite)
 end
 
 -- 显示英雄选择界面
-function MakerCtrl:ShowHeros()
+function MakerCtrl:ShowHerosWindow()
+    self._heroChoiceTem = self.HeroChoice
     -- 加载界面
     self.RoleWindow = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI_Role"), "FabricateUI", true):GetComponent("UISubObject")
     -- 删除所有子物体
     LoadManager:DeleteAllChilds(self.RoleWindow.go[0])
     -- 确认按钮
+    self.RoleWindow.buttons[0].transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = "確認"
     self.RoleWindow.buttons[0].onClick:AddListener(
         function()
-            if self._heroChoiceTem ~= nil then
-                print("选择英雄成功")
-                self.HeroChoice = self._heroChoiceTem
-                self:ShowHeroChoice()
-                CS.UnityEngine.Object.Destroy(self.RoleWindow.gameObject)
+            self.HeroChoice = self._heroChoiceTem
+            self._heroChoiceTem = nil
+            CS.UnityEngine.Object.Destroy(self.RoleWindow.gameObject)
+            self:ShowHeroChoice()
+            if self.HeroChoice ~= nil then
+                print("选择英雄成功，当前所选择的英雄：" .. self.HeroChoice.HeroID)
+            else
+                print("当前未选择英雄。")
+                self.Panel.images[0].sprite = nil
             end
         end
     )
     -- 返回按钮
+    self.RoleWindow.buttons[1].transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = "返回"
     self.RoleWindow.buttons[1].onClick:AddListener(
         function()
             CS.UnityEngine.Object.Destroy(self.RoleWindow.gameObject)
         end
     )
 
+    -- 对英雄列表进行排序
     local _herosList = {}
-    local _
     if self.Tag == Tag1 then
-        _, _, _herosList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Heros, "InsBuff", 1, "2")
+        _herosList = StaticDataModel:SortHeroByInsBuff(PlayerDataModel.CompletePlayerData.Heros, "2")
     elseif self.Tag == Tag2 then
-        _, _, _herosList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Heros, "InsBuff", 1, "3")
+        _herosList = StaticDataModel:SortHeroByInsBuff(PlayerDataModel.CompletePlayerData.Heros, "3")
     elseif self.Tag == Tag3 then
-        _, _, _herosList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Heros, "InsBuff", 1, "4", "5", "6", "7", "8", "9")
+        _herosList = StaticDataModel:SortHeroByInsBuff(PlayerDataModel.CompletePlayerData.Heros, "4", "5", "6", "7", "8", "9")
     end
-    _ = nil
+
+
     self:ShowHeroCells(_herosList)
 end
 
@@ -235,49 +312,63 @@ end
 function MakerCtrl:ShowItems()
     -- 删除所有子物体
     LoadManager:DeleteAllChilds(self.RightContent)
+    self.ItemsNow = {}
 
+    -- 筛选符合条件的道具
     local items = {}
     local _ = nil
     if self.Tag == Tag1 then
-        items,_,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "2")
+        items,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "2")
     elseif self.Tag == Tag2 then
-        items,_,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "3")
+        items,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "3")
     elseif self.Tag == Tag3 then
-        items,_,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "4")
+        items,_ = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "4","5","6","7","8","9")
     end
     _ = nil
 
     -- 判断是否可合成
     self:CheckAllSyn(items)
-    -- 排序
-    StaticDataModel:SortItems(items, "CouldSyn", "true", self.SortWay, self.ChangeWay)
+
+    -- 对道具列表进行排序
+    StaticDataModel:SortItem(items, "CouldSyn", "true", self.SortWay, self.ChangeWay)
 
     -- 已经排好序的道具列表
     --ModelTool:SetMeta(items)
     --print(items)
 
+    -- 生成Cell
     for k, v in pairs(items) do
+        -- 加载并实例化
         local go = ABManager:LoadAsset("prefab", "Button")
-        local _item = LoadManager:Load(go, self.RightContent.transform, true)
-
-        _item:GetComponent("Button").onClick:AddListener(
+        self.ItemsNow[k] = {}
+        self.ItemsNow[k].obj = LoadManager:Load(go, self.RightContent.transform, true)
+        self.ItemsNow[k].data = ModelTool:CopyTable(v)
+        -- 添加事件
+        self.ItemsNow[k].obj:GetComponent("Button").onClick:AddListener(
             function()
-                self.ItemChoice = v
+                self.ItemChoice = self.ItemsNow[k].data
                 ModelTool:SetMeta(self.ItemChoice)
+                -- 打印数据
                 print(self.ItemChoice)
                 self:ShowSynNeeds()
+                if v.CouldSyn == "true" then
+                    self.Panel.buttons[2].interactable = true
+                else
+                    self.Panel.buttons[2].interactable = false
+                end
             end
         )
         -- 显示图片
-        _item:GetComponent("Image").sprite = ABManager:LoadAsset("texture", items[k].TexturePath , CS.UnityEngine.Sprite)
-        if items[k].CouldSyn == false then
-            -- 不可合成的物品进行操作
+        self.ItemsNow[k].obj:GetComponent("Image").sprite = ABManager:LoadAsset("texture", items[k].TexturePath , CS.UnityEngine.Sprite)
+        -- 不可合成的物品的图片透明显示
+        if items[k].CouldSyn == "false" then
+            self.ItemsNow[k].obj:GetComponent("Image").color = CS.UnityEngine.Color(1,1,1,0.5)
         end
         -- 不用显示数据
-        _item.transform:Find("Text"):GetComponent("Text").text = ""
+        self.ItemsNow[k].obj.transform:Find("Text"):GetComponent("Text").text = ""
     end
 
-    -- 显示合成所需
+    -- 显示合成所需 nil
     self:ShowSynNeeds()
 end
 
@@ -289,93 +380,92 @@ end
     @return:
 ]]
 function MakerCtrl:ShowSynNeeds()
+    -- print("ShowSynNeeds is running")
     local _needsList = {}
 
     if self.ItemChoice == nil then
         for i = 1, 3, 1 do
-            self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = ABManager:LoadAsset("texture", "空白图" , CS.UnityEngine.Sprite)
-            self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = ""
+            self.Panel.texts[i].text = ""
+            self.Panel.images[i].sprite = nil -- ABManager:LoadAsset("texture", "空白图" , CS.UnityEngine.Sprite)
+            self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0)
         end
+        self.Panel.buttons[2].interactable = false
         return
     end
 
+    self.ItemChoice.CouldSyn =  CheckCouldSyn(self.ItemChoice)
+
     -- 获取合成所需(id,count,id,count,...)
-    for k, v in pairs(StaticDataModel.ItemsTable) do
-        if v.ItemID == self.ItemChoice.ItemID then
-            _needsList = v.SynNeeds
-            _needsList = ModelTool:SplitStr(_needsList)
-            break
-        end
-    end
+    _needsList = ModelTool:SplitStr(self.ItemChoice.SynNeeds)
+    print(self.ItemChoice.SynNeeds)
 
     for i = 1, 3, 1 do
-        -- 如果有所需合成的道具
+        -- 如果需要道具
         if 2*i <= #_needsList then
-            print("_needsList:" .. _needsList[2 * i - 1] .. "," .. _needsList[2 * i])
+            -- print("_needsList:" .. _needsList[2 * i - 1] .. "," .. _needsList[2 * i])
             -- 遍历玩家目前的所有道具
             for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
                 -- 如果ID匹配
                 if v.ItemID == _needsList[2 * i - 1] then
-                    -- 如果ID没有匹配到
                     -- 显示数量
-                    self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = _needsList[2 * i] .. "/" .. v.Count
+                    self.Panel.texts[i].text = _needsList[2 * i] .. "/" .. v.Count
                     -- 显示图片
-                    if ABManager:LoadAsset("texture", v.TexturePath , CS.UnityEngine.Sprite) ~= nil then
-                        print("sprite is not nil")
-                        self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = ABManager:LoadAsset("texture", v.TexturePath , CS.UnityEngine.Sprite)
+                    self.Panel.images[i].sprite = ABManager:LoadAsset("texture", v.TexturePath , CS.UnityEngine.Sprite)
+                    -- 根据数量足够与否显示图片透明度
+                    if tonumber(v.Count) >= tonumber(_needsList[2 * i]) then
+                        self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,1)
                     else
-                        print("sprite is nil")
-                        self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = nil
-                    end
-
-                    if tonumber(v.Count) < tonumber(_needsList[2 * i]) then
-                        -- 显示不够时的效果
+                        self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0.5)
                     end
                     break
                 -- 如果ID匹配不到
                 elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
-                    self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = _needsList[2 * i] .. "/0"
-                    self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = nil
+                    self.Panel.texts[i].text = _needsList[2 * i] .. "/0"
+                    self.Panel.images[i].sprite = nil
+                    self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0.5)
                 end
             end
-        -- 如果不需要道具了
+        -- 如果不需要道具
         else
-            self.Panel.buttons[i].gameObject.transform:Find("Text"):GetComponent("Text").text = ""
-            self.Panel.buttons[i].gameObject:GetComponent("Image").sprite = nil
+            -- print("3：_needsList is nil")
+            self.Panel.texts[i].text = ""
+            self.Panel.images[i].sprite = nil
+            self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0)
         end
     end
-end
 
+    
+    if self.ItemChoice ~=nil and self.ItemChoice.CouldSyn == "true" then
+        print("self.ItemChoice ~=nil and self.ItemChoice.CouldSyn == 'true'")
+        self.Panel.buttons[2].interactable = true
+    else
+        self.Panel.buttons[2].interactable = false
+    end
+
+end
 
 
 --[[
     @desc: 合成新的道具，扣除相应所需道具
     author:{author}
     time:2019-08-07 20:01:37
-    --@itemData: 需要合成的道具信息
 ]]
-function MakerCtrl:SynItem(itemData)
-    local _needsList = ModelTool:SplitStr(itemData.SynNeeds)
+function MakerCtrl:SynItem(item)
+    
+    local _needsList = ModelTool:SplitStr(item.SynNeeds)
 
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
     for i = 1, #(_needsList) / 2, 1 do
-        -- 遍历玩家目前的所有道具
-        for k, v in pairs(PlayerDataModel.PlayerData.Items) do
-            -- 扣除玩家表里相应的道具
-            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
-            -- 如果道具数量为0，则去除此道具
-            if v.Count == "0" then
-                PlayerDataModel.playerData.Items[k] = nil
-            end
-        end
-
-        for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
-            -- 扣除玩家表里相应的道具
-            v.Count = tostring(v.Count - tonumber(_needsList[2 * i]))
-            -- 如果道具数量为0，则去除此道具
-            if v.Count == "0" then
-                PlayerDataModel.CompletePlayerData.Items[k] = nil
-            end
-        end
+        -- 扣除所需物品
+        PlayerDataModel:RemoveItem(_needsList[2*i-1] , _needsList[2*i])
     end
+
+    -- 添加合成的道具
+    PlayerDataModel:AddItem(item.ItemID , 1)
+
+    -- 刷新界面
+    self:ShowItems()
+    
 end
+
+

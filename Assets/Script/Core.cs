@@ -28,6 +28,7 @@ public class Core : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        Application.targetFrameRate = 60;
 
         //初始化AB包，复制到可写目录下
         ABInit();

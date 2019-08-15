@@ -74,21 +74,21 @@ end
     @return:
 ]]
 function LoadManager:LoadSystem(systemName, time)
-    local file = nil
     if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        local file = nil
         file = io.open(CS.UnityEngine.Application.dataPath .. "/" .. "AssetBundle/Script/" .. systemName .. "/" .. systemName .. "Ctrl.lua.txt", "rb")
-    end
-
-    if file == nil then
-        print("系统脚本：" .. systemName .. "不存在")
-        return
-    end
-    file:close()
-
-    if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
+        if file == nil then
+            print("系统脚本：" .. systemName .. "不存在")
+            file:close()
+            return
+        end
         require(systemName .. "/" .. systemName .. "Ctrl.lua.txt")
     else
-        CS.Luax.Instance:DoString(ABManager:LoadAsset("script", systemName .. "Ctrl.lua").text)
+        local script = ABManager:LoadAsset("script", systemName .. "Ctrl.lua").text
+        if script == nil then
+            print("系统脚本：" .. systemName .. "不存在")
+        end
+        CS.Luax.Instance:DoString(script)
     end
 
     -- 调用Init
@@ -129,8 +129,7 @@ function LoadManager:LoadLua(dirName, ScriptName)
 end
 
 function LoadManager:DeleteAllChilds(parent)
-    for i = parent.transform.childCount - 1, 1, -1 do
+    for i = parent.transform.childCount - 1, 0, -1 do
         CS.UnityEngine.Object.Destroy(parent.transform:GetChild(i).gameObject)
-        print(i)
     end
 end

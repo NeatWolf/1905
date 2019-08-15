@@ -2,6 +2,8 @@ UICtrl = {}
 
 UICtrl.blackMask = nil
 
+
+
 -- 镜头黑遮罩动画,目标透明度、时间、[委托]
 function UICtrl:BlackMaskAni(alpha, time, event)
     if self.blackMask == nil then

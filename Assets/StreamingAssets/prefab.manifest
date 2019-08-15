@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 425801823
+CRC: 3360478284
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 71dd81a2ad90573c99eb5f180bfa3510
+    Hash: 5e9d5f1830041093e598d8bd83e9dfc6
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 1fc2c3b84feeb8e0cf8f43cc1ea00844
+    Hash: a2c1e6c15e0d241cfd0d6df215b4e6b5
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -103,6 +103,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 537a591bb7168b945b054dc31f4fe827, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -127,15 +129,16 @@ Assets:
 - Assets/AssetBundle/Prefab/UI/Common/Button.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/P_MM_Temp.prefab
 - Assets/AssetBundle/Prefab/UI/Login/OpenGame.prefab
-- Assets/AssetBundle/Prefab/UI/RoleMan/Img_pillar.prefab
+- Assets/AssetBundle/Prefab/UI/RoleMan/BG_Detail.prefab
 - Assets/AssetBundle/Prefab/UI/Explore/Explore.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/Main Scene.prefab
 - Assets/AssetBundle/Prefab/UI/Login/LoadingProcess.prefab
 - Assets/AssetBundle/Prefab/UI/Fabricate/FabricateUI.prefab
-- Assets/AssetBundle/Prefab/UI/RoleMan/BG_Detail.prefab
+- Assets/AssetBundle/Prefab/UI/RoleMan/BG_Equip.prefab
 - Assets/AssetBundle/Prefab/UI/Fabricate/FabricateUI_ROLE.prefab
 - Assets/AssetBundle/Prefab/UI/Explore/ExploreUI.prefab
 - Assets/AssetBundle/Prefab/UI/RoleMan/BG_Food.prefab
+- Assets/AssetBundle/Prefab/UI/RoleMan/BG_Intro.prefab
 - Assets/AssetBundle/Prefab/UI/Entrepot/EntrepotUI.prefab
 - Assets/AssetBundle/Prefab/UI/Common/ButtonChoice.prefab
 - Assets/AssetBundle/Prefab/UI/Active/P_Active.prefab
@@ -143,6 +146,7 @@ Assets:
 - Assets/AssetBundle/Prefab/UI/MainMenu/MainSceneUI.prefab
 - Assets/AssetBundle/Prefab/UI/RoleMan/RoleManUI.prefab
 - Assets/AssetBundle/Prefab/UI/Explore/DrapCanvas.prefab
+- Assets/AssetBundle/Prefab/UI/RoleMan/Role.prefab
 - Assets/AssetBundle/Prefab/UI/Login/LoginTest.prefab
 - Assets/AssetBundle/Prefab/UI/Entrepot/Records.prefab
 - Assets/ThirdParrty/TextMesh Pro/Resources/Shaders/TMP_SDF.shader

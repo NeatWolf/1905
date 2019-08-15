@@ -21,9 +21,10 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     GameObject[] SceneBtn = new GameObject[4];
     //编队按钮，点击后弹出编队界面
     Button btnTroops, btnBack;
-    //编队界面,编队背景，编队标题
+    //编队界面,编队背景，编队标题。。。
     GameObject Troops, BGTroops, TextTitle, heng, heng2, heng3, toggleSwitch,
     Scroll, heng4, TroopsGroup, Slider, mainTitle, info, icon, hengTop, hengBottom,circle;
+    //编队组中的4张AV卡牌
     GameObject[] cards=new GameObject[4];
 
     [Header("曲线")]

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2694125907
+CRC: 2315931454
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cb948e64d59ff2d6cdfd1c4a6be0d939
+    Hash: 1b61e2df9404d68fd72611d79ac5a7d8
   TypeTreeHash:
     serializedVersion: 2
     Hash: 48e8645bc2ccc13383b1b95efbb089b1
@@ -20,6 +20,7 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
+- "Assets/AssetBundle/Texture/Role/Character/04 \u8D6B\u6717.png"
 - Assets/AssetBundle/Texture/UI/Icon/Item/13021.png
 - Assets/AssetBundle/Texture/Main Interface/house_right3/shop_peng.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_left2/back.png
@@ -85,6 +86,7 @@ Assets:
 - Assets/AssetBundle/Texture/Main Interface/house_left3/back.png
 - Assets/AssetBundle/Texture/Main Interface/house_right3/shop_in.png
 - Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/down.png
+- "Assets/AssetBundle/Texture/Role/Character/01 \u54C8\u9C81\u7279.png"
 - Assets/AssetBundle/Texture/UI/Common/sort _down.png
 - Assets/AssetBundle/Texture/UI/Explore/circle.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right2/ad_side.png
@@ -111,12 +113,14 @@ Assets:
 - Assets/AssetBundle/Texture/Main Interface/gacha_blue/front_up.png
 - Assets/AssetBundle/Texture/UI/Gacha/middle.png
 - Assets/AssetBundle/Texture/UI/Login/bg_login.png
+- "Assets/AssetBundle/Texture/Role/Character/08 \u83AB\u51EF\u7ACB.png"
 - Assets/AssetBundle/Texture/UI/Main Interface/gacah_red/ramp.png
 - Assets/AssetBundle/Texture/Main Interface/house_left3/ad_word.png
 - Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/ramp.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_left1/back.png
 - Assets/AssetBundle/Texture/UI/Enterpot/Employee.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right1/window_up.png
+- "Assets/AssetBundle/Texture/Role/Character/02 \u963F\u59AE.png"
 - Assets/AssetBundle/Texture/UI/Common/back.png
 - Assets/AssetBundle/Texture/UI/Gacha/top.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right1/air_side.png
@@ -149,6 +153,7 @@ Assets:
 - Assets/AssetBundle/Texture/UI/Main Interface/bg/Main_CityBG.png
 - Assets/AssetBundle/Texture/UI/Icon/Food/12006.png
 - Assets/AssetBundle/Texture/UI/Enterpot/putaway_report_buttom_on.png
+- "Assets/AssetBundle/Texture/Role/Character/07 \u5149K.png"
 - Assets/AssetBundle/Texture/UI/Fabrication/rainbow.png
 - Assets/AssetBundle/Texture/Main Interface/house_right1/window_up.png
 - Assets/AssetBundle/Texture/Main Interface/house_right2/ad_front.png
@@ -157,6 +162,7 @@ Assets:
 - Assets/AssetBundle/Texture/Main Interface/house_right2/ad_side.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_left2/peng_down.png
 - Assets/AssetBundle/Texture/UI/Character/curtain.png
+- "Assets/AssetBundle/Texture/Role/Character/10 \u5239\u90A3.png"
 - Assets/AssetBundle/Texture/Main Interface/house_right2/health_side.png
 - Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/side.png
 - Assets/AssetBundle/Texture/Main Interface/bg/Main_BG.png
@@ -165,6 +171,7 @@ Assets:
 - Assets/AssetBundle/Texture/UI/Common/sort.png
 - Assets/AssetBundle/Texture/UI/Enterpot/putaway_report_buttom_exit.png
 - Assets/AssetBundle/Texture/UI/Icon/Equipment/19006.png
+- "Assets/AssetBundle/Texture/Role/Character/09 \u82AD\u82AD\u62C9.png"
 - Assets/AssetBundle/Texture/Main Interface/house_left1/roll.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right2/ad_front.png
 - Assets/AssetBundle/Texture/Main Interface/house_left1/window_side.png
@@ -201,6 +208,7 @@ Assets:
 - Assets/AssetBundle/Texture/Main Interface/house_right1/back.png
 - Assets/AssetBundle/Texture/UI/Icon/Equipment/19010.png
 - Assets/AssetBundle/Texture/Main Interface/house_left3/peng_down.png
+- Assets/AssetBundle/Texture/Role/Character/character_mask.png
 - Assets/AssetBundle/Texture/Main Interface/gacah_red/top.png
 - Assets/AssetBundle/Texture/UI/Character/bg_particle_fog.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right1/back.png
@@ -224,6 +232,7 @@ Assets:
 - Assets/AssetBundle/Texture/UI/Login/CODE_CYBER.png
 - Assets/AssetBundle/Texture/UI/Main Interface/gacha_blue/in.png
 - Assets/AssetBundle/Texture/Main Interface/gacah_red/ramp.png
+- "Assets/AssetBundle/Texture/Role/Character/06 \u6FD2.png"
 - Assets/AssetBundle/Texture/Main Interface/gacah_red/in.png
 - Assets/AssetBundle/Texture/UI/Explore/hengtiao.png
 - Assets/AssetBundle/Texture/Main Interface/house_right2/back.png
@@ -249,6 +258,7 @@ Assets:
 - Assets/AssetBundle/Texture/UI/Character/pillar.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_left3/stair_down.png
 - Assets/AssetBundle/Texture/UI/Character/bg_mask.png
+- "Assets/AssetBundle/Texture/Role/Character/05 \u5965\u6770\u5C14.png"
 - Assets/AssetBundle/Texture/Main Interface/gacha_yellow/front_uo.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_peng.png
 - Assets/AssetBundle/Texture/UI/Enterpot/enterpot_frame.png
@@ -257,6 +267,7 @@ Assets:
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right1/yancong.png
 - Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/side.png
 - Assets/AssetBundle/Texture/Main Interface/gacha_yellow/top.png
+- "Assets/AssetBundle/Texture/Role/Character/03 \u5E7D\u66FC.png"
 - Assets/AssetBundle/Texture/Main Interface/gacha_blue/front.png
 - Assets/AssetBundle/Texture/Main Interface/gacha_blue/ramp.png
 - Assets/AssetBundle/Texture/Main Interface/house_right3/SPA.png

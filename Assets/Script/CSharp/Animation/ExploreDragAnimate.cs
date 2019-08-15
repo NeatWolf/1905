@@ -84,7 +84,7 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         
-        //惯行滑动
+        //惯行滑动  第一个外部if中包含滑动过程中触壁的反馈机制
         if (mainCam.transform.localPosition.z > -21 && mainCam.transform.localPosition.z < -2)
         {
             

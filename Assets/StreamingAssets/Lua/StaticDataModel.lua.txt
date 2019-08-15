@@ -93,7 +93,6 @@ function StaticDataModel:MergeItem(playerItem)
     end
 end
 
-
 -- 合并出 完整的玩家数据信息
 function StaticDataModel:MergeData(playerData)
     local finalData = {}
@@ -124,7 +123,6 @@ function StaticDataModel:MergeData(playerData)
     return finalData
 end
 
-
 -- 按key的第index个值 进行筛选
 function StaticDataModel:ScreenList(list, key, index, ...)
     -- 1.满足条件的
@@ -142,10 +140,8 @@ function StaticDataModel:ScreenList(list, key, index, ...)
         end
     end
 
-    return list1,list2
+    return list1, list2
 end
-
-
 
 --[[
     @desc: 道具排序
@@ -158,21 +154,21 @@ end
 	--@changeWay: 第二层排序的升序降序（ 1 / -1 ）
     @return:
 ]]
-function StaticDataModel:SortItem(list, key1,value1, key2,changeWay)
+function StaticDataModel:SortItem(list, key1, value1, key2, changeWay)
     for i = 1, #list do
         for j = 1, #list - i do
             -- 第一层排序
-            if list[j][key1] ~= value1 and list[j+1][key1] == value1 then
+            if list[j][key1] ~= value1 and list[j + 1][key1] == value1 then
+                -- 第二层排序
                 -- print(list[j][key1] .. " " .. list[j+1][key1])
                 -- print("change")
                 list[j], list[j + 1] = list[j + 1], list[j]
-            -- 第二层排序
-            elseif list[j][key1] == list[j+1][key1] and ( (tonumber(list[j][key2]) - tonumber(list[j + 1][key2])) * changeWay ) > 0 then
+            elseif list[j][key1] == list[j + 1][key1] and ((tonumber(list[j][key2]) - tonumber(list[j + 1][key2])) * changeWay) > 0 then
+                -- 第三层排序 ID
                 -- print((list[j][key2]) .. " " .. (list[j + 1][key2]))
                 -- print("change")
                 list[j], list[j + 1] = list[j + 1], list[j]
-            -- 第三层排序 ID
-            elseif ( (tonumber(list[j][key2]) - tonumber(list[j + 1][key2])) * changeWay ) == 0 and ( tonumber(list[j].ItemID) - tonumber(list[j + 1].ItemID) ) > 0 then
+            elseif ((tonumber(list[j][key2]) - tonumber(list[j + 1][key2])) * changeWay) == 0 and (tonumber(list[j].ItemID) - tonumber(list[j + 1].ItemID)) > 0 then
                 -- print(list[j].ItemID .. " " .. list[j+1].ItemID)
                 -- print("change")
                 list[j], list[j + 1] = list[j + 1], list[j]
@@ -185,7 +181,7 @@ end
 function StaticDataModel:SortHeroByHeroID(heroList)
     for i = 1, #heroList do
         for j = 1, #heroList - i do
-            if  tonumber(heroList[j].HeroID) > tonumber(heroList[j+1].HeroID) then
+            if tonumber(heroList[j].HeroID) > tonumber(heroList[j + 1].HeroID) then
                 -- print( heroList[j].HeroID .. " " .. heroList[j+1].HeroID )
                 -- print("change")
                 heroList[j], heroList[j + 1] = heroList[j + 1], heroList[j]
@@ -198,19 +194,18 @@ end
 function StaticDataModel:SortHeroByInsBuff(herosList, ...)
     local list1 = {}
     local list2 = {}
-    list1,list2 = StaticDataModel:ScreenList(herosList, "InsBuff",1, ...)
+    list1, list2 = StaticDataModel:ScreenList(herosList, "InsBuff", 1, ...)
 
     for i = 1, #list1 do
         for j = 1, #list1 - i do
-
             local _buff1 = ModelTool:SplitStr(list1[j].InsBuff)
-            local _buff2 = ModelTool:SplitStr(list1[j+1].InsBuff)
-            if tonumber(_buff1[2]) < tonumber(_buff2[2])  then
+            local _buff2 = ModelTool:SplitStr(list1[j + 1].InsBuff)
+            if tonumber(_buff1[2]) < tonumber(_buff2[2]) then
+                -- 第三层排序 ID
                 -- print(_buff1[2] .. " " .. _buff2[2])
                 -- print("change")
                 list1[j], list1[j + 1] = list1[j + 1], list1[j]
-            -- 第三层排序 ID
-            elseif tonumber(_buff1[2]) == tonumber(_buff2[2]) and tonumber(list1[j].HeroID) > tonumber(list1[j+1].HeroID) then
+            elseif tonumber(_buff1[2]) == tonumber(_buff2[2]) and tonumber(list1[j].HeroID) > tonumber(list1[j + 1].HeroID) then
                 -- print( list1[j].HeroID .. " " .. list1[j+1].HeroID )
                 -- print("change")
                 list1[j], list1[j + 1] = list1[j + 1], list1[j]
@@ -219,6 +214,30 @@ function StaticDataModel:SortHeroByInsBuff(herosList, ...)
     end
 
     StaticDataModel:SortHeroByHeroID(list2)
-    return ModelTool:MergeTable(list1,list2)
+    return ModelTool:MergeTable(list1, list2)
 end
 
+-- 计算表的元素数量
+function StaticDataModel:TableCount(table)
+    local count = 0
+    for _, _ in pairs(table) do
+        count = count + 1
+    end
+    return count
+end
+
+-- 从给定的表（数组）中随机返回一组
+function StaticDataModel:RandomTable(table)
+    local rand = CS.UnityEngine.Random.Range(1, #table)
+    return table[math.ceil(rand)]
+end
+
+-- 检查表中是否存在指定Key的Value
+function StaticDataModel:Exist(table, key, value)
+    for k, v in pairs(table) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end

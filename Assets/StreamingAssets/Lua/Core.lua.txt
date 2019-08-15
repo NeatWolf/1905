@@ -17,7 +17,7 @@ Core = {}
 
 function Core.Start()
     -- 加载启动界面
-    LoadManager:LoadSystem("GameStart")
+    LoadManager:LoadSystem("GameStart",0.1)
 end
 
 -- 游戏一天一夜循环周期

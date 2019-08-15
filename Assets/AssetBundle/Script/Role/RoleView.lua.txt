@@ -1,0 +1,73 @@
+RoleView = {}
+
+-- 显示英雄列表
+function RoleView:ShowHerosList(herosList)
+    -- 根据PlayerDataModel.CompletePlayerData加载Role预制体
+    for k,v in pairs(herosList) do
+        local _Hero = {}
+        _Hero.data = ModelTool:CopyTable(v)
+        _Hero.UISub = LoadManager:Load(ABManager:LoadAsset("prefab", "Role"), RoleCtrl.Panel.go[2].transform, true):GetComponent("UISubObject")
+        -- 加载图片
+        --_Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Hero.data.TexturePath, CS.UnityEngine.Sprite)
+        _Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", "male", CS.UnityEngine.Sprite)
+    end
+end
+
+-- 显示英雄详细信息
+function RoleView:ShowHeroInfo(heroData)
+
+    -- 显示名字
+    RoleCtrl.Panel.tmps[0].text = (ModelTool:SplitStr(heroData.Name))[2]
+    RoleCtrl.Panel.tmps[0].text = heroData.HeroID
+
+    -- 显示等级
+    if heroData.Level == "4" then
+        RoleCtrl.Panel.buttons[1].interactable = false
+        RoleCtrl.Panel.tmps[1].text = "Level " .. heroData.Level
+    else
+        RoleCtrl.Panel.buttons[1].interactable = true
+        RoleCtrl.Panel.tmps[1].text = "Level " .. heroData.Level .. " ↑"
+    end
+
+    -- 显示耐力
+    RoleCtrl.Panel.tmps[2].text = heroData.EnergyMax
+
+    -- 显示采集增益相关
+    local _colBuff = ModelTool:SplitStr(heroData.ColBuff)
+    local _colBuffAdd = ModelTool:SplitStr(heroData.ColBuffAdd)
+    local _colCount = tonumber(_colBuff[1]) + tonumber(_colBuffAdd[1])
+    local _colLevel = tonumber(_colBuff[2]) + tonumber(_colBuffAdd[2])
+    local _colTimeScale = tonumber(_colBuff[3])
+    -- 显示幸运值
+    
+    -- 显示采集时间
+    if _colTimeScale < 1 then
+        RoleCtrl.Panel.tmps[4].text = "慢"
+    elseif _colTimeScale == 1 then
+        RoleCtrl.Panel.tmps[4].text = "中"
+    else
+        RoleCtrl.Panel.tmps[4].text = "快"
+    end
+
+    -- 显示合成增益相关
+    local _insBuff = ModelTool:SplitStr(heroData.InsBuff)
+    -- 显示设施
+    if _insBuff[1] == "2" then
+        RoleCtrl.Panel.tmps[5].text = "食物"
+    elseif _insBuff[2] == "3" then
+        RoleCtrl.Panel.tmps[5].text = "道具"
+    else
+        RoleCtrl.Panel.tmps[5].text = "裝備"
+    end
+    -- 显示效率
+    local _insSpeed = tonumber(_insBuff[2])
+    if _insSpeed < 1 then
+        RoleCtrl.Panel.tmps[6].text = "低"
+    elseif _insSpeed == 1 then
+        RoleCtrl.Panel.tmps[6].text = "中"
+    else
+        RoleCtrl.Panel.tmps[6].text = "高"
+    end
+
+end
+

@@ -37,7 +37,7 @@ public class EntrepotAnimation : MonoBehaviour
         //添加相机
         AnimateManager.AddCams(canvas);
         //添加Button动画
-        AnimateManager.AddButtonsAnimate(btns);
+        AnimateManager.AddButtonAnimate(btns[0]);
         //设置Records失活状态时的位置
         AnimateManager.RecordPreviousAnimate(Records);
 

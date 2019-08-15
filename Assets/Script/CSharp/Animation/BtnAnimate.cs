@@ -7,12 +7,23 @@ using UnityEngine.EventSystems;
 
 public class BtnAnimate : MonoBehaviour,
 IPointerDownHandler, IPointerUpHandler,
-IPointerEnterHandler, IPointerExitHandler
+IPointerEnterHandler, IPointerExitHandler,
+IDragHandler,IBeginDragHandler
+
 {
-    
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+       
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("按钮按下");
         transform.DOScale(1,0.1f);
     }
 

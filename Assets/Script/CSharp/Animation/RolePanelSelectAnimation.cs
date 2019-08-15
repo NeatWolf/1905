@@ -51,7 +51,8 @@ public class RolePanelSelectAnimation : MonoBehaviour
     float lastValue = 0;
     bool needBack = false;
     float lerp = 0.15f;
-    private void Start()
+    [LuaCallCSharp]
+    public void Init()
     {
         buttons = new Button[transform.childCount];
         ORolePosition = rolePage.transform.position;

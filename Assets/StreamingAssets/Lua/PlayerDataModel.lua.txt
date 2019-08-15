@@ -12,6 +12,11 @@ ModelTool:SetMeta(PlayerDataModel.CompletePlayerData)
 
 -- 动态数据初始化
 function PlayerDataModel:Init()
+    --if not CS.System.IO.File.Exists(self.FilePath) then
+    -- 测试用：每次都初始化
+    if false then
+        return
+    end
     -- 读取 玩家初始数据的策划静态表(json)
     local ta = ABManager:LoadAsset("json", "PlayerInit")
     -- 写入
@@ -20,12 +25,6 @@ end
 
 -- 读取 可读写路径中的数据
 function PlayerDataModel:ReadOut()
-    --if not CS.System.IO.File.Exists(self.FilePath) then
-    -- 测试用：每次都初始化
-    if true then
-        self:Init()
-    end
-
     -- 从可读写路径中读取信息
     local str = CS.System.IO.File.ReadAllText(self.FilePath)
     self.PlayerData = JsonUtil.decode(str)
@@ -36,12 +35,15 @@ function PlayerDataModel:ReadOut()
     return self.CompletePlayerData
 end
 
--- 写入 可读写路径
+-- 写入 可读写路径,提供table或文本或默认写入玩家数据
 function PlayerDataModel:WriteIn(data)
-    if data ~= nil then
-        self.PlayerData = data
+    if type(data) == "string" then
+        CS.System.IO.File.WriteAllText(self.FilePath, data)
+    elseif type(data) == "table" then
+        CS.System.IO.File.WriteAllText(self.FilePath, JsonUtil.encode(data))
+    else
+        CS.System.IO.File.WriteAllText(self.FilePath, JsonUtil.encode(self.PlayerData))
     end
-    CS.System.IO.File.WriteAllText(self.FilePath, self.PlayerData)
 end
 
 function PlayerDataModel:RemoveItem(itemData)
@@ -88,5 +90,4 @@ function PlayerDataModel:AddItem(itemID, count)
 end
 
 function PlayerDataModel:LotteryProp(type)
-    
 end

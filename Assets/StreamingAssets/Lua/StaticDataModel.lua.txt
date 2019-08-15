@@ -122,7 +122,7 @@ function StaticDataModel:MergeData(playerData)
     return finalData
 end
 
--- 按key的第index个值 进行筛选
+-- 按key的第index个值 进行筛选(...为所有条件，符合一个即可 )
 function StaticDataModel:ScreenList(list, key, index, ...)
     -- 1.满足条件的
     local list1 = {}
@@ -133,6 +133,7 @@ function StaticDataModel:ScreenList(list, key, index, ...)
         for i = 1, select("#", ...) do
             if _strs[index] == select(i, ...) then
                 table.insert(list1, v)
+                -- ???↓
             elseif i == select("#", ...) then
                 table.insert(list2, v)
             end
@@ -231,12 +232,18 @@ function StaticDataModel:RandomTable(table)
     return table[math.ceil(rand)]
 end
 
--- 检查表中是否存在指定Key的Value
+--[[
+    @desc:检查表中是否存在给定key的value 
+    --@table:表（数组形式）
+	--@key:数组元素中的key
+	--@value: 需要查询的值
+    @return:是否存在、存在value的一组数据
+]]
 function StaticDataModel:Exist(table, key, value)
     for k, v in pairs(table) do
-        if v == value then
-            return true
+        if v[key] == value then
+            return true, v
         end
     end
-    return false
+    return false, nil
 end

@@ -18,7 +18,7 @@ local NpcMaxTime = 60 * 0.1
 function MainSceneCtrl:Init()
     if MainSceneCtrl.Panel == nil then
         -- 加载预制体
-        LoadManager:Load(ABManager:LoadAsset("prefab", "Main Scene"), "Scene", true)
+        local scene = LoadManager:Load(ABManager:LoadAsset("prefab", "Main Scene"), "Scene", true):GetComponent("UISubObject")
         self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "MainSceneUI"), "UI", true):GetComponent("UISubObject")
 
         -- 添加委托
@@ -31,6 +31,16 @@ function MainSceneCtrl:Init()
                 )
             end
         end
+        for i = 0, scene.buttons.Length - 1 do
+            if scene.buttons[i] ~= nil then
+                scene.buttons[i].onClick:AddListener(
+                    function()
+                        LoadManager:LoadSystem(self.Panel.buttons[i].name)
+                    end
+                )
+            end
+        end
+
     end
     MainSceneCtrl.Panel.gameObject:SetActive(true)
 

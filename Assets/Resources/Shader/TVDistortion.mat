@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TVDistortion
+  m_Shader: {fileID: 4800000, guid: da7970db130ffdc43a8fd632a584f5f2, type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DistortionTex:
+        m_Texture: {fileID: 2800000, guid: b5c709461546650418d9f6a1bff77a2c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 779a3f9d2f6aa344b89009581bbd2996, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _ColorScatterStrength: -0.05
+    - _DistortionAmplitude: 0.6
+    - _DistortionAnmSpeed: 2
+    - _DistortionFrequency: 5
+    - _NoiseAnmSpeed: 61.69
+    - _NoiseStrength: 4.81
+    m_Colors:
+    - _AdjustColor: {r: 0.049928807, g: 0.43235382, b: 0.6226415, a: 0.95686275}
+    - _BackgroundColor: {r: 0.23137252, g: 0.57686496, b: 0.9529412, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.101960786}

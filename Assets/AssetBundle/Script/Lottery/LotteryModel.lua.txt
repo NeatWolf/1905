@@ -5,21 +5,20 @@ LotteryModel.Normal = {}
 LotteryModel.NormalPlus = {}
 LotteryModel.Diamond = {}
 LotteryModel.DiamondPlus = {}
+
 LotteryModel.Normal.price = 1000 -- 普通卡池金币消耗
 LotteryModel.Normal.times = 1 -- 抽卡次数
 LotteryModel.Normal.roleProbability = 0.2 -- 角色概率
 LotteryModel.Normal.L3ItemProbability = 0.2 -- L3道具
 LotteryModel.Normal.L2ItemProbability = 0.5 -- L2道具
-LotteryModel.Diamond.price = 100 -- 钻石卡池消耗
-LotteryModel.Diamond.times = 1 -- 次数
-LotteryModel.Diamond.roleProbability = 0.2 -- 角色概率
-LotteryModel.Diamond.L3ItemProbability = 0.2 -- L3道具
-LotteryModel.Diamond.L2ItemProbability = 0.5 -- L2道具
+
 -- 赋值
 LotteryModel.NormalPlus = ModelTool:CopyTable(LotteryModel.Normal)
 LotteryModel.NormalPlus.price = 9500
 LotteryModel.NormalPlus.times = 10
-LotteryModel.DiamondPlus = ModelTool:CopyTable(LotteryModel.DiamondPlus)
+LotteryModel.Diamond = ModelTool:CopyTable(LotteryModel.Normal)
+LotteryModel.Diamond.price = 100 -- 钻石卡池消耗
+LotteryModel.DiamondPlus = ModelTool:CopyTable(LotteryModel.Normal)
 LotteryModel.DiamondPlus.price = 950
 LotteryModel.DiamondPlus.times = 10
 
@@ -71,4 +70,20 @@ function LotteryModel:AddRole(roleData)
     newRole.InsBuff = roleData.InsBuff
     newRole.Equips = ""
     table.insert(PlayerDataModel.PlayerData.Heros, newRole)
+end
+
+-- 抽取道具
+function LotteryModel:LotteryProp(type)
+    local rand = CS.UnityEngine.Random.value
+    local level = "1"
+    if rand < self.Normal.L3ItemProbability then
+        -- L3道具
+        level = "3"
+    elseif rand < self.Normal.L2ItemProbability then
+        -- L2
+        level = "2"
+    end
+
+    -- 筛选出对应等级道具，随机取一个
+    return StaticDataModel:RandomTable(StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Level", 1, level))
 end

@@ -46,7 +46,7 @@ function MainSceneCtrl:Init()
     -- 随机当前时间
     dayTimer = math.random(Core.GamePeriod/2)
     -- 在Core里添加 NPC购买事件的周期检测
-    Core.updateEvent = function() self:GameStartPeriod() end
+    -- Core.updateEvent = function() self:GameStartPeriod() end
     -- Core.secondEvent = function() self:NpcStartBuy() end
 end
 

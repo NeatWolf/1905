@@ -20,7 +20,7 @@ public class RoleManAnimation : MonoBehaviour
     }
 
     private void Start() {
-        btns[3].onClick.AddListener(()=>{
+        btns[2].onClick.AddListener(()=>{
             
 
 

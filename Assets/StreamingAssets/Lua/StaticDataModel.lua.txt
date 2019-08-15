@@ -48,6 +48,7 @@ function StaticDataModel:MergeHero(playerHero)
                 for v = 1, #self.ItemsTable do
                     if playerHero.Equips[k].ItemID == self.ItemsTable[v].ItemID then
                         table.insert(heroNow.Equips, self.ItemsTable[v])
+                        break
                     end
                 end
             end
@@ -218,7 +219,6 @@ function StaticDataModel:SortHeroByInsBuff(herosList, ...)
     end
 
     StaticDataModel:SortHeroByHeroID(list2)
-    
     return ModelTool:MergeTable(list1,list2)
 end
 

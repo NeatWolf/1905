@@ -1,0 +1,71 @@
+-- 升级窗口
+
+LevelView = {}
+
+LevelView.Panel = nil
+LevelView.ScrollData = nil
+LevelView.HeroData = nil
+
+function LevelView:Init()
+    -- print("进入升级视图")
+    self.Panel = RoleCtrl.Panel.go[3]:GetComponent("UISubObject")
+
+    self.Panel.buttons[0].onClick:AddListener(
+        function ()
+            RoleCtrl:LevelUp(self.HeroData , self.ScrollData)
+        end
+    )
+    self.Panel.buttons[1].onClick:AddListener(
+        function ()
+            self.Panel.gameObject:SetActive(fasle)
+            RoleView:ShowHeroInfo(self.HeroData)
+        end
+    )
+
+end
+
+
+-- 显示升级窗口
+function LevelView:ShowLevelWindow(heroData , scrollData)
+    self.ScrollData = scrollData
+    self.HeroData = heroData
+    -- 显示卷轴数量 并判断Yes按钮是否可以点击
+    local couldYes = false
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+        -- 如果玩家有此卷轴
+        if v.ItemID == self.ScrollData.ItemID then
+            -- 显示卷轴数量
+            self.Panel.tmps[0].text = self.ScrollData.Count .. "/" .. v.Count
+            -- 如果数量满足条件
+            if tonumber(v.Count) >= self.ScrollData.Count then
+                couldYes = true
+            else
+                couldYes = false
+            end
+        -- 如果玩家没有此卷轴
+        elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
+            -- 显示卷轴数量
+            self.Panel.tmps[0].text = self.ScrollData.Count .. "/" .. 0
+            couldYes = false
+        end
+    end
+
+    -- 显示Yes按钮状态
+    if couldYes == true then
+        --self.Panel.buttons[0].interactable = true
+        self.Panel.buttons[0].transform:Find("Background"):GetComponent("Image").color = self.Panel.buttons[1].transform:Find("Background"):GetComponent("Image").color
+    else
+        --self.Panel.buttons[0].interactable = false
+        self.Panel.buttons[0].transform:Find("Background"):GetComponent("Image").color = CS.UnityEngine.Color.gray
+    end
+    
+    -- 显示卷轴图片
+    self.Panel.images[0].sprite = ABManager:LoadAsset("texture", self.ScrollData.TexturePath, CS.UnityEngine.Sprite)
+    -- 显示卷轴名字
+    self.Panel.tmps[1].text = self.ScrollData.Name
+    -- 显示当前等级
+    self.Panel.tmps[2].text = self.HeroData.Level
+    
+end
+
+

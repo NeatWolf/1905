@@ -60,7 +60,7 @@ function LevelView:ShowLevelWindow(heroData , scrollData)
     end
     
     -- 显示卷轴图片
-    self.Panel.images[0].sprite = ABManager:LoadAsset("texture", self.ScrollData.TexturePath, CS.UnityEngine.Sprite)
+    self.Panel.images[0].sprite = ABManager:LoadAsset("texture", self.ScrollData.ItemID, CS.UnityEngine.Sprite)
     -- 显示卷轴名字
     self.Panel.tmps[1].text = self.ScrollData.Name
     -- 显示当前等级

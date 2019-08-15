@@ -64,16 +64,18 @@ function ModelTool:SplitStr(str, charSplit)
 end
 
 -- 合并字符串
-function ModelTool:MergeStr(str,strAdd)
+function ModelTool:MergeStr(str , ...)
     if str == nil then
         print("MergeStr：string为nil")
         return nil
     end
 
-    if str == "" then
-        str = strAdd
-    else
-        str = str .. "," .. strAdd
+    for i = 1, select("#", ...) do
+        if str == "" then
+            str = select(i, ...)
+        else
+            str = str .. "," .. select(i, ...)
+        end
     end
 
     return str

@@ -128,8 +128,8 @@ function LoadManager:LoadLua(dirName, ScriptName)
     end
 end
 
-function LoadManager:DeleteAllChilds(parent)
-    for i = parent.transform.childCount - 1, 0, -1 do
-        CS.UnityEngine.Object.Destroy(parent.transform:GetChild(i).gameObject)
+function LoadManager:DeleteAllChilds(parentObj)
+    for i = parentObj.transform.childCount - 1, 0, -1 do
+        CS.UnityEngine.Object.Destroy(parentObj.transform:GetChild(i).gameObject)
     end
 end

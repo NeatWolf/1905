@@ -145,11 +145,11 @@ function StaticDataModel:ScreenList(list, key, index, ...)
     end
     
     if #list1 == 0 then
-        print("list1 is nil")
+        -- print("list1 is nil")
         list1 = nil
     end
     if #list2 == 0 then
-        print("list2 is nil")
+        -- print("list2 is nil")
         list2 = nil
     end
 

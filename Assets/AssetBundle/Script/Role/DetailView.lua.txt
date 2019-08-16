@@ -2,90 +2,102 @@
 
 DetailView = {}
 
-DetailView.Panel = nil
-DetailView.HeroData = nil
 DetailView.EquipList = nil
 DetailView.Equipments = nil
 
-function DetailView:Init()
-    -- print("进入详情视图")
-    self.Panel = RoleCtrl.Panel.go[4]:GetComponent("UISubObject")
 
-    self.Panel.buttons[0].onClick:AddListener(
-        function ()
-            self.Panel.gameObject:SetActive(fasle)
-            RoleView:ShowHeroInfo(self.HeroData)
-        end
-    )
-    self.Panel.buttons[1].onClick:AddListener(
-        function ()
-            self.Panel.gameObject:SetActive(fasle)
-            RoleCtrl:ChangeCurrentRole()
-        end
-    )
-    self.Panel.buttons[2].onClick:AddListener(
-        function ()
-
-        end
-    )
-
+-- 显示空装备
+function DetailView:ShowEmptyEquip(index)
+    DetailCtrl.Panel.images[index].sprite = nil
+    DetailCtrl.Panel.images[index].color = CS.UnityEngine.Color(1,1,1,0.5)
+    if index == 0 then
+        DetailCtrl.Panel.texts[index].text = "武器"
+    elseif index == 1 then
+        DetailCtrl.Panel.texts[index].text = "頭盔"
+    elseif index == 2 then
+        DetailCtrl.Panel.texts[index].text = "衣服"
+    elseif index == 3 then
+        DetailCtrl.Panel.texts[index].text = "褲腿"
+    elseif index == 4 then
+        DetailCtrl.Panel.texts[index].text = "鞋子"
+    elseif index == 5 then
+        DetailCtrl.Panel.texts[index].text = "飾品"
+    end
 end
 
 
+-- function DetailView:UpdateEquip(itemData, equipWay)
+
+--     if equipWay == 1 then
+        
+--     elseif equipWay == -1 then
+--         if itemData.Type == "9" then
+--             self.ShowEmptyEquip(0)
+--         else
+--             self.ShowEmptyEquip(tonumber(itemData.Type)-3)
+--         end
+--         for k,v in pairs(self.Equipments) do
+--             if itemData.ItemID == v.data.ItemID then
+--                 v.data.Count = v.data.Count + 1
+--                 v.obj.transform:Find("Text"):GetComponent("Text").text = v.data.Count
+--             elseif k == #(self.equipments) then
+--                 local _Equipment = UICtrl:LoadItem(
+--                     itemData,
+--                     DetailCtrl.Panel.go[0].transform,
+--                     function()
+--                         -- 穿上装备
+--                         heroData = DetailCtrl:EquipHero(heroData, itemData, 1)
+--                         DetailCtrl:ShowDetailWindow(heroData)
+--                     end
+--                 )
+--                 table.insert(self.Equipments, _Equipment)
+--                 DetailCtrl:SortEquips(equips)
+--             end
+                
+--         end
+--     end
+
+-- end
+
+
 function DetailView:ShowDetail(heroData, equipList, equipments)
-    self.HeroData = heroData
 
     -- 显示英雄简介
-    self.Panel.tmps[0].text = heroData.Description
+    DetailCtrl.Panel.tmps[0].text = heroData.Description
 
     -- 显示上方装备列表（已装备）
     self.EquipList = equipList
     for i=1, 6 do
         if self.EquipList[i] ~= nil then
-            self.Panel.texts[i-1].text = ""
-            self.Panel.images[i-1].sprite = ABManager:LoadAsset("texture", self.EquipList[i].ItemID, CS.UnityEngine.Sprite)
-            --self.Panel.images[i-1].sprite = ABManager:LoadAsset("texture", "Test", CS.UnityEngine.Sprite)
-            self.Panel.images[i-1].color = CS.UnityEngine.Color(1,1,1,1)
+            DetailCtrl.Panel.texts[i-1].text = ""
+            DetailCtrl.Panel.images[i-1].sprite = ABManager:LoadAsset("texture", self.EquipList[i].ItemID, CS.UnityEngine.Sprite)
+            DetailCtrl.Panel.images[i-1].color = CS.UnityEngine.Color(1,1,1,1)
+
+            DetailCtrl.Panel.buttons[i+1].onClick:AddListener(
+                function()
+                    heroData = DetailCtrl:EquipHero(heroData, self.EquipList[i], -1)
+                    DetailCtrl:ShowDetailWindow(heroData)
+                end
+            )
         else
-            self.Panel.images[i-1].sprite = nil
-            self.Panel.images[i-1].color = CS.UnityEngine.Color(1,1,1,0.5)
-            if i == 1 then
-                self.Panel.texts[i-1].text = "武器"
-            elseif i == 2 then
-                self.Panel.texts[i-1].text = "頭盔"
-            elseif i == 3 then
-                self.Panel.texts[i-1].text = "衣服"
-            elseif i == 4 then
-                self.Panel.texts[i-1].text = "褲腿"
-            elseif i == 5 then
-                self.Panel.texts[i-1].text = "鞋子"
-            elseif i == 6 then
-                self.Panel.texts[i-1].text = "飾品"
-            end
+            self:ShowEmptyEquip(i-1)
         end
     end
 
-
     -- 显示下方装备列表（未装备）
-    self.Equipments = equipments
-    LoadManager:DeleteAllChilds(self.Panel.go[0])
-    for k,v in pairs(self.Equipments) do
-        local _Equipment = {}
-        _Equipment.obj = LoadManager:Load(ABManager:LoadAsset("prefab", "Button"), self.Panel.go[0].transform, true)
-
-        _Equipment.data = ModelTool:CopyTable(v)
-        --ModelTool:SetMeta(_Equipment.data)
-        --print(_Equipment.data)
-        _Equipment.obj.transform:GetComponent("Image").sprite = ABManager:LoadAsset("texture", _Equipment.data.ItemID,  CS.UnityEngine.Sprite)
-        _Equipment.obj.transform:Find("Text"):GetComponent("Text").text = v.Count
-        _Equipment.obj.transform:GetComponent("Button").onClick:AddListener(
+    self.Equipments = {}
+    LoadManager:DeleteAllChilds(DetailCtrl.Panel.go[0])
+    for k,v in pairs(equipments) do
+        local _Equipment = UICtrl:LoadItem(
+            v,
+            DetailCtrl.Panel.go[0].transform,
             function()
                 -- 穿上装备
-                self.HeroData = RoleCtrl:EquipHero(self.HeroData, _Equipment.data, 1)
-                RoleCtrl:ShowDetailWindow(self.HeroData)
-                print("当前英雄已装备：" .. self.HeroData.Equips)
+                heroData = DetailCtrl:EquipHero(heroData, v, 1)
+                DetailCtrl:ShowDetailWindow(heroData)
             end
         )
+        table.insert(self.Equipments, _Equipment)
     end
 
 end

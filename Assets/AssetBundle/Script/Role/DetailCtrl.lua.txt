@@ -1,0 +1,248 @@
+DetailCtrl = {}
+
+-- 预制体上的UISubObject脚本，内含所有UI对象
+DetailCtrl.Panel = nil
+
+function DetailCtrl:Init()
+    -- print("进入详情页控制系统")
+    self.Panel = RoleCtrl.Panel.go[4]:GetComponent("UISubObject")
+
+    -- 返回按钮
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            self.Panel.gameObject:SetActive(fasle)
+            RoleCtrl:ChangeCurrentRole()
+            self.Panel = nil
+        end
+    )
+    -- 喂食按钮
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+        end
+    )
+
+    LoadManager:LoadLua("Role", "DetailView")
+end
+
+function DetailCtrl:SortEquips(equips)
+    local resList = {}
+    -- 筛选不同种类的装备
+    local _list = {}
+    local _listTemp = {}
+    _list[9], _listTemp = StaticDataModel:ScreenList(equips, "Type", 1, "9")
+    _list[4], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "4")
+    _list[5], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "5")
+    _list[6], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "6")
+    _list[7], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "7")
+    _list[8], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "8")
+    -- 将所有列表进行排序
+    for i = 4, 9 do
+        if _list[i] ~= nil then
+            StaticDataModel:SortItem(_list[i], "Type", tostring(i), "Level", 1)
+        end
+    end
+    -- 最终完整的列表
+    if _list[9] ~= nil then
+        for k, v in pairs(_list[9]) do
+            table.insert(resList, v)
+        end
+    end
+    for i = 4, 8 do
+        if _list[i] ~= nil then
+            for k, v in pairs(_list[i]) do
+                table.insert(resList, v)
+            end
+        end
+    end
+
+    return resList
+end
+
+function DetailCtrl:GetEquips(heroData)
+    local equipList = {}
+    for k, v in pairs(heroData.Equips) do
+        if v.Type == "9" then
+            equipList[1] = ModelTool:CopyTable(v)
+        elseif v.Type == "4" then
+            equipList[2] = ModelTool:CopyTable(v)
+        elseif v.Type == "5" then
+            equipList[3] = ModelTool:CopyTable(v)
+        elseif v.Type == "6" then
+            equipList[4] = ModelTool:CopyTable(v)
+        elseif v.Type == "7" then
+            equipList[5] = ModelTool:CopyTable(v)
+        elseif v.Type == "8" then
+            equipList[6] = ModelTool:CopyTable(v)
+        end
+    end
+    if equipList == {} then
+        return nil
+    else
+        return equipList
+    end
+end
+
+function DetailCtrl:GetNotEquips(heroData)
+    local Eqiupments = ModelTool:CopyTable(self:SortEquips(PlayerDataModel.CompletePlayerData.Items))
+    -- 遍历玩家的每一个英雄
+    for k1, v1 in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        -- 遍历英雄的每一个装备
+        for k2, v2 in pairs(v1.Equips) do
+            --遍历玩家的道具
+            for k3, v3 in pairs(Eqiupments) do
+                if v2.ItemID == v3.ItemID then
+                    v3.Count = tostring(tonumber(v3.Count) - 1)
+                    if v3.Count == "0" then
+                        Eqiupments[k3] = nil
+                    end
+                    break
+                end
+            end
+        end
+    end
+    return Eqiupments
+end
+
+--[[
+    @desc: 对英雄进行装备操作
+    author:{author}
+    time:2019-08-08 13:38:10
+    --@heroData: 英雄信息
+	--@itemData: 装备信息
+	--@equipWay: 1/-1 穿上/脱下
+    @return: 更改后的新的英雄信息
+]]
+function DetailCtrl:EquipHero(heroData, itemData, equipWay)
+    -- 得到穿上的装备信息和脱下的装备信息
+    local putOn = nil
+    local getOff = nil
+
+    if equipWay == 1 then
+        local _, equip = StaticDataModel:Exist(heroData.Equips, "Type", itemData.Type)
+        if equip ~= nil then
+            getOff = {}
+            getOff = equip
+        end
+        putOn = itemData
+    elseif equipWay == -1 then
+        getOff = itemData
+    else
+        print("equipWay传入有误")
+        return heroData
+    end
+
+    -- 处理英雄Buff
+    local _hBuff = ModelTool:SplitStr(heroData.ColBuff)
+    local _hEnergy = heroData.EnergyMax
+    if getOff ~= nil then
+        local _iBuff = ModelTool:SplitStr(getOff.HeroBuff)
+        _hBuff[1] = tostring((_hBuff[1]) + 0 - (_iBuff[3]))----------0.00
+        _hBuff[2] = tostring((_hBuff[2]) + 0 - (_iBuff[4]))
+        _hEnergy = tostring((_hEnergy) + 0 - (_iBuff[1]))
+    end
+    if putOn ~= nil then
+        local _iBuff = ModelTool:SplitStr(putOn.HeroBuff)
+        _hBuff[1] = tostring((_hBuff[1]) + 0 + (_iBuff[3]))
+        _hBuff[2] = tostring((_hBuff[2]) + 0 + (_iBuff[4]))
+        _hEnergy = tostring((_hEnergy) + 0 + (_iBuff[1]))
+    end
+
+    -- 刷新 玩家动态数据 相应的英雄信息
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 1.对装备表的操作
+            if getOff ~= nil then
+                v.Equips = ModelTool:RemoveStr(v.Equips, getOff.ItemID)
+            end
+            if putOn ~= nil then
+                v.Equips = ModelTool:MergeStr(v.Equips, putOn.ItemID)
+            end
+            -- 2.赋值给英雄
+            v.ColBuff = ModelTool:MergeStr(_hBuff[1], _hBuff[2], _hBuff[3])
+            v.EnergyMax = _hEnergy
+            break
+        end
+    end
+
+    for k, v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        if v.HeroID == heroData.HeroID then
+            if getOff ~= nil then
+                for i, j in pairs(v.Equips) do
+                    if j.ItemID == getOff.ItemID then
+                        table.remove(v.Equips, i)
+                        break
+                    end
+                end
+            end
+            if putOn ~= nil then
+                table.insert(PlayerDataModel.CompletePlayerData.Heros[k].Equips, putOn)
+            end
+
+            v.ColBuff = ModelTool:MergeStr(_hBuff[1], _hBuff[2], _hBuff[3])
+            v.EnergyMax = _hEnergy
+
+            -- 返回 更改后的信息
+            heroData = PlayerDataModel.CompletePlayerData.Heros[k] --ModelTool:CopyTable(
+            --)
+
+            break
+        end
+    end
+
+    return heroData
+end
+
+-- 显示详细信息窗口
+function DetailCtrl:ShowDetailWindow(heroData)
+    local equipList = self:GetEquips(heroData)
+    local equipments = self:GetNotEquips(heroData)
+    DetailView:ShowDetail(heroData, equipList, equipments)
+end
+
+
+-- 投喂英雄
+function DetailCtrl:FeedHero(heroData, itemData, count)
+    -- 处理数据：将食物Buff附加给英雄Buff
+    local _hbuffT = ModelTool:SplitStr(heroData.ColBuffAdd)
+    local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
+    -- 如果英雄当前的临时Buff 小于 道具的加成Buff，进行赋值
+    if _hbuffT[1] < _ibuff[3] then
+        _hbuffT[1] = _ibuff[3]
+    end
+    if _hbuffT[2] < _ibuff[4] then
+        _hbuffT[2] = _ibuff[4]
+    end
+
+    -- 修改 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 赋值给英雄
+            v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2] * count)
+            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
+                v.EnergyNow = v.EnergyMax
+            end
+            break
+        end
+    end
+
+    -- 修改 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 赋值给英雄
+            v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2] * count)
+            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
+                v.EnergyNow = v.EnergyMax
+            end
+
+            heroData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
+            break
+        end
+    end
+
+    return heroData
+end

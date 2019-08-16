@@ -8,8 +8,7 @@ function RoleView:ShowHerosList(herosList)
         _Hero.data = ModelTool:CopyTable(v)
         _Hero.UISub = LoadManager:Load(ABManager:LoadAsset("prefab", "Role"), RoleCtrl.Panel.go[2].transform, true):GetComponent("UISubObject")
         -- 加载图片
-        --_Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Hero.data.TexturePath, CS.UnityEngine.Sprite)
-        _Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", "male", CS.UnityEngine.Sprite)
+        _Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Hero.data.HeroID, CS.UnityEngine.Sprite)
     end
 end
 

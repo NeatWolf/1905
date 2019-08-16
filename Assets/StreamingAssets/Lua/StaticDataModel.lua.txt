@@ -44,9 +44,10 @@ function StaticDataModel:MergeHero(playerHero)
             heroNow.ColBuffAdd = playerHero.ColBuffAdd
             heroNow.InsBuff = playerHero.InsBuff
             heroNow.Equips = {}
-            for k = 1, #playerHero.Equips do
+            local equipsList = ModelTool:SplitStr(playerHero.Equips)
+            for k = 1, #equipsList do
                 for v = 1, #self.ItemsTable do
-                    if playerHero.Equips[k].ItemID == self.ItemsTable[v].ItemID then
+                    if equipsList[k] == self.ItemsTable[v].ItemID then
                         table.insert(heroNow.Equips, self.ItemsTable[v])
                         break
                     end
@@ -56,7 +57,6 @@ function StaticDataModel:MergeHero(playerHero)
             heroNow.Name = self.HerosTable[i].Name
             heroNow.Age = self.HerosTable[i].Age
             heroNow.Gender = self.HerosTable[i].Gender
-            heroNow.TexturePath = self.HerosTable[i].TexturePath
             heroNow.LevelUp = self.HerosTable[i].LevelUp
             heroNow.Speak1 = self.HerosTable[i].Speak1
             heroNow.Speak2 = self.HerosTable[i].Speak2
@@ -75,9 +75,9 @@ function StaticDataModel:MergeItem(playerItem)
             -- 动态表的数据
             itemNow.ItemID = playerItem.ItemID
             itemNow.Count = playerItem.Count
+            itemNow.EquipHeros = playerItem.EquipHeros
             -- 静态表的数据
             itemNow.Name = self.ItemsTable[i].Name
-            itemNow.TexturePath = self.ItemsTable[i].TexturePath
             itemNow.Type = self.ItemsTable[i].Type
             itemNow.Level = self.ItemsTable[i].Level
             itemNow.ObMethods = self.ItemsTable[i].ObMethods
@@ -125,6 +125,10 @@ end
 
 -- 按key的第index个值 进行筛选(...为所有条件，符合一个即可 )
 function StaticDataModel:ScreenList(list, key, index, ...)
+    if list == nil then
+        return nil,nil
+    end
+
     -- 1.满足条件的
     local list1 = {}
     -- 2.不满足条件的
@@ -139,6 +143,15 @@ function StaticDataModel:ScreenList(list, key, index, ...)
                 table.insert(list2, v)
             end
         end
+    end
+    
+    if #list1 == 0 then
+        -- print("list1 is nil")
+        list1 = nil
+    end
+    if #list2 == 0 then
+        -- print("list2 is nil")
+        list2 = nil
     end
 
     return list1, list2
@@ -156,6 +169,10 @@ end
     @return:
 ]]
 function StaticDataModel:SortItem(list, key1, value1, key2, changeWay)
+    if list == nil then
+        return
+    end
+
     for i = 1, #list do
         for j = 1, #list - i do
             -- 第一层排序
@@ -180,6 +197,10 @@ end
 
 -- 按HeroID对英雄进行排序
 function StaticDataModel:SortHeroByHeroID(heroList)
+    if heroList == nil then
+        return
+    end
+
     for i = 1, #heroList do
         for j = 1, #heroList - i do
             if tonumber(heroList[j].HeroID) > tonumber(heroList[j + 1].HeroID) then
@@ -193,6 +214,10 @@ end
 
 -- 按InsBuff对英雄进行排序
 function StaticDataModel:SortHeroByInsBuff(herosList, ...)
+    if herosList ~= nil  then
+        return nil
+    end
+
     local list1 = {}
     local list2 = {}
     list1, list2 = StaticDataModel:ScreenList(herosList, "InsBuff", 1, ...)
@@ -243,8 +268,8 @@ end
 function StaticDataModel:Exist(table, key, value)
     for k, v in pairs(table) do
         if v[key] == value then
-            return true, v
+            return true,v
         end
     end
-    return false, nil
+    return false,nil
 end

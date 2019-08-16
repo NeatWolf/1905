@@ -73,6 +73,8 @@ function PlayerDataModel:RemoveItem(itemID, count)
 end
 
 function PlayerDataModel:AddItem(itemID, count)
+    -- 默认值为1
+    count = count or 1
     for k1, v1 in pairs(self.PlayerData.Items) do
         -- 如果有这个Item
         if v1.ItemID == itemID then

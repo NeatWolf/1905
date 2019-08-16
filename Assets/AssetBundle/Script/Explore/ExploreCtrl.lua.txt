@@ -1,0 +1,15 @@
+ExploreCtrl = {}
+
+ExploreCtrl.Panel = nil
+
+function ExploreCtrl:Init()
+    print("进入探索")
+    -- LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LotteryUI"), "UI", true):GetComponent("UISubObject")
+    -- 注册委托
+    -- LotteryCtrl.Panel.buttons[0].onClick:AddListener(
+    --     function()
+    --         UICtrl:Back2MainScene()
+    --     end
+    -- )
+    
+end

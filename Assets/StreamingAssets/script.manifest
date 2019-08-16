@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 3946713532
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 914ecb031752ae888e467dcc9db5a35a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/AssetBundle/Script/GameStart/GameStartCtrl.lua.txt
+- Assets/AssetBundle/Script/Lottery/LotteryCtrl.lua.txt
+- Assets/AssetBundle/Script/Role/RoleCtrl.lua.txt
+- Assets/AssetBundle/Script/MainScene/MainSceneCtrl.lua.txt
+- Assets/AssetBundle/Script/Lottery/LotteryModel.lua.txt
+- Assets/AssetBundle/Script/Account/AccountCtrl.lua.txt
+- Assets/AssetBundle/Script/Entrepot/EntrepotCtrl.lua.txt
+- Assets/AssetBundle/Script/Role/DetailView.lua.txt
+- Assets/AssetBundle/Script/Role/RoleView.lua.txt
+- Assets/AssetBundle/Script/Entrepot/NPCsCtrl.lua.txt
+- Assets/AssetBundle/Script/Sell/SellCtrl.lua.txt
+- Assets/AssetBundle/Script/Role/LevelView.lua.txt
+- Assets/AssetBundle/Script/Maker/MakerCtrl.lua.txt
+- Assets/AssetBundle/Script/Warehouse/WarehouseCtrl.lua.txt
+- Assets/AssetBundle/Script/Activity/ActivityCtrl.lua.txt
+Dependencies: []

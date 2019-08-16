@@ -1,0 +1,154 @@
+账号服务器
+	全部是POST请求方式
+
+	注册账号
+		URL地址
+			http://hxsd.ucenter.honorzhao.com/user/register
+		参数
+			Phone：手机号（至少填一个）
+			Email：邮箱（至少填一个）
+			Password：密码（明文）
+		返回值
+			{
+				"Code" : 1,	//接口状态号
+				"Data" : null
+			}
+
+	登陆账号
+		URL地址
+			http://hxsd.ucenter.honorzhao.com/user/login
+		参数
+			Phone：手机号（至少填一个）
+			Email：邮箱（至少填一个）
+			Password：密码（明文）
+		返回值
+			{
+				"Code" : 1,	//接口状态号
+				"Data" : {
+					//和角色服通信的Token参数，用于让角色服识别游戏账号
+					"Token" : "vuwhf83ufj87h4vn8hf4vn74rhr4rr4"
+				}
+			}
+
+角色服务器
+	获得服务器列表
+		URL地址
+			http://hxsd.role.honorzhao.com/server/list
+		参数
+			Token：UCenter提供的账号识别码
+		返回值
+			{
+				"Code" : 1,	//接口状态号
+				"Data" : {
+					//所有服务器
+					"All" : [
+						//服务器ID，服务器名称，服务器状态（-1：繁忙，0：维护中，1：正常）
+						{"ServerID" : 1, "Name" : "游戏1服", "Status" : 1}
+						{"ServerID" : 2, "Name" : "游戏2服", "Status" : 1}
+					],
+					//已经登录的服务器
+					"My" : [
+						//服务器ID，昵称，账号创建时间戳
+						{"ServerID" : 1, "NickName" : "这是昵称", "CreateTime" : 1550310487}
+					]
+				}
+			}
+
+	登陆老角色（创建新角色）
+		URL地址
+			http://hxsd.role.honorzhao.com/role/login
+		参数
+			Token：UCenter提供的账号识别码
+			ServerID：服务器ID
+			NickName：角色昵称（新建角色时传递）
+		返回值
+			{
+				"Code" : 1,	//接口状态号
+				"Data" : {
+					//和游戏服通信的Token参数，用于让游戏服识别游戏账号
+					"Token" : "vuwhf83ufj87h4vn8hf4vn74rhr4rr4"
+				}
+			}
+
+			http://hxsd.game1.honorzhao.com/role/info
+			http://hxsd.game2.honorzhao.com/role/info
+			
+游戏服务器
+	获取基础信息
+		URL地址
+			http://hxsd.game{服号}.honorzhao.com/role/info
+		参数
+			Token：角色服获得
+		返回值
+			{
+				"Code" : 1,	//接口状态号
+				"Data" : {
+					"HP" : 100,		//体力值
+					"Gold" : 10,	//金币值
+					"Diamond" : 10	//钻石值
+				}
+			}
+
+	获取背包数据
+		URL地址
+			http://hxsd.game{服号}.honorzhao.com/package/list
+		参数
+			Token：角色服获得
+		返回值
+			{
+				"Code" : 1,	//接口状态号
+				"Data" : [	//我持有的道具信息
+					{"ItemID" : 10001, "Count" : 10},	//道具信息（道具ID，道具持有数）
+					{"ItemID" : 10002, "Count" : 999}
+				]
+			}
+
+	使用道具
+		URL地址
+			http://hxsd.game{服号}.honorzhao.com/package/use
+		参数
+			Token：角色服获得
+			ItemID：道具ID
+			Count：使用数量
+		返回值
+			{
+				"Code" : 1,	//接口状态号
+				"Data" : null
+			}
+			
+		http://hxsd.game{服号}.honorzhao.com/role/init 可以恢复初始道具数量
+
+状态号
+	1 => '成功',
+
+	-999 => '服务器内部错误号丢失',
+	-1000 => '服务器内部错误',
+
+	//UCenter注册
+	-100001 => '手机或邮箱至少填写一个',
+	-100002 => '密码必须填写',
+	-100003 => '手机号必须是11位的数字',
+	-100004 => '手机号已存在',
+	-100005 => '邮箱格式错误',
+	-100006 => '邮箱已存在',
+	-100007 => '密码长度必须为3~30位',
+
+	//UCenter登陆
+	-100011 => '账号不存在',
+	-100012 => '密码错误',
+
+	//Role服
+	-200001 => '需要先登陆账号服获取Token',
+	-200002 => '账号Token错误',
+	-200003 => '游戏服ID不能为空',
+	-200004 => '游戏服ID不存在',
+	-200005 => '角色登陆失败，请先创建角色',
+	-200006 => '创建角色失败',
+
+	//游戏服
+	-300001 => '需要先登陆角色服获取Token',
+	-300002 => '角色Token错误',
+
+	-310001 => '使用背包道具，道具ID不能为空',
+	-310002 => '使用背包道具，使用数量不能为空',
+	-310003 => '使用背包道具的数量不足',

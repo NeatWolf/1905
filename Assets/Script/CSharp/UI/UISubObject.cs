@@ -14,6 +14,7 @@ public class UISubObject : MonoBehaviour
     public Image[] images;
     public InputField[] inputFields;
     public GameObject[] go;
+    public ParticleSystem[] fx;
 
     [CSharpCallLua]
     public void OnDestroy()
@@ -23,24 +24,15 @@ public class UISubObject : MonoBehaviour
             if (buttons[i] != null)
                 buttons[i].onClick.RemoveAllListeners();
         }
-        for (int i = 0; i < texts.Length; i++)
+        for (int i = 0; i < toggles.Length; i++)
         {
-            if (texts[i] != null)
-                texts[i].onCullStateChanged.RemoveAllListeners();
-        }
-        for (int i = 0; i < images.Length; i++)
-        {
-            if (images[i] != null)
-                images[i].onCullStateChanged.RemoveAllListeners();
+            if (toggles[i] != null)
+                toggles[i].onValueChanged.RemoveAllListeners();
         }
         for (int i = 0; i < inputFields.Length; i++)
         {
             if (inputFields[i] != null)
                 inputFields[i].onEndEdit.RemoveAllListeners();
         }
-
-    
-    
     }
-
 }

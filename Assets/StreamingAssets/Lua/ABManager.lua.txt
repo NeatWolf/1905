@@ -24,10 +24,20 @@ function ABManager:LoadAsset(ABName, fileName, type)
         print(ABName .. "is loaded erorr")
     end
     --返回资源
+    local asset = nil
     if type then
-        return ab:LoadAsset(fileName, typeof(type))
+        asset = ab:LoadAsset(fileName, typeof(type))
     else
-        return ab:LoadAsset(fileName)
+        asset = ab:LoadAsset(fileName)
+    end
+    if asset == nil then
+        if type then
+            return ab:LoadAsset("Test(勿删)", typeof(type))
+        else
+            return ab:LoadAsset("Test(勿删)")
+        end
+    else
+        return asset
     end
 end
 

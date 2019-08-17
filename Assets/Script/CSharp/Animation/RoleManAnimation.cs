@@ -33,7 +33,7 @@ public class RoleManAnimation : MonoBehaviour
     /// </summary>
     GameObject roleTexture;
     GameObject intro;
-    GameObject EquipGroup, ScrollView, BG_Equip, BG_Level,BG_Food;
+    GameObject EquipGroup, ScrollView, BG_Equip, BG_Level, BG_Food;
 
     /// <summary>
     /// 控制个界面的back按钮
@@ -59,7 +59,7 @@ public class RoleManAnimation : MonoBehaviour
         EquipGroup = GetComponent<UISubObject>().go[11];
         ScrollView = GetComponent<UISubObject>().go[12];
         BG_Equip = GetComponent<UISubObject>().go[13];
-        BG_Food= GetComponent<UISubObject>().go[5];
+        BG_Food = GetComponent<UISubObject>().go[5];
 
         BG_Equip.SetActive(false);
         BG_Level.SetActive(false);
@@ -76,7 +76,6 @@ public class RoleManAnimation : MonoBehaviour
         //原坐标
         roleTexturePos = roleTexture.GetComponent<RectTransform>().position;
         introPos = intro.GetComponent<RectTransform>().position;
-        currentRolePos = currentRole.GetComponent<RectTransform>().position;
         roleValuePos = roleValue.GetComponent<RectTransform>().position;
         roleNamePos = roleName.GetComponent<RectTransform>().position;
 
@@ -95,34 +94,35 @@ public class RoleManAnimation : MonoBehaviour
         {
 
             EquipClickAnimate();
-            
+
 
         });
-        
-        
-            btns[0].onClick.AddListener(() =>
-        {
-            EquipExitAnimate();
-            
-        });
-        
-        
-        
-            btns[0].onClick.AddListener(() =>
-        {
-            LevelExitAnimate();
-           
-        });
-        
+
+
+        btns[0].onClick.AddListener(() =>
+    {
+        EquipExitAnimate();
+
+    });
+
+
+
+        btns[0].onClick.AddListener(() =>
+    {
+        LevelExitAnimate();
+
+    });
+
 
         btns[1].onClick.AddListener(() =>
         {
-            
+
             LevelEnterAnimate();
 
         });
-        btns[3].onClick.AddListener(()=>{
-                FoodEntrAnimate();
+        btns[3].onClick.AddListener(() =>
+        {
+            FoodEntrAnimate();
         });
 
     }
@@ -140,6 +140,7 @@ public class RoleManAnimation : MonoBehaviour
             if (content.transform.GetChild(i).transform.localPosition.x == 715)
             {
                 currentRole = content.transform.GetChild(i).gameObject;
+                currentRolePos = currentRole.GetComponent<RectTransform>().position;
                 currentRoleIndex = i;
                 break;
             }
@@ -276,19 +277,22 @@ public class RoleManAnimation : MonoBehaviour
     /// <summary>
     /// 食物界面进入动画
     /// </summary>
-    public void FoodEntrAnimate(){
+    public void FoodEntrAnimate()
+    {
         BG_Food.SetActive(true);
-        BG_Food.transform.GetComponent<Image>().DOFade(0.4f,0.5f);
+        BG_Food.transform.GetComponent<Image>().DOFade(0.4f, 0.5f);
         BG_Food.transform.GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(BG_Food.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x - 1200, 1f).SetEase(Ease.InOutBack);
 
     }
     /// <summary>
     /// 食物界面退出动画
     /// </summary>
-    public void FoodExitAnimate(){
-        BG_Food.transform.GetComponent<Image>().DOFade(0,0.5f);
-        BG_Food.transform.GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(BG_Food.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x + 1200, 1f).SetEase(Ease.InOutBack).onComplete=()=>{
-            BG_Food.SetActive(false );
+    public void FoodExitAnimate()
+    {
+        BG_Food.transform.GetComponent<Image>().DOFade(0, 0.5f);
+        BG_Food.transform.GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(BG_Food.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x + 1200, 1f).SetEase(Ease.InOutBack).onComplete = () =>
+        {
+            BG_Food.SetActive(false);
         };
     }
 }

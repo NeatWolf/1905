@@ -41,9 +41,11 @@ function LoadManager:Load(gameObject, parent, isLast)
     return go
 end
 
---加载到指定位置
---position世界坐标系
-function LoadManager:LoadAtPos(gameObject, parentPath, position)
+-- 加载到指定位置
+-- position自身坐标系
+-- 只提供go默认加载到世界原点
+-- 不提供position默认加载到相对于父物体的0，0，0
+function LoadManager:Load2Pos(gameObject, parent, position)
     local go = gameObject
     local rotation = CS.UnityEngine.Quaternion.identity
 
@@ -51,16 +53,16 @@ function LoadManager:LoadAtPos(gameObject, parentPath, position)
         position = CS.UnityEngine.Vector3.zero
     end
 
-    if (parentPath ~= nil) then
-        local parent = CS.UnityEngine.GameObject.Find(parentPath).transform
-        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation, parent)
-    else
+    if (type(parent) == "string") then
+        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation, 
+        CS.UnityEngine.GameObject.Find(parent).transform)
+    elseif parent == nil then
         go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation)
+    else
+        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation, parent)
     end
     --改名
     go.name = gameObject.name
-    --设置为最前
-    go.transform:SetAsLastSibling()
     return go
 end
 

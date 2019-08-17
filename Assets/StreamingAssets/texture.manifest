@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2315931454
+CRC: 1198206521
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1b61e2df9404d68fd72611d79ac5a7d8
+    Hash: 15d61df2d0e504678b28cda7c14e86e1
   TypeTreeHash:
     serializedVersion: 2
     Hash: 48e8645bc2ccc13383b1b95efbb089b1
@@ -27,6 +27,7 @@ Assets:
 - Assets/AssetBundle/Texture/UI/Gacha/floor.png
 - Assets/AssetBundle/Texture/UI/Explore/mask.png
 - Assets/AssetBundle/Texture/Main Interface/house_right3/stair.png
+- Assets/AssetBundle/Texture/UI/Explore/bag_small.png
 - Assets/AssetBundle/Texture/Main Interface/gacha_blue/table.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right1/window_down.png
 - Assets/AssetBundle/Texture/Main Interface/gacha_blue/side.png
@@ -55,6 +56,7 @@ Assets:
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right2/back.png
 - Assets/AssetBundle/Texture/UI/Gacha/word.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right3/shop_top.png
+- Assets/AssetBundle/Texture/UI/Explore/bag_big.png
 - Assets/AssetBundle/Texture/UI/Enterpot/putaway_frame.png
 - Assets/AssetBundle/Texture/UI/Explore/slider.png
 - Assets/AssetBundle/Texture/Main Interface/house_right3/shop_table.png
@@ -133,6 +135,7 @@ Assets:
 - Assets/AssetBundle/Texture/Main Interface/house_left1/langan.png
 - Assets/AssetBundle/Texture/UI/Main Interface/house_right3/stair_down.png
 - Assets/AssetBundle/Texture/Main Interface/gacha_blue/front_down.png
+- Assets/AssetBundle/Texture/UI/Common/hengtiao_re.png
 - Assets/AssetBundle/Texture/UI/Main Interface/gacha_yellow/front_uo.png
 - Assets/AssetBundle/Texture/UI/Login/login_frame.png
 - Assets/AssetBundle/Texture/UI/Icon/Item/14011.png

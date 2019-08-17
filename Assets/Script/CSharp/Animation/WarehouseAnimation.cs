@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class WarehouseAnimation : MonoBehaviour
 {
@@ -29,9 +30,21 @@ public class WarehouseAnimation : MonoBehaviour
     }
     private void OnEnable()
     {
-        
+        WarehouseEnterAnimate();
     }
-    public void ListAnimate() {
-
+    
+    /// <summary>
+    /// 仓库入场动画
+    /// </summary>
+    public void WarehouseEnterAnimate(){
+        canvas[1].GetComponent<RectTransform>().DOAnchorPosX( canvas[1].GetComponent<RectTransform>().anchoredPosition.x-7f,1).SetEase(Ease.InOutBack);
+        canvas[1].transform.DORotate(new Vector3(0,379,0),1,RotateMode.FastBeyond360);
+    }
+    /// <summary>
+    /// 仓库出场动画
+    /// </summary>
+    public void WarehouseExitAnimate(){
+        canvas[1].GetComponent<RectTransform>().DOAnchorPosX( canvas[1].GetComponent<RectTransform>().anchoredPosition.x+7f,1).SetEase(Ease.InOutBack);
+        canvas[1].transform.DORotate(new Vector3(0,379,0),1,RotateMode.FastBeyond360);
     }
 }

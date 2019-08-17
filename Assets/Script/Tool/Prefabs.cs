@@ -46,6 +46,7 @@ public static class Prefabs
         page.transform.localScale = Vector3.one;
         //设置为最后一个物体
         page.transform.SetAsLastSibling();
+        
 
         return page;
     }

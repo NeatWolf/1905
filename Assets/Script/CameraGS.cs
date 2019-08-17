@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class CameraGS : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class CameraGS : MonoBehaviour
     {
         oPoint = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
         oPosition = transform.localPosition;
+
+
+        // StartCoroutine(HttpResquest("www.baidu.com"));
     }
 
     private void FixedUpdate()
@@ -26,4 +30,13 @@ public class CameraGS : MonoBehaviour
             0
         );
     }
+
+//网络请求
+    // IEnumerator HttpResquest( string url){
+    //     UnityWebRequest http=UnityWebRequest.Get(url);
+    //     yield return http.SendWebRequest();
+    //     Debug.Log("请求成功"+http.downloadHandler.text);
+        
+    //     http.Dispose();
+    // }
 }

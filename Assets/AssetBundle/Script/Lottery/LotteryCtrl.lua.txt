@@ -63,10 +63,12 @@ function LotteryCtrl:Get(type)
 
         if StaticDataModel:Exist(PlayerDataModel.PlayerData.Heros, "HeroID", roleData.HeroID) then
             -- 卷轴添加账号数据
+            PlayerDataModel:AddItem("10003")
             -- 转换成卷轴，显示转换成卷轴文字
-            print("转换成卷轴")
+            print("重复获得" .. roleData.Name .. "转换成卷轴")
         else
             -- 显示抽到角色UI效果
+
             print(roleData.Name)
 
             -- 角色添加到账号数据
@@ -74,9 +76,14 @@ function LotteryCtrl:Get(type)
         end
     else
         -- 显示获得物品
+        local prop = LotteryModel:LotteryProp(type)
+
+        -- 显示抽到角色UI效果
+
+        print("获得L" .. prop.Level .. "道具:" .. prop.Name)
+
         -- 道具添加到账号数据
-        -- 抽取道具
-        print("抽到道具")
+        PlayerDataModel:AddItem(prop.ItemID)
     end
 
     -- 保存账号数据，重新合并数据，刷新资源显示

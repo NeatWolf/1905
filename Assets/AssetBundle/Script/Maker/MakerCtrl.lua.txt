@@ -198,7 +198,7 @@ end
 
 -- 显示选择的英雄的头像
 function MakerCtrl:ShowHeroChoice()
-    -- self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "self.HeroChoice.TexturePath" , CS.UnityEngine.Sprite)
+    -- self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "self.HeroChoice.HeroID" , CS.UnityEngine.Sprite)
     self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "female" , CS.UnityEngine.Sprite)
 end
 
@@ -358,8 +358,17 @@ function MakerCtrl:ShowItems()
                 end
             end
         )
+
+        --local _Item = UICtrl:LoadItem()
+
+
+
+
+
+
+
         -- 显示图片
-        self.ItemsNow[k].obj:GetComponent("Image").sprite = ABManager:LoadAsset("texture", items[k].TexturePath , CS.UnityEngine.Sprite)
+        self.ItemsNow[k].obj:GetComponent("Image").sprite = ABManager:LoadAsset("texture", items[k].ItemID , CS.UnityEngine.Sprite)
         -- 不可合成的物品的图片透明显示
         if items[k].CouldSyn == "false" then
             self.ItemsNow[k].obj:GetComponent("Image").color = CS.UnityEngine.Color(1,1,1,0.5)
@@ -410,7 +419,7 @@ function MakerCtrl:ShowSynNeeds()
                     -- 显示数量
                     self.Panel.texts[i].text = _needsList[2 * i] .. "/" .. v.Count
                     -- 显示图片
-                    self.Panel.images[i].sprite = ABManager:LoadAsset("texture", v.TexturePath , CS.UnityEngine.Sprite)
+                    self.Panel.images[i].sprite = ABManager:LoadAsset("texture", v.ItemID , CS.UnityEngine.Sprite)
                     -- 根据数量足够与否显示图片透明度
                     if tonumber(v.Count) >= tonumber(_needsList[2 * i]) then
                         self.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,1)

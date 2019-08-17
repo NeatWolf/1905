@@ -7,7 +7,7 @@ RoleCtrl.LevelWindow = nil
 -- RoleCtrl.currentIndex = -1
 -- 当前选择的角色数据
 RoleCtrl.CurrentHero = nil
-
+ 
 RoleCtrl.RoleSelectAniCSharp = nil
 
 function RoleCtrl:Init()
@@ -19,7 +19,7 @@ function RoleCtrl:Init()
     -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            self:Back2MainScene()
+            UICtrl:Back2MainScene()
         end
     )
     -- 升级按钮
@@ -34,15 +34,18 @@ function RoleCtrl:Init()
     self.Panel.buttons[2].onClick:AddListener(
         function()
             self.Panel.go[4]:SetActive(true)
-            DetailView:ShowDetailWindow(self.CurrentHero)
+            DetailCtrl:ShowDetailWindow(self.CurrentHero)
+            ModelTool:SetMeta(self.CurrentHero)
+            print(self.CurrentHero)
         end
     )
 
     LoadManager:LoadLua("Role", "RoleView")
     LoadManager:LoadLua("Role", "LevelView")
     LevelView:Init()
+    LoadManager:LoadLua("Role", "DetailCtrl")
+    DetailCtrl:Init()
     LoadManager:LoadLua("Role", "DetailView")
-    DetailView:Init()
 
     -- 按ID排序 可在每次抽卡后就进行排序
     StaticDataModel:SortHeroByHeroID(PlayerDataModel.CompletePlayerData.Heros)
@@ -58,46 +61,13 @@ function RoleCtrl:Init()
     -- 切换当前英雄为列表第一个
     self:ChangeCurrentRole()
 
-
-
-    --[[
-    -- 测试为英雄穿上装备
-    local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
-    ModelTool:SetMeta(heroInfo)
-    print(heroInfo)
-    heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[160],1)
-    heroInfo = RoleCtrl:EquipHero(heroInfo,StaticDataModel.ItemsTable[155],1)
-    ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
-    print(PlayerDataModel.PlayerData.Heros[2])
-    ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
-    print(PlayerDataModel.CompletePlayerData.Heros[2])
-    ModelTool:SetMeta(heroInfo)
-    print(heroInfo)
-    heroInfo.Equips = nil
-    print(heroInfo)
-    print(PlayerDataModel.CompletePlayerData.Heros[2])
-
-    -- 测试投喂英雄
-    local heroInfo = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[2])
-    ModelTool:SetMeta(heroInfo)
-    print(heroInfo)
-    heroInfo = RoleCtrl:FeedHero(heroInfo, StaticDataModel.ItemsTable[40])
-    ModelTool:SetMeta(PlayerDataModel.PlayerData.Heros[2])
-    print(PlayerDataModel.PlayerData.Heros[2])
-    ModelTool:SetMeta(PlayerDataModel.CompletePlayerData.Heros[2])
-    print(PlayerDataModel.CompletePlayerData.Heros[2])
-    ModelTool:SetMeta(heroInfo)
-    print(heroInfo)
-    heroInfo.ColBuffAdd = nil
-    print(heroInfo)
-    print(PlayerDataModel.CompletePlayerData.Heros[2])
-    --]]
 end
 
 
 -- 切换英雄
 function RoleCtrl:ChangeCurrentRole()
     self.CurrentHero = ModelTool:CopyTable( PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1] )
+    -- print(PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1].Equips)
     -- print("当前角色改变为：" .. self.CurrentHero.Name)
     RoleView:ShowHeroInfo(self.CurrentHero)
 end
@@ -114,7 +84,6 @@ function RoleCtrl:GetScrollNeed(heroData)
         if v.Level == heroData.Level then
             _needScroll.ItemID = v.ItemID
             _needScroll.Name = v.Name
-            _needScroll.TexturePath = v.TexturePath
             break
         end
     end
@@ -141,7 +110,7 @@ function RoleCtrl:LevelUp(heroData , scrollData)
 
     -- 扣除所需的卷轴
     PlayerDataModel:RemoveItem(scrollData.ItemID , scrollData.Count)
-    print( "ID: " .. scrollData.ItemID .. ",count: " .. scrollData.Count)
+    -- print( "ID: " .. scrollData.ItemID .. ",count: " .. scrollData.Count)
 
     -- 英雄升级
     heroData.Level = tostring(tonumber(heroData.Level) + 1)     -- 现等级
@@ -190,8 +159,17 @@ function RoleCtrl:LevelUp(heroData , scrollData)
             break
         end
     end
-
 end
+
+
+
+
+
+
+
+
+
+
 
 
 

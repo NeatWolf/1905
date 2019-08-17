@@ -1,23 +1,29 @@
 DetailCtrl = {}
 
 -- 预制体上的UISubObject脚本，内含所有UI对象
-DetailCtrl.Panel = nil
+DetailCtrl.IntroPanel = nil
+DetailCtrl.EquipPanel = nil
 
 function DetailCtrl:Init()
     -- print("进入详情页控制系统")
-    self.Panel = RoleCtrl.Panel.go[4]:GetComponent("UISubObject")
+    self.IntroPanel = RoleCtrl.Panel.go[8]:GetComponent("UISubObject")
+    self.EquipPanel = RoleCtrl.Panel.go[4]:GetComponent("UISubObject")
 
-    -- 返回按钮
-    self.Panel.buttons[0].onClick:AddListener(
-        function()
-            self.Panel.gameObject:SetActive(fasle)
-            RoleCtrl:ChangeCurrentRole()
-            self.Panel = nil
-        end
-    )
+    -- -- 返回按钮
+    -- self.IntroPanel.buttons[0].onClick:AddListener(
+    --     function()
+    --         RoleCtrl.Panel.go[8]:SetActive(fasle)
+    --         RoleCtrl.Panel.go[4]:SetActive(fasle)
+    --         RoleCtrl:ChangeCurrentRole()
+    --         self.IntroPanel = nil
+    --         self.EquipPanel = nil
+    --     end
+    -- )
+
     -- 喂食按钮
-    self.Panel.buttons[1].onClick:AddListener(
+    self.IntroPanel.buttons[1].onClick:AddListener(
         function()
+
         end
     )
 
@@ -30,11 +36,9 @@ function DetailCtrl:SortEquips(equips)
     local _list = {}
     local _listTemp = {}
     _list[9], _listTemp = StaticDataModel:ScreenList(equips, "Type", 1, "9")
-    _list[4], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "4")
-    _list[5], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "5")
-    _list[6], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "6")
-    _list[7], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "7")
-    _list[8], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, "8")
+    for i = 4, 8 do
+        _list[i], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, tostring(i))
+    end
     -- 将所有列表进行排序
     for i = 4, 9 do
         if _list[i] ~= nil then
@@ -54,7 +58,6 @@ function DetailCtrl:SortEquips(equips)
             end
         end
     end
-
     return resList
 end
 
@@ -193,16 +196,17 @@ function DetailCtrl:EquipHero(heroData, itemData, equipWay)
     return heroData
 end
 
+
 -- 显示详细信息窗口
-function DetailCtrl:ShowDetailWindow(heroData)
+function DetailCtrl:ShowDetailInfo(heroData)
     local equipList = self:GetEquips(heroData)
     local equipments = self:GetNotEquips(heroData)
     DetailView:ShowDetail(heroData, equipList, equipments)
 end
 
-
 -- 投喂英雄
-function DetailCtrl:FeedHero(heroData, itemData, count)
+function DetailCtrl:FeedHero(heroData, itemData)
+
     -- 处理数据：将食物Buff附加给英雄Buff
     local _hbuffT = ModelTool:SplitStr(heroData.ColBuffAdd)
     local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
@@ -220,7 +224,7 @@ function DetailCtrl:FeedHero(heroData, itemData, count)
         if v.HeroID == heroData.HeroID then
             -- 赋值给英雄
             v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
-            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2] * count)
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2])
             if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
                 v.EnergyNow = v.EnergyMax
             end
@@ -234,7 +238,7 @@ function DetailCtrl:FeedHero(heroData, itemData, count)
         if v.HeroID == heroData.HeroID then
             -- 赋值给英雄
             v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
-            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2] * count)
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2])
             if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
                 v.EnergyNow = v.EnergyMax
             end

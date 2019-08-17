@@ -4322,6 +4322,7 @@ GameObject:
   - component: {fileID: 3302252898777184293}
   - component: {fileID: 3302252898777184295}
   - component: {fileID: 3302252898777184294}
+  - component: {fileID: 4232158635540032844}
   m_Layer: 5
   m_Name: BG_Equip
   m_TagString: Untagged
@@ -4389,6 +4390,44 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4232158635540032844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3302252898777184292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a717a5bd6d7ebd4f83297eefa51f998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 7667254695645357166}
+  - {fileID: 2822373443755090621}
+  - {fileID: 1782748978859723397}
+  - {fileID: 5975896158026995967}
+  - {fileID: 2953316684650633175}
+  - {fileID: 283642676880427908}
+  toggles: []
+  texts:
+  - {fileID: 5297805786072400827}
+  - {fileID: 1522643848797716394}
+  - {fileID: 1617977671741812164}
+  - {fileID: 8826215793886044637}
+  - {fileID: 8379393200868559492}
+  - {fileID: 7567895810637742619}
+  tmps: []
+  images:
+  - {fileID: 1977480292838853033}
+  - {fileID: 723041482940140932}
+  - {fileID: 4883915762809095534}
+  - {fileID: 7180146984195408581}
+  - {fileID: 7492081846501568777}
+  - {fileID: 3440005620598007456}
+  inputFields: []
+  go:
+  - {fileID: 3302252897795637387}
 --- !u!1 &3302252898836442626
 GameObject:
   m_ObjectHideFlags: 0

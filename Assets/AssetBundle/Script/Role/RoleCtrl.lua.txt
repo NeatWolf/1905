@@ -26,30 +26,28 @@ function RoleCtrl:Init()
     self.Panel.buttons[1].onClick:AddListener(
         function()
             self.Panel.go[3]:SetActive(true)
-            local _needScroll = self:GetScrollNeed(self.CurrentHero)
-            LevelView:ShowLevelWindow(self.CurrentHero , _needScroll)
+            LevelCtrl:ShowLevelInfo(self.CurrentHero)
         end
     )
     -- 详情按钮
     self.Panel.buttons[2].onClick:AddListener(
         function()
+            self.Panel.go[8]:SetActive(true)
             self.Panel.go[4]:SetActive(true)
-            DetailCtrl:ShowDetailWindow(self.CurrentHero)
-            ModelTool:SetMeta(self.CurrentHero)
-            print(self.CurrentHero)
+            DetailCtrl:ShowDetailInfo(self.CurrentHero)
+            -- ModelTool:SetMeta(self.CurrentHero)
+            -- print(self.CurrentHero)
         end
     )
 
     LoadManager:LoadLua("Role", "RoleView")
-    LoadManager:LoadLua("Role", "LevelView")
-    LevelView:Init()
+    LoadManager:LoadLua("Role", "LevelCtrl")
+    LevelCtrl:Init()
     LoadManager:LoadLua("Role", "DetailCtrl")
     DetailCtrl:Init()
-    LoadManager:LoadLua("Role", "DetailView")
 
     -- 按ID排序 可在每次抽卡后就进行排序
     StaticDataModel:SortHeroByHeroID(PlayerDataModel.CompletePlayerData.Heros)
-
     -- 调取View 加载显示英雄列表
     RoleView:ShowHerosList(PlayerDataModel.CompletePlayerData.Heros)
 
@@ -68,108 +66,9 @@ end
 function RoleCtrl:ChangeCurrentRole()
     self.CurrentHero = ModelTool:CopyTable( PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1] )
     -- print(PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1].Equips)
-    -- print("当前角色改变为：" .. self.CurrentHero.Name)
+    print("当前角色改变为：" .. self.RoleSelectAniCSharp.currentRoleID + 1)
     RoleView:ShowHeroInfo(self.CurrentHero)
 end
-
-
--- 获取所需的卷轴信息
-function RoleCtrl:GetScrollNeed(heroData)
-    local _needScroll = {}
-    -- 获取卷轴列表
-    local ScrollsList = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "0")
-
-    -- 获取信息
-    for k,v in pairs(ScrollsList) do
-        if v.Level == heroData.Level then
-            _needScroll.ItemID = v.ItemID
-            _needScroll.Name = v.Name
-            break
-        end
-    end
-    -- 获取数量
-    if heroData.Level == "1" then
-        _needScroll.Count = 5
-    elseif heroData.Level == "2" then
-        _needScroll.Count = 3
-    else
-        _needScroll.Count = 1
-    end
-    -- 返回卷轴信息
-    return _needScroll
-end
-
-
---[[
-    @desc: 英雄升级
-    author:{author}
-    time:2019-08-14 19:54:45
-    --@heroData: 英雄原信息
-]]
-function RoleCtrl:LevelUp(heroData , scrollData)
-
-    -- 扣除所需的卷轴
-    PlayerDataModel:RemoveItem(scrollData.ItemID , scrollData.Count)
-    -- print( "ID: " .. scrollData.ItemID .. ",count: " .. scrollData.Count)
-
-    -- 英雄升级
-    heroData.Level = tostring(tonumber(heroData.Level) + 1)     -- 现等级
-    local _buffAdd = ModelTool:SplitStr(heroData.LevelUp)       -- 获取升级的增比
-    heroData.EnergyMax = tostring(tonumber(heroData.EnergyMax) + tonumber(_buffAdd[1]))     -- 现总耐力
-
-    local _heroColBuff = ModelTool:SplitStr(heroData.ColBuff)   -- 原收集增益
-    local _heroInsBuff = ModelTool:SplitStr(heroData.InsBuff)   -- 原设施增益
-    local _colBuff1New = tostring(tonumber(_heroColBuff[1]) * tonumber(_buffAdd[2]))        -- 现采集数量系数
-    local _colBuff2New = tostring(tonumber(_heroColBuff[2]) * tonumber(_buffAdd[3]))        -- 现采集爆率系数
-    local _colBuff3New = tostring(tonumber(_heroColBuff[3]) * tonumber(_buffAdd[4]))        -- 现采集时间倍率
-    local _insBuffNew = tostring(tonumber(_heroInsBuff[2]) * tonumber(_buffAdd[5]))         -- 现合成速度倍率
-    heroData.ColBuff = _colBuff1New .. "," .. _colBuff2New .. "," .. _colBuff3New
-    heroData.InsBuff = _heroInsBuff[1] .. "," .. _insBuffNew
-
-    -- 得到新的卷轴信息
-    scrollData = self:GetScrollNeed(heroData)
-    -- 刷新升级窗口的显示
-    LevelView:ShowLevelWindow(heroData , scrollData)
-
-    -- 测试打印
-    -- print("升级后： Level:" .. heroData.Level .. " ,EnergyMax:" .. heroData.EnergyMax .. " ,ColBuff:" .. heroData.ColBuff .. " ,InsBuff:" .. heroData.InsBuff)
-
-    -- 修改玩家动态表
-    for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
-        if v.HeroID == heroData.HeroID then
-            v.Level = heroData.Level
-            v.EnergyMax = heroData.EnergyMax
-            v.ColBuff = heroData.ColBuff
-            v.InsBuff = heroData.InsBuff
-            -- 测试打印
-            -- ModelTool:SetMeta(v)
-            -- print(v)
-            break
-        end
-    end
-    for k,v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
-        if v.HeroID == heroData.HeroID then
-            v.Level = heroData.Level
-            v.EnergyMax = heroData.EnergyMax
-            v.ColBuff = heroData.ColBuff
-            v.InsBuff = heroData.InsBuff
-            -- 测试打印
-            -- ModelTool:SetMeta(v)
-            -- print(v)
-            break
-        end
-    end
-end
-
-
-
-
-
-
-
-
-
-
 
 
 

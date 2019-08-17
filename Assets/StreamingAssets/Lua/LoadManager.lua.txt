@@ -14,14 +14,14 @@ function LoadManager:Load(gameObject, parent, isLast)
     if type(parent) == "string" then
         parentObj = self.findedParents[parent]
         if parentObj == nil then
-            parentObj = CS.UnityEngine.GameObject.Find(parent).transform
+            parentObj = CS.UnityEngine.GameObject.Find(parent)
             self.findedParents[parent] = parentObj
             if parentObj == nil then
                 print("寻找失败，无此父对象:" .. tostring(parent))
                 return
             end
         end
-        go = CS.UnityEngine.Object.Instantiate(gameObject, parentObj)
+        go = CS.UnityEngine.Object.Instantiate(gameObject, parentObj.transform)
     elseif parent ~= nil then
         go = CS.UnityEngine.Object.Instantiate(gameObject, parent)
     else

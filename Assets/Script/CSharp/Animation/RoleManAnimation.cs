@@ -58,7 +58,7 @@ public class RoleManAnimation : MonoBehaviour
         roleName = GetComponent<UISubObject>().go[10];
         EquipGroup = GetComponent<UISubObject>().go[11];
         ScrollView = GetComponent<UISubObject>().go[12];
-        BG_Equip = GetComponent<UISubObject>().go[13];
+        BG_Equip = GetComponent<UISubObject>().go[4];
         BG_Food= GetComponent<UISubObject>().go[5];
 
         BG_Equip.SetActive(false);
@@ -76,7 +76,6 @@ public class RoleManAnimation : MonoBehaviour
         //原坐标
         roleTexturePos = roleTexture.GetComponent<RectTransform>().position;
         introPos = intro.GetComponent<RectTransform>().position;
-        currentRolePos = currentRole.GetComponent<RectTransform>().position;
         roleValuePos = roleValue.GetComponent<RectTransform>().position;
         roleNamePos = roleName.GetComponent<RectTransform>().position;
 
@@ -140,6 +139,7 @@ public class RoleManAnimation : MonoBehaviour
             if (content.transform.GetChild(i).transform.localPosition.x == 715)
             {
                 currentRole = content.transform.GetChild(i).gameObject;
+                currentRolePos = currentRole.GetComponent<RectTransform>().position;
                 currentRoleIndex = i;
                 break;
             }

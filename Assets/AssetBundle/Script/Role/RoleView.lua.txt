@@ -2,6 +2,7 @@ RoleView = {}
 
 -- 显示英雄列表
 function RoleView:ShowHerosList(herosList)
+    -- LoadManager:DeleteAllChilds(RoleCtrl.Panel.go[2])
     -- 根据PlayerDataModel.CompletePlayerData加载Role预制体
     for k,v in pairs(herosList) do
         local _Hero = {}
@@ -14,10 +15,10 @@ end
 
 -- 显示英雄详细信息
 function RoleView:ShowHeroInfo(heroData)
-
+    --print(heroData.Name)
     -- 显示名字
-    RoleCtrl.Panel.tmps[0].text = (ModelTool:SplitStr(heroData.Name))[2]
-    RoleCtrl.Panel.tmps[0].text = heroData.HeroID
+    --RoleCtrl.Panel.tmps[0].text = (ModelTool:SplitStr(heroData.Name))[2]
+    --RoleCtrl.Panel.tmps[0].text = heroData.HeroID
 
     -- 显示等级
     if heroData.Level == "4" then

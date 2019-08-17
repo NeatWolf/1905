@@ -9,15 +9,23 @@ function DetailCtrl:Init()
     self.IntroPanel = RoleCtrl.Panel.go[8]:GetComponent("UISubObject")
     self.EquipPanel = RoleCtrl.Panel.go[4]:GetComponent("UISubObject")
 
-
-    -- 详情页返回按钮
-    RoleCtrl.Panel.buttons[3].onClick:AddListener(
+    -- 返回按钮
+    RoleCtrl.Panel.buttons[4].onClick:AddListener(
         function()
-            
+            RoleCtrl.RoleManAniCSharp:EquipExitAnimate()
+        end
+    )
+
+    -- 食物窗口按钮
+    self.IntroPanel.buttons[0].onClick:AddListener(
+        function()
+            RoleCtrl.RoleManAniCSharp:FoodEntrAnimate()
         end
     )
 
     LoadManager:LoadLua("Role", "DetailView")
+    LoadManager:LoadLua("Role", "FoodCtrl")
+    FoodCtrl:Init()
 end
 
 function DetailCtrl:SortEquips(equips)

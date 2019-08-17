@@ -39,7 +39,7 @@ function DetailView:ShowDetail(heroData, equipList, equipments)
             DetailCtrl.EquipPanel.images[i-1].sprite = ABManager:LoadAsset("texture", self.EquipList[i].ItemID, CS.UnityEngine.Sprite)
             DetailCtrl.EquipPanel.images[i-1].color = CS.UnityEngine.Color(1,1,1,1)
 
-            DetailCtrl.EquipPanel.buttons[i+1].onClick:AddListener(
+            DetailCtrl.EquipPanel.buttons[i-1].onClick:AddListener(
                 function()
                     heroData = DetailCtrl:EquipHero(heroData, self.EquipList[i], -1)
                     DetailCtrl:ShowDetailInfo(heroData)

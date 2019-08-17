@@ -23,7 +23,7 @@ IDragHandler,IBeginDragHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("按钮按下");
+        // Debug.Log("按钮按下");
         transform.DOScale(1,0.1f);
     }
 

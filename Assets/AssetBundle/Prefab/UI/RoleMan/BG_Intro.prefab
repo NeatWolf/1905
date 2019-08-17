@@ -373,11 +373,12 @@ MonoBehaviour:
   buttons:
   - {fileID: 3497524601036124277}
   toggles: []
+  sliders: []
+  inputFields: []
   texts: []
   tmps:
   - {fileID: 750847073844615052}
   images: []
-  inputFields: []
   go: []
   fx: []
 --- !u!1 &7965492320921185679

@@ -36,6 +36,8 @@ public class RoleManAnimation : MonoBehaviour
     GameObject EquipGroup, ScrollView, BG_Equip, BG_Level, BG_Food;
     Button btn_backE;
 
+    ScrollRect scrollRect;
+
     RolePanelSelectAnimation rolePanelSelectAnimation;
 
     /// <summary>
@@ -64,6 +66,7 @@ public class RoleManAnimation : MonoBehaviour
         BG_Equip = GetComponent<UISubObject>().go[4];
         BG_Food = GetComponent<UISubObject>().go[5];
         btn_backE = GetComponent<UISubObject>().go[13].GetComponent<Button>();
+        scrollRect = GetComponent<UISubObject>().go[14].GetComponent<ScrollRect>();
 
         BG_Equip.SetActive(false);
         BG_Level.SetActive(false);
@@ -73,6 +76,7 @@ public class RoleManAnimation : MonoBehaviour
     }
     private void OnEnable()
     {
+        btn_backE.gameObject.SetActive(false);
 
         intro.transform.GetChild(0).gameObject.SetActive(false);
         intro.transform.GetChild(1).gameObject.SetActive(false);
@@ -91,99 +95,50 @@ public class RoleManAnimation : MonoBehaviour
             btnsPos[i] = btns[i].GetComponent<RectTransform>().position;
         }
 
-        btn_backE.gameObject.SetActive(false);
-
     }
 
-    private void Start()
-    {
 
+    // private void Update()
+    // {
+    //     currentRole = rolePanelSelectAnimation.transform.GetChild(rolePanelSelectAnimation.currentRoleID).gameObject;
+    //     currentRoleIndex = rolePanelSelectAnimation.currentRoleID;
 
+    //     // for (int i = 0; i < content.transform.childCount; i++)
+    //     // {
+    //     //     if (content.transform.GetChild(i) == currentRole)
+    //     //     {
 
-        //
-        btns[2].onClick.AddListener(() =>
-        {
+    //     //         currentRolePos = currentRole.GetComponent<RectTransform>().position;
+    //     //         currentRoleIndex = i;
 
-            EquipClickAnimate();
+    //     //         break;
 
+    //     //     }
 
-        });
+    //     // }
 
-
-        btn_backE.onClick.AddListener(() =>
-    {
-        EquipExitAnimate();
-
-    });
-
-
-
-        btn_backE.onClick.AddListener(() =>
-    {
-        LevelExitAnimate();
-
-    });
-
-
-        btns[1].onClick.AddListener(() =>
-        {
-
-            LevelEnterAnimate();
-
-        });
-        btns[3].onClick.AddListener(() =>
-        {
-            FoodEntrAnimate();
-        });
-
-    }
-    private void Update()
-    {
-        currentRole = rolePanelSelectAnimation.transform.GetChild(rolePanelSelectAnimation.currentRoleID).gameObject;
-        currentRoleIndex = rolePanelSelectAnimation.currentRoleID;
-
-        // for (int i = 0; i < content.transform.childCount; i++)
-        // {
-        //     if (content.transform.GetChild(i) == currentRole)
-        //     {
-
-        //         currentRolePos = currentRole.GetComponent<RectTransform>().position;
-        //         currentRoleIndex = i;
-
-        //         break;
-
-        //     }
-
-        // }
-        Debug.Log(currentRole.name);
-    }
+    //     // Debug.Log(currentRole.name);
+    // }
 
 
     //x:715  选择的role av位置
     /// <summary>
     /// 装备按钮点击，装备界面入场动画
     /// </summary>
-    public void EquipClickAnimate()
+    public void EquipClickAnimate(int roleID)
     {
+        currentRoleIndex = roleID;
+        currentRole = rolePanelSelectAnimation.transform.GetChild(currentRoleIndex).gameObject;
+        currentRole.GetComponent<Button>().interactable = false;
+        scrollRect.enabled = false;
 
         BG_Equip.SetActive(true);
 
-        // currentRole = rolePanelSelectAnimation.transform.GetChild(rolePanelSelectAnimation.currentRoleID).gameObject;
-
-
-        for (int i = 0; i < content.transform.childCount; i++)
-        {
-            if (content.transform.GetChild(i) == rolePanelSelectAnimation.transform.GetChild(rolePanelSelectAnimation.currentRoleID).gameObject)
-            {
-
-                currentRolePos = currentRole.GetComponent<RectTransform>().position;
-                currentRoleIndex = i;
-                break;
-
-            }
-
-        }
-
+        ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x - 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
+                {
+                    btns[0].gameObject.SetActive(false);
+                    btn_backE.gameObject.SetActive(true);
+                };
 
         //获取非currentRole的角色
         otherRole = new GameObject[content.transform.childCount - 1];
@@ -200,14 +155,11 @@ public class RoleManAnimation : MonoBehaviour
                 otherRole[i - 1] = content.transform.GetChild(i).gameObject;
             }
 
-
         }
 
         for (int i = 0; i < otherRole.Length; i++)
         {
-
             otherRole[i].GetComponent<RectTransform>().DOAnchorPosY(otherRole[i].GetComponent<RectTransform>().anchoredPosition.y + 1000, 1);
-
         }
 
         roleTexture.transform.DOLocalMoveX(-1500, 1f).SetEase(Ease.InOutBack);
@@ -235,19 +187,13 @@ public class RoleManAnimation : MonoBehaviour
         roleName.GetComponent<Image>().DOColor(new Color(0.054f, 0.368f, 0.360f, 0.4f), 1);
 
 
-
+        
         //
         for (int i = 0; i < EquipGroup.transform.childCount; i++)
         {
             EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosX(EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x - 800, 0.5f + 0.2f * i).SetEase(Ease.InOutBack);
         }
 
-
-        ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x - 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
-                {
-                    btns[0].gameObject.SetActive(false);
-                    btn_backE.gameObject.SetActive(true);
-                };
 
     }
 
@@ -256,6 +202,8 @@ public class RoleManAnimation : MonoBehaviour
     /// </summary>
     public void EquipExitAnimate()
     {
+        currentRole.GetComponent<Button>().interactable = true;
+        scrollRect.enabled = true;
 
         for (int i = 0; i < otherRole.Length; i++)
         {
@@ -284,6 +232,7 @@ public class RoleManAnimation : MonoBehaviour
         roleName.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0.4f), 1);
 
         //
+        
 
         for (int i = 0; i < EquipGroup.transform.childCount; i++)
         {
@@ -293,11 +242,11 @@ public class RoleManAnimation : MonoBehaviour
 
         ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x + 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
         {
-            BG_Equip.SetActive(false);
-
-
             btns[0].gameObject.SetActive(true);
             btn_backE.gameObject.SetActive(false);
+
+            BG_Equip.SetActive(false);
+
             intro.transform.GetChild(0).gameObject.SetActive(false);
 
             intro.transform.GetChild(1).gameObject.SetActive(false);

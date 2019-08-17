@@ -8,15 +8,16 @@ function FoodCtrl:Init()
     self.Panel = RoleCtrl.Panel.go[5]:GetComponent("UISubObject")
 
     -- 喂食按钮
-    self.IntroPanel.buttons[0].onClick:AddListener(
+    self.Panel.buttons[0].onClick:AddListener(
         function()
             -- self:FeedHero()
         end
     )
+
     -- 返回按钮
-    self.IntroPanel.buttons[1].onClick:AddListener(
+    self.Panel.buttons[1].onClick:AddListener(
         function()
-            
+            RoleCtrl.RoleManAniCSharp:FoodExitAnimate()
         end
     )
     

@@ -17,8 +17,9 @@ end
 function RoleView:ShowHeroInfo(heroData)
     --print(heroData.Name)
     -- 显示名字
-    --RoleCtrl.Panel.tmps[0].text = (ModelTool:SplitStr(heroData.Name))[2]
-    --RoleCtrl.Panel.tmps[0].text = heroData.HeroID
+    local _names = ModelTool:SplitStr(heroData.Name)
+    RoleCtrl.Panel.tmps[0].text = _names[2]
+    print("HeroName: " .. _names[2])
 
     -- 显示等级
     if heroData.Level == "4" then

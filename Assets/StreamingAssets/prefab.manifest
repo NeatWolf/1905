@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3233460601
+CRC: 268902925
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4e7f45db6650c0e2823cbc865ad199f5
+    Hash: 0d9a0cd43af95523aa356d2972efc878
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 2ce9ca65a3fc421e6b21e13683dbf8c9
+    Hash: d46be01ed29267e1a91d65a3ae54490e
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -141,7 +141,6 @@ Assets:
 - Assets/AssetBundle/Prefab/UI/Common/Button.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/P_MM_Temp.prefab
 - Assets/AssetBundle/Prefab/UI/Login/OpenGame.prefab
-- Assets/AssetBundle/Prefab/UI/RoleMan/BG_Detail.prefab
 - Assets/AssetBundle/Prefab/UI/Explore/Explore.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/Main Scene.prefab
 - Assets/AssetBundle/Prefab/UI/Login/LoadingProcess.prefab
@@ -167,6 +166,6 @@ Assets:
 - Assets/AssetBundle/Prefab/UI/Fabricate/Toggle_Role.prefab
 - Assets/AssetBundle/Prefab/UI/Common/Btn_back.prefab
 Dependencies:
-- D:/1905/DataPath/ab/texture
-- D:/1905/DataPath/ab/font
-- D:/1905/DataPath/ab/shader
+- D:/U3D_lyx/Code_Cyber/111111/DataPath/ab/font
+- D:/U3D_lyx/Code_Cyber/111111/DataPath/ab/texture
+- D:/U3D_lyx/Code_Cyber/111111/DataPath/ab/shader

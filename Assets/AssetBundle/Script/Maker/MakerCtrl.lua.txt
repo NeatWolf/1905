@@ -330,7 +330,10 @@ function MakerCtrl:ShowItems()
     self:CheckAllSyn(items)
 
     -- 对道具列表进行排序
-    StaticDataModel:SortItem(items, "CouldSyn", "true", self.SortWay, self.ChangeWay)
+    local _list1,_list2 = StaticDataModel:ScreenList(items, "CouldSyn", 1, "true")
+    --print(#_list1 .. " " .. #_list2)
+    items = ModelTool:MergeTable(_list1,_list2)
+    StaticDataModel:SortItem(items, self.SortWay, self.ChangeWay)
 
     -- 已经排好序的道具列表
     --ModelTool:SetMeta(items)

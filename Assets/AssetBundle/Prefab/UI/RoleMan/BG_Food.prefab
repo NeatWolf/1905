@@ -878,7 +878,8 @@ MonoBehaviour:
   - {fileID: 7707048223027400910}
   images:
   - {fileID: 7191743283429076852}
-  go: []
+  go:
+  - {fileID: 446058065855276885}
   fx: []
 --- !u!1 &3117473689333438352
 GameObject:

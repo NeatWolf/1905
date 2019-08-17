@@ -9,7 +9,7 @@ function RoleView:ShowHerosList(herosList)
         _Hero.data = ModelTool:CopyTable(v)
         _Hero.UISub = LoadManager:Load(ABManager:LoadAsset("prefab", "Role"), RoleCtrl.Panel.go[2].transform, true):GetComponent("UISubObject")
         -- 加载图片
-        _Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Hero.data.HeroID, CS.UnityEngine.Sprite)
+        _Hero.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Hero.data.HeroID .. "_Icon", CS.UnityEngine.Sprite)
     end
 end
 
@@ -29,6 +29,9 @@ function RoleView:ShowHeroInfo(heroData)
         RoleCtrl.Panel.buttons[1].interactable = true
         RoleCtrl.Panel.tmps[1].text = "Level " .. heroData.Level .. " ↑"
     end
+
+    -- 显示立绘
+    RoleCtrl.Panel.images[0].sprite = ABManager:LoadAsset("texture", heroData.HeroID .. "_Tex", CS.UnityEngine.Sprite)
 
     -- 显示耐力
     RoleCtrl.Panel.tmps[2].text = heroData.EnergyMax

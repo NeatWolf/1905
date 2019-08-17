@@ -372,7 +372,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttons:
   - {fileID: 3497524601036124277}
-  - {fileID: 3497524601036124277}
   toggles: []
   texts: []
   tmps:
@@ -380,6 +379,7 @@ MonoBehaviour:
   images: []
   inputFields: []
   go: []
+  fx: []
 --- !u!1 &7965492320921185679
 GameObject:
   m_ObjectHideFlags: 0

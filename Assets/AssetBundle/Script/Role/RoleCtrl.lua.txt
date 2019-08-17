@@ -12,7 +12,9 @@ RoleCtrl.RoleSelectAniCSharp = nil
 
 function RoleCtrl:Init()
     print("进入角色管理")
-    self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "RoleManUI"), "UI", true):GetComponent("UISubObject")
+    local _Obj = LoadManager:Load(ABManager:LoadAsset("prefab", "RoleManUI"), "UI", true)
+    self.Panel = _Obj:GetComponent("UISubObject")
+    self.Ani = _Obj:GetComponent("RoleManAnimation")
     -- self.LevelWindow = self.Panel.go[3]:GetComponent("UISubObject")
 
     -- 添加委托
@@ -29,16 +31,6 @@ function RoleCtrl:Init()
             LevelCtrl:ShowLevelInfo(self.CurrentHero)
         end
     )
-    -- 详情按钮
-    self.Panel.buttons[2].onClick:AddListener(
-        function()
-            self.Panel.go[8]:SetActive(true)
-            self.Panel.go[4]:SetActive(true)
-            DetailCtrl:ShowDetailInfo(self.CurrentHero)
-            -- ModelTool:SetMeta(self.CurrentHero)
-            -- print(self.CurrentHero)
-        end
-    )
 
     LoadManager:LoadLua("Role", "RoleView")
     LoadManager:LoadLua("Role", "LevelCtrl")
@@ -48,6 +40,7 @@ function RoleCtrl:Init()
 
     -- 按ID排序 可在每次抽卡后就进行排序
     StaticDataModel:SortHeroByHeroID(PlayerDataModel.CompletePlayerData.Heros)
+    StaticDataModel:SortHeroByHeroID(PlayerDataModel.PlayerData.Heros)
     -- 调取View 加载显示英雄列表
     RoleView:ShowHerosList(PlayerDataModel.CompletePlayerData.Heros)
 
@@ -71,50 +64,3 @@ function RoleCtrl:ChangeCurrentRole()
 end
 
 
-
-
--- 投喂英雄
-function RoleCtrl:FeedHero(heroData, itemData, count)
-    -- 处理数据：将食物Buff附加给英雄Buff
-    local _hbuffT = ModelTool:SplitStr(heroData.ColBuffAdd)
-    local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
-    -- 如果英雄当前的临时Buff 小于 道具的加成Buff，进行赋值
-    if _hbuffT[1] < _ibuff[3] then
-        _hbuffT[1] = _ibuff[3]
-    end
-    if _hbuffT[2] < _ibuff[4] then
-        _hbuffT[2] = _ibuff[4]
-    end
-
-    -- 修改 玩家动态数据 里相应的英雄信息
-    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
-        -- 找到相应英雄
-        if v.HeroID == heroData.HeroID then
-            -- 赋值给英雄
-            v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
-            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2]*count)
-            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
-                v.EnergyNow = v.EnergyMax
-            end
-            break
-        end
-    end
-
-    -- 修改 玩家动态数据 里相应的英雄信息
-    for k, v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
-        -- 找到相应英雄
-        if v.HeroID == heroData.HeroID then
-            -- 赋值给英雄
-            v.ColBuffAdd = _hbuffT[1] .. "," .. _hbuffT[2]
-            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2]*count)
-            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
-                v.EnergyNow = v.EnergyMax
-            end
-
-            heroData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
-            break
-        end
-    end
-    
-    return heroData
-end

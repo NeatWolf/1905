@@ -9,10 +9,11 @@ public class UISubObject : MonoBehaviour
 {
     public Button[] buttons;
     public Toggle[] toggles;
+    public Slider[] sliders;
+    public InputField[] inputFields;
     public Text[] texts;
     public TextMeshProUGUI[] tmps;
     public Image[] images;
-    public InputField[] inputFields;
     public GameObject[] go;
     public ParticleSystem[] fx;
 
@@ -28,6 +29,11 @@ public class UISubObject : MonoBehaviour
         {
             if (toggles[i] != null)
                 toggles[i].onValueChanged.RemoveAllListeners();
+        }
+        for (int i = 0; i < sliders.Length; i++)
+        {
+            if (sliders[i] != null)
+                sliders[i].onValueChanged.RemoveAllListeners();
         }
         for (int i = 0; i < inputFields.Length; i++)
         {

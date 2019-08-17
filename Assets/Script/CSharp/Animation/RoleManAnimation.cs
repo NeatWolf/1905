@@ -52,7 +52,7 @@ public class RoleManAnimation : MonoBehaviour
     {
         BG_Level = GetComponent<UISubObject>().go[3];
         btns = GetComponent<UISubObject>().buttons;
-        contentOld = GetComponent<UISubObject>().go[6];
+        content = GetComponent<UISubObject>().go[6];
         roleTexture = GetComponent<UISubObject>().go[7];
         intro = GetComponent<UISubObject>().go[8];
         roleValue = GetComponent<UISubObject>().go[9];
@@ -137,27 +137,27 @@ public class RoleManAnimation : MonoBehaviour
     /// </summary>
     public void EquipClickAnimate()
     {
-        content = Instantiate(contentOld);
+        
+        //content = Instantiate(contentOld);
 
-        content.name = contentOld.name + "Copy";
-        content.transform.parent = contentOld.transform.parent;
-        content.transform.position = contentOld.transform.transform.position;
-        content.transform.localPosition = contentOld.transform.localPosition;
-        content.transform.localRotation = Quaternion.identity;
-        content.transform.localScale = Vector3.one;
+        // content.name = contentOld.name + "Copy";
+        // content.transform.parent = contentOld.transform.parent;
+        // content.transform.position = contentOld.transform.transform.position;
+        // content.transform.localPosition = contentOld.transform.localPosition;
+        // content.transform.localRotation = Quaternion.identity;
+        // content.transform.localScale = Vector3.one;
 
-        for (int i = 0; i < contentOld.transform.childCount; i++)
-        {
-            content.transform.GetChild(i).transform.localPosition = contentOld.transform.GetChild(i).transform.localPosition;
-        }
+        // for (int i = 0; i < content.transform.childCount; i++)
+        // {
+        //     content.transform.GetChild(i).transform.localPosition = contentOld.transform.GetChild(i).transform.localPosition;
+        // }
 
-        contentOld.SetActive(false);
-        content.SetActive(true);
+        // contentOld.SetActive(false);
+        // content.SetActive(true);
 
         BG_Equip.SetActive(true);
         for (int i = 0; i < content.transform.childCount; i++)
         {
-            Debug.Log("currentRole" + content.transform.GetChild(i).transform.localPosition);
             if (content.transform.GetChild(i).transform.localPosition.x == 715)
             {
 
@@ -192,7 +192,7 @@ public class RoleManAnimation : MonoBehaviour
         for (int i = 0; i < otherRole.Length; i++)
         {
 
-            otherRole[i].GetComponent<RectTransform>().DOAnchorPosX(otherRole[i].GetComponent<RectTransform>().anchoredPosition.x - 1500, (1f + 0.2f * i)).SetEase(Ease.InOutBack);
+            otherRole[i].GetComponent<RectTransform>().DOAnchorPosY(otherRole[i].GetComponent<RectTransform>().anchoredPosition.y + 1000, (1f + 0.2f * i));
 
         }
 
@@ -239,10 +239,9 @@ public class RoleManAnimation : MonoBehaviour
     public void EquipExitAnimate()
     {
 
-
         for (int i = 0; i < otherRole.Length; i++)
         {
-            otherRole[i].GetComponent<RectTransform>().DOAnchorPosX(otherRole[i].GetComponent<RectTransform>().anchoredPosition.x + 1500, (1f + 0.2f * i)).SetEase(Ease.InOutBack);
+            otherRole[i].GetComponent<RectTransform>().DOAnchorPosY(otherRole[i].GetComponent<RectTransform>().anchoredPosition.y - 1000, (1f + 0.2f * i));
 
         }
 
@@ -275,13 +274,14 @@ public class RoleManAnimation : MonoBehaviour
         ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x + 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
         {
             BG_Equip.SetActive(false);
-            content.SetActive(false);
-            contentOld.SetActive(true);
+            
+            
             btns[0].gameObject.SetActive(true);
             btn_backE.gameObject.SetActive(false);
 
 
         };
+
 
     }
 
@@ -292,6 +292,8 @@ public class RoleManAnimation : MonoBehaviour
     {
         
         BG_Level.SetActive(true);
+        BG_Level.transform.GetChild(0).transform.localPosition=new Vector3(1000,0,-33);
+
         BG_Level.GetComponent<Image>().DOFade(0.4f, 0.5f);
         BG_Level.transform.GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(BG_Level.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x - 850, 1f).SetEase(Ease.InOutBack);
 

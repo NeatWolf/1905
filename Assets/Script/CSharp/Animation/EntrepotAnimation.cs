@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class EntrepotAnimation : MonoBehaviour
 {
@@ -12,21 +13,20 @@ public class EntrepotAnimation : MonoBehaviour
     GameObject Records;
     //ScrollView中的content
     GameObject content;
+    GameObject list,glass;
     
     private void Awake()
     {
 
         btns = GetComponent<UISubObject>().buttons;
-        canvas = GetComponent<UISubObject>().go;
+        Records=GetComponent<UISubObject>().go[2];
+        content=GetComponent<UISubObject>().go[3];
+        list=GetComponent<UISubObject>().go[4];
+        glass=GetComponent<UISubObject>().go[5];
+        
+        
 
-        for (int i = 0; i < canvas[1].transform.GetChild(0).childCount; i++)
-        {
-            canvas[1].transform.GetChild(0).GetChild(i).gameObject.AddComponent<BtnAnimate>();
-
-        }
-
-        Records=canvas[2];
-        content=canvas[3];
+        
 
         
 
@@ -34,12 +34,14 @@ public class EntrepotAnimation : MonoBehaviour
     }
     private void OnEnable()
     {
-        //添加相机
-        AnimateManager.AddCams(canvas);
+        
+        glass.GetComponent<Image>().color=new Color(1,1,1,0);
         //添加Button动画
         AnimateManager.AddButtonAnimate(btns[0]);
         //设置Records失活状态时的位置
         AnimateManager.RecordPreviousAnimate(Records);
+        //货架入场动画
+        EntrepotEnterAnimate();
 
     }
     //btns[1]---出售记录按钮
@@ -57,6 +59,23 @@ public class EntrepotAnimation : MonoBehaviour
         {
             content.transform.GetChild(content.transform.childCount-1).transform.SetSiblingIndex(0);
         }
+        
+    }
+    /// <summary>
+    /// 货架界面进场动画
+    /// </summary>
+    public void EntrepotEnterAnimate(){
+        list.GetComponent<RectTransform>().DOAnchorPosX(list.GetComponent<RectTransform>().anchoredPosition.x-1050,1).SetEase(Ease.InOutBack);
+        glass.GetComponent<Image>().DOFade(1,0.3f).SetDelay(1);
+        
+    }
+
+    /// <summary>
+    /// 货架界面出场动画
+    /// </summary>
+    public void EntrepotExitAnimate(){
+        glass.GetComponent<Image>().DOFade(0,0.3f);
+        list.GetComponent<RectTransform>().DOAnchorPosX(list.GetComponent<RectTransform>().anchoredPosition.x+1050,1).SetEase(Ease.InOutBack).SetDelay(0.3f);
         
     }
     

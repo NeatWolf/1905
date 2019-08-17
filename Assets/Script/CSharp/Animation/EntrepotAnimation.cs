@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class EntrepotAnimation : MonoBehaviour
 {
-   
+
     Button[] btns;
     GameObject[] canvas;
     //出售记录列表
     GameObject Records;
     //ScrollView中的content
     GameObject content;
-    
+
     private void Awake()
     {
 
@@ -25,10 +25,11 @@ public class EntrepotAnimation : MonoBehaviour
 
         }
 
-        Records=canvas[2];
-        content=canvas[3];
+        Records = canvas[2];
+        content = canvas[3];
 
-        
+        //设为最后一个
+        content.transform.GetChild(0).SetAsLastSibling();
 
 
     }
@@ -42,25 +43,19 @@ public class EntrepotAnimation : MonoBehaviour
         AnimateManager.RecordPreviousAnimate(Records);
 
     }
+
     //btns[1]---出售记录按钮
-    //btns[3]---“底部”按钮
-    
-    private void Start() {
-        btns[1].onClick.AddListener(()=>{
-            AnimateManager.RecordEnterAnimate(Records,content);
+    private void Start()
+    {
+        btns[1].onClick.AddListener(() =>
+        {
+            AnimateManager.RecordEnterAnimate(Records, content);
 
         });
-        
+
     }
-    private void Update() {
-        if (content.transform.GetChild(content.transform.childCount-1).name!="Ima_bttom")
-        {
-            content.transform.GetChild(content.transform.childCount-1).transform.SetSiblingIndex(0);
-        }
-        
-    }
-    
-    
+
+
 
 
 

@@ -1668,8 +1668,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 152431599}
   m_HandleRect: {fileID: 152431598}
   m_Direction: 2
-  m_Value: 0.99999255
-  m_Size: 0.58092135
+  m_Value: 0.9999979
+  m_Size: 0.58092034
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11732,13 +11732,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttons: []
+  toggles: []
   texts: []
+  tmps: []
   images: []
   inputFields: []
   go:
   - {fileID: 1250217427}
   - {fileID: 1785291373}
   - {fileID: 2068927384}
+  fx: []
 --- !u!114 &1053694484
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
 
     private void Awake()
     {
-        ea = GameObject.Find("UI/ExploreUI").GetComponent<ExploreAnimate>();
+        ea = GameObject.Find("UI/ExploreUI/Canvas").GetComponent<ExploreAnimate>();
 
         mainCam = GameObject.Find("Scene/Explore/Main Camera").GetComponent<Camera>();
         sceneBtns = GameObject.Find("Scene/Explore/CityPlane/Canvas").GetComponent<UISubObject>().buttons;

@@ -6,12 +6,13 @@ using DG.Tweening;
 
 public class FabricateAnimation : MonoBehaviour
 {
-    GameObject rightList,leftList,select,word;
+    GameObject rightList,leftList,select,word,bg;
     private void Awake() {
         rightList=GetComponent<UISubObject>().go[0];
         leftList=GetComponent<UISubObject>().go[1];
         select=GetComponent<UISubObject>().go[2];
         word=GetComponent<UISubObject>().go[3];
+        bg=GetComponent<UISubObject>().go[4];
         
     }
     private void OnEnable() {
@@ -29,6 +30,9 @@ public class FabricateAnimation : MonoBehaviour
         select.transform.DORotate(new Vector3(0,385,0),1,RotateMode.FastBeyond360);
         word.transform.DOLocalRotate(new Vector3(0,-30,0),1,RotateMode.FastBeyond360);
         
+        bg.GetComponent<RectTransform>().DOAnchorPosX(100, 1f).From();
+
+        
     }
     /// <summary>
     /// 制造界面出场动画
@@ -42,4 +46,6 @@ public class FabricateAnimation : MonoBehaviour
         select.transform.DORotate(new Vector3(0,385,0),1,RotateMode.FastBeyond360);
         word.transform.DOLocalRotate(new Vector3(-90,-30,0),1,RotateMode.FastBeyond360);
     }
+
+
 }

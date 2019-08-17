@@ -31,7 +31,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     public AnimationCurve curve;
 
     //滑动类
-    ExploreDragAnimate eda;
+    //ExploreDragAnimate eda;
     //slider与title的原位置，为返回动画而设
     Vector3 sliderPos, titlePos;
 
@@ -39,7 +39,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     private void Awake()
     {
 
-        eda = GameObject.Find("UI/DrapCanvas").GetComponent<ExploreDragAnimate>();
+        //eda = GameObject.Find("UI/DrapCanvas").GetComponent<ExploreDragAnimate>();
         sld = transform.Find("Slider").GetComponent<Slider>();
         mainCam = GameObject.Find("Scene/Explore/Main Camera").GetComponent<Camera>();
         oldCam = GameObject.Find("Main Camera").GetComponent<Camera>();

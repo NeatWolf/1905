@@ -34,6 +34,7 @@ public class RoleManAnimation : MonoBehaviour
     GameObject roleTexture;
     GameObject intro;
     GameObject EquipGroup, ScrollView, BG_Equip, BG_Level, BG_Food;
+    Button btn_backE;
 
     /// <summary>
     /// 控制个界面的back按钮
@@ -58,8 +59,9 @@ public class RoleManAnimation : MonoBehaviour
         roleName = GetComponent<UISubObject>().go[10];
         EquipGroup = GetComponent<UISubObject>().go[11];
         ScrollView = GetComponent<UISubObject>().go[12];
-        BG_Equip = GetComponent<UISubObject>().go[13];
+        BG_Equip = GetComponent<UISubObject>().go[4];
         BG_Food = GetComponent<UISubObject>().go[5];
+        btn_backE = GetComponent<UISubObject>().go[13].GetComponent<Button>();
 
         BG_Equip.SetActive(false);
         BG_Level.SetActive(false);
@@ -85,7 +87,7 @@ public class RoleManAnimation : MonoBehaviour
             btnsPos[i] = btns[i].GetComponent<RectTransform>().position;
         }
 
-
+        btn_backE.gameObject.SetActive(false);
 
     }
 
@@ -100,7 +102,7 @@ public class RoleManAnimation : MonoBehaviour
         });
 
 
-        btns[0].onClick.AddListener(() =>
+        btn_backE.onClick.AddListener(() =>
     {
         EquipExitAnimate();
 
@@ -108,7 +110,7 @@ public class RoleManAnimation : MonoBehaviour
 
 
 
-        btns[0].onClick.AddListener(() =>
+        btn_backE.onClick.AddListener(() =>
     {
         LevelExitAnimate();
 
@@ -140,9 +142,14 @@ public class RoleManAnimation : MonoBehaviour
         content.name = contentOld.name + "Copy";
         content.transform.parent = contentOld.transform.parent;
         content.transform.position = contentOld.transform.transform.position;
-        content.transform.localPosition = Vector3.zero;
+        content.transform.localPosition = contentOld.transform.localPosition;
         content.transform.localRotation = Quaternion.identity;
         content.transform.localScale = Vector3.one;
+
+        for (int i = 0; i < contentOld.transform.childCount; i++)
+        {
+            content.transform.GetChild(i).transform.localPosition = contentOld.transform.GetChild(i).transform.localPosition;
+        }
 
         contentOld.SetActive(false);
         content.SetActive(true);
@@ -150,10 +157,12 @@ public class RoleManAnimation : MonoBehaviour
         BG_Equip.SetActive(true);
         for (int i = 0; i < content.transform.childCount; i++)
         {
+            Debug.Log("currentRole" + content.transform.GetChild(i).transform.localPosition);
             if (content.transform.GetChild(i).transform.localPosition.x == 715)
             {
-                
+
                 currentRole = content.transform.GetChild(i).gameObject;
+
                 currentRolePos = currentRole.GetComponent<RectTransform>().position;
                 currentRoleIndex = i;
                 break;
@@ -179,7 +188,7 @@ public class RoleManAnimation : MonoBehaviour
 
 
         }
-        Debug.Log(otherRole[0].name);
+
         for (int i = 0; i < otherRole.Length; i++)
         {
 
@@ -207,6 +216,8 @@ public class RoleManAnimation : MonoBehaviour
         roleName.transform.DOScale(0.755f, 1).SetEase(Ease.InOutBack);
         roleName.GetComponent<Image>().DOColor(new Color(0.054f, 0.368f, 0.360f, 0.4f), 1);
 
+
+
         //
         for (int i = 0; i < EquipGroup.transform.childCount; i++)
         {
@@ -214,7 +225,11 @@ public class RoleManAnimation : MonoBehaviour
         }
 
 
-        ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x - 800, 1).SetEase(Ease.InOutBack);
+        ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x - 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
+        {
+            btns[0].gameObject.SetActive(false);
+            btn_backE.gameObject.SetActive(true);
+        };
 
     }
 
@@ -262,6 +277,8 @@ public class RoleManAnimation : MonoBehaviour
             BG_Equip.SetActive(false);
             content.SetActive(false);
             contentOld.SetActive(true);
+            btns[0].gameObject.SetActive(true);
+            btn_backE.gameObject.SetActive(false);
 
 
         };
@@ -273,6 +290,7 @@ public class RoleManAnimation : MonoBehaviour
     /// </summary>
     public void LevelEnterAnimate()
     {
+        
         BG_Level.SetActive(true);
         BG_Level.GetComponent<Image>().DOFade(0.4f, 0.5f);
         BG_Level.transform.GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(BG_Level.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x - 850, 1f).SetEase(Ease.InOutBack);

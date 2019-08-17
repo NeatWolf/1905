@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2264201187
+CRC: 2157784867
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 966ae5149b68449017e673b4a9eebbb7
+    Hash: 7b3532ee22e5af7d6658d3e7849a3974
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c90091b129653c9e091521fcc29cc5c6
+    Hash: 15bacab08446da3e392177b6c1c6b27e
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -32,6 +32,8 @@ ClassTypes:
 - Class: 65
   Script: {instanceID: 0}
 - Class: 81
+  Script: {instanceID: 0}
+- Class: 84
   Script: {instanceID: 0}
 - Class: 108
   Script: {instanceID: 0}
@@ -75,6 +77,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 433b9b88e74a458418098bcd32fae300, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
 - Class: 114
@@ -137,6 +141,7 @@ Assets:
 - Assets/AssetBundle/Prefab/UI/Common/Button.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/P_MM_Temp.prefab
 - Assets/AssetBundle/Prefab/UI/Login/OpenGame.prefab
+- Assets/AssetBundle/Prefab/UI/RoleMan/BG_Detail.prefab
 - Assets/AssetBundle/Prefab/UI/Explore/Explore.prefab
 - Assets/AssetBundle/Prefab/UI/MainMenu/Main Scene.prefab
 - Assets/AssetBundle/Prefab/UI/Login/LoadingProcess.prefab

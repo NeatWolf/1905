@@ -4428,6 +4428,7 @@ MonoBehaviour:
   inputFields: []
   go:
   - {fileID: 3302252897795637387}
+  fx: []
 --- !u!1 &3302252898836442626
 GameObject:
   m_ObjectHideFlags: 0

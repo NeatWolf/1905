@@ -39,7 +39,7 @@ public class ExploreSceneAnimation : MonoBehaviour
                     }
                     hitInfo.transform.GetChild(0). DOScale(1.5f, 0.3f);
                     hitInfo.transform.GetChild(0).GetComponent<Image>().DOColor(new Color(0.013f,0.981f,0.799f,1),0.3f);
-                    //hitInfo.transform.GetChild(0).DOLocalMoveY(0.5f,0.3f);
+                    
                     
                 }
             }

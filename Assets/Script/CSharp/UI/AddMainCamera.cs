@@ -8,7 +8,7 @@ public class AddMainCamera : MonoBehaviour
     public Camera mainCam;
     private void Awake()
     {
-        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        //mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
     private void OnEnable()
     {

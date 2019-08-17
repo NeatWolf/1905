@@ -1,0 +1,177 @@
+FoodCtrl = {}
+
+-- 预制体上的UISubObject脚本，内含所有UI对象
+FoodCtrl.Panel = nil
+
+function FoodCtrl:Init()
+    -- print("进入详情页控制系统")
+    self.Panel = RoleCtrl.Panel.go[5]:GetComponent("UISubObject")
+
+    -- 喂食按钮
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            -- self:FeedHero()
+        end
+    )
+
+    -- 返回按钮
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            RoleCtrl.RoleManAniCSharp:FoodExitAnimate()
+        end
+    )
+    
+end
+
+function FoodCtrl:ShowFoodInfo(heroData, itemData)
+    -- 显示道具名字
+    self.Panel.tmps[0].text = itemData.Name
+
+    -- 显示道具的Buff加成信息
+    local buffText = ""
+    
+    -- 旧的加成Buff
+    local _hBuffA = ModelTool:SplitStr(heroData.ColBuffAdd)
+    -- 新的加成Buff
+    local _iBuff = ModelTool:SplitStr(itemData.HeroBuff)
+
+        -- 如果原加成Buff 不等于 新加成Buff
+        if (_hBuffA[1] + _hBuffA[2])/2 ~= (_iBuff[3] + _iBuff[4])/2 then
+            -- 英雄本身Buff
+            local _hBuffO = ModelTool:SplitStr(heroData.ColBuff)
+            -- 原来的总Buff
+            local _hBuffOld = {}
+            _hBuffOld[1] = _hBuffO[1] + _hBuffA[1]
+            _hBuffOld[2] = _hBuffO[2] + _hBuffA[2]
+            -- 如果吃了此道具的新的总Buff
+            local _hBuffNew = {}
+            _hBuffNew[1] = _hBuffO[1] + _iBuff[3]
+            _hBuffNew[2] = _hBuffO[2] + _iBuff[4]
+
+            -- 新Buff与旧Buff的比例
+            local scale = ((_hBuffNew[1] + _hBuffNew[2])/2) / ((_hBuffOld[1] + _hBuffOld[2])/2)
+            print("新Buff与旧Buff的比例：" .. scale)
+            if scale < 0.9 then
+                buffText = "↓↓↓"
+            elseif scale < 0.95 then
+                buffText = "↓↓"
+            elseif scale < 1 then
+                buffText = "↓"
+            elseif scale > 1.1 then
+                buffText = "↑↑↑"
+            elseif scale > 1.05 then
+                buffText = "↑↑"
+            elseif scale > 1 then
+                buffText = "↑"
+            end
+        -- 如果原加成Buff 等于 新加成Buff
+        else
+            buffText = "—"
+        end
+
+    self.Panel.tmps[1].text = buffText
+
+    -- 显示耐力值
+    self.Panel.tmps[2].text = "+" .. _iBuff[2]
+
+    -- 显示耐力条
+    self.Panel.sliders[0].value = (heroData.EnergyNow + _iBuff[2]) / heroData.EnergyMax
+    self.Panel.sliders[1].value = heroData.EnergyNow / heroData.EnergyMax
+
+    -- 显示确定按钮
+    if heroData.EnergyNow == heroData.EnergyMax then
+        self.Panel.buttons[0].interactable = false
+        self.Panel.images[0].color = CS.UnityEngine.Color(self.Panel.images[0].color.r , self.Panel.images[0].color.g , self.Panel.images[0].color.b , 0.2)
+    else
+        self.Panel.buttons[0].interactable = true
+        self.Panel.images[0].color = CS.UnityEngine.Color(self.Panel.images[0].color.r , self.Panel.images[0].color.g , self.Panel.images[0].color.b , 1)
+    end
+    
+end
+
+
+
+-- 投喂英雄
+function FoodCtrl:FeedHero(heroData, itemData)
+
+    local couldEat = true
+    local heroIndex = -1
+
+    -- 处理Buff数据
+    local _hbuffA = ModelTool:SplitStr(heroData.ColBuffAdd)
+    local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
+
+    -- 判断当前道具是否可食用（由英雄当前的耐力决定）
+    if _ibuff[2] ~= "0" then
+        for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
+            if v.HeroID == heroData.HeroID then
+                heroIndex = k
+                if v.EnergyMax == v.EnergyNow then
+                    couldEat = false
+                end
+                break
+            end
+        end
+    end
+
+    -- 如果不可食用则返回
+    if couldEat == false then
+        self.IntroPanel.buttons[0].interactable = false
+        return
+    end
+
+    -- 如果英雄当前的临时Buff 小于 道具的加成Buff，进行赋值
+    if _hbuffA[1] < _ibuff[3] then
+        _hbuffA[1] = _ibuff[3]
+    end
+    if _hbuffA[2] < _ibuff[4] then
+        _hbuffA[2] = _ibuff[4]
+    end
+
+    if heroIndex == -1 then
+        for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+            -- 找到相应英雄
+            if v.HeroID == heroData.HeroID then
+                -- 赋值给英雄
+                v.ColBuffAdd = _hbuffA[1] .. "," .. _hbuffA[2]
+                v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2])
+                if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
+                    v.EnergyNow = v.EnergyMax
+                end
+                break
+            end
+        end
+    end
+    
+    -- 修改 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 赋值给英雄
+            v.ColBuffAdd = _hbuffA[1] .. "," .. _hbuffA[2]
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2])
+            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
+                v.EnergyNow = v.EnergyMax
+            end
+            break
+        end
+    end
+
+    -- 修改 玩家动态数据 里相应的英雄信息
+    for k, v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        -- 找到相应英雄
+        if v.HeroID == heroData.HeroID then
+            -- 赋值给英雄
+            v.ColBuffAdd = _hbuffA[1] .. "," .. _hbuffA[2]
+            v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2])
+            if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
+                v.EnergyNow = v.EnergyMax
+            end
+
+            heroData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
+            break
+        end
+    end
+
+    return heroData
+end

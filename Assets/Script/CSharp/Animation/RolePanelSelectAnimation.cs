@@ -14,6 +14,7 @@ public class RolePanelSelectAnimation : MonoBehaviour
     public ScrollRect scrollRect;
     public Image rolePage;
     public GameObject touchMask;
+    public GameObject bottomTouchMask;
     public Canvas canvas;
     public int currentRoleID;
 
@@ -36,6 +37,8 @@ public class RolePanelSelectAnimation : MonoBehaviour
     public float clickLerp = 1;
     [Header("回弹插值 越大回弹越快")]
     public float backLerp = 1;
+    [Header("速度小于此值时其他界面可点击")]
+    public float maskValue = 1;
 
     public Color normalColor = Color.white;
     public Color selectColor = Color.white;
@@ -51,6 +54,9 @@ public class RolePanelSelectAnimation : MonoBehaviour
     float lastValue = 0;
     bool needBack = false;
     float lerp = 0.15f;
+    float dir = 0;
+    float distance = 0;
+
     [LuaCallCSharp]
     public void Init()
     {
@@ -107,29 +113,34 @@ public class RolePanelSelectAnimation : MonoBehaviour
         //松手时移动速度小于设定则回弹
         if (Input.GetMouseButtonUp(0)) needBack = true;
         float speed = Mathf.Abs(lastValue - scrollbar.value);
-        float dir = buttons[currentRoleID].transform.position.x - OPosition;
-        float distance = Mathf.Abs(dir);
+        dir = buttons[currentRoleID].transform.position.x - OPosition;
+        distance = Mathf.Abs(dir);
         if (needBack && speed < backSpeed * 0.0005f && distance > 0.01f)
         {
-            needBack = false;
-            if (distance > nextValue && lastValue - scrollbar.value > 0 && dir > 0)
-            {
-                ClickRole(Mathf.Clamp((currentRoleID - 1), 0, buttons.Length - 1), true);
-            }
-            else if (distance > nextValue && lastValue - scrollbar.value < 0 && dir < 0)
-            {
-                ClickRole(Mathf.Clamp((currentRoleID + 1), 0, buttons.Length - 1), true);
-            }
-            else
-            {
-                ClickRole(currentRoleID, true);
-            }
+            Back();
         }
 
-        lastValue = scrollbar.value;
+
 
         //移动立绘
         MovePage();
+    }
+
+    public void Back()
+    {
+        needBack = false;
+        if (distance > nextValue && lastValue - scrollbar.value > 0 && dir > 0)
+        {
+            ClickRole(Mathf.Clamp((currentRoleID - 1), 0, buttons.Length - 1), true);
+        }
+        else if (distance > nextValue && lastValue - scrollbar.value < 0 && dir < 0)
+        {
+            ClickRole(Mathf.Clamp((currentRoleID + 1), 0, buttons.Length - 1), true);
+        }
+        else
+        {
+            ClickRole(currentRoleID, true);
+        }
     }
 
     //点击头像获取该角色在子物体中的占比得出滑动条目标value，插值前往该value
@@ -140,11 +151,11 @@ public class RolePanelSelectAnimation : MonoBehaviour
         touchMask.SetActive(true);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (timer > 0)
         {
-            timer -= Time.fixedDeltaTime;
+            timer -= Time.deltaTime;
             if (timer <= 0)
             {
 
@@ -158,6 +169,8 @@ public class RolePanelSelectAnimation : MonoBehaviour
                 touchMask.SetActive(false);
             }
         }
+        bottomTouchMask.SetActive(Mathf.Abs(scrollbar.value - lastValue) < maskValue * 0.0002f ? false : true);
+        lastValue = scrollbar.value;
     }
 
     void MovePage()

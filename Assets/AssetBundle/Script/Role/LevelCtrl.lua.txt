@@ -1,0 +1,168 @@
+-- 升级窗口
+
+LevelCtrl = {}
+
+LevelCtrl.Panel = nil
+LevelCtrl.ScrollData = nil
+LevelCtrl.HeroData = nil
+
+function LevelCtrl:Init()
+    -- print("进入升级视图")
+    self.Panel = RoleCtrl.Panel.go[3]:GetComponent("UISubObject")
+
+    -- 升级按钮
+    self.Panel.buttons[0].onClick:AddListener(
+        function ()
+            self:LevelUp(self.HeroData , self.ScrollData)
+        end
+    )
+    -- 返回按钮
+    self.Panel.buttons[1].onClick:AddListener(
+        function ()
+            RoleView:ShowHeroInfo(self.HeroData)
+            RoleCtrl.RoleManAniCSharp:LevelExitAnimate()
+        end
+    )
+
+end
+
+
+-- 获取所需的卷轴信息
+function LevelCtrl:GetScrollNeed(heroData)
+    local _needScroll = {}
+    -- 获取卷轴列表
+    local ScrollsList = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "0")
+
+    -- 获取信息
+    for k,v in pairs(ScrollsList) do
+        if v.Level == heroData.Level then
+            _needScroll.ItemID = v.ItemID
+            _needScroll.Name = v.Name
+            break
+        end
+    end
+    -- 获取数量
+    if heroData.Level == "1" then
+        _needScroll.Count = 5
+    elseif heroData.Level == "2" then
+        _needScroll.Count = 3
+    else
+        _needScroll.Count = 1
+    end
+    -- 返回卷轴信息
+    return _needScroll
+end
+
+
+
+
+--[[
+    @desc: 英雄升级
+    --@heroData:
+	--@scrollData: 英雄原信息
+    @return: 卷轴信息
+]]
+function LevelCtrl:LevelUp(heroData , scrollData)
+
+    -- 扣除所需的卷轴
+    PlayerDataModel:RemoveItem(scrollData.ItemID , scrollData.Count)
+    -- print( "ID: " .. scrollData.ItemID .. ",count: " .. scrollData.Count)
+
+    -- 英雄升级
+    heroData.Level = tostring(tonumber(heroData.Level) + 1)     -- 现等级
+    local _buffAdd = ModelTool:SplitStr(heroData.LevelUp)       -- 获取升级的增比
+    heroData.EnergyMax = tostring(heroData.EnergyMax + _buffAdd[1])     -- 现总耐力
+
+    local _heroColBuff = ModelTool:SplitStr(heroData.ColBuff)   -- 原收集增益
+    local _heroInsBuff = ModelTool:SplitStr(heroData.InsBuff)   -- 原设施增益
+    local _colBuff1New = tostring(tonumber(_heroColBuff[1]) * tonumber(_buffAdd[2]))        -- 现采集数量系数
+    local _colBuff2New = tostring(tonumber(_heroColBuff[2]) * tonumber(_buffAdd[3]))        -- 现采集爆率系数
+    local _colBuff3New = tostring(tonumber(_heroColBuff[3]) * tonumber(_buffAdd[4]))        -- 现采集时间倍率
+    local _insBuffNew = tostring(tonumber(_heroInsBuff[2]) * tonumber(_buffAdd[5]))         -- 现合成速度倍率
+    heroData.ColBuff = _colBuff1New .. "," .. _colBuff2New .. "," .. _colBuff3New
+    heroData.InsBuff = _heroInsBuff[1] .. "," .. _insBuffNew
+
+    -- 刷新升级窗口的显示
+    self:ShowLevelInfo(heroData)
+
+    -- 测试打印
+    -- print("升级后： Level:" .. heroData.Level .. " ,EnergyMax:" .. heroData.EnergyMax .. " ,ColBuff:" .. heroData.ColBuff .. " ,InsBuff:" .. heroData.InsBuff)
+
+    -- 修改玩家动态表
+    for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
+        if v.HeroID == heroData.HeroID then
+            v.Level = heroData.Level
+            v.EnergyMax = heroData.EnergyMax
+            v.ColBuff = heroData.ColBuff
+            v.InsBuff = heroData.InsBuff
+            -- 测试打印
+            -- ModelTool:SetMeta(v)
+            -- print(v)
+            break
+        end
+    end
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+        if v.HeroID == heroData.HeroID then
+            v.Level = heroData.Level
+            v.EnergyMax = heroData.EnergyMax
+            v.ColBuff = heroData.ColBuff
+            v.InsBuff = heroData.InsBuff
+            -- 测试打印
+            -- ModelTool:SetMeta(v)
+            -- print(v)
+            break
+        end
+    end
+end
+
+
+
+
+
+-- 显示升级窗口
+function LevelCtrl:ShowLevelInfo(heroData)
+    self.HeroData = heroData
+    -- 得到新的卷轴信息
+    self.ScrollData = self:GetScrollNeed(self.HeroData)
+
+    -- 显示卷轴数量 并判断Yes按钮是否可以点击
+    local couldYes = false
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+        -- 如果玩家有此卷轴
+        if v.ItemID == self.ScrollData.ItemID then
+            -- 显示卷轴数量
+            self.Panel.tmps[0].text = self.ScrollData.Count .. "/" .. v.Count
+            -- 如果数量满足条件
+            if tonumber(v.Count) >= self.ScrollData.Count then
+                couldYes = true
+            else
+                couldYes = false
+            end
+        -- 如果玩家没有此卷轴
+        elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
+            -- 显示卷轴数量
+            self.Panel.tmps[0].text = self.ScrollData.Count .. "/" .. 0
+            couldYes = false
+        end
+    end
+
+    -- 显示Yes按钮状态
+    if couldYes == true then
+        --self.Panel.buttons[0].interactable = true
+        self.Panel.buttons[0].transform:Find("Background"):GetComponent("Image").color = self.Panel.buttons[1].transform:Find("Background"):GetComponent("Image").color
+    else
+        --self.Panel.buttons[0].interactable = false
+        self.Panel.buttons[0].transform:Find("Background"):GetComponent("Image").color = CS.UnityEngine.Color.gray
+    end
+    
+    -- 显示卷轴图片
+    -- self.Panel.images[0].sprite = ABManager:LoadAsset("texture", self.ScrollData.ItemID, CS.UnityEngine.Sprite)
+    self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "Test", CS.UnityEngine.Sprite)
+    -- 显示卷轴名字
+    self.Panel.tmps[1].text = self.ScrollData.Name
+    -- 显示当前等级
+    self.Panel.tmps[2].text = self.HeroData.Level
+    
+end
+
+

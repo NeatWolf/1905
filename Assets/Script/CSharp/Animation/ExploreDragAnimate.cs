@@ -12,7 +12,7 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
     public Vector3 offset;
     Vector3 worldPos;
     Camera mainCam;
-    ExploreAnimate ea;
+    public ExploreAnimate ea;
     Button[] sceneBtns;
     [Header("滑动惯行")]
     public float inertia;
@@ -21,10 +21,9 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
 
     private void Awake()
     {
-        ea = GameObject.Find("UI/ExploreUI/Canvas").GetComponent<ExploreAnimate>();
 
-        mainCam = GameObject.Find("Scene/Explore/Main Camera").GetComponent<Camera>();
-        sceneBtns = GameObject.Find("Scene/Explore/CityPlane/Canvas").GetComponent<UISubObject>().buttons;
+        mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
+        sceneBtns = GameObject.Find("Explore/CityPlane/Canvas").GetComponent<UISubObject>().buttons;
 
 
     }

@@ -4074,10 +4074,11 @@ MonoBehaviour:
   - {fileID: 6284816149266197936}
   - {fileID: 279394174424605855}
   toggles: []
+  sliders: []
+  inputFields: []
   texts: []
   tmps: []
   images: []
-  inputFields: []
   go:
   - {fileID: 6284816149095385149}
   - {fileID: 506317457916743211}
@@ -5544,6 +5545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
+  ea: {fileID: 6284816149445032088}
   inertia: 5
 --- !u!1 &6165104108870369575
 GameObject:

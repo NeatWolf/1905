@@ -8,15 +8,15 @@ using UnityEngine.Events;
 public class MainMenuAnimation : MonoBehaviour
 {
     Button btn_Active, btn_RoleMan, btn_Fabricate,
-        btn_Warehouse, btn_Lottery, btn_AV,btn_Explore;
+        btn_Warehouse, btn_Lottery, btn_AV, btn_Explore;
     Camera mainCam;
 
-    Color color;
+    Color color, btn_Explore_Color;
 
-    
+
     private void Awake()
     {
-        
+
         UISubObject subObjs = transform.GetComponent<UISubObject>();
         btn_Active = subObjs.buttons[2];
         btn_RoleMan = subObjs.buttons[3];
@@ -26,25 +26,23 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Lottery = subObjs.buttons[0];
         btn_AV = subObjs.buttons[1];
 
-        btn_Explore = GameObject.Find("Scene/Main Scene/Btn_Explore/P_Explore/Btn_Explore").GetComponent<Button>();
-        Debug.Log("探索按钮"+btn_Explore.name);
+        btn_Explore = GameObject.Find("Scene/Main Scene/Btn_Explore/P_Explore/Explore").GetComponent<Button>();
 
 
         color = btn_RoleMan.GetComponent<Image>().color;
+        btn_Explore_Color = btn_Explore.GetComponent<Image>().color;
+        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
 
     private void OnEnable()
     {
-        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        if (mainCam.gameObject.activeSelf == false)
-        {
-            mainCam.gameObject.SetActive(true);
-        }
+        mainCam.gameObject.SetActive(true);
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
+        btn_Explore.transform.localScale = Vector3.one;
+        btn_Explore.GetComponent<Image>().color = btn_Explore_Color;
 
-        
 
     }
 
@@ -87,7 +85,7 @@ public class MainMenuAnimation : MonoBehaviour
         {
             btn_Explore.transform.DOScale(0.8f, 0.2f);
             btn_Explore.transform.DOScale(100, 0.8f);
-            btn_Explore.GetComponent<Image>().DOColor(new Color(0, 0, 0, 1), 1);
+            btn_Explore.GetComponent<Image>().DOFade(0, 1);
         });
 
     }
@@ -172,7 +170,7 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Fabricate.transform.DOLocalMoveX(-447, 0.5f);
         btn_Warehouse.transform.DOLocalMoveX(-447, 0.5f);
         btn_Lottery.transform.DOLocalMoveX(300, 0.5f);
-        
+
         btn_AV.transform.DOScale(3, 0.5f);
         btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 0.5f);
     }

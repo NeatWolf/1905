@@ -41,9 +41,9 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
 
         //eda = GameObject.Find("UI/DrapCanvas").GetComponent<ExploreDragAnimate>();
         sld = transform.Find("Slider").GetComponent<Slider>();
+
         mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
         oldCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-
 
 
         btnTroops = GetComponent<UISubObject>().buttons[0];
@@ -71,7 +71,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
             cards[i]=GetComponent<UISubObject>().go[17].transform.GetChild(i).gameObject;
         }
 
-        Transform t = GameObject.Find("Scene/Explore/CityPlane/Canvas").transform;
+        Transform t = GameObject.Find("Explore/CityPlane/Canvas").transform;
         for (int i = 0; i < 4; i++)
         {
             SceneBtn[i] = t.GetChild(i).GetChild(0).gameObject;
@@ -92,7 +92,10 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
 
     }
     private void Start()
-    {   Debug.Log(cards[0].transform.position);
+    {
+
+
+        Debug.Log(cards[0].transform.position);
         topORbottom=1;
         //slider与title原位置
         sliderPos = Slider.transform.localPosition;
@@ -246,4 +249,5 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
         }
 
     }
+
 }

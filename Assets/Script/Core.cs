@@ -20,6 +20,7 @@ public struct CallLua
     public UnityAction SecondUpdate;
 }
 
+[LuaCallCSharp]
 public class Core : MonoBehaviour
 {
     public GameObject[] dontDestroy;
@@ -27,6 +28,10 @@ public class Core : MonoBehaviour
     LuaTable table;
     CallLua callLua;
     float timer = 0;
+    [LuaCallCSharp]
+    public float test = 666;
+    [LuaCallCSharp]
+    public double test2 = 6669999;
 
     void Awake()
     {
@@ -49,7 +54,7 @@ public class Core : MonoBehaviour
 
 
         //Image bar = GameObject.Find("Bar").GetComponent<Image>();
-        
+
     }
 
     void Start()
@@ -118,5 +123,18 @@ public class Core : MonoBehaviour
                 File.WriteAllBytes(filePath, www.bytes);
             }
         }
+    }
+
+    [LuaCallCSharp]
+    public void LoadScene(string name, UnityAction call)
+    {
+        StartCoroutine(LoadSceneSync(name, call));
+    }
+
+    IEnumerator LoadSceneSync(string name, UnityAction call)
+    {
+        AsyncOperation async = SceneManager.LoadSceneAsync(name);
+        yield return async;
+        call();
     }
 }

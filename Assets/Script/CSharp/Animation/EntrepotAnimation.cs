@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class EntrepotAnimation : MonoBehaviour
 {
-   
+
     Button[] btns;
     GameObject[] canvas;
     //出售记录列表
@@ -28,7 +28,8 @@ public class EntrepotAnimation : MonoBehaviour
 
         
 
-        
+        //设为最后一个
+        content.transform.GetChild(0).SetAsLastSibling();
 
 
     }
@@ -44,22 +45,16 @@ public class EntrepotAnimation : MonoBehaviour
         EntrepotEnterAnimate();
 
     }
+
     //btns[1]---出售记录按钮
-    //btns[3]---“底部”按钮
-    
-    private void Start() {
-        btns[1].onClick.AddListener(()=>{
-            AnimateManager.RecordEnterAnimate(Records,content);
+    private void Start()
+    {
+        btns[1].onClick.AddListener(() =>
+        {
+            AnimateManager.RecordEnterAnimate(Records, content);
 
         });
-        
-    }
-    private void Update() {
-        if (content.transform.GetChild(content.transform.childCount-1).name!="Ima_bttom")
-        {
-            content.transform.GetChild(content.transform.childCount-1).transform.SetSiblingIndex(0);
-        }
-        
+
     }
     /// <summary>
     /// 货架界面进场动画

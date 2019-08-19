@@ -15,40 +15,38 @@ public class ExploreInAnimation : MonoBehaviour
         copyTop = GetComponent<UISubObject>().go[2].gameObject;
         group = GetComponent<UISubObject>().go[3].gameObject;
 
+
+
     }
     private void OnEnable()
     {
-        //ExploreInEnterAnimate();
-    }
-    private void Update() {
-        float timer=0;
-        timer+=Time.deltaTime;
-        if (timer<3)
-        {
-            return;
-        }
+
         ExploreInEnterAnimate();
     }
+
 
     /// <summary>
     /// 采集界面入场动画
     /// </summary>
     void ExploreInEnterAnimate()
     {
-        // Img_Troops.transform.DORotate(new Vector3(0,0,0),1).SetEase(Ease.InOutBack);
-        group.GetComponent<RectTransform>().DOAnchorPosX(-1000,1).From().SetEase(Ease.InOutBack);
 
-        group.GetComponent<GridLayoutGroup>().enabled=false;
-        for(int i=0;i<group.transform.childCount;i++){
-            group.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosY(group.transform.GetChild(group.transform.childCount-1).GetComponent<RectTransform>().anchoredPosition.y,1).From().SetEase(Ease.InOutBack);
-        }
-    
+        
+        group.GetComponent<RectTransform>().DOAnchorPosX(-1000, 1).From().SetEase(Ease.InOutBack).OnComplete(() =>
+        {
+            // group.GetComponent<GridLayoutGroup>().enabled=false;
+
+        });
+
+
+        
+
         for (int i = 0; i < 4; i++)
         {
             Img_Troops.transform.GetChild(i + 1).DOMove(copy.transform.GetChild(i + 1).transform.position, 0.5f + 0.2f * (5 - i)).SetEase(Ease.InOutBack);
             Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
         }
-        group.GetComponent<GridLayoutGroup>().enabled=true;
+
 
     }
 
@@ -63,6 +61,23 @@ public class ExploreInAnimation : MonoBehaviour
             Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
         }
     }
+
+    void ExploreInInfoEnterAnimate()
+    {
+        GridLayoutGroup glg = group.GetComponent<GridLayoutGroup>();
+        UnityEditorInternal.ComponentUtility.CopyComponent(glg);
+        DestroyImmediate(group.GetComponent<GridLayoutGroup>());
+        for (int i = 0; i < group.transform.childCount; i++)
+        {
+            group.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosY(group.transform.GetChild(group.transform.childCount - 1).GetComponent<RectTransform>().anchoredPosition.y, 1).From().SetEase(Ease.InOutBack).SetDelay(0.5f).onComplete = () =>
+            {
+
+                UnityEditorInternal.ComponentUtility.PasteComponentAsNew(group);
+                group.GetComponent<GridLayoutGroup>().enabled = true;
+            };
+        }
+    }
+
 
 
 

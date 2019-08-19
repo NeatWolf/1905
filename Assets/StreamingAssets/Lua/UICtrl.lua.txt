@@ -2,8 +2,6 @@ UICtrl = {}
 
 UICtrl.blackMask = nil
 
-
-
 -- 镜头黑遮罩动画,目标透明度、时间、[委托]
 function UICtrl:BlackMaskAni(alpha, time, event)
     if self.blackMask == nil then
@@ -74,7 +72,6 @@ function UICtrl:Back2MainScene()
     )
 end
 
-
 --[[
     @desc: 显示英雄列表
     --@rolesList: 英雄信息数组
@@ -82,20 +79,24 @@ end
 --]]
 function UICtrl:LoadRole(rolesList, parent)
     -- 根据PlayerDataModel.CompletePlayerData加载Role预制体
-    for k,v in pairs(rolesList) do
+    for k, v in pairs(rolesList) do
         local _Role = {}
-        _Role.UISub = LoadManager:Load(ABManager:LoadAsset("prefab", "Role"), parent, true):GetComponent("UISubObject")
+        _Role.UISub = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Role"), parent):GetComponent("UISubObject")
         -- 加载图片
         _Role.UISub.images[0].sprite = ABManager:LoadAsset("texture", v.HeroID, CS.UnityEngine.Sprite)
+        _Role.UISub:GetComponent("RectTransform").localPosition = CS.UnityEngine.Vector3.zero
     end
 end
 
 function UICtrl:LoadItem(itemData, parent, clickEvent)
     local _Item = {}
-    _Item.UISub = LoadManager:Load(ABManager:LoadAsset("prefab", "Button"), parent, true):GetComponent("UISubObject")
+    _Item.UISub = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Button"), parent):GetComponent("UISubObject")
     _Item.data = ModelTool:CopyTable(itemData)
-    _Item.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Item.data.ItemID,  CS.UnityEngine.Sprite)
+    _Item.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Item.data.ItemID, CS.UnityEngine.Sprite)
+    _Item.UISub.images[0].rectTransform.localPosition = CS.UnityEngine.Vector3.zero
     _Item.UISub.texts[0].text = _Item.data.Count
-    _Item.UISub.buttons[0].onClick:AddListener(clickEvent)
+    if clickEvent ~= nil then
+        _Item.UISub.buttons[0].onClick:AddListener(clickEvent)
+    end
     return _Item
 end

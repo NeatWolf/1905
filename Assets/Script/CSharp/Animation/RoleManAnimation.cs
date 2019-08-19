@@ -88,7 +88,6 @@ public class RoleManAnimation : MonoBehaviour
         //原坐标
         roleTexturePos = roleTexture.GetComponent<RectTransform>().position;
         introPos = intro.GetComponent<RectTransform>().position;
-
         roleValuePos = roleValue.GetComponent<RectTransform>().position;
         roleNamePos = roleName.GetComponent<RectTransform>().position;
 

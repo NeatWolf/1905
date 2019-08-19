@@ -27,23 +27,23 @@ public class MainMenuAnimation : MonoBehaviour
         btn_AV = subObjs.buttons[1];
         avChoice=subObjs.go[0];
 
-        btn_Explore = GameObject.Find("Scene/Main Scene/Btn_Explore/P_Explore/Btn_Explore").GetComponent<Button>();
+        btn_Explore = GameObject.Find("Main Scene/Btn_Explore/P_Explore/Explore").GetComponent<Button>();
         UICam = GameObject.Find("UICamera").GetComponent<Camera>();
 
 
         color = btn_RoleMan.GetComponent<Image>().color;
+        btn_Explore_Color = btn_Explore.GetComponent<Image>().color;
+        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
 
     private void OnEnable()
     {
-        mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        if (mainCam.gameObject.activeSelf == false)
-        {
-            mainCam.gameObject.SetActive(true);
-        }
+        mainCam.gameObject.SetActive(true);
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
+        btn_Explore.transform.localScale = Vector3.one;
+        btn_Explore.GetComponent<Image>().color = btn_Explore_Color;
         avChoice.GetComponent<Image>().DOColor(new Color(1,1,1,0),0.001f);
         avChoice.transform.localScale=Vector3.zero;
         

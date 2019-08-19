@@ -5,23 +5,34 @@ ExploreCtrl.Scene = nil
 
 function ExploreCtrl:Init()
     print("进入探索")
-    CS.UnityEngine.SceneManagement.SceneManager.LoadScene("Explore")
-    LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
-    LotteryCtrl.Scene = CS.UnityEngine.GameObject.Find("/Explore"):GetComponent("UISubObject").go[0]:GetComponent("UISubObject")
+    local core = CS.UnityEngine.Object.FindObjectOfType(typeof(CS.Core))
 
-    -- 注册委托
-    LotteryCtrl.Panel.buttons[0].onClick:AddListener(
+    core:LoadScene(
+        "Explore",
         function()
-            UICtrl:Back2MainScene()
+            ExploreCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
+            ExploreCtrl.Scene = CS.UnityEngine.GameObject.Find("/Explore"):GetComponent("UISubObject").go[0]:GetComponent("UISubObject")
+
+            -- 注册委托
+            ExploreCtrl.Panel.buttons[1].onClick:AddListener(
+                function()
+                    UICtrl:Back2MainScene()
+                end
+            )
+            print(ExploreCtrl.Scene.buttons[0].name)
+
+            for i = 0, ExploreCtrl.Scene.buttons.Length - 1 do
+                ExploreCtrl.Scene.buttons[i].onClick:AddListener(
+                    function()
+                        -- 进入探索场景，根据名称旋转摄像机角度
+                        print("进入" .. ExploreCtrl.Scene.buttons[i].name .. "号探索场景")
+                    end
+                )
+            end
+
+            ExploreCtrl.Scene.buttons[0].onClick:Invoke()
         end
     )
-    for i = 0, LotteryCtrl.Scene.buttons.Length - 1 do
-        LotteryCtrl.Scene.buttons[i].onClick:AddListener(
-            function()
-                -- 进入探索场景，根据名称旋转摄像机角度
-                print("进入" .. LotteryCtrl.Scene.buttons[i].name .. "号探索场景")
-                
-            end
-        )
-    end
+
+    MainSceneCtrl.Scene.gameObject:SetActive(false)
 end

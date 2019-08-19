@@ -57,7 +57,6 @@ public class ExploreSceneAnimation : MonoBehaviour
                         hitInfo.transform.GetChild(0).DORotate(new Vector3 (0,0,0),0.5f);
                     };
 
-
                     
                     uISub.go[11].GetComponent<RectTransform>().DOAnchorPosX(uISub.go[2].GetComponent<RectTransform>().anchoredPosition.x-1500,1).SetEase(Ease.InOutBack);
                     uISub.go[10].GetComponent<RectTransform>().DOAnchorPosX(uISub.go[10].GetComponent<RectTransform>().anchoredPosition.x+500,1).SetEase(Ease.InOutBack);
@@ -68,6 +67,9 @@ public class ExploreSceneAnimation : MonoBehaviour
                         transform.parent.parent.gameObject.SetActive(false);
                         
                     };
+
+                    //调用按钮点击事件
+                    hitInfo.transform.GetChild(0).GetComponent<Button>().onClick.Invoke();
                     
 
 

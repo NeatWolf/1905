@@ -11,7 +11,7 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Warehouse, btn_Lottery, btn_AV, btn_Explore;
     Camera mainCam, UICam;
 
-    Color color;
+    Color color,btn_Explore_Color;
     GameObject avChoice;
 
     private void Awake()

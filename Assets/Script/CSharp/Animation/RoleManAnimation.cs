@@ -203,23 +203,7 @@ public class RoleManAnimation : MonoBehaviour
         TopMask.SetActive(false);
         BottomMask.SetActive(false);
     }
-    void EquipEnter(){
-        EquipGroup.transform.localPosition-=new Vector3(800,0,0);
-        for(int i=0;i<EquipGroup.transform.childCount;i++){
-            EquipGroup.transform.GetChild(i).localPosition+=new Vector3(800,0,0);
-        }
-        TopMask.SetActive(false);
-        BottomMask.SetActive(false);
-    }
-    void EquipExit(){
-        EquipGroup.transform.localPosition+=new Vector3(800,0,0);
-        for(int i=0;i<EquipGroup.transform.childCount;i++){
-            EquipGroup.transform.GetChild(i).localPosition-=new Vector3(800,0,0);
-        }
-        TopMask.SetActive(false);
-        BottomMask.SetActive(false);
-    }
-    
+
     //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
 
     //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
@@ -265,10 +249,10 @@ public class RoleManAnimation : MonoBehaviour
 
         for (int i = 0; i < EquipGroup.transform.childCount; i++)
         {
-            
+
             EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosX(EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x + 800, 0.5f + 0.2f * i).SetEase(Ease.InOutBack);
         }
-        
+
 
         //BG_Equip.GetComponent<Image>().enabled=false;
         ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x + 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
@@ -277,7 +261,7 @@ public class RoleManAnimation : MonoBehaviour
             btn_backE.gameObject.SetActive(false);
 
             BG_Equip.SetActive(false);
-            
+
 
 
             intro.transform.GetChild(0).gameObject.SetActive(false);

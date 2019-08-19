@@ -9,10 +9,10 @@ public class MainMenuAnimation : MonoBehaviour
 {
     Button btn_Active, btn_RoleMan, btn_Fabricate,
         btn_Warehouse, btn_Lottery, btn_AV, btn_Explore;
-    Camera mainCam;
+    Camera mainCam, UICam;
 
-    Color color, btn_Explore_Color;
-
+    Color color;
+    GameObject avChoice;
 
     private void Awake()
     {
@@ -25,8 +25,10 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Warehouse = subObjs.buttons[5];
         btn_Lottery = subObjs.buttons[0];
         btn_AV = subObjs.buttons[1];
+        avChoice=subObjs.go[0];
 
-        btn_Explore = GameObject.Find("Scene/Main Scene/Btn_Explore/P_Explore/Explore").GetComponent<Button>();
+        btn_Explore = GameObject.Find("Main Scene/Btn_Explore/P_Explore/Explore").GetComponent<Button>();
+        UICam = GameObject.Find("UICamera").GetComponent<Camera>();
 
 
         color = btn_RoleMan.GetComponent<Image>().color;
@@ -42,6 +44,11 @@ public class MainMenuAnimation : MonoBehaviour
         StartCoroutine("ButtonEnter");
         btn_Explore.transform.localScale = Vector3.one;
         btn_Explore.GetComponent<Image>().color = btn_Explore_Color;
+        avChoice.GetComponent<Image>().DOColor(new Color(1,1,1,0),0.001f);
+        avChoice.transform.localScale=Vector3.zero;
+        
+        
+
 
 
     }
@@ -79,13 +86,24 @@ public class MainMenuAnimation : MonoBehaviour
         {
             btnActive_Move();
         });
+        btn_AV.onClick.AddListener(() =>
+        {
+            avChoice.SetActive(true);
+            avChoice.GetComponent<Image >().DOColor(new Color(1,1,1,1),1f).SetEase(Ease.InOutBack);
+            avChoice.transform.DOScale(0.03735288f,1).SetEase(Ease.InOutBack);
+            avChoice.transform. DOMove(btn_AV.transform.position,1).From();
+        });
 
         //探索按钮
         btn_Explore.onClick.AddListener(() =>
         {
             btn_Explore.transform.DOScale(0.8f, 0.2f);
-            btn_Explore.transform.DOScale(100, 0.8f);
-            btn_Explore.GetComponent<Image>().DOFade(0, 1);
+            btn_Explore.transform.DOScale(1.2f, 0.3f);
+            btnActive_Move();
+            mainCam.GetComponent<DOTweenPath>().DOPlay();
+            
+            UICam.GetComponent<DOTweenPath>().DOPlay();
+
         });
 
     }

@@ -65,7 +65,7 @@ public class ExploreInAnimation : MonoBehaviour
     void ExploreInInfoEnterAnimate()
     {
         GridLayoutGroup glg = group.GetComponent<GridLayoutGroup>();
-        // UnityEditorInternal.ComponentUtility.CopyComponent(glg);
+      //  UnityEditorInternal.ComponentUtility.CopyComponent(glg);
         DestroyImmediate(group.GetComponent<GridLayoutGroup>());
         for (int i = 0; i < group.transform.childCount; i++)
         {

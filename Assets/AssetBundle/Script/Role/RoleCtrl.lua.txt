@@ -36,6 +36,7 @@ function RoleCtrl:Init()
             DetailCtrl:ShowDetailInfo(self.CurrentHero)
             --RoleCtrl.Panel.go[4]:SetActive(true);
             self.RoleManAniCSharp:EquipClickAnimate(self.RoleSelectAniCSharp.currentRoleID)
+            
         end
     )
 

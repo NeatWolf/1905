@@ -16,6 +16,7 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
     Button[] sceneBtns;
     [Header("滑动惯行")]
     public float inertia;
+    GameObject btnMask;
     
 
 
@@ -24,6 +25,7 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
 
         mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
         sceneBtns = GameObject.Find("Explore/CityPlane/Canvas").GetComponent<UISubObject>().buttons;
+        btnMask=GameObject.Find("UI/ExploreUI/DrapCanvas/BtnMask");
 
 
     }
@@ -81,8 +83,11 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
     }
     
     public void OnEndDrag(PointerEventData eventData)
-    {
+    {   
         
+        //激活btnMask
+        StartCoroutine(btnMaskTrigger());
+
         //惯行滑动  第一个外部if中包含滑动过程中触壁的反馈机制
         if (mainCam.transform.localPosition.z > -21 && mainCam.transform.localPosition.z < -2)
         {
@@ -270,5 +275,11 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
     public void OnPointerUp(PointerEventData eventData)
     {
 
+    }
+
+    IEnumerator btnMaskTrigger(){
+        btnMask.SetActive(true);
+        yield return new WaitForSeconds(1);
+        btnMask.SetActive(false);
     }
 }

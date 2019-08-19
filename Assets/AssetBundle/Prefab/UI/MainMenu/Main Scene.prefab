@@ -730,11 +730,13 @@ MonoBehaviour:
   - {fileID: 9062517409153584847}
   - {fileID: 4384038937700624040}
   toggles: []
+  sliders: []
+  inputFields: []
   texts: []
   tmps: []
   images: []
-  inputFields: []
   go: []
+  fx: []
 --- !u!1 &6067719478651880549
 GameObject:
   m_ObjectHideFlags: 0

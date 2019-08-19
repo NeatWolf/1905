@@ -41,7 +41,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
         esa = new ExploreSceneAnimation();
         //eda = GameObject.Find("UI/DrapCanvas").GetComponent<ExploreDragAnimate>();
         sld = transform.Find("Slider").GetComponent<Slider>();
-        mainCam = GameObject.Find("Scene/Explore/Main Camera").GetComponent<Camera>();
+        mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
         oldCam = GameObject.Find("Main Camera").GetComponent<Camera>();
         
 

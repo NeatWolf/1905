@@ -22,11 +22,16 @@ function ModelTool:MergeTable( ... )
         return tables
     end
     -- 如果有多个表
-    local resTable = self:CopyTable( select(1, ...) )
+    local resTable = self:CopyTable( select(1, ...) ) or {}
     for i = 2, select("#", ...) do
-        for k,v in pairs(select(i, ...)) do
-            table.insert(resTable, v)
+        if (select(i, ...)) ~= nil then
+            for k,v in pairs(select(i, ...)) do
+                table.insert(resTable, v)
+            end
         end
+    end
+    if #resTable == 0 then
+        resTable = nil
     end
 
     return resTable

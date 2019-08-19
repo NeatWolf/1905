@@ -8,10 +8,10 @@
 	"Diamond":"100",
 	"Heros":
 	[
-		{"HeroID":"3" , "Level":"3" , "EnergyMax":"30" , "EnergyNow":"30" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0.1" , "InsBuff":"3,0.9" , "Equips":"18002"},
-		{"HeroID":"1" , "Level":"1" , "EnergyMax":"10" , "EnergyNow":"10" , "ColBuff":"1,1,1" , "ColBuffAdd":"0,0.1" , "InsBuff":"3,0.9" , "Equips":"19002"},
-		{"HeroID":"2" , "Level":"2" , "EnergyMax":"20" , "EnergyNow":"20" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0" , "InsBuff":"3,0.9" , "Equips":""},
-		{"HeroID":"4" , "Level":"1" , "EnergyMax":"20" , "EnergyNow":"20" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0" , "InsBuff":"3,0.9" , "Equips":""},
+		{"HeroID":"3" , "Level":"3" , "EnergyMax":"30" , "EnergyNow":"10" , "ColBuff":"1,1,1" , "ColBuffAdd":"0,0.1" , "InsBuff":"3,0.9" , "Equips":"18002"},
+		{"HeroID":"1" , "Level":"1" , "EnergyMax":"10" , "EnergyNow":"2" , "ColBuff":"1,1,1" , "ColBuffAdd":"0,0" , "InsBuff":"3,0.9" , "Equips":"19002"},
+		{"HeroID":"2" , "Level":"2" , "EnergyMax":"20" , "EnergyNow":"10" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0" , "InsBuff":"3,0.9" , "Equips":""},
+		{"HeroID":"4" , "Level":"1" , "EnergyMax":"20" , "EnergyNow":"20" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0.1" , "InsBuff":"3,0.9" , "Equips":""},
 		{"HeroID":"5" , "Level":"2" , "EnergyMax":"20" , "EnergyNow":"20" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0" , "InsBuff":"3,0.9" , "Equips":""},
 		{"HeroID":"6" , "Level":"3" , "EnergyMax":"20" , "EnergyNow":"20" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0" , "InsBuff":"3,0.9" , "Equips":""},
 		{"HeroID":"7" , "Level":"2" , "EnergyMax":"20" , "EnergyNow":"20" , "ColBuff":"1,1,1" , "ColBuffAdd":"0.1,0" , "InsBuff":"3,0.9" , "Equips":""},

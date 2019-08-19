@@ -36,6 +36,7 @@ function GameStartCtrl:LoadingBar()
                 0.5,
                 function()
                     CS.UnityEngine.Object.Destroy(LoadingPanel.gameObject)
+                    -- 切换到空场景
                 end
             )
 

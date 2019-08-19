@@ -39,11 +39,14 @@ function LotteryCtrl:Lottery(type)
     -- 扣除资源
     LotteryModel:DeductAsset(type)
 
-    for i = 1, LotteryModel[type].times do
-        self:Get(type)
+    self.Panel:GetComponent("LotteryAnimation").lotteryOutEvent = function()
+        -- 下方扭蛋归位
+        for i = 1, LotteryModel[type].times do
+            LotteryCtrl:Get(type)
+        end
+        LotteryCtrl:DisplayInfo()
     end
 
-    LotteryCtrl:DisplayInfo()
 end
 
 -- 刷新数据，显示能否抽卡
@@ -62,12 +65,17 @@ function LotteryCtrl:Get(type)
         local roleData = StaticDataModel:RandomTable(StaticDataModel.HerosTable)
 
         if StaticDataModel:Exist(PlayerDataModel.PlayerData.Heros, "HeroID", roleData.HeroID) then
+            -- 抽到弹窗
+            UICtrl:LoadRole({roleData}, LotteryCtrl:Show(roleData.Name .. "(已拥有,转换为卷轴)"))
+
             -- 卷轴添加账号数据
             PlayerDataModel:AddItem("10003")
+
             -- 转换成卷轴，显示转换成卷轴文字
             print("重复获得" .. roleData.Name .. "转换成卷轴")
         else
             -- 显示抽到角色UI效果
+            UICtrl:LoadRole({roleData}, LotteryCtrl:Show(roleData.Name))
 
             print(roleData.Name)
 
@@ -77,8 +85,10 @@ function LotteryCtrl:Get(type)
     else
         -- 显示获得物品
         local prop = LotteryModel:LotteryProp(type)
+        prop.Count = ""
 
-        -- 显示抽到角色UI效果
+        -- 显示抽到道具UI效果
+        UICtrl:LoadItem(prop, LotteryCtrl:Show(prop.Name))
 
         print("获得L" .. prop.Level .. "道具:" .. prop.Name)
 
@@ -89,4 +99,17 @@ function LotteryCtrl:Get(type)
     -- 保存账号数据，重新合并数据，刷新资源显示
     PlayerDataModel:WriteIn()
     PlayerDataModel:ReadOut()
+end
+
+-- 弹窗显示抽到的物品,传要显示的文字,返回可以加载图标的父物体
+function LotteryCtrl:Show(name)
+    local subPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "OutSubwindow"), self.Panel.transform, true):GetComponent("UISubObject")
+    subPanel.buttons[0].onClick:AddListener(
+        function()
+            LotteryCtrl.Panel.images[0].rectTransform.localPosition = CS.UnityEngine.Vector3.zero
+            CS.UnityEngine.Object.Destroy(subPanel.gameObject)
+        end
+    )
+    subPanel.tmps[0].text = name
+    return subPanel.go[0].transform
 end

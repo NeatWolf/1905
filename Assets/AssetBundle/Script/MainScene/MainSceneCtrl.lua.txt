@@ -35,7 +35,7 @@ function MainSceneCtrl:Init()
             if scene.buttons[i] ~= nil then
                 scene.buttons[i].onClick:AddListener(
                     function()
-                        LoadManager:LoadSystem(self.Panel.buttons[i].name)
+                        LoadManager:LoadSystem(self.scene.buttons[i].name)
                     end
                 )
             end

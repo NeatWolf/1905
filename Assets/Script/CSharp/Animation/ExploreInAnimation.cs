@@ -72,7 +72,7 @@ public class ExploreInAnimation : MonoBehaviour
             group.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosY(group.transform.GetChild(group.transform.childCount - 1).GetComponent<RectTransform>().anchoredPosition.y, 1).From().SetEase(Ease.InOutBack).SetDelay(0.5f).onComplete = () =>
             {
 
-               // UnityEditorInternal.ComponentUtility.PasteComponentAsNew(group);
+                // UnityEditorInternal.ComponentUtility.PasteComponentAsNew(group);
                 group.GetComponent<GridLayoutGroup>().enabled = true;
             };
         }

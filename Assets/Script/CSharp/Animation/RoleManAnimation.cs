@@ -203,22 +203,7 @@ public class RoleManAnimation : MonoBehaviour
         TopMask.SetActive(false);
         BottomMask.SetActive(false);
     }
-    void EquipEnter(){
-        EquipGroup.transform.localPosition-=new Vector3(800,0,0);
-        for(int i=0;i<EquipGroup.transform.childCount;i++){
-            EquipGroup.transform.GetChild(i).localPosition+=new Vector3(800,0,0);
-        }
-        TopMask.SetActive(false);
-        BottomMask.SetActive(false);
-    }
-    void EquipExit(){
-        EquipGroup.transform.localPosition+=new Vector3(800,0,0);
-        for(int i=0;i<EquipGroup.transform.childCount;i++){
-            EquipGroup.transform.GetChild(i).localPosition-=new Vector3(800,0,0);
-        }
-        TopMask.SetActive(false);
-        BottomMask.SetActive(false);
-    }
+    
     
     //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
 

@@ -203,7 +203,6 @@ public class RoleManAnimation : MonoBehaviour
         TopMask.SetActive(false);
         BottomMask.SetActive(false);
     }
-
     //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
 
     //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)

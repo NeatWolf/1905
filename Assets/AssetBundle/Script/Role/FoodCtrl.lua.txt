@@ -2,6 +2,7 @@ FoodCtrl = {}
 
 -- 预制体上的UISubObject脚本，内含所有UI对象
 FoodCtrl.Panel = nil
+FoodCtrl.HeroData = nil
 
 function FoodCtrl:Init()
     -- print("进入详情页控制系统")
@@ -17,11 +18,30 @@ function FoodCtrl:Init()
     -- 返回按钮
     self.Panel.buttons[1].onClick:AddListener(
         function()
+            -- RoleCtrl.CurrentHero = self.HeroData
             RoleCtrl.RoleManAniCSharp:FoodExitAnimate()
         end
     )
-    
 end
+
+function FoodCtrl:ShowFoodsList(heroData)
+    self.HeroData = heroData
+    LoadManager:DeleteAllChilds(self.Panel.go[0])
+    local _itemsList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Items, "Type", 1, "2")
+    StaticDataModel:SortItem(_itemsList, "Level", -1)
+    for k,v in pairs(_itemsList) do
+        local _Food = UICtrl:LoadItem(
+            v,
+            self.Panel.go[0].transform,
+            function()
+                self:ShowFoodInfo(self.HeroData, v)
+            end
+            )
+    end
+    self:ShowFoodInfo(heroData, _itemsList[1])
+end
+
+
 
 function FoodCtrl:ShowFoodInfo(heroData, itemData)
     -- 显示道具名字

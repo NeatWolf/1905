@@ -33,7 +33,7 @@ public class RoleManAnimation : MonoBehaviour
     /// </summary>
     GameObject roleTexture;
     GameObject intro;
-    GameObject EquipGroup, ScrollView, BG_Equip, BG_Level, BG_Food;
+    GameObject EquipGroup, ScrollView, BG_Equip, BG_Level, BG_Food,TopMask,BottomMask;
     Button btn_backE;
 
     ScrollRect scrollRect;
@@ -67,6 +67,8 @@ public class RoleManAnimation : MonoBehaviour
         BG_Food = GetComponent<UISubObject>().go[5];
         btn_backE = GetComponent<UISubObject>().go[13].GetComponent<Button>();
         scrollRect = GetComponent<UISubObject>().go[14].GetComponent<ScrollRect>();
+         TopMask=GetComponent<UISubObject>().go[15];
+         BottomMask=GetComponent<UISubObject>().go[16];
 
         BG_Equip.SetActive(false);
         BG_Level.SetActive(false);
@@ -97,27 +99,10 @@ public class RoleManAnimation : MonoBehaviour
     }
 
 
-    // private void Update()
-    // {
-    //     currentRole = rolePanelSelectAnimation.transform.GetChild(rolePanelSelectAnimation.currentRoleID).gameObject;
-    //     currentRoleIndex = rolePanelSelectAnimation.currentRoleID;
+  
 
-    //     // for (int i = 0; i < content.transform.childCount; i++)
-    //     // {
-    //     //     if (content.transform.GetChild(i) == currentRole)
-    //     //     {
 
-    //     //         currentRolePos = currentRole.GetComponent<RectTransform>().position;
-    //     //         currentRoleIndex = i;
 
-    //     //         break;
-
-    //     //     }
-
-    //     // }
-
-    //     // Debug.Log(currentRole.name);
-    // }
 
 
     //x:715  选择的role av位置
@@ -126,6 +111,9 @@ public class RoleManAnimation : MonoBehaviour
     /// </summary>
     public void EquipClickAnimate(int roleID)
     {
+        TopMask.SetActive(true);
+        BottomMask.SetActive(true);
+
         currentRoleIndex = roleID;
         currentRole = rolePanelSelectAnimation.transform.GetChild(currentRoleIndex).gameObject;
         currentRole.GetComponent<Button>().interactable = false;
@@ -192,15 +180,35 @@ public class RoleManAnimation : MonoBehaviour
         {
             EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosX(EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x - 800, 0.5f + 0.2f * i).SetEase(Ease.InOutBack);
         }
-
+        Invoke("EquipEnter",1.7f);
 
     }
+    void EquipEnter(){
+        EquipGroup.transform.localPosition-=new Vector3(800,0,0);
+        for(int i=0;i<EquipGroup.transform.childCount;i++){
+            EquipGroup.transform.GetChild(i).localPosition+=new Vector3(800,0,0);
+        }
+        TopMask.SetActive(false);
+        BottomMask.SetActive(false);
+    }
+    void EquipExit(){
+        EquipGroup.transform.localPosition+=new Vector3(800,0,0);
+        for(int i=0;i<EquipGroup.transform.childCount;i++){
+            EquipGroup.transform.GetChild(i).localPosition-=new Vector3(800,0,0);
+        }
+        TopMask.SetActive(false);
+        BottomMask.SetActive(false);
+    }
+    
+    //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
 
     /// <summary>
     /// 装备界面退出动画
     /// </summary>
     public void EquipExitAnimate()
     {
+        TopMask.SetActive(true);
+        BottomMask.SetActive(true);
         currentRole.GetComponent<Button>().interactable = true;
         scrollRect.enabled = true;
 
@@ -235,16 +243,19 @@ public class RoleManAnimation : MonoBehaviour
 
         for (int i = 0; i < EquipGroup.transform.childCount; i++)
         {
+            
             EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosX(EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x + 800, 0.5f + 0.2f * i).SetEase(Ease.InOutBack);
         }
+        
 
-
+        //BG_Equip.GetComponent<Image>().enabled=false;
         ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x + 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
         {
             btns[0].gameObject.SetActive(true);
             btn_backE.gameObject.SetActive(false);
 
             BG_Equip.SetActive(false);
+            
 
             intro.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -253,6 +264,7 @@ public class RoleManAnimation : MonoBehaviour
             intro.transform.GetChild(0).DOLocalMoveY(intro.transform.GetChild(1).localPosition.y + 1500, 0.1f);
 
         };
+        Invoke("EquipExit",1.7f);
 
 
     }

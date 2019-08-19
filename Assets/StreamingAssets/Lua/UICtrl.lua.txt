@@ -56,6 +56,7 @@ function UICtrl:Back2MainScene()
     UICtrl:CutTo(
         0.5,
         function()
+            CS.UnityEngine.SceneManagement.SceneManager.LoadScene("Empty")
             -- 销毁除MainSceneUI以外的组件
             if LoadManager.findedParents["UI"] == nil then
                 LoadManager.findedParents["UI"] = CS.UnityEngine.GameObject.Find("UI")

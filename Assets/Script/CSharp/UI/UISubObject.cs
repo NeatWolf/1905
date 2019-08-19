@@ -41,5 +41,7 @@ public class UISubObject : MonoBehaviour
                 inputFields[i].onEndEdit.RemoveAllListeners();
         }
         
+
+        
     }
 }

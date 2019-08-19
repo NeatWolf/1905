@@ -1,15 +1,27 @@
 ExploreCtrl = {}
 
 ExploreCtrl.Panel = nil
+ExploreCtrl.Scene = nil
 
 function ExploreCtrl:Init()
     print("进入探索")
-    -- LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LotteryUI"), "UI", true):GetComponent("UISubObject")
+    CS.UnityEngine.SceneManagement.SceneManager.LoadScene("Explore")
+    LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
+    LotteryCtrl.Scene = CS.UnityEngine.GameObject.Find("/Explore"):GetComponent("UISubObject").go[0]:GetComponent("UISubObject")
+
     -- 注册委托
-    -- LotteryCtrl.Panel.buttons[0].onClick:AddListener(
-    --     function()
-    --         UICtrl:Back2MainScene()
-    --     end
-    -- )
-    
+    LotteryCtrl.Panel.buttons[0].onClick:AddListener(
+        function()
+            UICtrl:Back2MainScene()
+        end
+    )
+    for i = 0, LotteryCtrl.Scene.buttons.Length - 1 do
+        LotteryCtrl.Scene.buttons[i].onClick:AddListener(
+            function()
+                -- 进入探索场景，根据名称旋转摄像机角度
+                print("进入" .. LotteryCtrl.Scene.buttons[i].name .. "号探索场景")
+                
+            end
+        )
+    end
 end

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using DG.DemiLib;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class ExploreAnimate : MonoBehaviour, IDragHandler
 {
@@ -36,6 +37,8 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     Vector3 sliderPos, titlePos;
 
     ExploreSceneAnimation esa;
+
+    public UnityAction turnTop, turnBottom;
     private void Awake()
     {
         cards = new GameObject[4];
@@ -45,7 +48,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
 
         mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
         oldCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        
+
 
 
         btnTroops = GetComponent<UISubObject>().buttons[0];
@@ -213,7 +216,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     hengTop.transform.SetSiblingIndex(0);
                 });
 
-                top.OnComplete(() => { print("top动画完成"); });
+                top.OnComplete(() => { if (turnTop != null) turnTop(); });
 
                 topORbottom = -1;
 
@@ -256,7 +259,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     hengBottom.transform.SetSiblingIndex(0);
                 });
 
-                bottom.OnComplete(() => { print("bottom动画完成"); });
+                bottom.OnComplete(() => { if (turnBottom != null) turnBottom(); });
 
                 topORbottom = 1;
 
@@ -275,6 +278,6 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
         uISub.go[9].GetComponent<RectTransform>().DOAnchorPosY(uISub.go[9].GetComponent<RectTransform>().anchoredPosition.x - 500, 1).SetEase(Ease.InOutBack).From();
         uISub.buttons[1].GetComponent<RectTransform>().DOAnchorPosY(uISub.go[9].GetComponent<RectTransform>().anchoredPosition.x + 500, 1).SetEase(Ease.InOutBack).From();
 
-        uISub.go[18].GetComponent<Image>().DOColor(new Color(1,1,1,0),1).From();
+        uISub.go[18].GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 1).From();
     }
 }

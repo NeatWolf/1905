@@ -2,7 +2,7 @@ ExploreCtrl = {}
 
 ExploreCtrl.Panel = nil
 ExploreCtrl.Scene = nil
-ExploreCtrl. = 1
+ExploreCtrl.selectedTroop = 1
 
 function ExploreCtrl:Init()
     print("进入探索")

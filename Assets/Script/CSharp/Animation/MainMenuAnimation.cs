@@ -100,9 +100,9 @@ public class MainMenuAnimation : MonoBehaviour
             btn_Explore.transform.DOScale(0.8f, 0.2f);
             btn_Explore.transform.DOScale(1.2f, 0.3f);
             btnActive_Move();
-            mainCam.GetComponent<DOTweenPath>().DOPlay();
+            // mainCam.GetComponent<DOTweenPath>().DOPlay();
             
-            UICam.GetComponent<DOTweenPath>().DOPlay();
+            // UICam.GetComponent<DOTweenPath>().DOPlay();
 
         });
 

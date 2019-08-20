@@ -25,7 +25,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     GameObject Troops, BGTroops, TextTitle, heng, heng2, heng3, toggleSwitch,
     Scroll, heng4, TroopsGroup, Slider, mainTitle, info, icon, hengTop, hengBottom, circle;
     //编队组中的4张AV卡牌
-    GameObject[] cards = new GameObject[4];
+    GameObject[] cards;
 
     [Header("曲线")]
     public AnimationCurve curve;
@@ -38,7 +38,8 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     ExploreSceneAnimation esa;
     private void Awake()
     {
-        esa = new ExploreSceneAnimation();
+        cards = new GameObject[4];
+        // esa = new ExploreSceneAnimation();
         //eda = GameObject.Find("UI/DrapCanvas").GetComponent<ExploreDragAnimate>();
         sld = transform.Find("Slider").GetComponent<Slider>();
 
@@ -211,6 +212,9 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                 {
                     hengTop.transform.SetSiblingIndex(0);
                 });
+
+                top.OnComplete(() => { print("top动画完成"); });
+
                 topORbottom = -1;
 
             }
@@ -251,6 +255,8 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                 {
                     hengBottom.transform.SetSiblingIndex(0);
                 });
+
+                bottom.OnComplete(() => { print("bottom动画完成"); });
 
                 topORbottom = 1;
 

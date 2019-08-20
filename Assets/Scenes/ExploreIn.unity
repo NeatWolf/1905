@@ -122,6 +122,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &472113900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5916215464792378611, guid: 87aa028b88459a745b13e8d50c69dd14,
+    type: 3}
+  m_PrefabInstance: {fileID: 5962567164825404123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &831435518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -209,6 +215,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 165119013, guid: 1418224b2dfa48c419ed5b571c2b8b08, type: 3}
+      propertyPath: go.Array.data[7]
+      value: 
+      objectReference: {fileID: 472113900}
+    - target: {fileID: 165119014, guid: 1418224b2dfa48c419ed5b571c2b8b08, type: 3}
+      propertyPath: sceneIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -237,46 +251,6 @@ PrefabInstance:
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3156190668507803144, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3156190668507803144, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3156190668507803144, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3156190668507803144, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146042445154297478, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146042445154297478, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146042445154297478, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9146042445154297478, guid: 1418224b2dfa48c419ed5b571c2b8b08,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2614,22 +2588,22 @@ PrefabInstance:
     - target: {fileID: 594708910219374390, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 594708910219374390, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7071068
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 594708910219374390, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -270
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 594708910219374390, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5962567164875174720, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}
@@ -2649,6 +2623,11 @@ PrefabInstance:
     - target: {fileID: 5962567164875174720, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}
       propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5962567164875174720, guid: 87aa028b88459a745b13e8d50c69dd14,
+        type: 3}
+      propertyPath: orthographic
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

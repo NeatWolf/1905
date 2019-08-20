@@ -9,8 +9,8 @@ using UnityEngine.Events;
 
 public class ExploreInAnimation : MonoBehaviour
 {
-    public int sceneIndex = 0;
-    GameObject Img_Troops, copy, copyTop, group, package, listBG, packagePos;
+    public int sceneIndex = 2;
+    GameObject Img_Troops, copy, copyTop, group, package, listBG, packagePos, cameraRotate;
     Button btnBack, listBack;
     /// <summary>
     /// 采集界面入场Action
@@ -40,6 +40,7 @@ public class ExploreInAnimation : MonoBehaviour
         listBG = GetComponent<UISubObject>().go[5];
         listBack = GetComponent<UISubObject>().buttons[1];
         packagePos = GetComponent<UISubObject>().go[6];
+        cameraRotate = GetComponent<UISubObject>().go[7];
 
 
 
@@ -51,6 +52,52 @@ public class ExploreInAnimation : MonoBehaviour
         //背包界面入场前设置
         package.transform.localScale = Vector3.zero;
         package.transform.position = btnBack.transform.position;
+
+
+
+
+         //相机动画
+        //
+        switch (sceneIndex)
+        {
+            //1: 0度
+            case 1:
+                cameraRotate.transform.DOLocalRotate(new Vector3(0, 0, 0), 2,RotateMode.FastBeyond360);
+                cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(20, 1).OnComplete(() =>
+                {
+                    cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(7.5f, 1).SetEase(Ease.InOutBack);
+                });
+                break;
+            //1: 90度
+            case 2:
+                cameraRotate.transform.DOLocalRotate(new Vector3(0, 90, 0), 2,RotateMode.FastBeyond360);
+
+                cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(20, 1).OnComplete(() =>
+                {
+                    cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(7.5f, 1).SetEase(Ease.InOutBack);
+                });
+                break;
+            //2:180度
+            case 3:
+                cameraRotate.transform.DOLocalRotate(new Vector3(0, 180, 0), 2,RotateMode.FastBeyond360);
+                cameraRotate.transform.DOLocalMove(new Vector3(16.2f, 0, -6.1f), 2);
+                cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(20, 1).OnComplete(() =>
+                {
+                    cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(7.5f, 1).SetEase(Ease.InOutBack);
+                });
+                break;
+            //3:270度
+            case 4:
+                cameraRotate.transform.DOLocalRotate(new Vector3(0, 270, 0), 2,RotateMode.FastBeyond360);
+                cameraRotate.transform.DOLocalMove(new Vector3(-7.4f, 0, -14), 2);
+                cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(20, 1).OnComplete(() =>
+                {
+                    cameraRotate.transform.GetChild(0).GetComponent<Camera>().DOOrthoSize(7.5f, 1).SetEase(Ease.InOutBack);
+                });
+                break;
+
+        }
+
 
     }
 
@@ -64,7 +111,13 @@ public class ExploreInAnimation : MonoBehaviour
         {
             ExploreInPackageExitAnimate();
         });
+
+
+       
+
     }
+
+
     /// <summary>
     /// 采集界面入场动画
     /// </summary>
@@ -138,7 +191,7 @@ public class ExploreInAnimation : MonoBehaviour
         //     };
         // }
 
-        
+
 
     }
 
@@ -152,7 +205,8 @@ public class ExploreInAnimation : MonoBehaviour
         package.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 1f).SetEase(Ease.InOutBack);
 
         package.transform.DOScale(1, 1).SetEase(Ease.InOutBack);
-        package.transform.DOMove(packagePos.transform.position, 1).SetEase(Ease.InOutBack).onComplete=()=>{
+        package.transform.DOMove(packagePos.transform.position, 1).SetEase(Ease.InOutBack).onComplete = () =>
+        {
             if (Action_ExploreInPackageEnterAnimate != null) Action_ExploreInPackageEnterAnimate();
         };
 

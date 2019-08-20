@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using DG.DemiLib;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class ExploreAnimate : MonoBehaviour, IDragHandler
 {
@@ -25,7 +26,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     GameObject Troops, BGTroops, TextTitle, heng, heng2, heng3, toggleSwitch,
     Scroll, heng4, TroopsGroup, Slider, mainTitle, info, icon, hengTop, hengBottom, circle;
     //编队组中的4张AV卡牌
-    GameObject[] cards = new GameObject[4];
+    GameObject[] cards;
 
     [Header("曲线")]
     public AnimationCurve curve;
@@ -36,15 +37,18 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     Vector3 sliderPos, titlePos;
 
     ExploreSceneAnimation esa;
+
+    public UnityAction turnTop, turnBottom;
     private void Awake()
     {
-        esa = new ExploreSceneAnimation();
+        cards = new GameObject[4];
+        // esa = new ExploreSceneAnimation();
         //eda = GameObject.Find("UI/DrapCanvas").GetComponent<ExploreDragAnimate>();
         sld = transform.Find("Slider").GetComponent<Slider>();
 
         mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
         oldCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        
+
 
 
         btnTroops = GetComponent<UISubObject>().buttons[0];
@@ -211,6 +215,9 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                 {
                     hengTop.transform.SetSiblingIndex(0);
                 });
+
+                top.OnComplete(() => { if (turnTop != null) turnTop(); });
+
                 topORbottom = -1;
 
             }
@@ -252,6 +259,8 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     hengBottom.transform.SetSiblingIndex(0);
                 });
 
+                bottom.OnComplete(() => { if (turnBottom != null) turnBottom(); });
+
                 topORbottom = 1;
 
             }
@@ -269,6 +278,6 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
         uISub.go[9].GetComponent<RectTransform>().DOAnchorPosY(uISub.go[9].GetComponent<RectTransform>().anchoredPosition.x - 500, 1).SetEase(Ease.InOutBack).From();
         uISub.buttons[1].GetComponent<RectTransform>().DOAnchorPosY(uISub.go[9].GetComponent<RectTransform>().anchoredPosition.x + 500, 1).SetEase(Ease.InOutBack).From();
 
-        uISub.go[18].GetComponent<Image>().DOColor(new Color(1,1,1,0),1).From();
+        uISub.go[18].GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 1).From();
     }
 }

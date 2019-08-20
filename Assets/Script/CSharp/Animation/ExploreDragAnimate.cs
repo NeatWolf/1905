@@ -17,15 +17,15 @@ IEndDragHandler
     [Header("滑动惯行")]
     public float inertia;
     GameObject btnMask;
-    
 
 
-    private void Awake()
+
+    private void Start()
     {
         ea=GameObject.Find("UI/ExploreUI/Canvas").GetComponent<ExploreAnimate>();
         mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
         sceneBtns = GameObject.Find("Explore/CityPlane/Canvas").GetComponent<UISubObject>().buttons;
-        btnMask=GameObject.Find("UI/ExploreUI/DrapCanvas/BtnMask");
+        btnMask = GameObject.Find("UI/ExploreUI/DrapCanvas/BtnMask");
 
 
     }
@@ -33,14 +33,14 @@ IEndDragHandler
     {
 
         ea.isDarp = true;
-        
+
 
     }
-   
+
 
     //场景正在向前运动或向后运动，1：向前，-1：向后
     int forwardORback;
-   
+
     /// <summary>
     /// 屏幕滑动
     /// </summary>
@@ -57,10 +57,10 @@ IEndDragHandler
         //         Debug.Log("offset"+offset);
         //         mainCam.transform.Translate(0,0,-(offset.y-1000)*0.01f,Space.World);
         //     }
-        
-        
-        
-        
+
+
+
+
         float k = offset.y;
         offset = eventData.pressEventCamera.ScreenToWorldPoint(eventData.position - transform.GetComponent<RectTransform>().offsetMin);
 
@@ -78,26 +78,26 @@ IEndDragHandler
             mainCam.transform.Translate(0, 0, -offset.y * 0.001f, Space.World);
         }
 
-    
-   
+
+
     }
-    
+
     public void OnEndDrag(PointerEventData eventData)
-    {   
-        
+    {
+
         //激活btnMask
         StartCoroutine(btnMaskTrigger());
 
         //惯行滑动  第一个外部if中包含滑动过程中触壁的反馈机制
         if (mainCam.transform.localPosition.z > -21 && mainCam.transform.localPosition.z < -2)
         {
-            
+
             if (forwardORback == 1)
             {
-               
+
                 mainCam.transform.DOLocalMoveZ(mainCam.transform.localPosition.z + inertia, 1).SetEase(Ease.OutQuad).OnComplete(() =>
                {
-                   
+
                    if (mainCam.transform.localPosition.z < -21)
                    {
                        Tweener t = mainCam.transform.DOLocalMoveZ(-21, 1);
@@ -148,15 +148,15 @@ IEndDragHandler
                    }
 
                });
-                
+
             }
             else if (forwardORback == -1)
             {
                 mainCam.transform.DOLocalMoveZ(mainCam.transform.localPosition.z - inertia, 1).SetEase(Ease.OutQuad).OnComplete(() =>
               {
-                  
 
-                  
+
+
                   if (mainCam.transform.localPosition.z < -21)
                   {
                       Tweener t = mainCam.transform.DOLocalMoveZ(-21, 1);
@@ -207,11 +207,11 @@ IEndDragHandler
                   }
 
               });
-            
+
             }
-        
+
         }
-                //分割
+        //分割
         else if (mainCam.transform.localPosition.z < -21)
         {
             Tweener t = mainCam.transform.DOLocalMoveZ(-21, 1);
@@ -243,8 +243,9 @@ IEndDragHandler
     Tweener bt0;
    
 
-    IEnumerator btnMaskTrigger(){
-        btnMask.SetActive(true);  
+    IEnumerator btnMaskTrigger()
+    {
+        btnMask.SetActive(true);
         yield return new WaitForSeconds(1);
         btnMask.SetActive(false);
         

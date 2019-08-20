@@ -3173,7 +3173,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -295.901, y: -1.7}
-  m_SizeDelta: {x: 120, y: 70}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4015906254738567767
 MonoBehaviour:
@@ -3445,7 +3445,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -159.2, y: -1.7}
-  m_SizeDelta: {x: 120, y: 70}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4015906254993146993
 MonoBehaviour:
@@ -3928,7 +3928,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -22.6, y: -1.7}
-  m_SizeDelta: {x: 120, y: 70}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4015906255427790164
 MonoBehaviour:
@@ -4222,7 +4222,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -433.3, y: -1.7}
-  m_SizeDelta: {x: 120, y: 70}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4015906255659142217
 MonoBehaviour:
@@ -5124,7 +5124,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -229.99977, y: -144.0004}
+  m_AnchoredPosition: {x: -215, y: -144.0004}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6467638452101904042
@@ -8009,7 +8009,7 @@ RectTransform:
   m_Father: {fileID: 6284816148321757088}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.33439022}
+  m_AnchorMin: {x: 0, y: 0.33438987}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -8171,8 +8171,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6284816149545257891}
   m_HandleRect: {fileID: 6284816149545257890}
   m_Direction: 2
-  m_Value: 1.0000002
-  m_Size: 0.6656098
+  m_Value: 0.9999991
+  m_Size: 0.66560984
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

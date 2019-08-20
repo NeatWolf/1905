@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 950965219}
   - component: {fileID: 1528655770}
   m_Layer: 0
-  m_Name: Button
+  m_Name: 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2968,8 +2968,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4faf46d9ae41f1c46892997a804c20af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BloomAmount: 0.65
-  BlurAmount: 1.3
+  BloomAmount: 0.25
+  BlurAmount: 1.8
   FadeAmount: 0.75
   material: {fileID: 2100000, guid: 6ced9dc3165b9bd439f57ddcee8abac6, type: 2}
 --- !u!1 &4041672854440148189
@@ -11895,7 +11895,7 @@ GameObject:
   - component: {fileID: 4118540511685466912}
   - component: {fileID: 485707153903337984}
   m_Layer: 0
-  m_Name: Button
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12204,7 +12204,7 @@ GameObject:
   - component: {fileID: 5486326435451802097}
   - component: {fileID: 8724146020845762440}
   m_Layer: 0
-  m_Name: Button
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12440,7 +12440,7 @@ GameObject:
   - component: {fileID: 1749151049879781966}
   - component: {fileID: 2515702391643027527}
   m_Layer: 0
-  m_Name: Button
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

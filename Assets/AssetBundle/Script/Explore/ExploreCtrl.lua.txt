@@ -2,6 +2,7 @@ ExploreCtrl = {}
 
 ExploreCtrl.Panel = nil
 ExploreCtrl.Scene = nil
+ExploreCtrl.selectedTroop = 1
 
 function ExploreCtrl:Init()
     print("进入探索")
@@ -11,28 +12,64 @@ function ExploreCtrl:Init()
         "Explore",
         function()
             ExploreCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
-            ExploreCtrl.Scene = CS.UnityEngine.GameObject.Find("/Explore"):GetComponent("UISubObject").go[0]:GetComponent("UISubObject")
+            ExploreCtrl.Scene = CS.UnityEngine.GameObject.Find("/Explore/CityPlane/Canvas"):GetComponent("UISubObject")
 
             -- 注册委托
             ExploreCtrl.Panel.buttons[1].onClick:AddListener(
                 function()
-                    UICtrl:Back2MainScene()
+                    if not ExploreCtrl.Panel.go[0].activeSelf then
+                        UICtrl:Back2MainScene()
+                    end
                 end
             )
-            print(ExploreCtrl.Scene.buttons[0].name)
-
+            -- 添加按钮委托
             for i = 0, ExploreCtrl.Scene.buttons.Length - 1 do
                 ExploreCtrl.Scene.buttons[i].onClick:AddListener(
                     function()
-                        -- 进入探索场景，根据名称旋转摄像机角度
-                        print("进入" .. ExploreCtrl.Scene.buttons[i].name .. "号探索场景")
+                        -- 转场
+                        Core.timer = 0.5
+                        Core.timerEvent = function()
+                            UICtrl:BlackMaskAni(
+                                1,
+                                0.5,
+                                function()
+                                    -- 销毁UI
+                                    UICtrl:DestroyOthers()
+                                    -- 进入探索场景，根据名称旋转摄像机角度
+                                    core:LoadScene(
+                                        "ExploreIn",
+                                        function()
+                                            LoadManager:LoadLua("Explore", "MapCtrl")
+                                            MapCtrl:Init(i)
+                                            UICtrl:BlackMaskAni(0, 0.5)
+                                        end
+                                    )
+                                end
+                            )
+                        end
                     end
                 )
             end
 
-            ExploreCtrl.Scene.buttons[0].onClick:Invoke()
+            -- 刷新编队
+
         end
     )
 
     MainSceneCtrl.Scene.gameObject:SetActive(false)
+end
+
+-- 加载所需数据
+function ExploreCtrl:LoadData( )
+    
+end
+
+-- 显示两组编队
+function ExploreCtrl:DisplayTroops( )
+    
+end
+
+-- 切换编队
+function ExploreCtrl:TurnTroops( )
+    
 end

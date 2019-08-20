@@ -6,7 +6,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 
 public class ExploreDragAnimate : MonoBehaviour, IDragHandler, IBeginDragHandler,
-IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
+IEndDragHandler
 {
     [HideInInspector]
     public Vector3 offset;
@@ -22,7 +22,7 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
 
     private void Awake()
     {
-
+        ea=GameObject.Find("UI/ExploreUI/Canvas").GetComponent<ExploreAnimate>();
         mainCam = GameObject.Find("Explore/Main Camera").GetComponent<Camera>();
         sceneBtns = GameObject.Find("Explore/CityPlane/Canvas").GetComponent<UISubObject>().buttons;
         btnMask=GameObject.Find("UI/ExploreUI/DrapCanvas/BtnMask");
@@ -241,45 +241,12 @@ IEndDragHandler, IPointerClickHandler, IPointerExitHandler, IPointerUpHandler
     }
     Vector3 mouseOffset;
     Tweener bt0;
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        //方法一
-
-        // Debug.Log("eventData.pressPosition"+eventData.pressPosition);
-        // //btnCamoffset--第一个button与场景中的mainCam的Z轴差值
-        // float btnCamoffset = GameObject.Find("Scene/Explore/CityPlane/Canvas").GetComponent<UISubObject>().buttons[0].transform.position.z - mainCam.transform.position.z;
-        // Debug.Log("button" + btnCamoffset);
-        // if(btnCamoffset>9.3f&&eventData.pressPosition.y<1100&&eventData.pressPosition.y>578){
-        //     sceneBtns[0].transform.DOScale(2,0.5f);
-        // }
-        // else if((btnCamoffset>9.3f &&eventData.pressPosition.y>1100&&eventData.pressPosition.y<595)||(btnCamoffset>-1.74f&& btnCamoffset<8.8f&&eventData.pressPosition.y>500)){
-        //     sceneBtns[1].transform.DOScale(2,0.5f);
-        // }
-
-        // if (btnCamoffset>9.3f&&eventData.pressPosition.y>1100||eventData.pressPosition.y<578)
-        // {
-        //     sceneBtns[0].transform.DOScale(1,0.5f);
-        // }
-
-        //方法二
-
-
-
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-
-    }
+   
 
     IEnumerator btnMaskTrigger(){
-        btnMask.SetActive(true);
+        btnMask.SetActive(true);  
         yield return new WaitForSeconds(1);
         btnMask.SetActive(false);
+        
     }
 }

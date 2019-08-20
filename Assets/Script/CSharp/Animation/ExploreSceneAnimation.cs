@@ -43,14 +43,7 @@ public class ExploreSceneAnimation : MonoBehaviour
             {
                 if (hitInfo.transform.tag == "button")
                 {
-                    //旧版动画
-                    // for (int i = 0; i < 4; i++)
-                    // {
-                    //     fatherObj[i].transform.GetChild(0).DOScale(1, 0.3f);
-                    //     fatherObj[i].transform.GetChild(0).GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 0.3f);
-                    // }
                     
-                    // hitInfo.transform.GetChild(0).GetComponent<Image>().DOColor(new Color(0.013f,0.981f,0.799f,1),0.3f);
                     hitInfo.transform.GetChild(0).DOScale(20f, 1f);
                     hitInfo.transform.GetChild(0).DOMove( GetComponent<UISubObject>().go[5].transform.position ,1.5f).onComplete=()=>{
                         DOTween.KillAll();

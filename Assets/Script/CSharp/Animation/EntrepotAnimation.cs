@@ -38,7 +38,7 @@ public class EntrepotAnimation : MonoBehaviour
         
         glass.GetComponent<Image>().color=new Color(1,1,1,0);
         //添加Button动画
-        AnimateManager.AddButtonAnimate(btns[0]);
+       // AnimateManager.AddButtonAnimate(btns[0]);
         //设置Records失活状态时的位置
         AnimateManager.RecordPreviousAnimate(Records);
         //货架入场动画
@@ -54,6 +54,7 @@ public class EntrepotAnimation : MonoBehaviour
             AnimateManager.RecordEnterAnimate(Records, content);
 
         });
+        
 
     }
     /// <summary>

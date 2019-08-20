@@ -6,6 +6,7 @@ using System.IO;
 
 public class Luax
 {
+    
     static Luax _instance;
     LuaEnv _luaEnv;
     public static Luax Instance

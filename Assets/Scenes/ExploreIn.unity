@@ -222,31 +222,40 @@ PrefabInstance:
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -480.9
       objectReference: {fileID: 0}
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 165119014, guid: 1418224b2dfa48c419ed5b571c2b8b08, type: 3}
+      propertyPath: sceneIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662104952331527531, guid: 1418224b2dfa48c419ed5b571c2b8b08,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -466,6 +475,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5916215464792378611, guid: 87aa028b88459a745b13e8d50c69dd14,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5962567164644402471, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -610,11 +624,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.10034712
-      objectReference: {fileID: 0}
-    - target: {fileID: 5916215464792378611, guid: 87aa028b88459a745b13e8d50c69dd14,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5962567163812334204, guid: 87aa028b88459a745b13e8d50c69dd14,
         type: 3}

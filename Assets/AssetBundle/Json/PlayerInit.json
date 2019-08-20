@@ -19,24 +19,32 @@
 	],
 	"Items":
 	[
-		{"ItemID":"14011" , "Count":"3" , "EquipHeros":""},
-		{"ItemID":"19002" , "Count":"3" , "EquipHeros":"1"},
-		{"ItemID":"18002" , "Count":"11" , "EquipHeros":"3"},
-		{"ItemID":"16002" , "Count":"4" , "EquipHeros":""},
-		{"ItemID":"15005" , "Count":"1" , "EquipHeros":""},
-		{"ItemID":"11018" , "Count":"3" , "EquipHeros":""},
-		{"ItemID":"11007" , "Count":"69" , "EquipHeros":""},
-		{"ItemID":"11024" , "Count":"7" , "EquipHeros":""},
-		{"ItemID":"13009" , "Count":"15" , "EquipHeros":""},
-		{"ItemID":"13021" , "Count":"2" , "EquipHeros":""},
-		{"ItemID":"12004" , "Count":"3" , "EquipHeros":""},
-		{"ItemID":"12006" , "Count":"2" , "EquipHeros":""},
-		{"ItemID":"12007" , "Count":"6" , "EquipHeros":""},
-		{"ItemID":"12008" , "Count":"5" , "EquipHeros":""},
-		{"ItemID":"12010" , "Count":"5" , "EquipHeros":""},
-		{"ItemID":"11016" , "Count":"5" , "EquipHeros":""},
-		{"ItemID":"11005" , "Count":"5" , "EquipHeros":""},
-		{"ItemID":"11008" , "Count":"5" , "EquipHeros":""}
-
+		{"ItemID":"14011" , "Count":"3" , "IsOnShelf":"false"},
+		{"ItemID":"19002" , "Count":"3" , "IsOnShelf":"false"},
+		{"ItemID":"18002" , "Count":"11" , "IsOnShelf":"false"},
+		{"ItemID":"16002" , "Count":"4" , "IsOnShelf":"false"},
+		{"ItemID":"15005" , "Count":"1" , "IsOnShelf":"false"},
+		{"ItemID":"11024" , "Count":"7" , "IsOnShelf":"false"},
+		{"ItemID":"13009" , "Count":"15" , "IsOnShelf":"false"},
+		{"ItemID":"13021" , "Count":"2" , "IsOnShelf":"false"},
+		{"ItemID":"12004" , "Count":"3" , "IsOnShelf":"false"},
+		{"ItemID":"12010" , "Count":"5" , "IsOnShelf":"false"},
+		{"ItemID":"11007" , "Count":"1" , "IsOnShelf":"false"},
+		{"ItemID":"11016" , "Count":"5" , "IsOnShelf":"false"},
+		{"ItemID":"11005" , "Count":"5" , "IsOnShelf":"false"},
+		{"ItemID":"11008" , "Count":"5" , "IsOnShelf":"false"},
+		{"ItemID":"11018" , "Count":"3" , "IsOnShelf":"true"},
+		{"ItemID":"11007" , "Count":"69" , "IsOnShelf":"true"},
+		{"ItemID":"12006" , "Count":"2" , "IsOnShelf":"true"},
+		{"ItemID":"12007" , "Count":"6" , "IsOnShelf":"true"},
+		{"ItemID":"12008" , "Count":"5" , "IsOnShelf":"true"}
 	]
+
+
+
+
+
+
+
+
 }

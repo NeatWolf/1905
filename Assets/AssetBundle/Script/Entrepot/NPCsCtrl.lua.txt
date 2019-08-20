@@ -99,7 +99,7 @@ function NPCsCtrl:RandomBuy()
             PlayerDataModel:RemoveItem(_Sth.ItemID, _Sth.Count)
         end
     end
-
+    
     -- 返回消息内容
     return _message
 end

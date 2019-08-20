@@ -75,7 +75,7 @@ function StaticDataModel:MergeItem(playerItem)
             -- 动态表的数据
             itemNow.ItemID = playerItem.ItemID
             itemNow.Count = playerItem.Count
-            itemNow.EquipHeros = playerItem.EquipHeros
+            itemNow.IsOnShelf = playerItem.IsOnShelf
             -- 静态表的数据
             itemNow.Name = self.ItemsTable[i].Name
             itemNow.Type = self.ItemsTable[i].Type
@@ -173,10 +173,10 @@ function StaticDataModel:SortItem(list, key, changeWay)
         for j = 1, #list - i do
             -- 第一层排序
             if ((tonumber(list[j][key]) - tonumber(list[j + 1][key])) * changeWay) > 0 then
-                -- 第三层排序 ID
                 -- print((list[j][key]) .. " " .. (list[j + 1][key]))
                 -- print("change")
                 list[j], list[j + 1] = list[j + 1], list[j]
+            -- 第二层排序 ID
             elseif ((tonumber(list[j][key]) - tonumber(list[j + 1][key])) * changeWay) == 0 and (tonumber(list[j].ItemID) - tonumber(list[j + 1].ItemID)) > 0 then
                 -- print(list[j].ItemID .. " " .. list[j+1].ItemID)
                 -- print("change")

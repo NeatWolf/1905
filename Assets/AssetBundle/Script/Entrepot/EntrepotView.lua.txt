@@ -1,0 +1,20 @@
+EntrepotView = {}
+
+EntrepotView.ItemsList = nil
+
+function EntrepotView:ShowEntrepotItems(itemsList)
+    -- 清空图标
+    for i=0,15 do
+        EntrepotCtrl.Panel.images[i].sprite = nil
+        EntrepotCtrl.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0.4)
+        EntrepotCtrl.Panel.texts[i].text = ""
+    end
+    -- 显示数据
+    for k,v in pairs(itemsList) do
+        EntrepotCtrl.Panel.images[k-1].sprite = ABManager:LoadAsset("texture", v.ItemID, CS.UnityEngine.Sprite)
+        EntrepotCtrl.Panel.images[k-1].color = CS.UnityEngine.Color(1,1,1,1)
+        EntrepotCtrl.Panel.texts[k-1].text = v.Count
+    end
+end
+
+

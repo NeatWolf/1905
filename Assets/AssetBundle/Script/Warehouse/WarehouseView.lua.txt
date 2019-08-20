@@ -1,0 +1,37 @@
+WarehouseView = {}
+
+function WarehouseView:ShowItemsList(itemsList)
+    LoadManager:DeleteAllChilds(WarehouseCtrl.Panel.go[2])
+    WarehouseCtrl.AllItems = {}
+    --print("itemsList：" .. #itemsList)
+    for k,v in pairs(itemsList) do
+        -- 加载button
+        local _itemButton = UICtrl:LoadItem(
+            v,
+            WarehouseCtrl.Panel.go[2].transform
+        )
+        
+        WarehouseCtrl.AllItems[_itemButton.UISub.gameObject] = _itemButton.data
+        
+        -- 添加事件
+        _itemButton.UISub.buttons[0].onClick:AddListener(
+            function()
+                if v.IsOnShelf == "false" then
+                    WarehouseCtrl.Ani:CountChoiceEnterAnimate()
+                    CountChoiceCtrl:ShowCountChoice(WarehouseCtrl.AllItems[_itemButton.UISub.gameObject])
+                elseif v.IsOnShelf == "true" then
+                    WarehouseCtrl:TakeDown(v)
+                    _itemButton.UISub.images[1].enabled = false
+                end
+            end
+        )
+        -- 加入上架列表
+        if v.IsOnShelf == "true" then
+            _itemButton.UISub.images[1].enabled = true
+        end
+
+    end
+
+
+end
+

@@ -4,7 +4,7 @@ LevelCtrl = {}
 
 LevelCtrl.Panel = nil
 LevelCtrl.ScrollData = nil
-LevelCtrl.HeroData = nil
+LevelCtrl.CurrentHero = nil
 
 function LevelCtrl:Init()
     -- print("进入升级视图")
@@ -13,13 +13,14 @@ function LevelCtrl:Init()
     -- 升级按钮
     self.Panel.buttons[0].onClick:AddListener(
         function ()
-            self:LevelUp(self.HeroData , self.ScrollData)
+            self:LevelUp(self.CurrentHero, self.ScrollData)
+            self:ShowLevelInfo(self.CurrentHero)
         end
     )
     -- 返回按钮
     self.Panel.buttons[1].onClick:AddListener(
         function ()
-            RoleView:ShowHeroInfo(self.HeroData)
+            RoleCtrl:ShowCurrentRole(self.CurrentHero)
             RoleCtrl.RoleManAniCSharp:LevelExitAnimate()
         end
     )
@@ -62,11 +63,9 @@ end
 	--@scrollData: 英雄原信息
     @return: 卷轴信息
 ]]
-function LevelCtrl:LevelUp(heroData , scrollData)
-
+function LevelCtrl:LevelUp(heroData, scrollData)
     -- 扣除所需的卷轴
-    PlayerDataModel:RemoveItem(scrollData.ItemID , scrollData.Count)
-    -- print( "ID: " .. scrollData.ItemID .. ",count: " .. scrollData.Count)
+    scrollData = PlayerDataModel:RemoveItem(scrollData.ItemID , scrollData.Count)
 
     -- 英雄升级
     heroData.Level = tostring(tonumber(heroData.Level) + 1)     -- 现等级
@@ -81,9 +80,6 @@ function LevelCtrl:LevelUp(heroData , scrollData)
     local _insBuffNew = tostring(tonumber(_heroInsBuff[2]) * tonumber(_buffAdd[5]))         -- 现合成速度倍率
     heroData.ColBuff = _colBuff1New .. "," .. _colBuff2New .. "," .. _colBuff3New
     heroData.InsBuff = _heroInsBuff[1] .. "," .. _insBuffNew
-
-    -- 刷新升级窗口的显示
-    self:ShowLevelInfo(heroData)
 
     -- 测试打印
     -- print("升级后： Level:" .. heroData.Level .. " ,EnergyMax:" .. heroData.EnergyMax .. " ,ColBuff:" .. heroData.ColBuff .. " ,InsBuff:" .. heroData.InsBuff)
@@ -121,9 +117,8 @@ end
 
 -- 显示升级窗口
 function LevelCtrl:ShowLevelInfo(heroData)
-    self.HeroData = heroData
-    -- 得到新的卷轴信息
-    self.ScrollData = self:GetScrollNeed(self.HeroData)
+    self.CurrentHero = heroData
+    self.ScrollData = self:GetScrollNeed(self.CurrentHero)
 
     -- 显示卷轴数量 并判断Yes按钮是否可以点击
     local couldYes = false
@@ -156,12 +151,11 @@ function LevelCtrl:ShowLevelInfo(heroData)
     end
     
     -- 显示卷轴图片
-    -- self.Panel.images[0].sprite = ABManager:LoadAsset("texture", self.ScrollData.ItemID, CS.UnityEngine.Sprite)
-    self.Panel.images[0].sprite = ABManager:LoadAsset("texture", "Test", CS.UnityEngine.Sprite)
+    self.Panel.images[0].sprite = ABManager:LoadAsset("texture", self.ScrollData.ItemID, CS.UnityEngine.Sprite)
     -- 显示卷轴名字
     self.Panel.tmps[1].text = self.ScrollData.Name
     -- 显示当前等级
-    self.Panel.tmps[2].text = self.HeroData.Level
+    self.Panel.tmps[2].text = self.CurrentHero.Level
     
 end
 

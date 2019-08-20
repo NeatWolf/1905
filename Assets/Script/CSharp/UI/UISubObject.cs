@@ -42,6 +42,5 @@ public class UISubObject : MonoBehaviour
         }
         
 
-        
     }
 }

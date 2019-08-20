@@ -38,7 +38,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
 
     ExploreSceneAnimation esa;
 
-    public UnityAction turnTop, turnBottom;
+    public UnityAction turnTroops;
     private void Awake()
     {
         cards = new GameObject[4];
@@ -216,7 +216,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     hengTop.transform.SetSiblingIndex(0);
                 });
 
-                top.OnComplete(() => { if (turnTop != null) turnTop(); });
+                top.OnComplete(() => { if (turnTroops != null) turnTroops(); });
 
                 topORbottom = -1;
 
@@ -259,7 +259,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     hengBottom.transform.SetSiblingIndex(0);
                 });
 
-                bottom.OnComplete(() => { if (turnBottom != null) turnBottom(); });
+                bottom.OnComplete(() => { if (turnTroops != null) turnTroops(); });
 
                 topORbottom = 1;
 

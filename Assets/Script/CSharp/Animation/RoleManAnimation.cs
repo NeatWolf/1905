@@ -33,7 +33,7 @@ public class RoleManAnimation : MonoBehaviour
     /// </summary>
     GameObject roleTexture;
     GameObject intro;
-    GameObject EquipGroup, ScrollView, BG_Equip, BG_Level, BG_Food,TopMask,BottomMask;
+    GameObject EquipGroup, ScrollView, BG_Equip, BG_Level, BG_Food, TopMask, BottomMask;
     Button btn_backE;
 
     ScrollRect scrollRect;
@@ -67,8 +67,8 @@ public class RoleManAnimation : MonoBehaviour
         BG_Food = GetComponent<UISubObject>().go[5];
         btn_backE = GetComponent<UISubObject>().go[13].GetComponent<Button>();
         scrollRect = GetComponent<UISubObject>().go[14].GetComponent<ScrollRect>();
-         TopMask=GetComponent<UISubObject>().go[15];
-         BottomMask=GetComponent<UISubObject>().go[16];
+        TopMask = GetComponent<UISubObject>().go[15];
+        BottomMask = GetComponent<UISubObject>().go[16];
 
         BG_Equip.SetActive(false);
         BG_Level.SetActive(false);
@@ -99,7 +99,7 @@ public class RoleManAnimation : MonoBehaviour
     }
 
 
-  
+
 
 
 
@@ -174,32 +174,37 @@ public class RoleManAnimation : MonoBehaviour
         roleName.GetComponent<Image>().DOColor(new Color(0.054f, 0.368f, 0.360f, 0.4f), 1);
 
 
-        
+
         //
         for (int i = 0; i < EquipGroup.transform.childCount; i++)
         {
             EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosX(EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x - 800, 0.5f + 0.2f * i).SetEase(Ease.InOutBack);
         }
-        Invoke("EquipEnter",1.7f);
+        Invoke("EquipEnter", 1.7f);
 
     }
-    void EquipEnter(){
-        EquipGroup.transform.localPosition-=new Vector3(800,0,0);
-        for(int i=0;i<EquipGroup.transform.childCount;i++){
-            EquipGroup.transform.GetChild(i).localPosition+=new Vector3(800,0,0);
+    void EquipEnter()
+    {
+        EquipGroup.transform.localPosition -= new Vector3(800, 0, 0);
+        for (int i = 0; i < EquipGroup.transform.childCount; i++)
+        {
+            EquipGroup.transform.GetChild(i).localPosition += new Vector3(800, 0, 0);
         }
         TopMask.SetActive(false);
         BottomMask.SetActive(false);
     }
-    void EquipExit(){
-        EquipGroup.transform.localPosition+=new Vector3(800,0,0);
-        for(int i=0;i<EquipGroup.transform.childCount;i++){
-            EquipGroup.transform.GetChild(i).localPosition-=new Vector3(800,0,0);
+    void EquipExit()
+    {
+        EquipGroup.transform.localPosition += new Vector3(800, 0, 0);
+        for (int i = 0; i < EquipGroup.transform.childCount; i++)
+        {
+            EquipGroup.transform.GetChild(i).localPosition -= new Vector3(800, 0, 0);
         }
         TopMask.SetActive(false);
         BottomMask.SetActive(false);
     }
-    
+    //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
+
     //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
 
     /// <summary>
@@ -239,14 +244,14 @@ public class RoleManAnimation : MonoBehaviour
         roleName.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0.4f), 1);
 
         //
-        
+
 
         for (int i = 0; i < EquipGroup.transform.childCount; i++)
         {
-            
+
             EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosX(EquipGroup.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x + 800, 0.5f + 0.2f * i).SetEase(Ease.InOutBack);
         }
-        
+
 
         //BG_Equip.GetComponent<Image>().enabled=false;
         ScrollView.GetComponent<RectTransform>().DOAnchorPosX(ScrollView.GetComponent<RectTransform>().anchoredPosition.x + 800, 1).SetEase(Ease.InOutBack).onComplete = () =>
@@ -255,7 +260,8 @@ public class RoleManAnimation : MonoBehaviour
             btn_backE.gameObject.SetActive(false);
 
             BG_Equip.SetActive(false);
-            
+
+
 
             intro.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -264,7 +270,7 @@ public class RoleManAnimation : MonoBehaviour
             intro.transform.GetChild(0).DOLocalMoveY(intro.transform.GetChild(1).localPosition.y + 1500, 0.1f);
 
         };
-        Invoke("EquipExit",1.7f);
+        Invoke("EquipExit", 1.7f);
 
 
     }

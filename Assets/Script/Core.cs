@@ -7,24 +7,32 @@ using XLua;
 using System.IO;
 using DG.Tweening;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
+
 [GCOptimize]
 public struct CallLua
 {
     [CSharpCallLua]
     public delegate void GameObjectEvent(GameObject go);
-    
+
     public UnityAction start;
     public UnityAction update;
     public UnityAction SecondUpdate;
 }
 
+[LuaCallCSharp]
 public class Core : MonoBehaviour
 {
+    public GameObject[] dontDestroy;
     public static Core Instance;
     LuaTable table;
     CallLua callLua;
     float timer = 0;
-    
+    [LuaCallCSharp]
+    public float test = 666;
+    [LuaCallCSharp]
+    public double test2 = 6669999;
+
     void Awake()
     {
         Instance = this;
@@ -33,8 +41,11 @@ public class Core : MonoBehaviour
         //初始化AB包，复制到可写目录下
         ABInit();
 
-        DontDestroyOnLoad(GameObject.Find("UI"));
-        DontDestroyOnLoad(GameObject.Find("Bootstrap"));
+        for (int i = 0; i < dontDestroy.Length; i++)
+        {
+            DontDestroyOnLoad(dontDestroy[i]);
+        }
+        SceneManager.LoadScene("Empty");
 
         table = Luax.Instance.DoString("require('Core.lua.txt')").Get<LuaTable>("Core");
         callLua.start = table.Get<UnityAction>("Start");
@@ -44,14 +55,14 @@ public class Core : MonoBehaviour
 
         //Image bar = GameObject.Find("Bar").GetComponent<Image>();
 
-        
+
     }
 
     void Start()
     {
         callLua.start();
     }
-    
+
     void Update()
     {
         if (Time.time - timer > 1)
@@ -113,5 +124,18 @@ public class Core : MonoBehaviour
                 File.WriteAllBytes(filePath, www.bytes);
             }
         }
+    }
+
+    [LuaCallCSharp]
+    public void LoadScene(string name, UnityAction call)
+    {
+        StartCoroutine(LoadSceneSync(name, call));
+    }
+
+    IEnumerator LoadSceneSync(string name, UnityAction call)
+    {
+        AsyncOperation async = SceneManager.LoadSceneAsync(name);
+        yield return async;
+        call();
     }
 }

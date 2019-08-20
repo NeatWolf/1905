@@ -1,0 +1,12 @@
+MapCtrl = {}
+
+MapCtrl.Panel = nil
+
+function MapCtrl:Init(index)
+    print("进入" .. index .. "号探索大地图")
+
+    -- 旋转摄像机
+    CS.UnityEngine.GameObject.Find("ExploreIn/CameraRotate").transform:Rotate(0, 90 * index, 0)
+
+
+end

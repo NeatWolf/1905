@@ -17,15 +17,30 @@ end
 -- 淡入淡出过场
 -- time：float：总时间
 -- event：委托
-function UICtrl:CutTo(time, event)
-    UICtrl:BlackMaskAni(
-        1,
-        time * 0.5,
-        function()
-            event()
-            UICtrl:BlackMaskAni(0, time * 0.5)
+-- delay: 延迟执行
+function UICtrl:CutTo(time, event, delay)
+    if delay == nil then
+        UICtrl:BlackMaskAni(
+            1,
+            time * 0.5,
+            function()
+                event()
+                UICtrl:BlackMaskAni(0, time * 0.5)
+            end
+        )
+    else
+        Core.timer = delay
+        Core.timerEvent = function()
+            UICtrl:BlackMaskAni(
+                1,
+                time * 0.5,
+                function()
+                    event()
+                    UICtrl:BlackMaskAni(0, time * 0.5)
+                end
+            )
         end
-    )
+    end
 end
 
 --[[
@@ -56,20 +71,28 @@ function UICtrl:Back2MainScene()
     UICtrl:CutTo(
         0.5,
         function()
+            CS.UnityEngine.SceneManagement.SceneManager.LoadScene("Empty")
+
             -- 销毁除MainSceneUI以外的组件
-            if LoadManager.findedParents["UI"] == nil then
-                LoadManager.findedParents["UI"] = CS.UnityEngine.GameObject.Find("UI")
-            end
-            for i = 0, LoadManager.findedParents["UI"].transform.childCount - 1 do
-                local go = LoadManager.findedParents["UI"].transform:GetChild(i)
-                if go.name ~= "MainSceneUI" and go.name ~= "CameraMask" then
-                    CS.UnityEngine.Object.Destroy(go.gameObject)
-                end
-            end
+            UICtrl:DestroyOthers()
+
             -- 激活主场景
             MainSceneCtrl:Init()
         end
     )
+end
+
+-- 销毁除MainSceneUI以外的组件
+function UICtrl:DestroyOthers()
+    if LoadManager.findedParents["UI"] == nil then
+        LoadManager.findedParents["UI"] = CS.UnityEngine.GameObject.Find("UI")
+    end
+    for i = 0, LoadManager.findedParents["UI"].transform.childCount - 1 do
+        local go = LoadManager.findedParents["UI"].transform:GetChild(i)
+        if go.name ~= "MainSceneUI" and go.name ~= "CameraMask" then
+            CS.UnityEngine.Object.Destroy(go.gameObject)
+        end
+    end
 end
 
 --[[

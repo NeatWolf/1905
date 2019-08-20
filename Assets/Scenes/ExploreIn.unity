@@ -219,10 +219,6 @@ PrefabInstance:
       propertyPath: go.Array.data[7]
       value: 
       objectReference: {fileID: 472113900}
-    - target: {fileID: 165119014, guid: 1418224b2dfa48c419ed5b571c2b8b08, type: 3}
-      propertyPath: sceneIndex
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1476370367843758302, guid: 1418224b2dfa48c419ed5b571c2b8b08,
         type: 3}
       propertyPath: m_AnchorMin.y

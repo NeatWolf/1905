@@ -3,14 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Events;
 
 
 
 public class ExploreInAnimation : MonoBehaviour
 {
     public int sceneIndex = 0;
-    GameObject Img_Troops, copy, copyTop, group, package, listBG,packagePos;
-    Button btnBack,listBack;
+    GameObject Img_Troops, copy, copyTop, group, package, listBG, packagePos;
+    Button btnBack, listBack;
+    /// <summary>
+    /// 采集界面入场Action
+    /// </summary>
+    public UnityAction Action_ExploreInEnterAnimate;
+    /// <summary>
+    /// 采集界面出场Action
+    /// </summary>
+    public UnityAction Action_ExploreInExitAnimate;
+    /// <summary>
+    /// 背包界面入场动画Action
+    /// </summary>
+    public UnityAction Action_ExploreInPackageEnterAnimate;
+    /// <summary>
+    /// 背包界面出场界面Action
+    /// </summary>
+    public UnityAction Action_ExploreInPackageExitAnimate;
+
     private void Awake()
     {
         Img_Troops = GetComponent<UISubObject>().go[0];
@@ -20,8 +38,8 @@ public class ExploreInAnimation : MonoBehaviour
         package = GetComponent<UISubObject>().go[4];
         btnBack = GetComponent<UISubObject>().buttons[0];
         listBG = GetComponent<UISubObject>().go[5];
-        listBack= GetComponent<UISubObject>().buttons[1];
-        packagePos=GetComponent<UISubObject>().go[6];
+        listBack = GetComponent<UISubObject>().buttons[1];
+        packagePos = GetComponent<UISubObject>().go[6];
 
 
 
@@ -32,7 +50,10 @@ public class ExploreInAnimation : MonoBehaviour
         ExploreInEnterAnimate();
         //背包界面入场前设置
         package.transform.localScale = Vector3.zero;
-        package.transform.position=btnBack.transform.position;
+        package.transform.position = btnBack.transform.position;
+        Action_ExploreInEnterAnimate=()=>{
+            Debug.Log("采集Action");
+        };
     }
 
     private void Start()
@@ -52,22 +73,30 @@ public class ExploreInAnimation : MonoBehaviour
     void ExploreInEnterAnimate()
     {
 
-
-        group.GetComponent<RectTransform>().DOAnchorPosX(-1000, 1).From().SetEase(Ease.InOutBack).OnComplete(() =>
-        {
+        
            
 
-        });
+        group.GetComponent<RectTransform>().DOAnchorPosX(-1000, 1).From().SetEase(Ease.InOutBack);
 
 
 
 
         for (int i = 0; i < 4; i++)
         {
-            Img_Troops.transform.GetChild(i + 1).DOMove(copy.transform.GetChild(i + 1).transform.position, 0.5f + 0.2f * (5 - i)).SetEase(Ease.InOutBack);
-            Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
-        }
+            
 
+            Img_Troops.transform.GetChild(i + 1).DOMove(copy.transform.GetChild(i + 1).transform.position, 0.5f + 0.2f * (5 - i)).SetEase(Ease.InOutBack);
+            Tweener t= Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
+            if (i==3)
+            {
+                t.onComplete=()=>{
+                        if (Action_ExploreInEnterAnimate != null)  Action_ExploreInEnterAnimate();
+                        
+                };
+                 
+            }
+        }
+        
 
     }
 
@@ -116,11 +145,13 @@ public class ExploreInAnimation : MonoBehaviour
     /// <summary>
     /// 背包界面出场动画
     /// </summary>
-    void ExploreInPackageExitAnimate(){
+    void ExploreInPackageExitAnimate()
+    {
         package.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 1f).SetEase(Ease.InOutBack);
 
         package.transform.DOScale(0, 1).SetEase(Ease.InOutBack);
-        package.transform.DOMove(btnBack.transform.position, 1).onComplete=()=>{
+        package.transform.DOMove(btnBack.transform.position, 1).onComplete = () =>
+        {
             package.SetActive(false);
         };
     }

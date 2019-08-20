@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Plugins/Sirenix/Odin Inspector/Config/Editor/GeneralDrawerConfig.asset.meta
+guid: 382c39e1a6616614ca10baaa86bd61b1
+=======
+guid: 3425b17243bd5c64393e28f9bd687fcb
+>>>>>>> 137c783448439ea9e4410620e0d9bd35dd5795a1:Assets/ThirdParrty/QHierarchy/Editor/Scripts/pdata/QSettingsObjectAsset.asset.meta
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

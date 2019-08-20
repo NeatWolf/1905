@@ -33,6 +33,7 @@ function RoleCtrl:Init()
         function()
             DetailCtrl:ShowDetails(self.CurrentHero)
             self.RoleManAniCSharp:EquipClickAnimate(self.RoleSelectAniCSharp.currentRoleID)
+            
         end
     )
 

@@ -119,8 +119,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 247314213}
   m_HandleRect: {fileID: 247314212}
   m_Direction: 2
-  m_Value: 0.99999875
-  m_Size: 0.5517411
+  m_Value: 0.99999523
+  m_Size: 0.5517431
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3276,7 +3276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &639309401406793137
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3427,7 +3427,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041505010501280297}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 
@@ -3515,6 +3515,7 @@ MonoBehaviour:
   images: []
   go:
   - {fileID: 637255329732543546}
+  - {fileID: 1697713731}
   fx: []
 --- !u!114 &7224734697953107320
 MonoBehaviour:
@@ -4300,8 +4301,8 @@ MonoBehaviour:
     textComponent: {fileID: 1515525485373428613}
     characterCount: 4
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -4802,7 +4803,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6516756671071374357}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
   m_Name: 

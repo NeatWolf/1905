@@ -11,8 +11,8 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Warehouse, btn_Lottery, btn_AV, btn_Explore;
     Camera mainCam, UICam;
 
-    Color color,btn_Explore_Color;
-    GameObject avChoice;
+    Color color, btn_Explore_Color;
+    GameObject avChoice, info;
 
     private void Awake()
     {
@@ -25,7 +25,8 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Warehouse = subObjs.buttons[5];
         btn_Lottery = subObjs.buttons[0];
         btn_AV = subObjs.buttons[1];
-        avChoice=subObjs.go[0];
+        avChoice = subObjs.go[0];
+        info = subObjs.go[1];
 
         btn_Explore = GameObject.Find("Main Scene/Btn_Explore/P_Explore/Explore").GetComponent<Button>();
         UICam = GameObject.Find("UICamera").GetComponent<Camera>();
@@ -44,10 +45,10 @@ public class MainMenuAnimation : MonoBehaviour
         StartCoroutine("ButtonEnter");
         btn_Explore.transform.localScale = Vector3.one;
         btn_Explore.GetComponent<Image>().color = btn_Explore_Color;
-        avChoice.GetComponent<Image>().DOColor(new Color(1,1,1,0),0.001f);
-        avChoice.transform.localScale=Vector3.zero;
-        
-        
+        avChoice.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.001f);
+        avChoice.transform.localScale = Vector3.zero;
+
+
 
 
 
@@ -89,9 +90,9 @@ public class MainMenuAnimation : MonoBehaviour
         btn_AV.onClick.AddListener(() =>
         {
             avChoice.SetActive(true);
-            avChoice.GetComponent<Image >().DOColor(new Color(1,1,1,1),1f).SetEase(Ease.InOutBack);
-            avChoice.transform.DOScale(0.03735288f,1).SetEase(Ease.InOutBack);
-            avChoice.transform. DOMove(btn_AV.transform.position,1).From();
+            avChoice.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 1f).SetEase(Ease.InOutBack);
+            avChoice.transform.DOScale(0.03735288f, 1).SetEase(Ease.InOutBack);
+            avChoice.transform.DOMove(btn_AV.transform.position, 1).From();
         });
 
         //探索按钮
@@ -101,7 +102,7 @@ public class MainMenuAnimation : MonoBehaviour
             btn_Explore.transform.DOScale(1.2f, 0.3f);
             btnActive_Move();
             // mainCam.GetComponent<DOTweenPath>().DOPlay();
-            
+
             // UICam.GetComponent<DOTweenPath>().DOPlay();
 
         });
@@ -136,6 +137,9 @@ public class MainMenuAnimation : MonoBehaviour
 
         btn_Lottery.transform.DOLocalMoveX(-1000, 0.5f);
         btn_Lottery.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
+        
+        info.transform.DOLocalMoveX(-1000, 0.5f);
+        info.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
 
 
         btn_AV.transform.DOScale(0, 0.5f);
@@ -173,6 +177,8 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Warehouse.GetComponent<Image>().color = color;
         btn_Lottery.transform.localPosition += new Vector3(-1000, 0, 0);
         btn_Lottery.GetComponent<Image>().color = color;
+        info.transform.localPosition += new Vector3(-1000, 0, 0);
+        info.GetComponent<Image>().color = color;
 
     }
 
@@ -188,9 +194,11 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Fabricate.transform.DOLocalMoveX(-447, 0.5f);
         btn_Warehouse.transform.DOLocalMoveX(-447, 0.5f);
         btn_Lottery.transform.DOLocalMoveX(300, 0.5f);
+        info.transform.DOLocalMoveX(300, 0.5f);
 
         btn_AV.transform.DOScale(3, 0.5f);
         btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 0.5f);
+
     }
 
 

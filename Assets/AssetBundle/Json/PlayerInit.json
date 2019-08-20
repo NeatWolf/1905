@@ -6,6 +6,10 @@
 	"StoreLevel":"1",
 	"Money":"10000",
 	"Diamond":"100",
+	"Troops":[
+		"3,1,2,4",
+		"5,6,7,8"
+	],
 	"Heros":
 	[
 		{"HeroID":"3" , "Level":"3" , "EnergyMax":"30" , "EnergyNow":"10" , "ColBuff":"1,1,1" , "ColBuffAdd":"0,0.1" , "InsBuff":"3,0.9" , "Equips":"18002"},

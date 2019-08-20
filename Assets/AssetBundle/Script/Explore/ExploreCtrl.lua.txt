@@ -3,6 +3,7 @@ ExploreCtrl = {}
 ExploreCtrl.Panel = nil
 ExploreCtrl.Scene = nil
 ExploreCtrl.selectedTroop = 1
+ExploreCtrl.selectedRole = nil
 
 function ExploreCtrl:Init()
     print("进入探索")
@@ -11,19 +12,28 @@ function ExploreCtrl:Init()
     core:LoadScene(
         "Explore",
         function()
-            ExploreCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
-            ExploreCtrl.Scene = CS.UnityEngine.GameObject.Find("/Explore/CityPlane/Canvas"):GetComponent("UISubObject")
+            self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
+            self.Scene = CS.UnityEngine.GameObject.Find("/Explore/CityPlane/Canvas"):GetComponent("UISubObject")
 
-            -- 注册委托
-            ExploreCtrl.Panel.buttons[1].onClick:AddListener(
+            -- 注册返回委托
+            self.Panel.buttons[1].onClick:AddListener(
                 function()
                     if not ExploreCtrl.Panel.go[0].activeSelf then
                         UICtrl:Back2MainScene()
                     end
                 end
             )
+            local turn = function()
+                self:TurnTroops()
+            end
+            -- 添加切换编队委托
+            self.Panel:GetComponent("ExploreAnimate").turnTroops = turn
+            -- 添加左右切换编队按钮委托
+            self.Panel.buttons[2].onClick:AddListener(turn)
+            self.Panel.buttons[3].onClick:AddListener(turn)
+
             -- 添加按钮委托
-            for i = 0, ExploreCtrl.Scene.buttons.Length - 1 do
+            for i = 0, self.Scene.buttons.Length - 1 do
                 ExploreCtrl.Scene.buttons[i].onClick:AddListener(
                     function()
                         -- 转场
@@ -51,8 +61,23 @@ function ExploreCtrl:Init()
                 )
             end
 
-            -- 刷新编队
+            -- 添加点击角色头像委托
+            for i = 4, 7 do
+                self.Panel.buttons[i].onClick:AddListener(
+                    function()
+                        -- 若当前选择不等于i则切换到当前
+                        if self.selectedRole ~= i then
+                            CS.DG.Tweening.DOTweenModuleUI.DOFade(self.Panel.buttons[self.selectedRole].GetComponent("Image"), 0.2, 0.15)
+                            self.selectedRole = i
+                            CS.DG.Tweening.DOTweenModuleUI.DOFade(self.Panel.buttons[self.selectedRole].GetComponent("Image"), 0.5, 0.15)
+                        end
+                    end
+                )
+            end
+            self.Panel.buttons[4].onClick.Invoke()
 
+            -- 刷新两个编队 角色表
+            self.Display()
         end
     )
 
@@ -60,16 +85,22 @@ function ExploreCtrl:Init()
 end
 
 -- 加载所需数据
-function ExploreCtrl:LoadData( )
-    
+function ExploreCtrl:LoadData()
 end
 
--- 显示两组编队
-function ExploreCtrl:DisplayTroops( )
-    
+-- 刷新两个编队 角色表
+function ExploreCtrl:Display()
+    -- 显示8个在队伍中的头像
+    -- 加载未在队伍中的角色
+    -- 添加成员改变委托
+    -- 刷新队伍名称和三项属性
 end
 
 -- 切换编队
-function ExploreCtrl:TurnTroops( )
-    
+function ExploreCtrl:TurnTroops()
+    -- Lua通用三目运算符形式
+    self.selectedTroop = (self.selectedTroop == 1 and {2} or {1})[1]
+    print("切换到" .. self.selectedTroop .. "编队")
+    -- 刷新显示
+    self.Display()
 end

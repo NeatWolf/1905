@@ -51,9 +51,7 @@ public class ExploreInAnimation : MonoBehaviour
         //背包界面入场前设置
         package.transform.localScale = Vector3.zero;
         package.transform.position = btnBack.transform.position;
-        Action_ExploreInEnterAnimate=()=>{
-            Debug.Log("采集Action");
-        };
+
     }
 
     private void Start()
@@ -73,8 +71,8 @@ public class ExploreInAnimation : MonoBehaviour
     void ExploreInEnterAnimate()
     {
 
-        
-           
+
+
 
         group.GetComponent<RectTransform>().DOAnchorPosX(-1000, 1).From().SetEase(Ease.InOutBack);
 
@@ -83,20 +81,21 @@ public class ExploreInAnimation : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            
+
 
             Img_Troops.transform.GetChild(i + 1).DOMove(copy.transform.GetChild(i + 1).transform.position, 0.5f + 0.2f * (5 - i)).SetEase(Ease.InOutBack);
-            Tweener t= Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
-            if (i==3)
+            Tweener t = Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
+            if (i == 3)
             {
-                t.onComplete=()=>{
-                        if (Action_ExploreInEnterAnimate != null)  Action_ExploreInEnterAnimate();
-                        
+                t.onComplete = () =>
+                {
+                    if (Action_ExploreInEnterAnimate != null) Action_ExploreInEnterAnimate();
+
                 };
-                 
+
             }
         }
-        
+
 
     }
 
@@ -108,26 +107,39 @@ public class ExploreInAnimation : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             Img_Troops.transform.GetChild(i + 1).DOMove(copyTop.transform.GetChild(i + 1).transform.position, 0.5f + 0.2f * (5 - i)).SetEase(Ease.InOutBack);
-            Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
+            Tweener t = Img_Troops.transform.GetChild(i + 1).DORotate(new Vector3(0, 0, 360), 1 + 0.2f * (5 - i), RotateMode.FastBeyond360);
+            if (i == 3)
+            {
+                t.onComplete = () =>
+                {
+                    if (Action_ExploreInExitAnimate != null) Action_ExploreInExitAnimate();
+
+                };
+
+            }
         }
     }
     /// <summary>
-    /// 
+    /// 信息列表刷新动画,待完善
     /// </summary>
     void ExploreInInfoEnterAnimate()
     {
-        GridLayoutGroup glg = group.GetComponent<GridLayoutGroup>();
+        //列表刷新动画
+        // GridLayoutGroup glg = group.GetComponent<GridLayoutGroup>();
         //  UnityEditorInternal.ComponentUtility.CopyComponent(glg);
-        DestroyImmediate(group.GetComponent<GridLayoutGroup>());
-        for (int i = 0; i < group.transform.childCount; i++)
-        {
-            group.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosY(group.transform.GetChild(group.transform.childCount - 1).GetComponent<RectTransform>().anchoredPosition.y, 1).From().SetEase(Ease.InOutBack).SetDelay(0.5f).onComplete = () =>
-            {
+        // DestroyImmediate(group.GetComponent<GridLayoutGroup>());
+        // for (int i = 0; i < group.transform.childCount; i++)
+        // {
+        //     group.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPosY(group.transform.GetChild(group.transform.childCount - 1).GetComponent<RectTransform>().anchoredPosition.y, 1).From().SetEase(Ease.InOutBack).SetDelay(0.5f).onComplete = () =>
+        //     {
 
-                // UnityEditorInternal.ComponentUtility.PasteComponentAsNew(group);
-                group.GetComponent<GridLayoutGroup>().enabled = true;
-            };
-        }
+        //         // UnityEditorInternal.ComponentUtility.PasteComponentAsNew(group);
+        //         group.GetComponent<GridLayoutGroup>().enabled = true;
+        //     };
+        // }
+
+        
+
     }
 
     /// <summary>
@@ -140,7 +152,10 @@ public class ExploreInAnimation : MonoBehaviour
         package.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 1f).SetEase(Ease.InOutBack);
 
         package.transform.DOScale(1, 1).SetEase(Ease.InOutBack);
-        package.transform.DOMove(packagePos.transform.position, 1).SetEase(Ease.InOutBack);
+        package.transform.DOMove(packagePos.transform.position, 1).SetEase(Ease.InOutBack).onComplete=()=>{
+            if (Action_ExploreInPackageEnterAnimate != null) Action_ExploreInPackageEnterAnimate();
+        };
+
     }
     /// <summary>
     /// 背包界面出场动画
@@ -153,6 +168,7 @@ public class ExploreInAnimation : MonoBehaviour
         package.transform.DOMove(btnBack.transform.position, 1).onComplete = () =>
         {
             package.SetActive(false);
+            if (Action_ExploreInPackageExitAnimate != null) Action_ExploreInPackageExitAnimate();
         };
     }
 

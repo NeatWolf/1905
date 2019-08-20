@@ -748,7 +748,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5741628991308650412}
   - component: {fileID: 5741628991308650411}
-  - component: {fileID: 5741628991308650410}
   - component: {fileID: 5741628991308650413}
   - component: {fileID: 5741628991308650414}
   m_Layer: 0
@@ -815,14 +814,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5741628991308650410
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5741628991308650409}
-  m_Enabled: 1
 --- !u!114 &5741628991308650413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -946,15 +937,15 @@ MonoBehaviour:
   path:
     wpLengths:
     - 0
-    - 14.047211
+    - 1301.8088
     type: 0
     subdivisionsXSegment: 10
     subdivisions: 20
     wps:
-    - {x: 1126.7404, y: 557.25275, z: 177.17676}
+    - {x: -0.58483887, y: -40.747253, z: -63.323242}
     - {x: 1127.3002, y: 557.41125, z: 191.21191}
     controlPoints: []
-    length: 14.047211
+    length: 1301.8088
     isFinalized: 1
     timesTable:
     - 0
@@ -969,7 +960,7 @@ MonoBehaviour:
   showIndexes: 1
   showWpLength: 0
   pathColor: {r: 1, g: 1, b: 1, a: 0.5}
-  lastSrcPosition: {x: 1126.7404, y: 557.25275, z: 177.17676}
+  lastSrcPosition: {x: -0.58483887, y: -40.747253, z: -63.323242}
   wpsDropdown: 0
   dropToFloorOffset: 0
 --- !u!1 &6067719478651880549

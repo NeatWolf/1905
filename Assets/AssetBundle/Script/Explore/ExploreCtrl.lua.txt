@@ -14,7 +14,7 @@ function ExploreCtrl:Init()
             ExploreCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
             ExploreCtrl.Scene = CS.UnityEngine.GameObject.Find("/Explore/CityPlane/Canvas"):GetComponent("UISubObject")
 
-            -- 注册委托
+            -- 注册返回委托
             ExploreCtrl.Panel.buttons[1].onClick:AddListener(
                 function()
                     if not ExploreCtrl.Panel.go[0].activeSelf then
@@ -22,6 +22,19 @@ function ExploreCtrl:Init()
                     end
                 end
             )
+            -- 添加切换编队委托
+            ExploreCtrl.Panel:GetComponent("ExploreAnimate").turnTop = function()
+                self.selectedTroop = 1
+                print("切换到" .. tostring(self.selectedTroop) .. "编队")
+            end
+            ExploreCtrl.Panel:GetComponent("ExploreAnimate").turnBottom = function()
+                self.selectedTroop = 2
+                print("切换到" .. tostring(self.selectedTroop) .. "编队")
+            end
+            -- 添加编队按钮委托
+            -- 添加左右切换编队按钮委托
+            -- 添加成员改变委托
+
             -- 添加按钮委托
             for i = 0, ExploreCtrl.Scene.buttons.Length - 1 do
                 ExploreCtrl.Scene.buttons[i].onClick:AddListener(
@@ -52,7 +65,6 @@ function ExploreCtrl:Init()
             end
 
             -- 刷新编队
-
         end
     )
 
@@ -60,16 +72,13 @@ function ExploreCtrl:Init()
 end
 
 -- 加载所需数据
-function ExploreCtrl:LoadData( )
-    
+function ExploreCtrl:LoadData()
 end
 
 -- 显示两组编队
-function ExploreCtrl:DisplayTroops( )
-    
+function ExploreCtrl:DisplayTroops()
 end
 
 -- 切换编队
-function ExploreCtrl:TurnTroops( )
-    
+function ExploreCtrl:TurnTroops()
 end

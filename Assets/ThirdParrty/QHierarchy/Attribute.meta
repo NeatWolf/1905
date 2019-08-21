@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Plugins/Sirenix/Odin Inspector/Config/Editor/InspectorConfig.asset.meta
-guid: 5e2fa673c3cf634409831511bd9650eb
-NativeFormatImporter:
-  externalObjects: {}
-  mainObjectFileID: 11400000
-=======
 guid: 602672b16b2911c47892de4f436d5894
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
->>>>>>> 137c783448439ea9e4410620e0d9bd35dd5795a1:Assets/ThirdParrty/QHierarchy/Attribute.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 

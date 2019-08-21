@@ -41,14 +41,13 @@ function EntrepotCtrl:Init()
 
     -- 加载视图脚本
     LoadManager:LoadLua("Entrepot", "EntrepotView")
-    self:ShowEntrepot(self:GetEntrepotItems())
+    self:ShowEntrepot()
 
     -- 加载仓库控制脚本
     LoadManager:LoadLua("Warehouse", "WarehouseCtrl")
     WarehouseCtrl:Init()
 
 end
-
 
 -- 从动态数据中获取已上架的物品
 function EntrepotCtrl:GetEntrepotItems()
@@ -60,7 +59,7 @@ function EntrepotCtrl:GetEntrepotItems()
 end
 
 -- 刷新货架的显示
-function EntrepotCtrl:ShowEntrepot(itemsList)
-    self.EntrepotItems = itemsList
+function EntrepotCtrl:ShowEntrepot()
+    self.EntrepotItems = self:GetEntrepotItems()
     EntrepotView:ShowEntrepotItems(self.EntrepotItems)
 end

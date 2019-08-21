@@ -113,7 +113,8 @@ end
 
 function UICtrl:LoadItem(itemData, parent, clickEvent)
     local _Item = {}
-    _Item.UISub = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Button"), parent):GetComponent("UISubObject")
+    _Item.Obj = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Button"), parent)
+    _Item.UISub = _Item.Obj:GetComponent("UISubObject")
     _Item.data = ModelTool:CopyTable(itemData)
     _Item.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Item.data.ItemID, CS.UnityEngine.Sprite)
     _Item.UISub.images[0].rectTransform.localPosition = CS.UnityEngine.Vector3.zero

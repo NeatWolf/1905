@@ -40,8 +40,7 @@ function DetailView:ShowDetailInfo(heroData, equipList, equipments)
     -- 显示下方装备列表（未装备）
     LoadManager:DeleteAllChilds(DetailCtrl.EquipPanel.go[0])
     for k, v in pairs(equipments) do
-        local _Equipment =
-            UICtrl:LoadItem(
+        local _Equipment = UICtrl:LoadItem(
             v,
             DetailCtrl.EquipPanel.go[0].transform,
             function()

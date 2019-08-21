@@ -5064,12 +5064,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1785291373, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2068927385, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0.00012207031
       objectReference: {fileID: 0}
     - target: {fileID: 2068927385, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1424020527170399560, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1614122489, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
@@ -5159,12 +5168,12 @@ PrefabInstance:
     - target: {fileID: 2537866388030978744, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2537866388030978744, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2537866388030978744, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf,
         type: 3}

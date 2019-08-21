@@ -332,12 +332,10 @@ function MakerCtrl:ShowItems()
     -- 对道具列表进行排序
     local _list1,_list2 = StaticDataModel:ScreenList(items, "CouldSyn", 1, "true")
     --print(#_list1 .. " " .. #_list2)
+    StaticDataModel:SortItem(_list1, self.SortWay, self.ChangeWay)
+    StaticDataModel:SortItem(_list2, self.SortWay, self.ChangeWay)
     items = ModelTool:MergeTable(_list1,_list2)
-    StaticDataModel:SortItem(items, self.SortWay, self.ChangeWay)
 
-    -- 已经排好序的道具列表
-    --ModelTool:SetMeta(items)
-    --print(items)
 
     -- 生成Cell
     for k, v in pairs(items) do

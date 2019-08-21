@@ -178,7 +178,7 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Lottery.transform.localPosition += new Vector3(-1000, 0, 0);
         btn_Lottery.GetComponent<Image>().color = color;
         info.transform.localPosition += new Vector3(-1000, 0, 0);
-        info.GetComponent<Image>().color = color;
+        // info.GetComponent<Image>().color = color;
 
     }
 

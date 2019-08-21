@@ -12,16 +12,18 @@ WarehouseCtrl.SortWay = nil
 WarehouseCtrl.ChangeWay = nil
 
 function WarehouseCtrl:Init()
-    print("进入仓库")
+    -- print("进入仓库")
     self.Panel = EntrepotCtrl.Panel.go[6]:GetComponent("UISubObject")
     self.Ani = EntrepotCtrl.Panel.go[6]:GetComponent("WarehouseAnimation")
+    self.Panel.buttons[0].gameObject:SetActive(false)
 
     -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            self.Ani:WarehouseExitAnimate()
-            WarehouseCtrl.Panel.buttons[0].gameObject:SetActive(false)
+            EntrepotCtrl:ShowEntrepot()
             EntrepotCtrl.Panel.buttons[0].gameObject:SetActive(true)
+            WarehouseCtrl.Panel.buttons[0].gameObject:SetActive(false)
+            self.Ani:WarehouseExitAnimate()
         end
     )
 
@@ -57,25 +59,18 @@ function WarehouseCtrl:Init()
     LoadManager:LoadLua("Warehouse", "CountChoiceCtrl")
     CountChoiceCtrl:Init()
 
-    for k,v in pairs(PlayerDataModel.PlayerData.Items) do
-        if v.ItemID == "11008" then
-            print(PlayerDataModel.PlayerData.Items[k].ItemID .. ": " .. PlayerDataModel.PlayerData.Items[k].Count)
-            print(PlayerDataModel.CompletePlayerData.Items[k].ItemID .. ": " .. PlayerDataModel.CompletePlayerData.Items[k].Count)
-            break
-        end
-        
-    end
-
 end
 
--- 获取需要显示的道具列表
+
+--[[
+    @desc: 获取需要显示的道具列表
+    @return: 道具列表
+]]
 function WarehouseCtrl:GetItemsList()
     -- 获取非卷轴类的道具
     local _,_needItems = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Items, "Type", 1, "0")
     -- 筛选货架上的和非货架上的
     local _itemsOn,_itemsDown = StaticDataModel:ScreenList(_needItems, "IsOnShelf", 1, "true")
-    -- print("_itemsOn: " .. #_itemsOn)
-    -- print("_itemsDown: " .. #_itemsDown)
     -- 分别按照排序条件排序
     StaticDataModel:SortItem(_itemsOn, self.SortWay, self.ChangeWay)
     StaticDataModel:SortItem(_itemsDown, self.SortWay, self.ChangeWay)
@@ -86,24 +81,65 @@ function WarehouseCtrl:GetItemsList()
 end
 
 
--- 显示仓库
+--[[
+    @desc: 显示仓库
+]]
 function WarehouseCtrl:ShowWarehouse()
     LoadManager:DeleteAllChilds(self.Panel.go[2].gameObject)
     local itemsList = self:GetItemsList()
     WarehouseView:ShowItemsList(itemsList)
 end
 
+function WarehouseCtrl:CouldDealItem(itemData)
+    local number = 0
+    for k,v in pairs(PlayerDataModel.PlayerData.Items) do
+        if v.IsOnShelf == "true" and v.ItemID ~= itemData.ItemID then
+            number = number + 1
+        end
+    end
+    if number < 16 then
+        return true
+    else
+        return false
+    end
+end
 
-function WarehouseCtrl:UpdateWarehouse(data1, data2)
-    
+function WarehouseCtrl:RequireDealItem(itemData, count, way)
+    local couldDeal = true
+    if way == 1 then
+        couldDeal = self:CouldDealItem(itemData)
+    end
+
+    if couldDeal == false then
+        -- 跳出弹窗，不可以进行上架
+        print("货架已满，不可以上架")
+    elseif way == 1 then
+        CountChoiceCtrl:ShowCountChoice(itemData)
+        self.Ani:CountChoiceEnterAnimate()
+    elseif way == -1 then
+        self:DealItem(itemData, count, way)
+    end
+
 end
 
 
--- 上架道具
-function WarehouseCtrl:PutOn(itemData, count)
-    local itemObj = nil
+--[[
+    @desc: 对道具进行操作
+    --@itemData: 道具完整信息
+	--@count: 数量
+	--@way: 1:上架 / -1:下架
+]]
+function WarehouseCtrl:DealItem(itemData, count, way)
+    if count == 0 then
+        return
+    end
+    -- 如果输入的数量小于0则默认为全部
+    if count < 0 then
+        count = tonumber(itemData.Count)
+    end
     count = ModelTool:FormatNum(count)
 
+    -- 获取不同状态的数据索引值
     local _indexTrue = -1
     local _indexFalse = -1
     for k,v in pairs(PlayerDataModel.PlayerData.Items) do
@@ -116,6 +152,8 @@ function WarehouseCtrl:PutOn(itemData, count)
         end
     end
 
+    -- 原来的道具位的button物体
+    local itemObj = nil
     for k,v in pairs(self.AllItems) do
         if v.ItemID == itemData.ItemID and v.IsOnShelf == itemData.IsOnShelf then
             itemObj = k
@@ -123,143 +161,124 @@ function WarehouseCtrl:PutOn(itemData, count)
         end
     end
 
-    -- 如果没有上架过
-    if _indexTrue == -1 then
-        -- 如果全部上架
-        if PlayerDataModel.PlayerData.Items[_indexFalse].Count == tostring(count) then
+    local _index0 = -1
+    local _index1 = -1
+    local _bool0 = ""
+    local _bool1 = ""
+    local _frameBool = false
+    if way == 1 then
+        _index0 = _indexFalse
+        _index1 = _indexTrue
+        _bool0 = "false"
+        _bool1 = "true"
+        _frameBool = true
+    elseif way == -1 then
+        _index0 = _indexTrue
+        _index1 = _indexFalse
+        _bool0 = "true"
+        _bool1 = "false"
+        _frameBool = false
+    end
 
-            PlayerDataModel.PlayerData.Items[_indexFalse].IsOnShelf = "true"
-            PlayerDataModel.CompletePlayerData.Items[_indexFalse].IsOnShelf = "true"
+    -- 如果没有不同状态的相同道具
+    if _index1 == -1 then
+        -- 如果全部进行上下架
+        if PlayerDataModel.PlayerData.Items[_index0].Count == tostring(count) then
+            -- 直接更改 原来的道具位 的属性
+            PlayerDataModel.PlayerData.Items[_index0].IsOnShelf = _bool1
+            PlayerDataModel.CompletePlayerData.Items[_index0].IsOnShelf = _bool1
 
-            self.AllItems[itemObj] = PlayerDataModel.CompletePlayerData.Items[_indexFalse]
-            itemObj:GetComponent("UISubObject").images[1].enabled = true
+            self.AllItems[itemObj] = PlayerDataModel.CompletePlayerData.Items[_index0]
+            itemObj:GetComponent("UISubObject").images[1].enabled = _frameBool
             
-
-        -- 如果仅上架一部分
+        -- 如果仅上下架一部分
         else
-            -- 未上架的道具位
-            PlayerDataModel.PlayerData.Items[_indexFalse].Count = tostring(tonumber(PlayerDataModel.PlayerData.Items[_indexFalse].Count) - count)
-            PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count = tostring(tonumber(PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count) - count)
+            -- 修改 原来的道具位
+            PlayerDataModel.PlayerData.Items[_index0].Count = tostring(tonumber(PlayerDataModel.PlayerData.Items[_index0].Count) - count)
+            PlayerDataModel.CompletePlayerData.Items[_index0].Count = tostring(tonumber(PlayerDataModel.CompletePlayerData.Items[_index0].Count) - count)
             
-            self.AllItems[itemObj] = PlayerDataModel.CompletePlayerData.Items[_indexFalse]
+            self.AllItems[itemObj] = PlayerDataModel.CompletePlayerData.Items[_index0]
             itemObj:GetComponent("UISubObject").texts[0].text = self.AllItems[itemObj].Count
 
-            -- 创建一个新的道具数据
-            local _trueItemData = ModelTool:CopyTable(PlayerDataModel.PlayerData.Items[_indexFalse])
-            _trueItemData.Count = tostring(count)
-            _trueItemData.IsOnShelf = "true"
-            table.insert(PlayerDataModel.PlayerData.Items, _trueItemData)
+            -- 创建 一个新状态的道具位
+            local _newItemData = ModelTool:CopyTable(PlayerDataModel.PlayerData.Items[_index0])
+            _newItemData.Count = tostring(count)
+            _newItemData.IsOnShelf = _bool1
+            table.insert(PlayerDataModel.PlayerData.Items, _newItemData)
            
-            local _trueItemData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Items[_indexFalse])
-            _trueItemData.Count = tostring(count)
-            _trueItemData.IsOnShelf = "true"
-            table.insert(PlayerDataModel.CompletePlayerData.Items, _trueItemData)
+            local _newItemData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Items[_index0])
+            _newItemData.Count = tostring(count)
+            _newItemData.IsOnShelf = _bool1
+            table.insert(PlayerDataModel.CompletePlayerData.Items, _newItemData)
 
 
-            -- 加载一个新button物体
-            local _itemButton = UICtrl:LoadItem(_trueItemData, itemObj.transform.parent)
+            -- 加载 一个新button物体
+            local _itemButton = UICtrl:LoadItem(_newItemData, itemObj.transform.parent)
             -- 添加事件
             _itemButton.UISub.buttons[0].onClick:AddListener(function()
-                self:ItemOnclick(_itemButton.UISub.gameObject)
+                self:ItemOnclick(_itemButton.Obj)
                 end
             )
-            -- 激活边框
-            _itemButton.UISub.images[1].enabled = true
+            -- 更改边框状态
+            _itemButton.UISub.images[1].enabled = _frameBool
             -- 更改button位置
             local trfIndex = itemObj.transform:GetSiblingIndex()
-            _itemButton.UISub.transform:SetSiblingIndex(trfIndex) 
+            if _frameBool == true then
+                _itemButton.Obj.transform:SetSiblingIndex(trfIndex)
+            else
+                _itemButton.Obj.transform:SetSiblingIndex(trfIndex + 1)
+            end
             
-            self.AllItems[_itemButton.UISub.gameObject] = _itemButton.data
+            self.AllItems[_itemButton.Obj] = _itemButton.data
         end
 
 
-    -- 如果有上架过
+    -- 如果有不同状态的相同道具，合并
     else
-        -- 如果全部上架
-        if PlayerDataModel.PlayerData.Items[_indexFalse].Count == tostring(count) then
-            -- 未上架的道具
-            PlayerDataModel.PlayerData.Items[_indexFalse] = nil
-            PlayerDataModel.CompletePlayerData.Items[_indexFalse] = nil
+        -- 如果全部进行上下架
+        if PlayerDataModel.PlayerData.Items[_index0].Count == tostring(count) then
+            -- 原本的道具位
+            PlayerDataModel.PlayerData.Items[_index0] = nil
+            PlayerDataModel.CompletePlayerData.Items[_index0] = nil
  
             self.AllItems[itemObj] = nil
             CS.UnityEngine.Object.Destroy(itemObj)
 
-        -- 如果仅上架一部分
+        -- 如果仅上下架一部分
         else
-            -- 未上架的道具
-            print(PlayerDataModel.PlayerData.Items[_indexFalse].ItemID .. ": " .. PlayerDataModel.PlayerData.Items[_indexFalse].Count)
-            print(PlayerDataModel.CompletePlayerData.Items[_indexFalse].ItemID .. ": " .. PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count)
-            PlayerDataModel.PlayerData.Items[_indexFalse].Count = tostring(tonumber(PlayerDataModel.PlayerData.Items[_indexFalse].Count) - count)
-            PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count = tostring(tonumber(PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count) - count)
-            print(PlayerDataModel.PlayerData.Items[_indexFalse].Count)
-            print(PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count)
+            -- 原本的道具位
+            PlayerDataModel.PlayerData.Items[_index0].Count = tostring(tonumber(PlayerDataModel.PlayerData.Items[_index0].Count) - count)
+            PlayerDataModel.CompletePlayerData.Items[_index0].Count = tostring(tonumber(PlayerDataModel.CompletePlayerData.Items[_index0].Count) - count)
             
-            self.AllItems[itemObj] = PlayerDataModel.CompletePlayerData.Items[_indexFalse]
+            self.AllItems[itemObj] = PlayerDataModel.CompletePlayerData.Items[_index0]
             itemObj:GetComponent("UISubObject").texts[0].text = self.AllItems[itemObj].Count
             
         end
 
-        -- 上架的道具
-        PlayerDataModel.PlayerData.Items[_indexTrue].Count = tostring(tonumber(PlayerDataModel.PlayerData.Items[_indexTrue].Count) + count)
-        PlayerDataModel.CompletePlayerData.Items[_indexTrue].Count = tostring(tonumber(PlayerDataModel.CompletePlayerData.Items[_indexTrue].Count) + count)
+        -- 不同状态的道具位
+        PlayerDataModel.PlayerData.Items[_index1].Count = tostring(tonumber(PlayerDataModel.PlayerData.Items[_index1].Count) + count)
+        PlayerDataModel.CompletePlayerData.Items[_index1].Count = tostring(tonumber(PlayerDataModel.CompletePlayerData.Items[_index1].Count) + count)
 
         for k,v in pairs(self.AllItems) do
-            if v.ItemID == itemData.ItemID and v.IsOnShelf == "true" then
-                self.AllItems[k] = PlayerDataModel.CompletePlayerData.Items[_indexTrue]
+            if v.ItemID == itemData.ItemID and v.IsOnShelf == _bool1 then
+                self.AllItems[k] = PlayerDataModel.CompletePlayerData.Items[_index1]
                 k:GetComponent("UISubObject").texts[0].text = self.AllItems[k].Count
                 break
             end
         end
-
     end
-
-    
-
 end
 
--- -- 下架道具
--- function WarehouseCtrl:TakeDown(item)
---     print("item.data.IsOnShelf: " .. item.data.IsOnShelf)
---     local _indexTrue = -1
---     local _indexFalse = -1
---     for k,v in pairs(PlayerDataModel.PlayerData.Items) do
---         if v.ItemID == item.data.ItemID then
---             if v.IsOnShelf == "true" then
---                 _indexTrue = k
---             elseif v.IsOnShelf == "false" then
---                 _indexFalse = k
---             end
---         end
---     end
 
---     -- print(item.data.Name .. " " .. PlayerDataModel.PlayerData.Items[_indexTrue]) 
---     -- 索引号不安全 可能需要遍历
---     if _indexFalse == -1 then
---         PlayerDataModel.PlayerData.Items[_indexTrue].IsOnShelf = "false"
---         PlayerDataModel.CompletePlayerData.Items[_indexTrue].IsOnShelf = "false"
---         item.data = PlayerDataModel.CompletePlayerData.Items[_indexTrue]
---     else
---         print("_indexFalse： " .. _indexFalse .. ", _indexTrue: " .. _indexTrue)
---         local finalCount = tonumber(PlayerDataModel.PlayerData.Items[_indexFalse].Count) + tonumber(PlayerDataModel.PlayerData.Items[_indexTrue].Count)
---         PlayerDataModel.PlayerData.Items[_indexFalse].Count = tostring(finalCount)
---         PlayerDataModel.PlayerData.Items[_indexTrue] = nil
---         local finalCount = tonumber(PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count) + tonumber(PlayerDataModel.CompletePlayerData.Items[_indexTrue].Count)
---         PlayerDataModel.CompletePlayerData.Items[_indexFalse].Count = tostring(finalCount)
---         PlayerDataModel.CompletePlayerData.Items[_indexTrue] = nil
---         item.data = PlayerDataModel.CompletePlayerData.Items[_indexFalse]
---     end
-
--- end
-
-
-
+--[[
+    @desc: 道具的点击事件
+    --@itemObj: button物体
+]]
 function WarehouseCtrl:ItemOnclick(itemObj)
     if self.AllItems[itemObj].IsOnShelf == "false" then
-        self.Ani:CountChoiceEnterAnimate()
-        CountChoiceCtrl:ShowCountChoice(self.AllItems[itemObj])
+        self:RequireDealItem(self.AllItems[itemObj], -1, 1)
     elseif self.AllItems[itemObj].IsOnShelf == "true" then
-        self:TakeDown(self.AllItems[itemObj])
-        itemObj:GetComponent("UISubObject").images[1].enabled = false
+        self:RequireDealItem(self.AllItems[itemObj], -1, -1)
     end
 end
 

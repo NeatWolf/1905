@@ -43,34 +43,9 @@ function DetailCtrl:Init()
 
 end
 
-function DetailCtrl:SortEquips(equips)
-    local resList = {}
-    -- 筛选不同种类的装备
-    local _list = {}
-    local _listTemp = {}
-    _list[9], _listTemp = StaticDataModel:ScreenList(equips, "Type", 1, "9")
-    for i = 4, 8 do
-        _list[i], _listTemp = StaticDataModel:ScreenList(_listTemp, "Type", 1, tostring(i))
-    end
-    -- 将所有列表进行排序
-    for i = 4, 9 do
-        if _list[i] ~= nil then
-            StaticDataModel:SortItem(_list[i], "Level", -1)
-        end
-    end
-    -- 最终完整的列表
-    if _list[9] ~= nil then
-        for k, v in pairs(_list[9]) do
-            table.insert(resList, v)
-        end
-    end
-    for i = 4, 8 do
-        if _list[i] ~= nil then
-            for k, v in pairs(_list[i]) do
-                table.insert(resList, v)
-            end
-        end
-    end
+function DetailCtrl:SortEquips(itemsList)
+    local resList = StaticDataModel:ScreenList(itemsList, "Type", 1, "4","5","6","7","8","9")
+    StaticDataModel:SortItem(resList, "Level", -1)
     return resList
 end
 

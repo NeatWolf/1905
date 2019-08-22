@@ -16,7 +16,7 @@ function WarehouseView:ShowItemsList(itemsList)
             WarehouseCtrl.Panel.go[2].transform
         )
         -- 加入button字典<obj,data>
-        WarehouseCtrl.AllItems[_itemButton.Obj] = _itemButton.data
+        WarehouseCtrl.AllItems[_itemButton.Obj] = _itemButton.Data
         
         -- 添加事件
         _itemButton.UISub.buttons[0].onClick:AddListener(

@@ -12,7 +12,7 @@ NPCsCtrl.SpeakNo = nil
 -- 购买记录表
 NPCsCtrl.Records = nil
 
-local specialNpcCome = 0
+local specialNpcComeTime = 0
 
 function NPCsCtrl:Init()
     self.Name1 = ModelTool:SplitStr(StaticDataModel.NPCsTable.Name1)
@@ -30,25 +30,17 @@ function NPCsCtrl:RandomNPC()
     local _name2 = self.Name2[math.random(#self.Name2)]
     local _name3 = self.Name3[math.random(#self.Name3)]
     local name = _name1 .. "." .. _name2 .. "." .. _name3
-    
-    return name
 
-    -- local res = "random test: "
-    -- math.randomseed(tostring(os.time()):reverse():sub(1, 7))
-    -- for i=0, 10 do
-    --     local n = math.random(5)
-    --     res = res .. n
-    -- end
-    -- print(res)
+    return name
 
 end
 
 
 function NPCsCtrl:RandomSth()
     local _sth = {}
-    local EntrepotItems = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Items)
+    local EntrepotItems = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Items, "IsOnShelf", 1, "true")
     -- 判断货架上是否有物品
-    if EntrepotItems == {} then
+    if EntrepotItems == nil then
         return nil
     else
         -- 随机 当前货架上的物品
@@ -70,20 +62,11 @@ function NPCsCtrl:RandomBuy()
     _NPC.Name = self:RandomNPC()
 
     -- 随机是否购买
+    -- 购买
     if math.random(2) == 1 then
         _NPC.willBuy = true
         _NPC.Speak = "\"" .. self.SpeakYes[math.random(#self.SpeakYes)] .. "\""
-    else
-        _NPC.willBuy = false
-        _NPC.Speak = "\"" .. self.SpeakNo[math.random(#self.SpeakNo)] .. "\""
-    end
 
-    -- 如果没有购买
-    if _NPC.willBuy == false then
-        -- 显示没有购买的消息
-        _message = _NPC.Speak .. _NPC.Name .. "來瞧了瞧，但並沒有買到心儀的物品。"
-    else
-        -- 如果购买了
         -- 随机购买的道具信息
         local _Sth = self:RandomSth()
         -- 如果货架上没有东西
@@ -96,8 +79,15 @@ function NPCsCtrl:RandomBuy()
             -- 记下购买记录
             table.insert(self.Records, _NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name .. "。")
             -- 玩家道具进行扣除
-            PlayerDataModel:RemoveItem(_Sth.ItemID, _Sth.Count)
+            PlayerDataModel:RemoveItem(_Sth.ItemID, _Sth.Count, true)
         end
+    -- 不购买
+    else
+        _NPC.willBuy = false
+        _NPC.Speak = "\"" .. self.SpeakNo[math.random(#self.SpeakNo)] .. "\""
+
+        -- 显示没有购买的消息
+        _message = _NPC.Speak .. _NPC.Name .. "來瞧了瞧，但並沒有買到心儀的物品。"
     end
     
     -- 返回消息内容
@@ -108,15 +98,20 @@ local sNpcTimer = 0
 local addTimer = 0
 local function SpecialNpcCome()
     sNpcTimer = sNpcTimer + CS.UnityEngine.Time.deltaTime
-    if sNpcTimer >= Core.GamePeriod/10 then
+    if sNpcTimer >= Core.GamePeriod/2/10 then
         addTimer = addTimer + 1
     end
-    -- -------------------------------------------------------------------------
+    if addTimer == specialNpcComeTime then
+        addTimer = 0
+        sNpcTimer = 0
+        
+    end
 end
 
 function NPCsCtrl:NpcCome()
     -- 随机是否购买
     local Message = NPCsCtrl:RandomBuy()
+
     -- 测试打印
     print(Message)
     
@@ -124,12 +119,11 @@ function NPCsCtrl:NpcCome()
     if MainSceneCtrl.DayState == -1 and MainSceneCtrl.NightChange == true then
         -- 如果是夜晚，随机特殊角色来不来
         if math.random(2) == 2 then
-            specialNpcCome = math.random(10)
+            specialNpcComeTime = math.random(10)
+            -- Core.secondEvent[2] = function() SpecialNpcCome() end
         end
         MainSceneCtrl.NightChange = fasle
     end
-
-    
 
 end
 

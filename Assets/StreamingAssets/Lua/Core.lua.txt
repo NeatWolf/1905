@@ -30,10 +30,8 @@ Core.timerEvent = nil
 Core.countDown = 0
 Core.cdEvent = nil
 
-Core.updateEvent = nil
-
-Core.secondEvent = nil
-
+Core.updateEvent = {}
+Core.secondEvent = {}
 
 --每帧刷新
 function Core.Update()
@@ -56,15 +54,21 @@ function Core.Update()
         end
     end
 
-    if Core.updateEvent ~= nil then
-        Core.updateEvent()
+    if #Core.updateEvent ~= 0 then
+        for k,v in pairs(Core.updateEvent) do
+            v()
+        end
     end
+
+    
 
 end
 
 --每秒刷新
 function Core.SecondUpdate()
-    if Core.secondEvent ~= nil then
-        Core.secondEvent()
+    if #Core.secondEvent ~= 0 then
+        for k,v in pairs(Core.secondEvent) do
+            v()
+        end
     end
 end

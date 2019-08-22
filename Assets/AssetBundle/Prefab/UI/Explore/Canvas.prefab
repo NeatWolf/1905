@@ -796,6 +796,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db1a24fc14e3d0449df599f8ca0111f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &4887150698123002735
 MonoBehaviour:
   m_ObjectHideFlags: 0

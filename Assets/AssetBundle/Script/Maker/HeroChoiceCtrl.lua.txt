@@ -1,0 +1,88 @@
+HeroChoiceCtrl = {}
+
+HeroChoiceCtrl.Panel = nil
+HeroChoiceCtrl.CurrentHero = nil
+
+-- 初始化
+function HeroChoiceCtrl:Init()
+    self.CurrentHero = MakerCtrl.HeroChoice
+    -- 加载界面
+    self.Panel = MakerCtrl.Panel.go[10]:GetComponent("UISubObject")
+    -- 删除所有子物体
+    LoadManager:DeleteAllChilds(self.Panel.go[0])
+    
+    -- 确认按钮
+    self.Panel.buttons[0].transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = "確認"
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            MakerCtrl.HeroChoice = self.CurrentHero
+            self.CurrentHero = nil
+            self.Panel.gameObject:GetComponent("FabricateROLEAnimation"):ROLEExitAnimate()
+            MakerView:ShowHeroChoice()
+        end
+    )
+    -- 返回按钮
+    self.Panel.buttons[1].transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = "返回"
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            self.CurrentHero = nil
+            self.Panel.gameObject:GetComponent("FabricateROLEAnimation"):ROLEExitAnimate()
+        end
+    )
+end
+
+
+-- 显示每一个英雄的框
+function HeroChoiceCtrl:ShowHeroCells(heroData)
+
+    -- 分割字符串得到增益种类和加成
+    local _buff = ModelTool:SplitStr(heroData.InsBuff)
+    -- 加载英雄Toggle的gameObject
+    local _hero = LoadManager:Load(ABManager:LoadAsset("prefab", "Toggle_Role"), self.Panel.go[0].transform, true)
+    local _heroTog = _hero:GetComponent("Toggle")
+    _heroTog.group = self.Panel.go[0]:GetComponent("ToggleGroup")
+    -- 添加英雄Toggle的点击事件
+    _heroTog.onValueChanged:AddListener(
+        function(isTrue) ----------------------?????????????????????
+            if isTrue == true then
+                self.Panel.go[0]:GetComponent("ToggleGroup").allowSwitchOff = false
+                _heroTog:Select()
+                self.CurrentHero = heroData
+                print("切换英雄成功：" .. self.CurrentHero.HeroID)
+            else
+                self.Panel.go[0]:GetComponent("ToggleGroup").allowSwitchOff = true
+                _heroTog:OnDeselect()
+                self.CurrentHero = nil
+                print("取消英雄选择")
+            end
+        end
+    )
+    -- 显示英雄头像
+    _hero.transform:Find("AV"):GetComponent("Image").sprite = ABManager:LoadAsset("texture", heroData.HeroID .. "_Icon" , CS.UnityEngine.Sprite)
+    -- 显示增益信息
+    local _buffInfo = "增益類型:"
+    if _buff[1] == "2" then
+        _buffInfo = _buffInfo .. "食物"
+    elseif _buff[1] == "3" then
+        _buffInfo = _buffInfo .. "道具"
+    else
+        _buffInfo = _buffInfo .. "裝備"
+    end
+    _hero.transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = _buffInfo .. "\n" .. _buff[2]
+    -- 显示当前选中的英雄
+    if self.CurrentHero ~= nil then
+        if heroData.HeroID == self.CurrentHero.HeroID then
+            _heroTog.isOn = true
+            _heroTog:Select()
+        end
+    end
+
+end
+
+
+-- 显示所有英雄信息
+function HeroChoiceCtrl:ShowHeros(heroList)
+    for k, v in pairs(heroList) do
+        self:ShowHeroCells(v)
+    end
+end

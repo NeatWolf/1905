@@ -45,7 +45,8 @@ function MainSceneCtrl:Init()
     self.Scene.gameObject:SetActive(true)
 
     -- 刷新金币钻石等数据
-
+    
+    math.randomseed(tostring(os.time()):reverse():sub(1, 7))
     -- 随机白天/夜晚
     if math.random(2) == 1 then
         self.DayState = 1
@@ -54,29 +55,33 @@ function MainSceneCtrl:Init()
     end
     -- 随机当前时间
     dayTimer = math.random(Core.GamePeriod / 2)
-    -- 在Core里添加 NPC购买事件的周期检测
-    -- Core.updateEvent = function() self:GameStartPeriod() end
-    -- Core.secondEvent = function() self:NpcStartBuy() end
+
+    -- 在Core.updateEvent里添加 白天/黑夜更替事件
+    -- table.insert( Core.updateEvent, function() self:GameStartPeriod() end)
+    -- 在Core.secondEvent里添加 NPC购买事件
+    -- table.insert( Core.secondEvent, function() self:NpcStart() end)
 end
 
 -- 开始游戏白天黑夜周期
 function MainSceneCtrl:GameStartPeriod()
     dayTimer = dayTimer + CS.UnityEngine.Time.deltaTime
-    if dayTimer >= Core.GamePeriod / 2 then
+    if dayTimer >= 2 then --Core.GamePeriod / 2 then
         self.DayState = self.DayState * -1
         if self.DayState == -1 then
             self.NightChange = true
             self.DayChange = false
+            print("夜晚")
         else
             self.DayChange = true
             self.NightChange = false
+            print("白天")
         end
         dayTimer = 0
     end
 end
 
 -- 开始NPC随机购买事件
-function MainSceneCtrl:NpcStartBuy()
+function MainSceneCtrl:NpcStart()
     NpcTimer = NpcTimer + 1
     if NpcTimer >= NpcMinTime then
         local r = math.random(3)

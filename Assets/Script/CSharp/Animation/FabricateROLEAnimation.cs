@@ -23,7 +23,6 @@ public class FabricateROLEAnimation : MonoBehaviour
         sroll.SetActive(true);
         choice.SetActive(true);
         sroll.GetComponent<RectTransform>().DOAnchorPosX(100, 0.5f).From();
-
         choice.GetComponent<RectTransform>().DOAnchorPosX(100, 0.5f).From();
     }
     public void ROLEExitAnimate()

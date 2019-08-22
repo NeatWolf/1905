@@ -95,6 +95,9 @@ public class RoleManAnimation : MonoBehaviour
         {
             btnsPos[i] = btns[i].GetComponent<RectTransform>().position;
         }
+        
+
+        RoleManEnterAnimate();
 
     }
 
@@ -203,9 +206,7 @@ public class RoleManAnimation : MonoBehaviour
         TopMask.SetActive(false);
         BottomMask.SetActive(false);
     }
-    //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
-
-    //Mathf.Abs(EquipGroup.transform.localPosition.x-EquipGroup.transform.GetChild(i).localPosition.x)
+    
 
     /// <summary>
     /// 装备界面退出动画
@@ -321,5 +322,18 @@ public class RoleManAnimation : MonoBehaviour
         {
             BG_Food.SetActive(false);
         };
+    }
+    /// <summary>
+    /// 角色管理界面入场动画
+    /// </summary>
+    void RoleManEnterAnimate(){
+       
+       
+       
+        roleValue.transform.DOLocalMoveX(1000,1).From().SetEase(Ease.InOutBack);
+        GetComponent<UISubObject>().buttons[2].gameObject.transform.DOLocalMoveX(1000,1).From().SetEase(Ease.InOutBack);
+        GetComponent<UISubObject>().buttons[2].gameObject.transform.DORotate(new Vector3(0,720,0),1,RotateMode.FastBeyond360);
+        
+        
     }
 }

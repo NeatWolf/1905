@@ -34,7 +34,7 @@ MonoBehaviour:
   - QTools.QHierarchy_Light_AdditionalSpecialColor
   settingStringValues:
   - 905D5D5D
-  - A01B6DBB
+  - 301B6DBB
   - 48666666
   - 08000000
   - 00FFFFFF
@@ -42,7 +42,7 @@ MonoBehaviour:
   - FF333333
   - FF333333
   - 
-  - 
+  - UI;Assets/AssetBundle/Texture/Role/CharacterIcon/1_Icon.png;Default;Assets/AssetBundle/Texture/Role/CharacterIcon/2_Icon.png;
   - FF333333
   - FF333333
   - FF333333
@@ -72,7 +72,7 @@ MonoBehaviour:
   - QTools.QHierarchy_VerticesAndTrianglesLabelSize
   - QTools.QHierarchy_ComponentsIconSize
   - QTools.QHierarchy_AdditionalIdentation
-  settingIntValues: 000000000100000000000000000000003d0000000000000000000000000000000000000000000000000000000000000000000000
+  settingIntValues: 00000000010000000000000000000000410000000000000000000000000000000000000000000000000000000000000000000000
   settingBoolNames:
   - QTools.QHierarchy_TreeMapShow
   - QTools.QHierarchy_TreeMapEnhanced
@@ -129,4 +129,4 @@ MonoBehaviour:
   - QTools.QHierarchy_AdditionalShowHiddenQHierarchyObjectList
   - QTools.QHierarchy_AdditionalHideIconsIfNotFit
   - QTools.QHierarchy_AdditionalShowModifierWarning
-  settingBoolValues: 01010101010101010001010000010001000101010101010101010100010000010001000100010000010000010000010101010000010101
+  settingBoolValues: 01010101010101010101010001000001000101010101010101010100010001010001010101010001010101010000010101010001000101

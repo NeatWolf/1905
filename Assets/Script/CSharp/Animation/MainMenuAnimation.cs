@@ -12,7 +12,7 @@ public class MainMenuAnimation : MonoBehaviour
     Camera mainCam, UICam;
 
     Color color, btn_Explore_Color;
-    GameObject avChoice, info;
+    GameObject avChoice, info,av;
 
     private void Awake()
     {
@@ -27,6 +27,7 @@ public class MainMenuAnimation : MonoBehaviour
         btn_AV = subObjs.buttons[1];
         avChoice = subObjs.go[0];
         info = subObjs.go[1];
+        av=subObjs.go[2];
 
         btn_Explore = GameObject.Find("Main Scene/Btn_Explore/P_Explore/Explore").GetComponent<Button>();
         UICam = GameObject.Find("UICamera").GetComponent<Camera>();
@@ -47,6 +48,13 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Explore.GetComponent<Image>().color = btn_Explore_Color;
         avChoice.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.001f);
         avChoice.transform.localScale = Vector3.zero;
+        //摄像机动画
+        mainCam.GetComponent<CameraGS>().enabled = false;
+        mainCam.transform.DOLocalMove(new Vector3(0.5f, -28.4f, -56.7f), 3).From().SetEase(Ease.InOutExpo).onComplete = () =>
+        {
+            mainCam.GetComponent<CameraGS>().enabled = true;
+        };
+
 
 
 
@@ -101,9 +109,9 @@ public class MainMenuAnimation : MonoBehaviour
             btn_Explore.transform.DOScale(0.8f, 0.2f);
             btn_Explore.transform.DOScale(1.2f, 0.3f);
             btnActive_Move();
-            // mainCam.GetComponent<DOTweenPath>().DOPlay();
 
-            // UICam.GetComponent<DOTweenPath>().DOPlay();
+
+
 
         });
 
@@ -126,23 +134,23 @@ public class MainMenuAnimation : MonoBehaviour
     public void btnActive_Move()
     {
 
-        btn_Active.transform.DOLocalMoveX(500, 0.3f);
+        btn_Active.transform.DOLocalMoveX(500, 0.3f).SetEase(Ease.InOutBack);
         btn_Active.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.2f);
-        btn_RoleMan.gameObject.transform.DOLocalMoveX(500, 0.5f);
+        btn_RoleMan.gameObject.transform.DOLocalMoveX(500, 0.5f).SetEase(Ease.InOutBack);
         btn_RoleMan.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.4f);
-        btn_Fabricate.transform.DOLocalMoveX(500, 0.7f);
+        btn_Fabricate.transform.DOLocalMoveX(500, 0.7f).SetEase(Ease.InOutBack);
         btn_Fabricate.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.6f);
-        btn_Warehouse.transform.DOLocalMoveX(500, 1);
+        btn_Warehouse.transform.DOLocalMoveX(500, 1).SetEase(Ease.InOutBack);
         btn_Warehouse.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
 
-        btn_Lottery.transform.DOLocalMoveX(-1000, 0.5f);
+        btn_Lottery.transform.DOLocalMoveX(-1000, 0.5f).SetEase(Ease.InOutBack);
         btn_Lottery.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
-        
-        info.transform.DOLocalMoveX(-1000, 0.5f);
-        info.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
+
+        info.transform.DOLocalMoveX(-1000, 0.5f).SetEase(Ease.InOutBack);
 
 
-        btn_AV.transform.DOScale(0, 0.5f);
+
+        btn_AV.transform.DOScale(0, 0.5f).SetEase(Ease.InOutBack);
         btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.5f);
 
 
@@ -178,7 +186,8 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Lottery.transform.localPosition += new Vector3(-1000, 0, 0);
         btn_Lottery.GetComponent<Image>().color = color;
         info.transform.localPosition += new Vector3(-1000, 0, 0);
-        info.GetComponent<Image>().color = color;
+        av.GetComponent<Image>().color = new Color(1,1,1,0);
+
 
     }
 
@@ -188,16 +197,19 @@ public class MainMenuAnimation : MonoBehaviour
     /// <returns></returns>
     IEnumerator ButtonEnter()
     {
-        yield return new WaitForSeconds(0.5f);
-        btn_Active.transform.DOLocalMoveX(-447, 0.3f);
-        btn_RoleMan.transform.DOLocalMoveX(-447, 0.5f);
-        btn_Fabricate.transform.DOLocalMoveX(-447, 0.5f);
-        btn_Warehouse.transform.DOLocalMoveX(-447, 0.5f);
-        btn_Lottery.transform.DOLocalMoveX(300, 0.5f);
-        info.transform.DOLocalMoveX(300, 0.5f);
+        yield return new WaitForSeconds(2f);
+        btn_Active.transform.DOLocalMoveX(-447, 0.3f).SetEase(Ease.InOutBack);
+        btn_RoleMan.transform.DOLocalMoveX(-447, 0.5f).SetEase(Ease.InOutBack);
+        btn_Fabricate.transform.DOLocalMoveX(-447, 0.5f).SetEase(Ease.InOutBack);
+        btn_Warehouse.transform.DOLocalMoveX(-447, 0.5f).SetEase(Ease.InOutBack);
+        btn_Lottery.transform.DOLocalMoveX(300, 0.5f).SetEase(Ease.InOutBack);
+        info.transform.DOLocalMoveX(540, 0.5f).SetEase(Ease.InOutBack);
 
-        btn_AV.transform.DOScale(3, 0.5f);
-        btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 0.5f);
+        
+        av.transform.DOScale(1, 0.5f).SetEase(Ease.InOutBack);
+        av.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0.2f), 0.5f).SetEase(Ease.InOutBack);
+
+
 
     }
 

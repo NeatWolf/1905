@@ -1,0 +1,62 @@
+CountChoiceCtrl = {}
+
+-- 预制体上的UISubObject脚本，内含所有UI对象
+CountChoiceCtrl.Panel = nil
+CountChoiceCtrl.CurrentItem = nil
+CountChoiceCtrl.CurrentCount = nil
+
+
+function CountChoiceCtrl:Init()
+    
+    WarehouseCtrl.Panel.go[3]:SetActive(false)
+    self.Panel = WarehouseCtrl.Panel.go[3]:GetComponent("UISubObject")
+    
+    -- 数量选择
+    self.Panel.sliders[0].minValue = 0
+    self.Panel.sliders[0].onValueChanged:AddListener(
+        function(number)
+            self:ChangeCount(number)
+        end
+    )
+
+    -- 数量输入
+    self.Panel.inputFields[0].onValueChanged:AddListener(
+        function(str)
+            if tonumber(str) >= self.Panel.sliders[0].minValue then
+                self:ChangeCount(tonumber(str))
+            end
+        end
+    )
+
+    -- 确定按钮
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            -- 确定数量，进行上架
+            WarehouseCtrl:DealItem(self.CurrentItem, self.CurrentCount, 1)
+            WarehouseCtrl.Ani:CountChoiceExitAnimate()
+        end
+    )
+
+    -- 返回按钮
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            WarehouseCtrl.Ani:CountChoiceExitAnimate()
+        end
+    )
+
+    self.CurrentCount = 1
+end
+
+function CountChoiceCtrl:ChangeCount(count)
+    self.CurrentCount = ModelTool:FormatNum(count)
+    self.Panel.sliders[0].value = self.CurrentCount
+    self.Panel.texts[0].text = self.CurrentCount
+end
+
+function CountChoiceCtrl:ShowCountChoice(itemData)
+    self.CurrentItem = itemData
+    self.Panel.sliders[0].maxValue = self.CurrentItem.Count
+    self.Panel.texts[1].text = 0
+    self.Panel.texts[2].text = self.CurrentItem.Count
+    self.Panel.sliders[0].value = 1
+end

@@ -1,0 +1,77 @@
+--[[
+监听事件(可注册多个监听者监听)
+
+加载:
+LocalMsg = require("app.tools.LocalMsg")
+注册:
+LocalMsg:registerMsg('testfunc', self, self.testfunc)
+function M:testfunc(data) -- TODO end
+发送:
+LocalMsg:sendMsg('testfunc', data)
+
+]]
+
+local M = class("LocalMsg")
+
+local msg_tb = {}
+
+-- 注册消息
+function M:registerMsg(msgname, obj, func)
+
+    if msgname == nil or smgname == '' then
+        print('ROORR:: smgname 参数为空')
+        return
+    end
+
+    if msg_tb[msgname] ~= nil then
+        
+        local _sameObj = false
+        for k, v in ipairs(msg_tb[msgname].monitor) do
+            if v.obj == obj then
+                print('WARNING:: msgname和obj都一样前面的注册信息会被覆盖', msgname, obj)
+                _sameObj = true
+                v.func = func
+            end
+        end
+        if not _sameObj then
+            local _monitor = {}
+            _monitor.obj = obj
+            _monitor.func = func
+            table.insert(msg_tb[msgname].monitor, _monitor)
+        end
+    else
+        msg_tb[msgname] = {}
+        msg_tb[msgname].monitor = {}
+        local _monitor = {}
+        _monitor.obj = obj
+        _monitor.func = func
+        table.insert(msg_tb[msgname].monitor, _monitor)
+    end
+
+end
+
+-- 发送消息
+function M:sendMsg(msgname, data)
+    if msgname == nil or msgname == '' then
+        print('ROORR:: smgname 参数为空')
+        return
+    end
+
+    if msg_tb[msgname] == nil then
+        print('ROORR:: smgname 参数不存在')
+        return
+    end
+
+    for k, v in ipairs(msg_tb[msgname].monitor) do
+        local obj = v.obj
+        local func = v.func
+        func(obj, data)
+    end
+end
+
+-- 移除所有监听信息
+function M:removeAllMsg()
+    msg_tb = {}
+end
+
+return M:new()

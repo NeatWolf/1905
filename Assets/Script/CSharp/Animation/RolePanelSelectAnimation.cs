@@ -57,6 +57,7 @@ public class RolePanelSelectAnimation : MonoBehaviour
     float dir = 0;
     float distance = 0;
 
+
     [LuaCallCSharp]
     public void Init()
     {
@@ -79,6 +80,7 @@ public class RolePanelSelectAnimation : MonoBehaviour
         buttons[currentRoleID].transform.GetChild(0).GetComponent<Image>().color = selectColor;
         scrollbar.value = 0.001f;
     }
+
 
     //滑动时根据和初始位置的偏移改变每个子物体的缩放,判断当前选中的role
     public void OnValueChange(Vector2 v)

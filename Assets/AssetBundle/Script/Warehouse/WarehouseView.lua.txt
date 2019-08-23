@@ -1,0 +1,36 @@
+WarehouseView = {}
+
+--[[
+    @desc: 显示所有道具
+    --@itemsList: 道具列表
+]]
+function WarehouseView:ShowItemsList(itemsList)
+
+    LoadManager:DeleteAllChilds(WarehouseCtrl.Panel.go[2])
+    WarehouseCtrl.AllItems = {}
+
+    for k,v in pairs(itemsList) do
+        -- 加载button
+        local _itemButton = UICtrl:LoadItem(
+            v,
+            WarehouseCtrl.Panel.go[2].transform
+        )
+        -- 加入button字典<obj,data>
+        WarehouseCtrl.AllItems[_itemButton.Obj] = _itemButton.Data
+        
+        -- 添加事件
+        _itemButton.UISub.buttons[0].onClick:AddListener(
+            function()
+                WarehouseCtrl:ItemOnclick(_itemButton.Obj)
+            end
+        )
+
+        -- 激活边框
+        if v.IsOnShelf == "true" then
+            _itemButton.UISub.images[1].enabled = true
+        end
+    end
+
+end
+
+

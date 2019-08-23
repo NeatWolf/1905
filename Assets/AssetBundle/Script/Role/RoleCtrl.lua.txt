@@ -4,11 +4,9 @@ RoleCtrl = {}
 RoleCtrl.Panel = nil
 RoleCtrl.RoleManAniCSharp = nil
 RoleCtrl.RoleSelectAniCSharp = nil
--- 当前选择的角色在子物体中的Index
--- RoleCtrl.currentIndex = -1
+
 -- 当前选择的角色数据
 RoleCtrl.CurrentHero = nil
- 
 
 function RoleCtrl:Init()
     print("进入角色管理")
@@ -33,8 +31,7 @@ function RoleCtrl:Init()
     -- 详情按钮
     self.Panel.buttons[2].onClick:AddListener(
         function()
-            DetailCtrl:ShowDetailInfo(self.CurrentHero)
-            --RoleCtrl.Panel.go[4]:SetActive(true);
+            DetailCtrl:ShowDetails(self.CurrentHero)
             self.RoleManAniCSharp:EquipClickAnimate(self.RoleSelectAniCSharp.currentRoleID)
             
         end
@@ -52,11 +49,18 @@ function RoleCtrl:Init()
     -- 英雄列表的Content上的动画CSharp脚本
     self.RoleSelectAniCSharp = self.Panel.go[2]:GetComponent("RolePanelSelectAnimation")
     self.RoleSelectAniCSharp:Init()
-    self.RoleSelectAniCSharp.changeRoleEvent = function() self:ChangeCurrentRole() end
+    self.RoleSelectAniCSharp.changeRoleEvent = function()
+        self.CurrentHero = ModelTool:CopyTable( PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1] )
+        self:ShowCurrentRole(self.CurrentHero)
+    end
 
-    -- 切换当前英雄为列表第一个
-    self:ChangeCurrentRole()
+    -- 初始化当前英雄
+    if self.CurrentHero == nil then
+        self.CurrentHero = ModelTool:CopyTable( PlayerDataModel.CompletePlayerData.Heros[1] )
+    end
+    self:ShowCurrentRole(self.CurrentHero)
 
+    -- 加载控制组件
     LoadManager:LoadLua("Role", "LevelCtrl")
     LevelCtrl:Init()
     LoadManager:LoadLua("Role", "DetailCtrl")
@@ -65,9 +69,8 @@ end
 
 
 -- 切换英雄
-function RoleCtrl:ChangeCurrentRole()
-    self.CurrentHero = ModelTool:CopyTable( PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1] )
-    -- print(PlayerDataModel.CompletePlayerData.Heros[self.RoleSelectAniCSharp.currentRoleID + 1].Equips)
+function RoleCtrl:ShowCurrentRole(heroData)
+    self.CurrentHero = heroData
     print("当前角色改变为：" .. self.RoleSelectAniCSharp.currentRoleID + 1)
     RoleView:ShowHeroInfo(self.CurrentHero)
 end

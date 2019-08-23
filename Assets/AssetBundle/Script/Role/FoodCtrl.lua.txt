@@ -2,7 +2,8 @@ FoodCtrl = {}
 
 -- 预制体上的UISubObject脚本，内含所有UI对象
 FoodCtrl.Panel = nil
-FoodCtrl.HeroData = nil
+FoodCtrl.CurrentHero = nil
+FoodCtrl.CurrentFood = nil
 
 function FoodCtrl:Init()
     -- print("进入详情页控制系统")
@@ -11,22 +12,31 @@ function FoodCtrl:Init()
     -- 喂食按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            -- self:FeedHero()
+            self:FeedHero(self.CurrentHero, self.CurrentFood)
+            self:ShowFoods(self.CurrentHero)
         end
     )
 
     -- 返回按钮
     self.Panel.buttons[1].onClick:AddListener(
         function()
-            -- RoleCtrl.CurrentHero = self.HeroData
+            DetailCtrl:ShowDetails(self.CurrentHero)
             RoleCtrl.RoleManAniCSharp:FoodExitAnimate()
         end
     )
 end
 
+
+function FoodCtrl:ShowFoods(heroData)
+    self.CurrentHero = heroData
+    self:ShowFoodsList(self.CurrentHero)
+    self:ShowFoodInfo(self.CurrentHero, self.CurrentFood)
+end
+
 function FoodCtrl:ShowFoodsList(heroData)
-    self.HeroData = heroData
+
     LoadManager:DeleteAllChilds(self.Panel.go[0])
+
     local _itemsList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Items, "Type", 1, "2")
     StaticDataModel:SortItem(_itemsList, "Level", -1)
     for k,v in pairs(_itemsList) do
@@ -34,14 +44,17 @@ function FoodCtrl:ShowFoodsList(heroData)
             v,
             self.Panel.go[0].transform,
             function()
-                self:ShowFoodInfo(self.HeroData, v)
+                self.CurrentFood = v
+                self:ShowFoodInfo(heroData, self.CurrentFood)
             end
             )
     end
-    self:ShowFoodInfo(heroData, _itemsList[1])
+
+    if self.CurrentFood == nil then
+        self.CurrentFood = _itemsList[1]
+    end
+
 end
-
-
 
 function FoodCtrl:ShowFoodInfo(heroData, itemData)
     -- 显示道具名字
@@ -70,7 +83,8 @@ function FoodCtrl:ShowFoodInfo(heroData, itemData)
 
             -- 新Buff与旧Buff的比例
             local scale = ((_hBuffNew[1] + _hBuffNew[2])/2) / ((_hBuffOld[1] + _hBuffOld[2])/2)
-            print("新Buff与旧Buff的比例：" .. scale)
+            -- 测试打印
+            -- print("新Buff与旧Buff的比例："  .. _hBuffOld[1] .. " " .. _hBuffOld[2] .. " ".. _hBuffNew[1] .. " " ..  _hBuffNew[2])
             if scale < 0.9 then
                 buffText = "↓↓↓"
             elseif scale < 0.95 then
@@ -110,35 +124,36 @@ function FoodCtrl:ShowFoodInfo(heroData, itemData)
 end
 
 
-
 -- 投喂英雄
 function FoodCtrl:FeedHero(heroData, itemData)
 
-    local couldEat = true
     local heroIndex = -1
 
     -- 处理Buff数据
     local _hbuffA = ModelTool:SplitStr(heroData.ColBuffAdd)
     local _ibuff = ModelTool:SplitStr(itemData.HeroBuff)
 
-    -- 判断当前道具是否可食用（由英雄当前的耐力决定）
-    if _ibuff[2] ~= "0" then
-        for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
-            if v.HeroID == heroData.HeroID then
-                heroIndex = k
-                if v.EnergyMax == v.EnergyNow then
-                    couldEat = false
-                end
-                break
-            end
+    -- 找到相应英雄
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        if v.HeroID == heroData.HeroID then
+            heroIndex = k
+            break
         end
     end
 
-    -- 如果不可食用则返回
-    if couldEat == false then
-        self.IntroPanel.buttons[0].interactable = false
-        return
+    -- 判断当前道具是否可食用（由英雄当前的耐力决定）
+    if _ibuff[2] ~= "0" then
+        if PlayerDataModel.PlayerData.Heros[heroIndex].EnergyMax == PlayerDataModel.PlayerData.Heros[heroIndex].EnergyNow then
+            self.Panel.buttons[0].interactable = false
+            return
+        end
     end
+
+    -- 可食用，激活食用按钮
+    self.Panel.buttons[0].interactable = true
+
+    -- 修改食物数量
+    self.CurrentFood = PlayerDataModel:RemoveItem(self.CurrentFood.ItemID, 1, false)
 
     -- 如果英雄当前的临时Buff 小于 道具的加成Buff，进行赋值
     if _hbuffA[1] < _ibuff[3] then
@@ -148,21 +163,7 @@ function FoodCtrl:FeedHero(heroData, itemData)
         _hbuffA[2] = _ibuff[4]
     end
 
-    if heroIndex == -1 then
-        for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
-            -- 找到相应英雄
-            if v.HeroID == heroData.HeroID then
-                -- 赋值给英雄
-                v.ColBuffAdd = _hbuffA[1] .. "," .. _hbuffA[2]
-                v.EnergyNow = tostring(tonumber(v.EnergyNow) + _ibuff[2])
-                if tonumber(v.EnergyNow) > tonumber(v.EnergyMax) then
-                    v.EnergyNow = v.EnergyMax
-                end
-                break
-            end
-        end
-    end
-    
+
     -- 修改 玩家动态数据 里相应的英雄信息
     for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
         -- 找到相应英雄
@@ -188,10 +189,10 @@ function FoodCtrl:FeedHero(heroData, itemData)
                 v.EnergyNow = v.EnergyMax
             end
 
-            heroData = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
+            -- 刷新当前页面的英雄数据
+            self.CurrentHero = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
             break
         end
     end
 
-    return heroData
 end

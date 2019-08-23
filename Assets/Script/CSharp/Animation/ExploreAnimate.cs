@@ -202,7 +202,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     for (int i = 0; i < 4; i++)
                     {
                         cards[i].transform.DOLocalMoveX(130, 0.3f * i).SetEase(Ease.InOutBack);
-                        cards[i].transform.GetChild(0).GetComponent<Image>().DOFade(0, 0.5f * i);
+                        cards[i].transform.GetChild(1).GetComponent<Image>().DOFade(0, 0.5f * i);
                     }
                 });
                 top.InsertCallback(0.8f, () =>
@@ -213,7 +213,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     cards[3].transform.DOLocalMoveX(-15, 1.2f).SetEase(Ease.InOutBack);
                     for (int i = 0; i < 4; i++)
                     {
-                        cards[i].transform.GetChild(0).GetComponent<Image>().DOFade(1, 0.5f * i);
+                        cards[i].transform.GetChild(1).GetComponent<Image>().DOFade(1, 0.5f * i);
                     }
                 });
                 top.InsertCallback(0.3f, () =>
@@ -245,7 +245,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     for (int i = 0; i < 4; i++)
                     {
                         cards[i].transform.DOLocalMoveX(130, 0.3f * i).SetEase(Ease.InOutBack);
-                        cards[i].transform.GetChild(0).GetComponent<Image>().DOFade(0, 0.5f * i);
+                        cards[i].transform.GetChild(1).GetComponent<Image>().DOFade(0, 0.5f * i);
                     }
                 });
                 bottom.InsertCallback(0.8f, () =>
@@ -256,7 +256,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
                     cards[3].transform.DOLocalMoveX(-15, 1.2f).SetEase(Ease.InOutBack);
                     for (int i = 0; i < 4; i++)
                     {
-                        cards[i].transform.GetChild(0).GetComponent<Image>().DOFade(1, 0.5f * i);
+                        cards[i].transform.GetChild(1).GetComponent<Image>().DOFade(1, 0.5f * i);
                     }
                 });
                 bottom.InsertCallback(0.3f, () =>

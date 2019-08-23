@@ -31,15 +31,11 @@ function MainSceneCtrl:Init()
                 )
             end
         end
-        for i = 0, self.Scene.buttons.Length - 1 do
-            if self.Scene.buttons[i] ~= nil then
-                self.Scene.buttons[i].onClick:AddListener(
-                    function()
-                        LoadManager:LoadSystem(self.Scene.buttons[i].name)
-                    end
-                )
+        self.Scene.buttons[0].onClick:AddListener(
+            function()
+                LoadManager:LoadSystem("Explore", nil, true)
             end
-        end
+        )
     end
     self.Panel.gameObject:SetActive(true)
     self.Scene.gameObject:SetActive(true)

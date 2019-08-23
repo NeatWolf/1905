@@ -131,6 +131,9 @@ public class Core : MonoBehaviour
     public void LoadScene(string name, UnityAction call)
     {
         StartCoroutine(LoadSceneSync(name, call));
+        // SceneManager.LoadScene(name); ---------------------同步变异步
+        // call();
+        // print("done");
     }
 
     IEnumerator LoadSceneSync(string name, UnityAction call)

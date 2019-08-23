@@ -54,8 +54,7 @@ function LoadManager:Load2Pos(gameObject, parent, position)
     end
 
     if (type(parent) == "string") then
-        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation, 
-        CS.UnityEngine.GameObject.Find(parent).transform)
+        go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation, CS.UnityEngine.GameObject.Find(parent).transform)
     elseif parent == nil then
         go = CS.UnityEngine.Object.Instantiate(gameObject, position, rotation)
     else
@@ -73,9 +72,10 @@ end
     time:2019-08-11 16:00:46
     --@systemName: 系统模块名称，如：MainScene ， 应由按钮提供
     --@time: 不传默认延迟0.5秒，传则自定义延迟
+    --@holdBack: nil/false 遮罩自动透明，true则需要手动透明
     @return:
 ]]
-function LoadManager:LoadSystem(systemName, time)
+function LoadManager:LoadSystem(systemName, time, holdBack)
     if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
         local file = nil
         file = io.open(CS.UnityEngine.Application.dataPath .. "/" .. "AssetBundle/Script/" .. systemName .. "/" .. systemName .. "Ctrl.lua.txt", "rb")
@@ -99,18 +99,21 @@ function LoadManager:LoadSystem(systemName, time)
     else
         Core.timer = time
     end
-    Core.timerEvent = function()
-        UICtrl:CutTo(
-            1,
-            function()
-                if MainSceneCtrl then
-                    if MainSceneCtrl.Panel and systemName ~= "MainScene" then
-                        MainSceneCtrl.Panel.gameObject:SetActive(false)
-                    end
-                end
-                CS.Luax.Instance:DoString(systemName .. "Ctrl:Init()")
+
+    local func = function()
+        if MainSceneCtrl then
+            if MainSceneCtrl.Panel and systemName ~= "MainScene" then
+                MainSceneCtrl.Panel.gameObject:SetActive(false)
             end
-        )
+        end
+        CS.Luax.Instance:DoString(systemName .. "Ctrl:Init()")
+    end
+    if not holdBack then
+        Core.timerEvent = function()
+            UICtrl:CutTo(1, func)
+        end
+    else
+        UICtrl:BlackMaskAni(1, 0.5, func)
     end
 end
 
@@ -133,5 +136,23 @@ end
 function LoadManager:DeleteAllChilds(parentObj)
     for i = parentObj.transform.childCount - 1, 0, -1 do
         CS.UnityEngine.Object.Destroy(parentObj.transform:GetChild(i).gameObject)
+    end
+end
+
+--[[
+    @desc: 同步加载场景 
+    --@name: str：场景名
+]]
+function LoadManager:LoadScene(name)
+    assert(Core.updateEvent == nil, "帧刷新事件被占用，无法加载场景")
+    local co =
+        coroutine.create(
+        function()
+            -- 开启Unity中的异步加载场景
+            -- while加载未完成：等待
+        end
+    )
+    Core.updateEvent = function()
+        -- 继续执行
     end
 end

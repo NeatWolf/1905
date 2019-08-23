@@ -1,12 +1,20 @@
 PoolManager = {}
 
-PoolManager.Button = {}
+PoolManager.LoadsDic = {}
+PoolManager.PoolsDic = {}
 
---加载gameObject到指定对象下,根目录则传nil
---isLast:是否放在最上层
-function PoolManager:LoadButton(parent, isLast)
+PoolManager.LoadsDic.Button = ABManager:LoadAsset("prefab", "Button")
+PoolManager.LoadsDic.Role = ABManager:LoadAsset("prefab", "Role")
+
+for k,v in pairs(#PoolManager.LoadsDic) do
+    PoolManager.PoolsDic[k] = {}
+end
+
+-- 加载gameObject到指定对象下,根目录则传nil
+-- isLast:是否放在最上层
+function PoolManager:Load(uiType, parent, isLast)
     local go = nil
-    if self.Button == {} then
+    if self.ButtonsDic[uiType] == nil then
         print("PoolManager.Button is nil")
         go = LoadManager:Load(ABManager:LoadAsset("prefab", "Button"),parent,isLast)
     end

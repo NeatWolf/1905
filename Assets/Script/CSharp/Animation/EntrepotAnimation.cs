@@ -24,39 +24,22 @@ public class EntrepotAnimation : MonoBehaviour
         list=GetComponent<UISubObject>().go[4];
         glass=GetComponent<UISubObject>().go[5];
         
-        
-
-        
-
         //设为最后一个
         content.transform.GetChild(0).SetAsLastSibling();
-
 
     }
     private void OnEnable()
     {
-        
         glass.GetComponent<Image>().color=new Color(1,1,1,0);
-        //添加Button动画
-       // AnimateManager.AddButtonAnimate(btns[0]);
+        ////添加Button动画
+        //AnimateManager.AddButtonAnimate(btns[0]);
         //设置Records失活状态时的位置
         AnimateManager.RecordPreviousAnimate(Records);
         //货架入场动画
         EntrepotEnterAnimate();
-
     }
 
-    //btns[1]---出售记录按钮
-    private void Start()
-    {
-        btns[1].onClick.AddListener(() =>
-        {
-            AnimateManager.RecordEnterAnimate(Records, content);
 
-        });
-        
-
-    }
     /// <summary>
     /// 货架界面进场动画
     /// </summary>
@@ -65,6 +48,7 @@ public class EntrepotAnimation : MonoBehaviour
         glass.GetComponent<Image>().DOFade(1,0.3f).SetDelay(1);
         
     }
+
 
     /// <summary>
     /// 货架界面出场动画

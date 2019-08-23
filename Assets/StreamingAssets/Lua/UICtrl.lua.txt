@@ -113,11 +113,16 @@ end
 
 function UICtrl:LoadItem(itemData, parent, clickEvent)
     local _Item = {}
-    _Item.UISub = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Button"), parent):GetComponent("UISubObject")
-    _Item.data = ModelTool:CopyTable(itemData)
-    _Item.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Item.data.ItemID, CS.UnityEngine.Sprite)
+    _Item.Obj = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Button"), parent)
+    _Item.UISub = _Item.Obj:GetComponent("UISubObject")
+    _Item.Data = ModelTool:CopyTable(itemData)
+    _Item.UISub.images[0].sprite = ABManager:LoadAsset("texture", _Item.Data.ItemID, CS.UnityEngine.Sprite)
     _Item.UISub.images[0].rectTransform.localPosition = CS.UnityEngine.Vector3.zero
-    _Item.UISub.texts[0].text = _Item.data.Count
+    if _Item.Data.Count ~= nil then
+        _Item.UISub.texts[0].text = _Item.Data.Count
+    else
+        _Item.UISub.texts[0].text = ""
+    end
     if clickEvent ~= nil then
         _Item.UISub.buttons[0].onClick:AddListener(clickEvent)
     end

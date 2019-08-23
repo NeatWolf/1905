@@ -1,0 +1,89 @@
+MakerView = {}
+
+-- 显示已选择的英雄的头像
+function MakerView:ShowHeroChoice()
+    if MakerCtrl.HeroChoice ~= nil then
+        print("选择英雄成功，当前所选择的英雄：" .. MakerCtrl.HeroChoice.HeroID)
+        MakerCtrl.Panel.images[0].sprite = ABManager:LoadAsset("texture", MakerCtrl.HeroChoice.HeroID .. "_Icon" , CS.UnityEngine.Sprite)
+    else
+        print("当前未选择英雄。")
+        MakerCtrl.Panel.images[0].sprite = nil
+    end
+end
+
+
+--[[
+    @desc: 依序显示当前条件下的所有道具
+]]
+function MakerView:ShowItemsList(itemsList)
+    -- 删除所有子物体
+    LoadManager:DeleteAllChilds(MakerCtrl.Panel.go[9])
+
+    -- 生成所有道具Button
+    for k, v in pairs(itemsList) do
+        -- 加载并实例化
+        local go = ABManager:LoadAsset("prefab", "Button")
+        local _item = UICtrl:LoadItem(v, MakerCtrl.Panel.go[9].transform)
+        -- 添加事件
+        _item.Obj:GetComponent("Button").onClick:AddListener(
+            function()
+                MakerCtrl.CurrentItem = _item.Data
+                self:ShowSynNeeds(MakerCtrl.CurrentItem.SynNeeds)
+                -- 合成按钮
+                if v.CouldSyn == "true" then
+                    MakerCtrl.Panel.buttons[2].interactable = true
+                else
+                    MakerCtrl.Panel.buttons[2].interactable = false
+                end
+                -- -- 打印数据
+                -- ModelTool:SetMeta(MakerCtrl.CurrentItem)
+                -- print(MakerCtrl.CurrentItem)
+            end
+        )
+        -- 不可合成的物品的图片透明显示
+        if v.CouldSyn == "false" then
+            _item.UISub.images[0].color = CS.UnityEngine.Color(1,1,1,0.5)
+        end
+    end
+
+end
+
+
+function MakerView:ShowSynNeeds(needsStr)
+    local needsList = ModelTool:SplitStr(needsStr)
+    for i = 1, 3, 1 do
+        -- 如果需要道具
+        if needsList[2*i] ~= nil then
+            -- 遍历玩家目前的所有道具
+            for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
+                -- 如果ID匹配
+                if v.ItemID == needsList[2 * i - 1] then
+                    -- 显示数量
+                    MakerCtrl.Panel.texts[i].text = needsList[2 * i] .. "/" .. v.Count
+                    -- 显示图片
+                    MakerCtrl.Panel.images[i].sprite = ABManager:LoadAsset("texture", v.ItemID , CS.UnityEngine.Sprite)
+                    -- 根据数量足够与否显示图片透明度
+                    if tonumber(v.Count) >= tonumber(needsList[2 * i]) then
+                        MakerCtrl.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,1)
+                    else
+                        MakerCtrl.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0.5)
+                    end
+                    break
+                -- 如果ID匹配不到
+                elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
+                    MakerCtrl.Panel.texts[i].text = needsList[2 * i] .. "/0"
+                    MakerCtrl.Panel.images[i].sprite = nil
+                    MakerCtrl.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0.5)
+                end
+            end
+        -- 如果不需要道具
+        else
+            MakerCtrl.Panel.texts[i].text = ""
+            MakerCtrl.Panel.images[i].sprite = nil
+            MakerCtrl.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0)
+        end
+    end
+
+end
+
+

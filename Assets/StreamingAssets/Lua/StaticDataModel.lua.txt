@@ -75,7 +75,7 @@ function StaticDataModel:MergeItem(playerItem)
             -- 动态表的数据
             itemNow.ItemID = playerItem.ItemID
             itemNow.Count = playerItem.Count
-            itemNow.EquipHeros = playerItem.EquipHeros
+            itemNow.IsOnShelf = playerItem.IsOnShelf
             -- 静态表的数据
             itemNow.Name = self.ItemsTable[i].Name
             itemNow.Type = self.ItemsTable[i].Type
@@ -166,17 +166,24 @@ end
 ]]
 function StaticDataModel:SortItem(list, key, changeWay)
     if list == nil then
+        -- print("StaticDataModel:SortItem list is nil")
         return
     end
 
     for i = 1, #list do
         for j = 1, #list - i do
-            -- 第一层排序
-            if ((tonumber(list[j][key]) - tonumber(list[j + 1][key])) * changeWay) > 0 then
-                -- 第三层排序 ID
+            -- 第一层排序 Type 9-武器类型放在最前面
+            if  (list[j].Type ~= "9" and list[j + 1].Type == "9") then
+                list[j], list[j + 1] = list[j + 1], list[j]
+            elseif list[j].Type == "9" and list[j + 1].Type ~= "9" then
+            elseif (tonumber(list[j].Type) - tonumber(list[j + 1].Type)) > 0  then
+                list[j], list[j + 1] = list[j + 1], list[j]
+            -- 第二层排序 自定义
+            elseif ((tonumber(list[j].Type) - tonumber(list[j + 1].Type))) == 0 and ((tonumber(list[j][key]) - tonumber(list[j + 1][key])) * changeWay) > 0 then
                 -- print((list[j][key]) .. " " .. (list[j + 1][key]))
                 -- print("change")
                 list[j], list[j + 1] = list[j + 1], list[j]
+            -- 第二层排序 ID
             elseif ((tonumber(list[j][key]) - tonumber(list[j + 1][key])) * changeWay) == 0 and (tonumber(list[j].ItemID) - tonumber(list[j + 1].ItemID)) > 0 then
                 -- print(list[j].ItemID .. " " .. list[j+1].ItemID)
                 -- print("change")
@@ -189,6 +196,7 @@ end
 -- 按HeroID对英雄进行排序
 function StaticDataModel:SortHeroByHeroID(heroList)
     if heroList == nil then
+        -- print("StaticDataModel:SortHeroByHeroID heroList is nil")
         return
     end
 
@@ -205,7 +213,8 @@ end
 
 -- 按InsBuff对英雄进行排序
 function StaticDataModel:SortHeroByInsBuff(herosList, ...)
-    if herosList ~= nil  then
+    if herosList == nil then
+        -- print("StaticDataModel:SortHeroByInsBuff heroList is nil")
         return nil
     end
 
@@ -213,24 +222,29 @@ function StaticDataModel:SortHeroByInsBuff(herosList, ...)
     local list2 = {}
     list1, list2 = StaticDataModel:ScreenList(herosList, "InsBuff", 1, ...)
 
-    for i = 1, #list1 do
-        for j = 1, #list1 - i do
-            local _buff1 = ModelTool:SplitStr(list1[j].InsBuff)
-            local _buff2 = ModelTool:SplitStr(list1[j + 1].InsBuff)
-            if tonumber(_buff1[2]) < tonumber(_buff2[2]) then
-                -- 第三层排序 ID
-                -- print(_buff1[2] .. " " .. _buff2[2])
-                -- print("change")
-                list1[j], list1[j + 1] = list1[j + 1], list1[j]
-            elseif tonumber(_buff1[2]) == tonumber(_buff2[2]) and tonumber(list1[j].HeroID) > tonumber(list1[j + 1].HeroID) then
-                -- print( list1[j].HeroID .. " " .. list1[j+1].HeroID )
-                -- print("change")
-                list1[j], list1[j + 1] = list1[j + 1], list1[j]
+    if list1 ~= nil then
+        for i = 1, #list1 do
+            for j = 1, #list1 - i do
+                local _buff1 = ModelTool:SplitStr(list1[j].InsBuff)
+                local _buff2 = ModelTool:SplitStr(list1[j + 1].InsBuff)
+                if tonumber(_buff1[2]) < tonumber(_buff2[2]) then
+                    -- print(_buff1[2] .. " " .. _buff2[2])
+                    -- print("change")
+                    list1[j], list1[j + 1] = list1[j + 1], list1[j]
+                -- 第二层排序 ID
+                elseif tonumber(_buff1[2]) == tonumber(_buff2[2]) and tonumber(list1[j].HeroID) > tonumber(list1[j + 1].HeroID) then
+                    -- print( list1[j].HeroID .. " " .. list1[j+1].HeroID )
+                    -- print("change")
+                    list1[j], list1[j + 1] = list1[j + 1], list1[j]
+                end
             end
         end
     end
 
-    StaticDataModel:SortHeroByHeroID(list2)
+    if list2 ~= nil then
+        StaticDataModel:SortHeroByHeroID(list2)
+    end
+    
     return ModelTool:MergeTable(list1, list2)
 end
 

@@ -7,6 +7,7 @@ ExploreCtrl.selectedRole = 0 -- 4 - 7 当前选择的头像在buttons中的index
 
 function ExploreCtrl:Init()
     print("进入探索")
+
     local core = CS.UnityEngine.Object.FindObjectOfType(typeof(CS.Core))
 
     core:LoadScene(
@@ -68,15 +69,17 @@ function ExploreCtrl:Init()
                         -- 若当前选择不等于i则切换到当前
                         if self.selectedRole ~= i then
                             if self.selectedRole >= 4 and self.selectedRole <= 7 then
-                                CS.DG.Tweening.DOTweenModuleUI.DOFade(self.Panel.buttons[self.selectedRole]:GetComponent("Image"), 0.2, 0.15)
+                                CS.DG.Tweening.DOTweenModuleUI.DOFade(self.Panel.buttons[self.selectedRole]:GetComponent("Image"), 0.3, 0.15)
                             end
                             self.selectedRole = i
-                            CS.DG.Tweening.DOTweenModuleUI.DOFade(self.Panel.buttons[self.selectedRole]:GetComponent("Image"), 0.5, 0.15)
+                            CS.DG.Tweening.DOTweenModuleUI.DOFade(self.Panel.buttons[self.selectedRole]:GetComponent("Image"), 0.6, 0.15)
                         end
                     end
                 )
             end
             self.Panel.buttons[4].onClick:Invoke()
+
+            UICtrl:BlackMaskAni(0, 0.5)
 
             -- 刷新两个编队 角色表
             self:LoadData()
@@ -93,10 +96,18 @@ function ExploreCtrl:LoadData()
 end
 
 -- 刷新左边头像
+function ExploreCtrl:DisplayLeft()
+    local data = ModelTool:SplitStr(PlayerDataModel.PlayerData.Troops[self.selectedTroop])
+    -- 显示8个在队伍中的头像
+    for i = 1, 4 do
+        local texture = ABManager:LoadAsset("texture", data[i] .. "_Icon", CS.UnityEngine.Sprite)
+        self.Panel.images[i - 1].sprite = texture
+        self.Panel.images[i + 3].sprite = texture
+    end
+end
 
 -- 刷新右边编队 角色表
 function ExploreCtrl:Display()
-    print(PlayerDataModel.PlayerData.Troops)
 
     local data = ModelTool:SplitStr(PlayerDataModel.PlayerData.Troops[self.selectedTroop])
 
@@ -107,6 +118,12 @@ function ExploreCtrl:Display()
         self.Panel.images[i + 3].sprite = texture
     end
     -- 加载未在队伍中的角色
+    local roleData = nil
+    for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
+        if v.HeroID ~=  then
+            
+        end
+    end
     -- 添加成员改变委托
     -- 刷新队伍名称和三项属性
 end
@@ -117,5 +134,9 @@ function ExploreCtrl:TurnTroops()
     self.selectedTroop = (self.selectedTroop == 1 and {2} or {1})[1]
     print("切换到" .. self.selectedTroop .. "编队")
     -- 刷新显示
-    self:Display()
+    if ExploreCtrl.Panel.go[0].activeSelf then
+        self:Display()
+    else
+        self:DisplayLeft()
+    end
 end

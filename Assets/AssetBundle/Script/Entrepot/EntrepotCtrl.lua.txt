@@ -1,9 +1,65 @@
 EntrepotCtrl = {}
 -- 预制体上的UISubObject脚本，内含所有UI对象
 EntrepotCtrl.Panel = nil
+EntrepotCtrl.EntrepotItems = nil
 
 function EntrepotCtrl:Init()
     print("进入货架")
-    EntrepotCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "EntrepotUI"), "UI", true):GetComponent("UISubObject")
+    local _Obj = LoadManager:Load(ABManager:LoadAsset("prefab", "EntrepotUI"), "UI", true)
+    self.Panel = _Obj:GetComponent("UISubObject")
+    self.Ani = _Obj:GetComponent("EntrepotAnimation")
 
+    -- 返回按钮
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            print("按下返回按钮")
+            self.Ani:EntrepotExitAnimate()
+            UICtrl:Back2MainScene()
+        end
+    )
+
+    -- 仓库按钮
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            WarehouseCtrl:ShowWarehouse()
+            EntrepotCtrl.Panel.buttons[0].gameObject:SetActive(false)
+            WarehouseCtrl.Panel.buttons[0].gameObject:SetActive(true)
+            WarehouseCtrl.Ani:WarehouseEnterAnimate()
+        end
+    )
+    -- 出售记录按钮
+    self.Panel.buttons[2].onClick:AddListener(
+        function()
+            CS.AnimateManager.RecordEnterAnimate(self.Panel.go[2], self.Panel.go[3]);
+        end
+    )
+
+    -- 货架按钮失效
+    for i=3,18 do
+        EntrepotCtrl.Panel.buttons[i].enabled = false
+    end
+
+    -- 加载视图脚本
+    LoadManager:LoadLua("Entrepot", "EntrepotView")
+    self:ShowEntrepot()
+
+    -- 加载仓库控制脚本
+    LoadManager:LoadLua("Warehouse", "WarehouseCtrl")
+    WarehouseCtrl:Init()
+
+end
+
+-- 从动态数据中获取已上架的物品
+function EntrepotCtrl:GetEntrepotItems()
+    -- 筛选已上架的
+    local itemsList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Items, "IsOnShelf", 1, "true")
+    -- 排序
+    StaticDataModel:SortItem(itemsList, "Level", -1)
+    return itemsList
+end
+
+-- 刷新货架的显示
+function EntrepotCtrl:ShowEntrepot()
+    self.EntrepotItems = self:GetEntrepotItems()
+    EntrepotView:ShowEntrepotItems(self.EntrepotItems)
 end

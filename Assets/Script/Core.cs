@@ -23,6 +23,7 @@ public struct CallLua
 [LuaCallCSharp]
 public class Core : MonoBehaviour
 {
+    
     public GameObject[] dontDestroy;
     public static Core Instance;
     LuaTable table;

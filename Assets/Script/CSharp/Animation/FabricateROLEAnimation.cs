@@ -13,17 +13,18 @@ public class FabricateROLEAnimation : MonoBehaviour
         choice = GetComponent<UISubObject>().go[2];
         bg = GetComponent<UISubObject>().go[3];
     }
-    private void OnEnable()
-    {
-        ROLEEnterAnimate();
-    }
+    // private void OnEnable()
+    // {
+    //     ROLEEnterAnimate();
+    // }
+
     public void ROLEEnterAnimate()
     {
+        gameObject.SetActive(true);
         bg.GetComponent<Image>().DOFade(0.4f, 1);
         sroll.SetActive(true);
         choice.SetActive(true);
         sroll.GetComponent<RectTransform>().DOAnchorPosX(100, 0.5f).From();
-
         choice.GetComponent<RectTransform>().DOAnchorPosX(100, 0.5f).From();
     }
     public void ROLEExitAnimate()
@@ -36,7 +37,8 @@ public class FabricateROLEAnimation : MonoBehaviour
             choice.SetActive(false);
             sroll.GetComponent<RectTransform>().DOAnchorPosX(-100, 0.1f);
             choice.GetComponent<RectTransform>().DOAnchorPosX(-100, 0.1f);
-            
         };
+        
+        gameObject.SetActive(false);
     }
 }

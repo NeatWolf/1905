@@ -139,3 +139,20 @@ function ModelTool:SetMeta(table)
         }
     )
 end
+
+
+-- 如果小数位数为0，则只保留整数
+function ModelTool:FormatNum(number)
+    if number <= 0 then
+        return 0
+    else
+        local t1, t2 = math.modf(number)
+        --- 小数如果为0，则去掉
+        if t2 > 0 then
+            return number
+        else
+            return t1
+        end
+    end
+end
+

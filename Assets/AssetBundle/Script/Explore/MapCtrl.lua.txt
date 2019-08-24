@@ -3,10 +3,10 @@ MapCtrl = {}
 MapCtrl.Panel = nil
 
 function MapCtrl:Init(index)
-    print("进入" .. index .. "号探索大地图")
-
+    self.Panel = CS.UnityEngine.GameObject.Find("ExUI/ExploreInUI"):GetComponent("UISubObject")
+    -- 传入index
+    self.Panel:GetComponent("ExploreInAnimation"):Init(index + 1) 
+    print(index)
     -- 旋转摄像机
-    CS.UnityEngine.GameObject.Find("ExploreIn/CameraRotate").transform:Rotate(0, 90 * index, 0)
-
-
+    -- CS.UnityEngine.GameObject.Find("ExploreIn/CameraRotate").transform:Rotate(0, 90 * index, 0)
 end

@@ -18,18 +18,21 @@ public class FabricateROLEAnimation : MonoBehaviour
     public void ROLEEnterAnimate()
     {
         gameObject.SetActive(true);
-        gameObject.transform.GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(gameObject.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x+10, 0.7f).From().onComplete=()=>{
-            bg.GetComponent<Image>().DOFade(0.4f, 0.5f);
-        };
+        bg.SetActive(true);
+        bg.GetComponent<Image>().DOFade(0.4f,0.5f);
+        //transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().DOAnchorPosX(transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().anchoredPosition.x+10, 0.7f).From().onComplete=()=>{
+            //bg.GetComponent<Image>().DOFade(0.4f, 0.5f);
+        //};
         
     }
     public void ROLEExitAnimate()
     {
         bg.GetComponent<Image>().DOFade(0f, 0.5f);
-        gameObject.transform.GetChild(0).GetComponent<RectTransform>().DOAnchorPosX(gameObject.transform.GetChild(0).GetComponent<RectTransform>().anchoredPosition.x+10,1f).onComplete=()=>{
+        //gameObject.transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().DOAnchorPosX(transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().anchoredPosition.x+10,1f).onComplete=()=>{
+            //gameObject.transform.GetChild(0).transform.localPosition-=new Vector3(10,0,0);
             gameObject.SetActive(false);
-            gameObject.transform.GetChild(0).transform.localPosition-=new Vector3(10,0,0);
-        };
+            bg.SetActive(false);
+        //};
         
         
     }

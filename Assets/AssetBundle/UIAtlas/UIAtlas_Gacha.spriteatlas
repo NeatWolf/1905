@@ -30,7 +30,7 @@ SpriteAtlas:
       enableTightPacking: 0
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: 225c1676ff8161b45bf937a1a33b3be1, type: 3}
+    - {fileID: 2800000, guid: 5bac4f360bcbdf34bbfe4a516ab0000d, type: 3}
     - {fileID: 2800000, guid: 23e68632ece97014fad5083983cabf44, type: 3}
     - {fileID: 2800000, guid: 293285609b6f0ee49896a68a6fa8b0a2, type: 3}
     - {fileID: 2800000, guid: 7cd392632aaa65048965eb865adeb1c9, type: 3}
@@ -39,8 +39,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: f5b4c3c2d0db1e94785f3126aea89b81, type: 3}
     - {fileID: 2800000, guid: 375f8ce54ece2134caf08362f335d7a1, type: 3}
     - {fileID: 2800000, guid: 779a3f9d2f6aa344b89009581bbd2996, type: 3}
-    - {fileID: 2800000, guid: 5bac4f360bcbdf34bbfe4a516ab0000d, type: 3}
-    totalSpriteSurfaceArea: 5641370
+    totalSpriteSurfaceArea: 2956442
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -52,7 +51,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ce2c2cb587ba6df48908b76ece0b304d, type: 3}
   - {fileID: 21300000, guid: 375f8ce54ece2134caf08362f335d7a1, type: 3}
   - {fileID: 21300000, guid: 5bac4f360bcbdf34bbfe4a516ab0000d, type: 3}
-  - {fileID: 21300000, guid: 225c1676ff8161b45bf937a1a33b3be1, type: 3}
   - {fileID: 21300000, guid: 779a3f9d2f6aa344b89009581bbd2996, type: 3}
   m_PackedSpriteNamesToIndex:
   - floor
@@ -63,7 +61,6 @@ SpriteAtlas:
   - halo
   - middle
   - top
-  - bg
   - screen
   m_Tag: UIAtlas_Gacha
   m_IsVariant: 0

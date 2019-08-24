@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 990868615
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a34c7b07b91f5fdba6326b125cec8b7f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8d614ba2bf78fe185c64b512c1591e5d
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 687078895
+  Script: {instanceID: 0}
+Assets:
+- Assets/AssetBundle/UIAtlas/UIAtlas_Common.spriteatlas
+- Assets/AssetBundle/UIAtlas/UIAtlas_Enterpot.spriteatlas
+- Assets/AssetBundle/UIAtlas/UIAtlas_Gacha.spriteatlas
+- Assets/AssetBundle/UIAtlas/UIAtlas_Fabrication.spriteatlas
+- Assets/AssetBundle/UIAtlas/UIAtlas_Login.spriteatlas
+- Assets/AssetBundle/UIAtlas/UIAtlas_Explore.spriteatlas
+- Assets/AssetBundle/UIAtlas/UIAtlas_Character.spriteatlas
+Dependencies:
+- E:/Code/Git/1905/DataPath/ab/texture

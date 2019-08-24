@@ -5,14 +5,14 @@ MapCtrl.Panel = nil
 function MapCtrl:Init(index)
     self.Panel = CS.UnityEngine.GameObject.Find("ExUI/ExploreInUI"):GetComponent("UISubObject")
     -- 传入index
-    self.Panel:GetComponent("ExploreInAnimation"):Init(index + 1) 
-    
-    
-end
+    self.Panel:GetComponent("ExploreInAnimation"):Init(index + 1)
+    -- 加载所需数据（数量爆率总值、稀有爆率总值、体力总值Energy、体力当前值）
 
--- 返回主场景
-function MapCtrl:BackMainScene( )
-    
-end
+    -- 添加返回委托
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            UICtrl:Back2MainScene()
+        end
+    )
 
--- 加载所需数据（幸运总值、）
+end

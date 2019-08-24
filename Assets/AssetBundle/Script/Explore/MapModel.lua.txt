@@ -1,0 +1,9 @@
+MapModel = {}
+
+MapModel.data = {}
+MapModel.data.role = {} -- 数组形式四个角色ID
+MapModel.data.energy = 0 -- 总体力
+MapModel.data.currentEnergy = 0 -- 当前体力
+MapModel.data.lucky = 0 -- 品质爆率
+MapModel.data.efficiency = 0 -- 数量爆率
+

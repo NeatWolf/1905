@@ -170,6 +170,9 @@ public class RolePanelSelectAnimation : MonoBehaviour
                 touchMask.SetActive(false);
             }
         }
+        //抬手时激活onValueChange
+        if (Input.GetMouseButtonUp(0))
+            scrollbar.value += 0.001f;
         bottomTouchMask.SetActive(Mathf.Abs(scrollbar.value - lastValue) < maskValue * 0.0002f ? false : true);
         lastValue = scrollbar.value;
     }

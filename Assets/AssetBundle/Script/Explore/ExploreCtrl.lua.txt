@@ -77,7 +77,6 @@ function ExploreCtrl:Init()
             self:Display()
         end
     )
-
     MainSceneCtrl.Scene.gameObject:SetActive(false)
 end
 

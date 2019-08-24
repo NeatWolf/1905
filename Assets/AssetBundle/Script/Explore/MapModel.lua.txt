@@ -6,4 +6,9 @@ MapModel.data.energy = 0 -- 总体力
 MapModel.data.currentEnergy = 0 -- 当前体力
 MapModel.data.lucky = 0 -- 品质爆率
 MapModel.data.efficiency = 0 -- 数量爆率
+ModelTool:SetMeta(MapModel.data)
 
+function MapModel:LoadData( )
+    -- 总体力 = 所有角色的体力上限 + 所有角色身上的装备加成
+    self.data.energy = 0
+end

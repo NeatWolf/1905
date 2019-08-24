@@ -1325,6 +1325,8 @@ MonoBehaviour:
   - {fileID: 9217716753869944580}
   - {fileID: 6834417245623173155}
   toggles: []
+  sliders: []
+  inputFields: []
   texts: []
   tmps:
   - {fileID: 3221114066228540708}
@@ -1332,7 +1334,6 @@ MonoBehaviour:
   - {fileID: 7810908246977939838}
   images:
   - {fileID: 386578126286898809}
-  inputFields: []
   go: []
   fx: []
 --- !u!1 &5019306121890963651

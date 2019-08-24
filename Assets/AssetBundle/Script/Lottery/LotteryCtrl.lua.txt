@@ -69,7 +69,7 @@ function LotteryCtrl:Get(type)
             UICtrl:LoadRole({roleData}, LotteryCtrl:Show(roleData.Name .. "(已拥有,转换为卷轴)"))
 
             -- 卷轴添加账号数据
-            PlayerDataModel:AddItem("10003")
+            PlayerDataModel:AddNormalItem("10003", 1, false)
 
             -- 转换成卷轴，显示转换成卷轴文字
             print("重复获得" .. roleData.Name .. "转换成卷轴")
@@ -93,7 +93,7 @@ function LotteryCtrl:Get(type)
         print("获得L" .. prop.Level .. "道具:" .. prop.Name)
 
         -- 道具添加到账号数据
-        PlayerDataModel:AddItem(prop.ItemID)
+        PlayerDataModel:AddNormalItem(prop.ItemID, 1, false)
     end
 
     -- 保存账号数据，重新合并数据，刷新资源显示

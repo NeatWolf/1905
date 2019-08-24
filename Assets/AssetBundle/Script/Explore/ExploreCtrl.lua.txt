@@ -120,9 +120,9 @@ function ExploreCtrl:Display()
     -- 加载未在队伍中的角色
     local roleData = nil
     for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
-        if v.HeroID ~=  then
+        -- if v.HeroID ~=  then
             
-        end
+        -- end
     end
     -- 添加成员改变委托
     -- 刷新队伍名称和三项属性

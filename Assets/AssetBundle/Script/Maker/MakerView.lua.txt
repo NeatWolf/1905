@@ -1,13 +1,15 @@
 MakerView = {}
 
 -- 显示已选择的英雄的头像
-function MakerView:ShowHeroChoice()
-    if MakerCtrl.HeroChoice ~= nil then
-        print("选择英雄成功，当前所选择的英雄：" .. MakerCtrl.HeroChoice.HeroID)
-        MakerCtrl.Panel.images[0].sprite = ABManager:LoadAsset("texture", MakerCtrl.HeroChoice.HeroID .. "_Icon" , CS.UnityEngine.Sprite)
+function MakerView:ShowHeroChoice(heroData)
+    if heroData ~= nil then
+        print("当前所选择的英雄：" .. heroData.HeroID)
+        MakerCtrl.Panel.images[0].sprite = ABManager:LoadAsset("texture", heroData.HeroID .. "_Icon" , CS.UnityEngine.Sprite)
+        MakerCtrl.Panel.images[0].color = CS.UnityEngine.Color(1,1,1,1)
     else
         print("当前未选择英雄。")
         MakerCtrl.Panel.images[0].sprite = nil
+        MakerCtrl.Panel.images[0].color = CS.UnityEngine.Color(1,1,1,0.5)
     end
 end
 
@@ -57,7 +59,7 @@ function MakerView:ShowSynNeeds(needsStr)
             -- 遍历玩家目前的所有道具
             for k, v in pairs(PlayerDataModel.CompletePlayerData.Items) do
                 -- 如果ID匹配
-                if v.ItemID == needsList[2 * i - 1] then
+                if v.ItemID == needsList[2 * i - 1] and v.IsOnShelf == "false" then
                     -- 显示数量
                     MakerCtrl.Panel.texts[i].text = needsList[2 * i] .. "/" .. v.Count
                     -- 显示图片
@@ -87,3 +89,10 @@ function MakerView:ShowSynNeeds(needsStr)
 end
 
 
+function MakerView:ShowSynItermsList(itemsList)
+    LoadManager:DeleteAllChilds(MakerCtrl.Panel.go[11])
+    for k,v in pairs(itemsList) do
+        local button = UICtrl:LoadItem(v, MakerCtrl.Panel.go[11].transform)
+        button.UISub.buttons[0].enabled = false
+    end
+end

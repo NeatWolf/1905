@@ -67,7 +67,7 @@ function StaticDataModel:MergeHero(playerHero)
 end
 
 -- 合并一个道具数据
-function StaticDataModel:MergeItem(playerItem)
+function StaticDataModel:MergeNormalItem(playerItem)
     for i = 1, #self.ItemsTable do
         -- 如果ID匹配，则合并信息
         if playerItem.ItemID == self.ItemsTable[i].ItemID then
@@ -76,6 +76,32 @@ function StaticDataModel:MergeItem(playerItem)
             itemNow.ItemID = playerItem.ItemID
             itemNow.Count = playerItem.Count
             itemNow.IsOnShelf = playerItem.IsOnShelf
+            -- 静态表的数据
+            itemNow.Name = self.ItemsTable[i].Name
+            itemNow.Type = self.ItemsTable[i].Type
+            itemNow.Level = self.ItemsTable[i].Level
+            itemNow.ObMethods = self.ItemsTable[i].ObMethods
+            itemNow.Price = self.ItemsTable[i].Price
+            itemNow.HeroBuff = self.ItemsTable[i].HeroBuff
+            itemNow.SuitID = self.ItemsTable[i].SuitID
+            itemNow.SynNeeds = self.ItemsTable[i].SynNeeds
+            itemNow.SynTime = self.ItemsTable[i].SynTime
+            itemNow.Description = self.ItemsTable[i].Description
+
+            return itemNow
+        end
+    end
+end
+
+-- 合并一个道具数据
+function StaticDataModel:MergeSynItem(playerSynItem)
+    for i = 1, #self.ItemsTable do
+        -- 如果ID匹配，则合并信息
+        if playerSynItem.ItemID == self.ItemsTable[i].ItemID then
+            local itemNow = {}
+            -- 动态表的数据
+            itemNow.ItemID = playerSynItem.ItemID
+            itemNow.SynTimer = playerSynItem.SynTimer
             -- 静态表的数据
             itemNow.Name = self.ItemsTable[i].Name
             itemNow.Type = self.ItemsTable[i].Type
@@ -107,16 +133,24 @@ function StaticDataModel:MergeData(playerData)
 
     finalData.Heros = {}
     -- 合并完整的英雄信息表
-    for i = 1, #playerData.Heros do
-        local heroNow = self:MergeHero(playerData.Heros[i])
+    for _,v in pairs(playerData.Heros) do
+        local heroNow = self:MergeHero(v)
         table.insert(finalData.Heros, heroNow)
     end
 
     finalData.Items = {}
     -- 合并完整的道具信息表
-    for i = 1, #playerData.Items do
-        local itemNow = self:MergeItem(playerData.Items[i])
+    for _,v in pairs(playerData.Items) do
+        local itemNow = self:MergeNormalItem(v)
         table.insert(finalData.Items, itemNow)
+    end
+
+    finalData.SynInsInfo = {}
+    finalData.SynInsInfo.HeroID = playerData.SynInsInfo.HeroID
+    finalData.SynInsInfo.SynItems = {}
+    for _,v in pairs(playerData.SynInsInfo.SynItems) do
+        local itemNow = self:MergeSynItem(v)
+        table.insert( finalData.SynInsInfo.SynItems, itemNow)
     end
 
     -- 返回 完整的玩家数据表
@@ -156,6 +190,30 @@ function StaticDataModel:ScreenList(list, key, index, ...)
 
     return list1, list2
 end
+
+-- 按获取方式对 进行道具筛选
+function StaticDataModel:ScreenItemByObMethod(list, way)
+    if list == nil then
+        return nil
+    end
+
+    local finalList = {}
+    for k, v in pairs(list) do
+        if string.find( v.ObMethods, way) ~= nil then
+            table.insert( finalList, v)
+        end
+    end
+    
+    if #finalList == 0 then
+        finalList = nil
+    end
+
+    return finalList
+end
+
+
+
+
 
 --[[
     @desc: 道具排序

@@ -108,7 +108,7 @@ end
 
 -- 刷新右边编队 角色表
 function ExploreCtrl:Display()
-
+    -- 数组形式四个角色ID
     local data = ModelTool:SplitStr(PlayerDataModel.PlayerData.Troops[self.selectedTroop])
 
     -- 显示8个在队伍中的头像
@@ -118,12 +118,27 @@ function ExploreCtrl:Display()
         self.Panel.images[i + 3].sprite = texture
     end
     -- 加载未在队伍中的角色
-    local roleData = nil
-    for k,v in pairs(PlayerDataModel.PlayerData.Heros) do
-        if v.HeroID ~=  then
-            
+    local roleData = {}
+    for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
+        local different = true
+        for i = 1, 4 do
+            if v.HeroID == data[i] then
+                different = false
+                break
+            end
+        end
+        if different then
+            table.insert(roleData, PlayerDataModel.PlayerData.Heros[k]) -- 得到所有不在编队中的ID
         end
     end
+    -- 销毁
+
+    for k, v in pairs(roleData) do
+        local image = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Button"), self.Panel.go[19].transform):GetComponent("Image")
+        image.sprite = ABManager:LoadAsset("texture", v.HeroID .. "_Icon", CS.UnityEngine.Sprite)
+        image.transform:GetComponent("RectTransform").localPosition = CS.UnityEngine.Vector3.zero
+    end
+
     -- 添加成员改变委托
     -- 刷新队伍名称和三项属性
 end

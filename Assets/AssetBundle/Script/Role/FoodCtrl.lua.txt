@@ -153,7 +153,7 @@ function FoodCtrl:FeedHero(heroData, itemData)
     self.Panel.buttons[0].interactable = true
 
     -- 修改食物数量
-    self.CurrentFood = PlayerDataModel:RemoveItem(self.CurrentFood.ItemID, 1, false)
+    self.CurrentFood = PlayerDataModel:RemoveNormalItem(self.CurrentFood.ItemID, 1, false)
 
     -- 如果英雄当前的临时Buff 小于 道具的加成Buff，进行赋值
     if _hbuffA[1] < _ibuff[3] then

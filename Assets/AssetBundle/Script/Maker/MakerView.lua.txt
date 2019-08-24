@@ -92,7 +92,21 @@ end
 function MakerView:ShowSynItermsList(itemsList)
     LoadManager:DeleteAllChilds(MakerCtrl.Panel.go[11])
     for k,v in pairs(itemsList) do
-        local button = UICtrl:LoadItem(v, MakerCtrl.Panel.go[11].transform)
-        button.UISub.buttons[0].enabled = false
+        local synItem = {}
+        synItem._Obj = LoadManager:Load(ABManager:LoadAsset("prefab", "SynItem"), MakerCtrl.Panel.go[11].transform, true)
+        synItem._Obj.transform:Rotate(0,-75,0)
+        synItem._Data = v
+        synItem._UISub = synItem._Obj:GetComponent("UISubObject")
+        synItem._UISub.images[1].sprite = ABManager:LoadAsset("texture", v.ItemID, CS.UnityEngine.Sprite)
+        synItem._UISub.images[0].fillAmount = 0.5 -- v.SynTimer/v.SynTime
+
+        local event = function() MakerCtrl:SynCdTimerEvent(synItem) end
+
+        Core.updateEvent[("Syn" .. synItem._Data.ItemID)] = function() MakerCtrl:SynCdTimerEvent(synItem) end
+        
+        
+        -- table.insert(Core.updateEvent, tonumber(synItem._Data.ItemID), function() MakerCtrl:SynCdTimerEvent(synItem) end)
+
     end
 end
+

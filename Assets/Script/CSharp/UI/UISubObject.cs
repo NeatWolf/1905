@@ -40,5 +40,6 @@ public class UISubObject : MonoBehaviour
             if (inputFields[i] != null)
                 inputFields[i].onEndEdit.RemoveAllListeners();
         }
+        // go[1].transform.Rotate(0,0,0,Space.Self);
     }
 }

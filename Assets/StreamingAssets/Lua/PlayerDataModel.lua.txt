@@ -46,7 +46,7 @@ function PlayerDataModel:WriteIn(data)
     end
 end
 
-function PlayerDataModel:RemoveItem(itemID, count, isOnShelf)
+function PlayerDataModel:RemoveNormalItem(itemID, count, isOnShelf)
     local itemData = {}
     -- 遍历玩家目前的所有道具
     for k, v in pairs(self.PlayerData.Items) do
@@ -75,6 +75,18 @@ function PlayerDataModel:RemoveItem(itemID, count, isOnShelf)
     end
     return itemData
 end
+
+function PlayerDataModel:RemoveSynItem(itemID)
+    for k,v in pairs(self.PlayerData.SynInsInfo.SynItems) do
+        if v.ItemID == itemID then
+            table.remove(self.PlayerData.SynInsInfo.SynItems, k)
+            break
+        end
+    end
+end
+
+
+
 
 function PlayerDataModel:AddNormalItem(itemID, count, isOnShelf)
     -- 默认值为1
@@ -117,7 +129,7 @@ function PlayerDataModel:AddSynItem(itemID)
         if v1.ItemID == itemID then
             local newSynItem = {}
             newSynItem.ItemID = itemID
-            newSynItem.SynTimer = v1.SynTime
+            newSynItem.SynTimer = "0"
             -- 增加到玩家动态表
             table.insert(self.PlayerData.SynInsInfo.SynItems, newSynItem)
             -- 合并出完整道具信息

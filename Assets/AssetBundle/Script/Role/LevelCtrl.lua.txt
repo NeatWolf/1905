@@ -65,7 +65,7 @@ end
 ]]
 function LevelCtrl:LevelUp(heroData, scrollData)
     -- 扣除所需的卷轴
-    PlayerDataModel:RemoveItem(scrollData.ItemID , scrollData.Count, false)
+    PlayerDataModel:RemoveNormalItem(scrollData.ItemID , scrollData.Count, false)
 
     -- 英雄升级
     heroData.Level = tostring(tonumber(heroData.Level) + 1)     -- 现等级

@@ -708,6 +708,7 @@ MonoBehaviour:
   - {fileID: 1518030860}
   - {fileID: 3694749524666911913}
   - {fileID: 1886907031843011496}
+  - {fileID: 3955229236726724405}
   fx: []
 --- !u!114 &928972674
 MonoBehaviour:
@@ -781,7 +782,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!114 &5722775193770283216
 MonoBehaviour:
@@ -987,6 +988,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034816274145100954, guid: 3179908e6aa2aed449045e9cdf4d5087,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.5568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034816274145100954, guid: 3179908e6aa2aed449045e9cdf4d5087,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.5803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034816274145100954, guid: 3179908e6aa2aed449045e9cdf4d5087,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034816274145100954, guid: 3179908e6aa2aed449045e9cdf4d5087,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034816274145100954, guid: 3179908e6aa2aed449045e9cdf4d5087,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034816274145100954, guid: 3179908e6aa2aed449045e9cdf4d5087,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3179908e6aa2aed449045e9cdf4d5087, type: 3}

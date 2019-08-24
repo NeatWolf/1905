@@ -106,7 +106,7 @@ function UICtrl:LoadRole(rolesList, parent)
         local _Role = {}
         _Role.UISub = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Role"), parent):GetComponent("UISubObject")
         -- 加载图片
-        _Role.UISub.images[0].sprite = ABManager:LoadAsset("texture", v.HeroID, CS.UnityEngine.Sprite)
+        _Role.UISub.images[0].sprite = ABManager:LoadAsset("texture", v.HeroID .. "_Icon", CS.UnityEngine.Sprite)
         _Role.UISub:GetComponent("RectTransform").localPosition = CS.UnityEngine.Vector3.zero
     end
 end

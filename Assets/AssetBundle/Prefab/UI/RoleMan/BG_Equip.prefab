@@ -796,7 +796,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3302252898600199609}
   m_Direction: 2
   m_Value: 0.9999905
-  m_Size: 0.72148705
+  m_Size: 0.721487
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4410,6 +4410,8 @@ MonoBehaviour:
   - {fileID: 2953316684650633175}
   - {fileID: 283642676880427908}
   toggles: []
+  sliders: []
+  inputFields: []
   texts:
   - {fileID: 5297805786072400827}
   - {fileID: 1522643848797716394}
@@ -4425,7 +4427,6 @@ MonoBehaviour:
   - {fileID: 7180146984195408581}
   - {fileID: 7492081846501568777}
   - {fileID: 3440005620598007456}
-  inputFields: []
   go:
   - {fileID: 3302252897795637387}
   fx: []

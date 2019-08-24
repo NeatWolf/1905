@@ -15,6 +15,8 @@ end
 
 -- 显示英雄详细信息
 function RoleView:ShowHeroInfo(heroData)
+    -- 显示立绘
+    RoleCtrl.Panel.images[0].sprite = ABManager:LoadAsset("texture", heroData.HeroID .. "_Tex", CS.UnityEngine.Sprite)
     --print(heroData.Name)
     -- 显示名字
     local _names = ModelTool:SplitStr(heroData.Name)
@@ -30,8 +32,6 @@ function RoleView:ShowHeroInfo(heroData)
         RoleCtrl.Panel.tmps[1].text = "Level " .. heroData.Level .. " ↑"
     end
 
-    -- 显示立绘
-    RoleCtrl.Panel.images[0].sprite = ABManager:LoadAsset("texture", heroData.HeroID .. "_Tex", CS.UnityEngine.Sprite)
 
     -- 显示耐力
     RoleCtrl.Panel.tmps[2].text = heroData.EnergyMax

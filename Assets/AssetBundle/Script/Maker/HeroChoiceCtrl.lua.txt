@@ -76,9 +76,7 @@ function HeroChoiceCtrl:ShowHeroCell(heroData)
         _buffInfo = _buffInfo .. "裝備"
     end
     _hero.transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = _buffInfo .. "\n" .. _buff[2]
-
     
-
 end
 
 

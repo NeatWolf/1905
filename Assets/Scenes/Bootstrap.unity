@@ -485,7 +485,7 @@ MonoBehaviour:
   - {fileID: 653583662}
   - {fileID: 582465701}
   - {fileID: 1694703466}
-  - {fileID: 797883220}
+  - {fileID: 5741628991308650409}
   test: 666
   test2: 6669999
 --- !u!4 &1050952447
@@ -676,7 +676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &5741628991308650410
 AudioListener:
   m_ObjectHideFlags: 0

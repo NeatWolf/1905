@@ -32,7 +32,7 @@ end
 
 
 -- 显示每一个英雄的框
-function HeroChoiceCtrl:ShowHeroCells(heroData)
+function HeroChoiceCtrl:ShowHeroCell(heroData)
 
     -- 分割字符串得到增益种类和加成
     local _buff = ModelTool:SplitStr(heroData.InsBuff)
@@ -48,14 +48,24 @@ function HeroChoiceCtrl:ShowHeroCells(heroData)
                 self.CurrentHero = heroData
                 print("切换英雄成功：" .. self.CurrentHero.HeroID)
             else
-                _hero.transform:GetChild(0):GetComponent("Image").color = CS.UnityEngine.Color(0.808,0.820,0.906,1);
+                _hero.transform:GetChild(0):GetComponent("Image").color = CS.UnityEngine.Color(1,1,1,1);
                 self.CurrentHero = nil
                 print("取消英雄选择")
             end
         end
     )
+
+    -- 显示当前选中的英雄
+    if self.CurrentHero ~= nil then
+        if heroData.HeroID == self.CurrentHero.HeroID then
+            _heroTog.isOn = true
+            _hero.transform:GetChild(0):GetComponent("Image").color = CS.UnityEngine.Color(0.035,0.105,0.525,1);
+        end
+    end
+
     -- 显示英雄头像
     _hero.transform:Find("AV"):GetComponent("Image").sprite = ABManager:LoadAsset("texture", heroData.HeroID .. "_Icon" , CS.UnityEngine.Sprite)
+    
     -- 显示增益信息
     local _buffInfo = "增益類型:"
     if _buff[1] == "2" then
@@ -66,20 +76,15 @@ function HeroChoiceCtrl:ShowHeroCells(heroData)
         _buffInfo = _buffInfo .. "裝備"
     end
     _hero.transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = _buffInfo .. "\n" .. _buff[2]
-    -- 显示当前选中的英雄
-    if self.CurrentHero ~= nil then
-        if heroData.HeroID == self.CurrentHero.HeroID then
-            _heroTog.isOn = true
-        end
-    end
-
+    
 end
 
 
 -- 显示所有英雄信息
 function HeroChoiceCtrl:ShowHeros(heroList, currentHero)
+    LoadManager:DeleteAllChilds(self.Panel.go[0])
     self.CurrentHero = currentHero
     for k, v in pairs(heroList) do
-        self:ShowHeroCells(v)
+        self:ShowHeroCell(v)
     end
 end

@@ -5,9 +5,11 @@ function MakerView:ShowHeroChoice(heroData)
     if heroData ~= nil then
         print("当前所选择的英雄：" .. heroData.HeroID)
         MakerCtrl.Panel.images[0].sprite = ABManager:LoadAsset("texture", heroData.HeroID .. "_Icon" , CS.UnityEngine.Sprite)
+        MakerCtrl.Panel.images[0].color = CS.UnityEngine.Color(1,1,1,1)
     else
         print("当前未选择英雄。")
         MakerCtrl.Panel.images[0].sprite = nil
+        MakerCtrl.Panel.images[0].color = CS.UnityEngine.Color(1,1,1,0.5)
     end
 end
 
@@ -87,3 +89,10 @@ function MakerView:ShowSynNeeds(needsStr)
 end
 
 
+function MakerView:ShowSynItermsList(itemsList)
+    LoadManager:DeleteAllChilds(MakerCtrl.Panel.go[11])
+    for k,v in pairs(itemsList) do
+        local button = UICtrl:LoadItem(v, MakerCtrl.Panel.go[11].transform)
+        button.UISub.buttons[0].enabled = false
+    end
+end

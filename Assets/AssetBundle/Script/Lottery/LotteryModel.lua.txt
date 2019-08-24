@@ -16,6 +16,7 @@ LotteryModel.Normal.L2ItemProbability = 0.5 -- L2道具
 LotteryModel.NormalPlus = ModelTool:CopyTable(LotteryModel.Normal)
 LotteryModel.NormalPlus.price = 9500
 LotteryModel.NormalPlus.times = 10
+
 LotteryModel.Diamond = ModelTool:CopyTable(LotteryModel.Normal)
 LotteryModel.Diamond.price = 100 -- 钻石卡池消耗
 LotteryModel.DiamondPlus = ModelTool:CopyTable(LotteryModel.Normal)

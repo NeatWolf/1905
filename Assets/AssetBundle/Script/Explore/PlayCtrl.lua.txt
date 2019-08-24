@@ -1,0 +1,14 @@
+PlayCtrl = {}
+
+PlayCtrl.Panel = nil
+
+function PlayCtrl:Init(index)
+
+
+end
+
+
+
+function PlayCtrl:GetItem(mapIndex)
+    
+end

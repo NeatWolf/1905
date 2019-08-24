@@ -50,6 +50,9 @@ function MakerCtrl:Init()
     -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
+            for k,v in pairs(PlayerDataModel.PlayerData.SynInsInfo.SynItems) do
+                Core.updateEvent[("Syn" .. v.ItemID)] = nil
+            end
             UICtrl:Back2MainScene()
         end
     )
@@ -294,7 +297,7 @@ function MakerCtrl:SynItem(itemData)
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
     for i = 1, #(_needsList) / 2, 1 do
         -- 扣除所需物品
-        PlayerDataModel:RemoveItem(_needsList[2*i-1] , _needsList[2*i] , false)
+        PlayerDataModel:RemoveNormalItem(_needsList[2*i-1] , _needsList[2*i] , false)
     end
 
     -- 添加正在合成的道具
@@ -310,3 +313,24 @@ function MakerCtrl:UpdateSynItems()
     MakerView:ShowSynItermsList(PlayerDataModel.CompletePlayerData.SynInsInfo.SynItems)
 end
 
+
+function MakerCtrl:SynCdTimerEvent(synItem)
+    synItem._Data.SynTimer = tostring(synItem._Data.SynTimer + CS.UnityEngine.Time.deltaTime)
+    --print(synItem._Data.SynTimer)
+
+    if tonumber(synItem._Data.SynTimer) >= tonumber(synItem._Data.SynTime) then
+        synItem._UISub.images[0].fillAmount = 1
+        CS.UnityEngine.Object.Destroy(synItem._Obj)
+        PlayerDataModel:RemoveSynItem(synItem._Data.ItemID)
+        PlayerDataModel:AddNormalItem(synItem._Data.ItemID, 1, false)
+        Core.updateEvent[("Syn" .. synItem._Data.ItemID)] = nil
+    else
+        synItem._UISub.images[0].fillAmount = synItem._Data.SynTimer/synItem._Data.SynTime
+    end
+
+end
+
+
+function MakerCtrl:RemoveEvent()
+    
+end

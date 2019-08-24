@@ -42,13 +42,17 @@
 		{"ItemID":"12006" , "Count":"2" , "IsOnShelf":"true"},
 		{"ItemID":"12007" , "Count":"6" , "IsOnShelf":"true"},
 		{"ItemID":"12008" , "Count":"5" , "IsOnShelf":"true"}
-	]
-
-
-
-
-
-
+	],
+	"SynInsInfo":
+	{
+		"HeroID":"1",
+		"SynItems":
+		[
+			{"ItemID":"11005", "SynTimer":"5"},
+			{"ItemID":"11008", "SynTimer":"10"},
+			{"ItemID":"12006", "SynTimer":"3"}
+		]
+	}
 
 
 }

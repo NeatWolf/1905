@@ -1,0 +1,281 @@
+StaticDataModel = {}
+
+-- 所有的静态策划表
+StaticDataModel.ItemsTable = {}
+StaticDataModel.HerosTable = {}
+StaticDataModel.MonstersTable = {}
+StaticDataModel.NPCsTable = {}
+
+-- 读取 所有的静态策划表
+function StaticDataModel:ReadOut()
+    -- 读取道具静态表
+    local ta = ABManager:LoadAsset("json", "ItemsTable")
+    self.ItemsTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.ItemsTable)
+
+    -- 读取英雄静态表
+    ta = ABManager:LoadAsset("json", "HerosTable")
+    self.HerosTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.HerosTable)
+
+    -- 读取怪物静态表
+    ta = ABManager:LoadAsset("json", "MonstersTable")
+    self.MonstersTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.MonstersTable)
+
+    -- 读取怪物静态表
+    ta = ABManager:LoadAsset("json", "NPCsTable")
+    self.NPCsTable = JsonUtil.decode(ta.text)
+    ModelTool:SetMeta(StaticDataModel.NPCsTable)
+end
+
+-- 合并一个英雄数据
+function StaticDataModel:MergeHero(playerHero)
+    for i = 1, #self.HerosTable do
+        -- 如果ID匹配，则合并信息
+        if playerHero.HeroID == self.HerosTable[i].HeroID then
+            local heroNow = {}
+            -- 动态表的数据
+            heroNow.HeroID = playerHero.HeroID
+            heroNow.Level = playerHero.Level
+            heroNow.EnergyMax = playerHero.EnergyMax
+            heroNow.EnergyNow = playerHero.EnergyNow
+            heroNow.ColBuff = playerHero.ColBuff
+            heroNow.ColBuffAdd = playerHero.ColBuffAdd
+            heroNow.InsBuff = playerHero.InsBuff
+            heroNow.Equips = {}
+            local equipsList = ModelTool:SplitStr(playerHero.Equips)
+            for k = 1, #equipsList do
+                for v = 1, #self.ItemsTable do
+                    if equipsList[k] == self.ItemsTable[v].ItemID then
+                        table.insert(heroNow.Equips, self.ItemsTable[v])
+                        break
+                    end
+                end
+            end
+            -- 静态表的数据
+            heroNow.Name = self.HerosTable[i].Name
+            heroNow.Age = self.HerosTable[i].Age
+            heroNow.Gender = self.HerosTable[i].Gender
+            heroNow.LevelUp = self.HerosTable[i].LevelUp
+            heroNow.Speak1 = self.HerosTable[i].Speak1
+            heroNow.Speak2 = self.HerosTable[i].Speak2
+
+            return heroNow
+        end
+    end
+end
+
+-- 合并一个道具数据
+function StaticDataModel:MergeItem(playerItem)
+    for i = 1, #self.ItemsTable do
+        -- 如果ID匹配，则合并信息
+        if playerItem.ItemID == self.ItemsTable[i].ItemID then
+            local itemNow = {}
+            -- 动态表的数据
+            itemNow.ItemID = playerItem.ItemID
+            itemNow.Count = playerItem.Count
+            itemNow.IsOnShelf = playerItem.IsOnShelf
+            -- 静态表的数据
+            itemNow.Name = self.ItemsTable[i].Name
+            itemNow.Type = self.ItemsTable[i].Type
+            itemNow.Level = self.ItemsTable[i].Level
+            itemNow.ObMethods = self.ItemsTable[i].ObMethods
+            itemNow.Price = self.ItemsTable[i].Price
+            itemNow.HeroBuff = self.ItemsTable[i].HeroBuff
+            itemNow.SuitID = self.ItemsTable[i].SuitID
+            itemNow.SynNeeds = self.ItemsTable[i].SynNeeds
+            itemNow.SynTime = self.ItemsTable[i].SynTime
+            itemNow.Description = self.ItemsTable[i].Description
+
+            return itemNow
+        end
+    end
+end
+
+
+-- 合并出 完整的玩家数据信息
+function StaticDataModel:MergeData(playerData)
+    local finalData = {}
+
+    finalData.User = playerData.User
+    finalData.Password = playerData.Password
+    finalData.Name = playerData.Name
+    finalData.TexturePath = playerData.TexturePath
+    finalData.StoreLevel = playerData.StoreLevel
+    finalData.Money = playerData.Money
+    finalData.Diamond = playerData.Diamond
+
+    finalData.Heros = {}
+    -- 合并完整的英雄信息表
+    for i = 1, #playerData.Heros do
+        local heroNow = self:MergeHero(playerData.Heros[i])
+        table.insert(finalData.Heros, heroNow)
+    end
+
+    finalData.Items = {}
+    -- 合并完整的道具信息表
+    for i = 1, #playerData.Items do
+        local itemNow = self:MergeItem(playerData.Items[i])
+        table.insert(finalData.Items, itemNow)
+    end
+
+    -- 返回 完整的玩家数据表
+    return finalData
+end
+
+-- 按key的第index个值 进行筛选(...为所有条件，符合一个即可 )
+function StaticDataModel:ScreenList(list, key, index, ...)
+    if list == nil then
+        return nil,nil
+    end
+
+    -- 1.满足条件的
+    local list1 = {}
+    -- 2.不满足条件的
+    local list2 = {}
+    for k, v in pairs(list) do
+        local _strs = ModelTool:SplitStr(v[key])
+        for i = 1, select("#", ...) do
+            if _strs[index] == select(i, ...) then
+                table.insert(list1, v)
+                -- ???↓
+            elseif i == select("#", ...) then
+                table.insert(list2, v)
+            end
+        end
+    end
+    
+    if #list1 == 0 then
+        -- print("list1 is nil")
+        list1 = nil
+    end
+    if #list2 == 0 then
+        -- print("list2 is nil")
+        list2 = nil
+    end
+
+    return list1, list2
+end
+
+--[[
+    @desc: 道具排序
+    --@list: 道具列表
+	--@key: 第二层排序的key（"Level" / "Price"）
+	--@changeWay: 第二层排序的升序降序（ 1 / -1 ）
+    @return:
+]]
+function StaticDataModel:SortItem(list, key, changeWay)
+    if list == nil then
+        -- print("StaticDataModel:SortItem list is nil")
+        return
+    end
+
+    for i = 1, #list do
+        for j = 1, #list - i do
+            -- 第一层排序 Type 9-武器类型放在最前面
+            if  (list[j].Type ~= "9" and list[j + 1].Type == "9") then
+                list[j], list[j + 1] = list[j + 1], list[j]
+            elseif list[j].Type == "9" and list[j + 1].Type ~= "9" then
+            elseif (tonumber(list[j].Type) - tonumber(list[j + 1].Type)) > 0  then
+                list[j], list[j + 1] = list[j + 1], list[j]
+            -- 第二层排序 自定义
+            elseif ((tonumber(list[j].Type) - tonumber(list[j + 1].Type))) == 0 and ((tonumber(list[j][key]) - tonumber(list[j + 1][key])) * changeWay) > 0 then
+                -- print((list[j][key]) .. " " .. (list[j + 1][key]))
+                -- print("change")
+                list[j], list[j + 1] = list[j + 1], list[j]
+            -- 第二层排序 ID
+            elseif ((tonumber(list[j][key]) - tonumber(list[j + 1][key])) * changeWay) == 0 and (tonumber(list[j].ItemID) - tonumber(list[j + 1].ItemID)) > 0 then
+                -- print(list[j].ItemID .. " " .. list[j+1].ItemID)
+                -- print("change")
+                list[j], list[j + 1] = list[j + 1], list[j]
+            end
+        end
+    end
+end
+
+-- 按HeroID对英雄进行排序
+function StaticDataModel:SortHeroByHeroID(heroList)
+    if heroList == nil then
+        -- print("StaticDataModel:SortHeroByHeroID heroList is nil")
+        return
+    end
+
+    for i = 1, #heroList do
+        for j = 1, #heroList - i do
+            if tonumber(heroList[j].HeroID) > tonumber(heroList[j + 1].HeroID) then
+                -- print( heroList[j].HeroID .. " " .. heroList[j+1].HeroID )
+                -- print("change")
+                heroList[j], heroList[j + 1] = heroList[j + 1], heroList[j]
+            end
+        end
+    end
+end
+
+-- 按InsBuff对英雄进行排序
+function StaticDataModel:SortHeroByInsBuff(herosList, ...)
+    if herosList == nil then
+        -- print("StaticDataModel:SortHeroByInsBuff heroList is nil")
+        return nil
+    end
+
+    local list1 = {}
+    local list2 = {}
+    list1, list2 = StaticDataModel:ScreenList(herosList, "InsBuff", 1, ...)
+
+    if list1 ~= nil then
+        for i = 1, #list1 do
+            for j = 1, #list1 - i do
+                local _buff1 = ModelTool:SplitStr(list1[j].InsBuff)
+                local _buff2 = ModelTool:SplitStr(list1[j + 1].InsBuff)
+                if tonumber(_buff1[2]) < tonumber(_buff2[2]) then
+                    -- print(_buff1[2] .. " " .. _buff2[2])
+                    -- print("change")
+                    list1[j], list1[j + 1] = list1[j + 1], list1[j]
+                -- 第二层排序 ID
+                elseif tonumber(_buff1[2]) == tonumber(_buff2[2]) and tonumber(list1[j].HeroID) > tonumber(list1[j + 1].HeroID) then
+                    -- print( list1[j].HeroID .. " " .. list1[j+1].HeroID )
+                    -- print("change")
+                    list1[j], list1[j + 1] = list1[j + 1], list1[j]
+                end
+            end
+        end
+    end
+
+    if list2 ~= nil then
+        StaticDataModel:SortHeroByHeroID(list2)
+    end
+    
+    return ModelTool:MergeTable(list1, list2)
+end
+
+-- 计算表的元素数量
+function StaticDataModel:TableCount(table)
+    local count = 0
+    for _, _ in pairs(table) do
+        count = count + 1
+    end
+    return count
+end
+
+-- 从给定的表（数组）中随机返回一组
+function StaticDataModel:RandomTable(table)
+    local rand = CS.UnityEngine.Random.Range(1, #table)
+    return table[math.ceil(rand)]
+end
+
+--[[
+    @desc:检查表中是否存在给定key的value 
+    --@table:表（数组形式）
+	--@key:数组元素中的key
+	--@value: 需要查询的值
+    @return:是否存在、存在value的一组数据
+]]
+function StaticDataModel:Exist(table, key, value)
+    for k, v in pairs(table) do
+        if v[key] == value then
+            return true,v
+        end
+    end
+    return false,nil
+end

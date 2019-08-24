@@ -4,13 +4,15 @@ ExploreCtrl.Panel = nil
 ExploreCtrl.Scene = nil
 ExploreCtrl.selectedTroop = 1 -- 1 、2 当前选择的队伍
 ExploreCtrl.selectedRole = 0 -- 4 - 7 当前选择的头像在buttons中的index
+ExploreCtrl.data = {} -- 数组形式四个角色id
+ExploreCtrl.core = nil
 
 function ExploreCtrl:Init()
     print("进入探索")
 
-    local core = CS.UnityEngine.Object.FindObjectOfType(typeof(CS.Core))
+    self.core = CS.UnityEngine.Object.FindObjectOfType(typeof(CS.Core))
 
-    core:LoadScene(
+    self.core:LoadScene(
         "Explore",
         function()
             self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
@@ -37,27 +39,7 @@ function ExploreCtrl:Init()
             for i = 0, self.Scene.buttons.Length - 1 do
                 ExploreCtrl.Scene.buttons[i].onClick:AddListener(
                     function()
-                        -- 转场
-                        Core.timer = 0.5
-                        Core.timerEvent = function()
-                            UICtrl:BlackMaskAni(
-                                1,
-                                0.5,
-                                function()
-                                    -- 销毁UI
-                                    UICtrl:DestroyOthers()
-                                    -- 进入探索场景，根据名称旋转摄像机角度
-                                    core:LoadScene(
-                                        "ExploreIn",
-                                        function()
-                                            LoadManager:LoadLua("Explore", "MapCtrl")
-                                            MapCtrl:Init(i)
-                                            UICtrl:BlackMaskAni(0, 0.5)
-                                        end
-                                    )
-                                end
-                            )
-                        end
+                        ExploreCtrl:InMap(i)
                     end
                 )
             end
@@ -79,6 +61,13 @@ function ExploreCtrl:Init()
             end
             self.Panel.buttons[4].onClick:Invoke()
 
+            -- 点击编队
+            self.Panel.buttons[0].onClick:AddListener(
+                function()
+                    ExploreCtrl:Display()
+                end
+            )
+            -- 亮屏
             UICtrl:BlackMaskAni(0, 0.5)
 
             -- 刷新两个编队 角色表
@@ -109,11 +98,11 @@ end
 -- 刷新右边编队 角色表
 function ExploreCtrl:Display()
     -- 数组形式四个角色ID
-    local data = ModelTool:SplitStr(PlayerDataModel.PlayerData.Troops[self.selectedTroop])
+    self.data = ModelTool:SplitStr(PlayerDataModel.PlayerData.Troops[self.selectedTroop])
 
     -- 显示8个在队伍中的头像
     for i = 1, 4 do
-        local texture = ABManager:LoadAsset("texture", data[i] .. "_Icon", CS.UnityEngine.Sprite)
+        local texture = ABManager:LoadAsset("texture", self.data[i] .. "_Icon", CS.UnityEngine.Sprite)
         self.Panel.images[i - 1].sprite = texture
         self.Panel.images[i + 3].sprite = texture
     end
@@ -122,7 +111,7 @@ function ExploreCtrl:Display()
     for k, v in pairs(PlayerDataModel.PlayerData.Heros) do
         local different = true
         for i = 1, 4 do
-            if v.HeroID == data[i] then
+            if v.HeroID == self.data[i] then
                 different = false
                 break
             end
@@ -132,14 +121,23 @@ function ExploreCtrl:Display()
         end
     end
     -- 销毁
-
+    local parent = self.Panel.go[19].transform
+    for i = 0, parent.childCount - 1 do
+        CS.UnityEngine.Object.Destroy(parent:GetChild(i).gameObject)
+    end
+    -- 加载
     for k, v in pairs(roleData) do
         local image = LoadManager:Load2Pos(ABManager:LoadAsset("prefab", "Button"), self.Panel.go[19].transform):GetComponent("Image")
         image.sprite = ABManager:LoadAsset("texture", v.HeroID .. "_Icon", CS.UnityEngine.Sprite)
-        image.transform:GetComponent("RectTransform").localPosition = CS.UnityEngine.Vector3.zero
+        image:GetComponent("RectTransform").localPosition = CS.UnityEngine.Vector3.zero
+        -- 添加成员改变委托
+        image:GetComponent("Button").onClick:AddListener(
+            function()
+                ExploreCtrl:ChangeRole(v.HeroID)
+            end
+        )
     end
 
-    -- 添加成员改变委托
     -- 刷新队伍名称和三项属性
 end
 
@@ -153,5 +151,43 @@ function ExploreCtrl:TurnTroops()
         self:Display()
     else
         self:DisplayLeft()
+    end
+end
+
+-- 点击角色头像换编队
+function ExploreCtrl:ChangeRole(ID)
+    self.data[ExploreCtrl.selectedRole - 3] = ID
+    -- 修改数据
+    PlayerDataModel.PlayerData.Troops[self.selectedTroop] = ModelTool:MergeStr(self.data[1], self.data[2], self.data[3], self.data[4])
+    -- 写入数据
+    PlayerDataModel:WriteIn()
+    -- 读取数据
+    PlayerDataModel:ReadOut()
+
+    ExploreCtrl:Display()
+end
+
+-- 进入大地图
+function ExploreCtrl:InMap(i)
+    -- 转场
+    Core.timer = 0.5
+    Core.timerEvent = function()
+        UICtrl:BlackMaskAni(
+            1,
+            0.5,
+            function()
+                -- 销毁UI
+                UICtrl:DestroyOthers()
+                -- 进入探索场景，根据名称旋转摄像机角度
+                self.core:LoadScene(
+                    "ExploreIn",
+                    function()
+                        LoadManager:LoadLua("Explore", "MapCtrl")
+                        MapCtrl:Init(i)
+                        UICtrl:BlackMaskAni(0, 0.5)
+                    end
+                )
+            end
+        )
     end
 end

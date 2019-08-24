@@ -31,16 +31,15 @@ function MakerCtrl:Init()
         for k,v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
             if v.HeroID == PlayerDataModel.PlayerData.SynInsInfo.HeroID then
                 MakerCtrl.CurrentHero = ModelTool:CopyTable(v)
+                break
             end
         end
     else
         MakerCtrl.CurrentHero = nil
     end
+
     -- 当前正在合成的道具
-    MakerCtrl.CurrentSynItems = {}
-    for k,v in pairs(PlayerDataModel.PlayerData.SynInsInfo.SynItems) do
-        table.insert(MakerCtrl.CurrentSynItems, v)
-    end
+    MakerCtrl.CurrentSynItems = PlayerDataModel.PlayerData.SynInsInfo.SynItems
 
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
 
@@ -130,7 +129,9 @@ function MakerCtrl:Init()
 end
 
 
--- 显示英雄选择窗口
+--[[
+    @desc: 显示英雄选择窗口
+]]
 function MakerCtrl:ShowHerosWindow()
     -- 对英雄列表进行排序
     local _herosList = {}
@@ -217,6 +218,7 @@ function MakerCtrl:ShowRightItems()
     elseif self.Tag == Tag3 then
         itemsList = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Type", 1, "4","5","6","7","8","9")
     end
+    itemsList = StaticDataModel:ScreenItemByObMethod(itemsList, "4")
 
     -- 判断是否可合成
     self:CheckAllSyn(itemsList)
@@ -261,11 +263,17 @@ end
     @desc: 刷新整个界面的信息显示
 ]]
 function MakerCtrl:UpdatePanelInfo()
-    self:ShowRightItems()
     self:ShowLeftSynNeeds(self.CurrentItem)
     self:ChangeHero(self.CurrentHero)
+    self:ShowRightItems()
+    self:UpdateSynItems()
 end
 
+
+--[[
+    @desc: 切换英雄并显示
+    --@heroData: 英雄信息
+]]
 function MakerCtrl:ChangeHero(heroData)
     self.CurrentHero = heroData
     if self.CurrentHero ~= nil then
@@ -289,12 +297,16 @@ function MakerCtrl:SynItem(itemData)
         PlayerDataModel:RemoveItem(_needsList[2*i-1] , _needsList[2*i] , false)
     end
 
-    -- 添加合成的道具
-    PlayerDataModel:AddItem(itemData.ItemID , 1 , false)
+    -- 添加正在合成的道具
+    PlayerDataModel:AddSynItem(itemData.ItemID)
 
     -- 刷新界面
     self:UpdatePanelInfo()
     
 end
 
+
+function MakerCtrl:UpdateSynItems()
+    MakerView:ShowSynItermsList(PlayerDataModel.CompletePlayerData.SynInsInfo.SynItems)
+end
 

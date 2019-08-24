@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Events;
+using XLua;
 
 
 
 public class ExploreInAnimation : MonoBehaviour
 {
-    public int sceneIndex = 3;
+    // public int sceneIndex = 3;
     GameObject Img_Troops, copy, copyTop, group, package, listBG, packagePos, cameraRotate;
     Button btnBack, listBack;
     /// <summary>
@@ -45,7 +46,9 @@ public class ExploreInAnimation : MonoBehaviour
 
 
     }
-    private void OnEnable()
+
+    [LuaCallCSharp]
+    public void Init(int sceneIndex)
     {
 
         ExploreInEnterAnimate();

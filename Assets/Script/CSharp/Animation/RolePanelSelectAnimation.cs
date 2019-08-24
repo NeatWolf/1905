@@ -104,11 +104,10 @@ public class RolePanelSelectAnimation : MonoBehaviour
                 else
                     nextIndex = Mathf.Clamp(currentRoleID + 1, 0, buttons.Length - 1);
                 currentRoleID = nextIndex;
-                buttons[nextIndex].transform.GetChild(0).GetComponent<Image>().DOColor(selectColor, 0.15f).onComplete = () =>
-                {
-                    if (changeRoleEvent != null) changeRoleEvent();
-                };
-
+                buttons[nextIndex].transform.GetChild(0).GetComponent<Image>().DOColor(selectColor, 0.15f);
+                
+                if (changeRoleEvent != null) changeRoleEvent();
+                
             }
         }
 

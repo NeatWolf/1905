@@ -41,6 +41,7 @@ public class MainMenuAnimation : MonoBehaviour
     private void OnEnable()
     {
         mainCam.gameObject.SetActive(true);
+        
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
         btn_Explore.transform.localScale = Vector3.one;
@@ -48,10 +49,10 @@ public class MainMenuAnimation : MonoBehaviour
         avChoice.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.001f);
         avChoice.transform.localScale = Vector3.zero;
 
-
-
-
-
+        
+        //相机动画
+        CameraAnimate();
+        mainCam.transform.localPosition=new Vector3(-0.5848389f,-40.74725f,-63.32324f);
     }
 
     private void Start()
@@ -101,11 +102,10 @@ public class MainMenuAnimation : MonoBehaviour
             btn_Explore.transform.DOScale(0.8f, 0.2f);
             btn_Explore.transform.DOScale(1.2f, 0.3f);
             btnActive_Move();
-            // mainCam.GetComponent<DOTweenPath>().DOPlay();
-
-            // UICam.GetComponent<DOTweenPath>().DOPlay();
+            
 
         });
+        
 
     }
     IEnumerator _ActiveBlack()
@@ -139,8 +139,7 @@ public class MainMenuAnimation : MonoBehaviour
         btn_Lottery.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
         
         info.transform.DOLocalMoveX(-1000, 0.5f);
-        info.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
-
+       
 
         btn_AV.transform.DOScale(0, 0.5f);
         btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.5f);
@@ -188,19 +187,27 @@ public class MainMenuAnimation : MonoBehaviour
     /// <returns></returns>
     IEnumerator ButtonEnter()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         btn_Active.transform.DOLocalMoveX(-447, 0.3f);
         btn_RoleMan.transform.DOLocalMoveX(-447, 0.5f);
         btn_Fabricate.transform.DOLocalMoveX(-447, 0.5f);
         btn_Warehouse.transform.DOLocalMoveX(-447, 0.5f);
         btn_Lottery.transform.DOLocalMoveX(300, 0.5f);
-        info.transform.DOLocalMoveX(300, 0.5f);
+        info.transform.DOLocalMoveX(540, 0.5f);
 
         btn_AV.transform.DOScale(3, 0.5f);
         btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 1), 0.5f);
 
     }
 
+    /// <summary>
+    /// 相机动画，场景中的主相机与UI相机
+    /// </summary>
+    void CameraAnimate(){
+        mainCam.transform.DOLocalMove(new Vector3(-0.018534f,-29.87421f,-41.47861f),2).From();
+       // UICam.transform.DOLocalMove(new Vector3(-0.018534f,-29.87421f,-41.47861f),2).From();
+    }
 
+        
 
 }

@@ -76,23 +76,26 @@ function PlayerDataModel:RemoveItem(itemID, count, isOnShelf)
     return itemData
 end
 
-function PlayerDataModel:AddItem(itemID, count)
+function PlayerDataModel:AddItem(itemID, count, isOnShelf)
     -- 默认值为1
     count = count or 1
     for k1, v1 in pairs(self.PlayerData.Items) do
         -- 如果有这个Item
-        if v1.ItemID == itemID then
-            -- 如果没有这个Item
-            v1.Count = v1.Count + count
+        if v1.ItemID == itemID and v1.IsOnShelf == tostring(isOnShelf) then
+            v1.Count = tostring(v1.Count + count)
             for _, v2 in pairs(self.CompletePlayerData.Items) do
-                v2.Count = v2.Count + count
-                break
+                if v2.ItemID == itemID and v2.IsOnShelf == tostring(isOnShelf) then
+                    v2.Count = tostring(v2.Count + count)
+                    break
+                end
             end
             break
+        -- 如果没有这个Item
         elseif k1 == #(self.PlayerData.Items) then
             local newItem = {}
             newItem.ItemID = itemID
             newItem.Count = tostring(count)
+            newItem.IsOnShelf = tostring(isOnShelf)
             -- 增加到玩家动态表
             table.insert(self.PlayerData.Items, newItem)
 

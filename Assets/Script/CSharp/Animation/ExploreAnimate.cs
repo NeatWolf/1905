@@ -24,7 +24,7 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     Button btnTroops, btnBack;
     //编队界面,编队背景，编队标题。。。
     GameObject Troops, BGTroops, TextTitle, heng, heng2, heng3, toggleSwitch,
-    Scroll, heng4, TroopsGroup, Slider, mainTitle, info, icon, hengTop, hengBottom, circle;
+    Scroll, heng4, TroopsGroup, Slider, mainTitle, info, icon, hengTop, hengBottom, circle,titlePosGO,sliderPosGO,troopPosGO;
     //编队组中的4张AV卡牌
     GameObject[] cards;
 
@@ -34,9 +34,10 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
     //滑动类
     //ExploreDragAnimate eda;
     //slider与title的原位置，为返回动画而设
-    Vector3 sliderPos, titlePos;
+    
 
     ExploreSceneAnimation esa;
+    Vector3 titlePos,sliderPos,troopPos;
 
     public UnityAction turnTroops;
     private void Awake()
@@ -71,6 +72,9 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
         hengTop = GetComponent<UISubObject>().go[14];
         hengBottom = GetComponent<UISubObject>().go[15];
         circle = GetComponent<UISubObject>().go[16];
+        titlePosGO=GetComponent<UISubObject>().go[20];
+        sliderPosGO=GetComponent<UISubObject>().go[21];
+        troopPosGO=GetComponent<UISubObject>().go[22];
         for (int i = 0; i < 4; i++)
         {
             cards[i] = GetComponent<UISubObject>().go[17].transform.GetChild(i).gameObject;
@@ -103,8 +107,9 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
 
         topORbottom = 1;
         //slider与title原位置
-        sliderPos = Slider.transform.localPosition;
-        titlePos = mainTitle.transform.localPosition;
+        sliderPos = sliderPosGO.transform.localPosition;
+        titlePos = titlePosGO.transform.localPosition;
+        troopPos=troopPosGO.transform.localPosition;
         //编队按钮点击监听
         btnTroops.onClick.AddListener(() =>
         {
@@ -129,10 +134,10 @@ public class ExploreAnimate : MonoBehaviour, IDragHandler
         //返回按钮动画
         btnBack.onClick.AddListener(() =>
         {
-            Debug.Log("返回");
+            
             AnimateManager.TroopsExitAnimate(Troops, BGTroops, TextTitle, heng, heng2, heng3, toggleSwitch, Scroll, heng4, TroopsGroup, Slider, mainTitle, info, icon);
             mainTitle.transform.DOLocalMove(titlePos, 1).SetEase(Ease.InOutBack).SetDelay(0.5f);
-            Slider.transform.DOLocalMove(sliderPos, 1).SetEase(Ease.InOutBack).SetDelay(0.5f);
+            Slider.transform.DOLocalMove(sliderPos, 1).SetEase(Ease.InOutBack).SetDelay(0.5f);    
             StartCoroutine(backAnimate());
 
         });

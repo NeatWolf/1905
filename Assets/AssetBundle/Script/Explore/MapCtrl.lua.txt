@@ -6,7 +6,13 @@ function MapCtrl:Init(index)
     self.Panel = CS.UnityEngine.GameObject.Find("ExUI/ExploreInUI"):GetComponent("UISubObject")
     -- 传入index
     self.Panel:GetComponent("ExploreInAnimation"):Init(index + 1) 
-    print(index)
-    -- 旋转摄像机
-    -- CS.UnityEngine.GameObject.Find("ExploreIn/CameraRotate").transform:Rotate(0, 90 * index, 0)
+    
+    
 end
+
+-- 返回主场景
+function MapCtrl:BackMainScene( )
+    
+end
+
+-- 加载所需数据（幸运总值、）

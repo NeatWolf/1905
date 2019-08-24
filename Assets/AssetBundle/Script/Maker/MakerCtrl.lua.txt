@@ -10,6 +10,11 @@ local Tag3 = "Equipment"
 local SortWay1 = "Level"
 local SortWay2 = "Price"
 
+-- 当前选中的道具
+MakerCtrl.CurrentItem = nil
+-- 当前选择的英雄
+MakerCtrl.CurrentHero = nil
+
 function MakerCtrl:Init()
     print("进入制品手造")
 
@@ -22,7 +27,20 @@ function MakerCtrl:Init()
     -- 当前选中的道具
     MakerCtrl.CurrentItem = nil
     -- 当前选择的英雄
-    MakerCtrl.CurrentHero = nil
+    if PlayerDataModel.PlayerData.SynInsInfo.HeroID ~= "" then
+        for k,v in pairs(PlayerDataModel.CompletePlayerData.Heros) do
+            if v.HeroID == PlayerDataModel.PlayerData.SynInsInfo.HeroID then
+                MakerCtrl.CurrentHero = ModelTool:CopyTable(v)
+            end
+        end
+    else
+        MakerCtrl.CurrentHero = nil
+    end
+    -- 当前正在合成的道具
+    MakerCtrl.CurrentSynItems = {}
+    for k,v in pairs(PlayerDataModel.PlayerData.SynInsInfo.SynItems) do
+        table.insert(MakerCtrl.CurrentSynItems, v)
+    end
 
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "FabricateUI"), "UI", true):GetComponent("UISubObject")
 
@@ -123,7 +141,7 @@ function MakerCtrl:ShowHerosWindow()
     elseif self.Tag == Tag3 then
         _herosList = StaticDataModel:SortHeroByInsBuff(PlayerDataModel.CompletePlayerData.Heros, "4", "5", "6", "7", "8", "9")
     end
-    HeroChoiceCtrl:ShowHeros(_herosList)
+    HeroChoiceCtrl:ShowHeros(_herosList, self.CurrentHero)
 
     -- 调用动画
     self.Panel.go[10]:GetComponent("FabricateROLEAnimation"):ROLEEnterAnimate()
@@ -157,7 +175,7 @@ local function CheckCouldSyn(synItemID)
         -- 遍历玩家目前的所有道具
         for k, v in pairs(PlayerDataModel.PlayerData.Items) do
             -- 如果ID匹配，且数量满足
-            if v.ItemID == _needsList[2 * i - 1] and tonumber(v.Count) >= tonumber(_needsList[2 * i]) then
+            if v.ItemID == _needsList[2 * i - 1] and v.IsOnShelf == "false" and tonumber(v.Count) >= tonumber(_needsList[2 * i]) then
                 -- 匹配数+1
                 rightCount = rightCount + 1
             end
@@ -245,9 +263,18 @@ end
 function MakerCtrl:UpdatePanelInfo()
     self:ShowRightItems()
     self:ShowLeftSynNeeds(self.CurrentItem)
+    self:ChangeHero(self.CurrentHero)
 end
 
-
+function MakerCtrl:ChangeHero(heroData)
+    self.CurrentHero = heroData
+    if self.CurrentHero ~= nil then
+        PlayerDataModel.PlayerData.SynInsInfo.HeroID = self.CurrentHero.HeroID
+    else
+        PlayerDataModel.PlayerData.SynInsInfo.HeroID = ""
+    end
+    MakerView:ShowHeroChoice(self.CurrentHero)
+end
 
 --[[
     @desc: 合成新的道具，扣除相应所需道具
@@ -259,11 +286,11 @@ function MakerCtrl:SynItem(itemData)
     -- 遍历所需物品(由于SynNeeds的格式为ID,C,ID,C,ID,C，所以需要除以2)
     for i = 1, #(_needsList) / 2, 1 do
         -- 扣除所需物品
-        PlayerDataModel:RemoveItem(_needsList[2*i-1] , _needsList[2*i], false)
+        PlayerDataModel:RemoveItem(_needsList[2*i-1] , _needsList[2*i] , false)
     end
 
     -- 添加合成的道具
-    PlayerDataModel:AddItem(itemData.ItemID , 1)
+    PlayerDataModel:AddItem(itemData.ItemID , 1 , false)
 
     -- 刷新界面
     self:UpdatePanelInfo()

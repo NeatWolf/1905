@@ -13,32 +13,27 @@ public class FabricateROLEAnimation : MonoBehaviour
         choice = GetComponent<UISubObject>().go[2];
         bg = GetComponent<UISubObject>().go[3];
     }
-    // private void OnEnable()
-    // {
-    //     ROLEEnterAnimate();
-    // }
+   
 
     public void ROLEEnterAnimate()
     {
         gameObject.SetActive(true);
-        bg.GetComponent<Image>().DOFade(0.4f, 1);
-        sroll.SetActive(true);
-        choice.SetActive(true);
-        sroll.GetComponent<RectTransform>().DOAnchorPosX(100, 0.5f).From();
-        choice.GetComponent<RectTransform>().DOAnchorPosX(100, 0.5f).From();
+        bg.SetActive(true);
+        bg.GetComponent<Image>().DOFade(0.4f,0.5f);
+        //transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().DOAnchorPosX(transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().anchoredPosition.x+10, 0.7f).From().onComplete=()=>{
+            //bg.GetComponent<Image>().DOFade(0.4f, 0.5f);
+        //};
+        
     }
     public void ROLEExitAnimate()
     {
-        bg.GetComponent<Image>().DOFade(0f, 1);
-        sroll.GetComponent<RectTransform>().DOAnchorPosX(100, 0.5f);
-        choice.GetComponent<RectTransform>().DOAnchorPosX(100,0.5f).onComplete = () =>
-        {
-            sroll.SetActive(false);
-            choice.SetActive(false);
-            sroll.GetComponent<RectTransform>().DOAnchorPosX(-100, 0.1f);
-            choice.GetComponent<RectTransform>().DOAnchorPosX(-100, 0.1f);
-        };
+        bg.GetComponent<Image>().DOFade(0f, 0.5f);
+        //gameObject.transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().DOAnchorPosX(transform.Find("Canvas_appoint/Window").GetComponent<RectTransform>().anchoredPosition.x+10,1f).onComplete=()=>{
+            //gameObject.transform.GetChild(0).transform.localPosition-=new Vector3(10,0,0);
+            gameObject.SetActive(false);
+            bg.SetActive(false);
+        //};
         
-        gameObject.SetActive(false);
+        
     }
 }

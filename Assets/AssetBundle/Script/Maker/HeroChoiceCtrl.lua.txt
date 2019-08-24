@@ -5,7 +5,6 @@ HeroChoiceCtrl.CurrentHero = nil
 
 -- 初始化
 function HeroChoiceCtrl:Init()
-    self.CurrentHero = MakerCtrl.HeroChoice
     -- 加载界面
     self.Panel = MakerCtrl.Panel.go[10]:GetComponent("UISubObject")
     -- 删除所有子物体
@@ -15,18 +14,18 @@ function HeroChoiceCtrl:Init()
     self.Panel.buttons[0].transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = "確認"
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            MakerCtrl.HeroChoice = self.CurrentHero
-            self.CurrentHero = nil
             self.Panel.gameObject:GetComponent("FabricateROLEAnimation"):ROLEExitAnimate()
-            MakerView:ShowHeroChoice()
+            MakerCtrl:ChangeHero(self.CurrentHero)
+            self.CurrentHero = nil
         end
     )
     -- 返回按钮
     self.Panel.buttons[1].transform:Find("Text (TMP)"):GetComponent("TextMeshProUGUI").text = "返回"
     self.Panel.buttons[1].onClick:AddListener(
         function()
-            self.CurrentHero = nil
             self.Panel.gameObject:GetComponent("FabricateROLEAnimation"):ROLEExitAnimate()
+            MakerCtrl:ChangeHero(self.CurrentHero)
+            self.CurrentHero = nil
         end
     )
 end
@@ -45,13 +44,11 @@ function HeroChoiceCtrl:ShowHeroCells(heroData)
     _heroTog.onValueChanged:AddListener(
         function(isTrue) ----------------------?????????????????????
             if isTrue == true then
-                self.Panel.go[0]:GetComponent("ToggleGroup").allowSwitchOff = false
-                _heroTog:Select()
+                _hero.transform:GetChild(0):GetComponent("Image").color = CS.UnityEngine.Color(0.035,0.105,0.525,1);
                 self.CurrentHero = heroData
                 print("切换英雄成功：" .. self.CurrentHero.HeroID)
             else
-                self.Panel.go[0]:GetComponent("ToggleGroup").allowSwitchOff = true
-                _heroTog:OnDeselect()
+                _hero.transform:GetChild(0):GetComponent("Image").color = CS.UnityEngine.Color(0.808,0.820,0.906,1);
                 self.CurrentHero = nil
                 print("取消英雄选择")
             end
@@ -73,7 +70,6 @@ function HeroChoiceCtrl:ShowHeroCells(heroData)
     if self.CurrentHero ~= nil then
         if heroData.HeroID == self.CurrentHero.HeroID then
             _heroTog.isOn = true
-            _heroTog:Select()
         end
     end
 
@@ -81,7 +77,8 @@ end
 
 
 -- 显示所有英雄信息
-function HeroChoiceCtrl:ShowHeros(heroList)
+function HeroChoiceCtrl:ShowHeros(heroList, currentHero)
+    self.CurrentHero = currentHero
     for k, v in pairs(heroList) do
         self:ShowHeroCells(v)
     end

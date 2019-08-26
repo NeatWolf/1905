@@ -32,41 +32,32 @@ SpriteAtlas:
     packables:
     - {fileID: 2800000, guid: cbf5f2b23849df84a8301d1f11ab93c2, type: 3}
     - {fileID: 2800000, guid: c3af3f6031edaa545ba1a1dea95992cb, type: 3}
-    - {fileID: 2800000, guid: f08ee3f0b1462614b8cebc3e05c1d156, type: 3}
+    - {fileID: 2800000, guid: 6b4b61c25ecd993498d37b74297fed12, type: 3}
     - {fileID: 2800000, guid: ae743385a6feb9c42aa83a6f6995bea5, type: 3}
     - {fileID: 2800000, guid: fee1ba055979fd344aab91f5f8e964d0, type: 3}
     - {fileID: 2800000, guid: e897d0da084e921488fe33958c3c8d86, type: 3}
     - {fileID: 2800000, guid: bd66ba2e7aaa40742b8d90778162e79e, type: 3}
     - {fileID: 2800000, guid: 9873b760f23ae1546aebe07bd3590e0b, type: 3}
-    - {fileID: 2800000, guid: 6b4b61c25ecd993498d37b74297fed12, type: 3}
-    - {fileID: 2800000, guid: 7c1056d5b11daba4b996045adec7deaa, type: 3}
-    - {fileID: 2800000, guid: b0a43ebb33e5b764a8c5514a4ebf3c8d, type: 3}
-    totalSpriteSurfaceArea: 8834018
+    totalSpriteSurfaceArea: 1700882
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 9873b760f23ae1546aebe07bd3590e0b, type: 3}
   - {fileID: 21300000, guid: c3af3f6031edaa545ba1a1dea95992cb, type: 3}
-  - {fileID: 21300000, guid: f08ee3f0b1462614b8cebc3e05c1d156, type: 3}
   - {fileID: 21300000, guid: cbf5f2b23849df84a8301d1f11ab93c2, type: 3}
   - {fileID: 21300000, guid: 6b4b61c25ecd993498d37b74297fed12, type: 3}
   - {fileID: 21300000, guid: fee1ba055979fd344aab91f5f8e964d0, type: 3}
   - {fileID: 21300000, guid: ae743385a6feb9c42aa83a6f6995bea5, type: 3}
-  - {fileID: 21300000, guid: 7c1056d5b11daba4b996045adec7deaa, type: 3}
   - {fileID: 21300000, guid: e897d0da084e921488fe33958c3c8d86, type: 3}
-  - {fileID: 21300000, guid: b0a43ebb33e5b764a8c5514a4ebf3c8d, type: 3}
   - {fileID: 21300000, guid: bd66ba2e7aaa40742b8d90778162e79e, type: 3}
   m_PackedSpriteNamesToIndex:
   - mask
   - bag_small
-  - bg
   - bag_big
   - slider
   - circle
   - buttom
-  - UImask
   - handle
-  - UImask_InMap
   - hengtiao
   m_Tag: UIAtlas_Explore
   m_IsVariant: 0

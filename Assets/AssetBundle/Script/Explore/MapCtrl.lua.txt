@@ -2,6 +2,7 @@ MapCtrl = {}
 
 MapCtrl.Panel = nil
 
+
 function MapCtrl:Init(index)
     self.Panel = CS.UnityEngine.GameObject.Find("ExUI/ExploreInUI"):GetComponent("UISubObject")
     -- 传入index
@@ -9,4 +10,8 @@ function MapCtrl:Init(index)
     print(index)
     -- 旋转摄像机
     -- CS.UnityEngine.GameObject.Find("ExploreIn/CameraRotate").transform:Rotate(0, 90 * index, 0)
+
+    --寻路方法
+    -- LoadManager:LoadLua("Explore","PlayCtrl")
+    -- PlayCtrl:Init()
 end

@@ -2,13 +2,54 @@ PlayCtrl = {}
 
 PlayCtrl.Panel = nil
 
-function PlayCtrl:Init(index)
+--英雄攻击距离，即寻路停止时与目标的距离
+PlayCtrl.HeroAtkDistance = 50
+PlayCtrl.targetPos = nil
 
+function PlayCtrl:Init()
+    --初始化
+    self.Panel = CS.UnityEngine.GameObject.Find("ExploreIn"):GetComponent("UISubObject")
+    self.hero = self.Panel.go[1]
+    --鼠标点击后调用寻路方法
+    if CS.UnityEngine.Input:GetMouseButton(0) then
+        print("点击生效")
+        local _mousePos = CS.UnityEngine.Input.mousePosition + CS.UnityEngine.Vector3.forward * 100
+        local _ray = CS.UnityEngine.Camera.main.ScreenPointToRay(_mousePos)
 
+        --射线检测
+        if CS.UnityEngine.Physics.Raycast(_ray, _hitInfo, 1000, CS.UnityEngine.LayerMask:GetMask("ExploreMap")) then
+            self.targetPos = _hitInfo.transform.position
+            PlayCtrl:FindWay(self.targetPos)
+        end
+    end
 end
 
-
-
 function PlayCtrl:GetItem(mapIndex)
-    
+end
+
+--自动寻路
+function PlayCtrl:FindWay(targetPos)
+    print("寻路脚本已加载")
+
+    --设置目标位置
+    local _targetPos = self.Panel.go[0].transform.position
+
+    --动画切换为run
+    local _heroUAC = self.hero:GetComponent("UnityArmatureComponent")
+    print(_heroUAC.name)
+    _heroUAC.animation:Play("run")
+
+    --寻路开始
+    local _HeroAgent = self.hero:GetComponent("NavMeshAgent")
+    _HeroAgent:SetDestination(_targetPos)
+    _HeroAgent.stoppingDistance = self.HeroAtkDistance
+    --寻路结束，动画切换为idle
+    print("距离" .. CS.UnityEngine.Vector3.Distance(self.hero.transform.position, _targetPos))
+    --无法触发距离判断，可能需要使用多线程或在update中调用来解决----------------------------------------------
+    if CS.UnityEngine.Vector3.Distance(self.hero.transform.position, _targetPos) <= self.HeroAtkDistance then
+        print("最终距离" .. CS.UnityEngine.Vector3.Distance(self.hero.transform.position, _targetPos))
+
+        _heroUAC.animation:Play("idle")
+    end
+    print("寻路脚本已加载完毕")
 end

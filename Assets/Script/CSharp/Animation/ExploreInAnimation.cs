@@ -8,9 +8,10 @@ using XLua;
 
 
 
+
 public class ExploreInAnimation : MonoBehaviour
 {
-    // public int sceneIndex = 3;
+    
     GameObject Img_Troops, copy, copyTop, group, package, listBG, packagePos, cameraRotate;
     Button btnBack, listBack;
     /// <summary>
@@ -30,6 +31,9 @@ public class ExploreInAnimation : MonoBehaviour
     /// </summary>
     public UnityAction Action_ExploreInPackageExitAnimate;
 
+    
+   
+
     private void Awake()
     {
         Img_Troops = GetComponent<UISubObject>().go[0];
@@ -42,6 +46,8 @@ public class ExploreInAnimation : MonoBehaviour
         listBack = GetComponent<UISubObject>().buttons[1];
         packagePos = GetComponent<UISubObject>().go[6];
         cameraRotate = GetComponent<UISubObject>().go[7];
+
+
 
 
 
@@ -226,7 +232,7 @@ public class ExploreInAnimation : MonoBehaviour
         };
     }
 
-
+   
 
 
 }

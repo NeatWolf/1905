@@ -30,25 +30,22 @@ SpriteAtlas:
       enableTightPacking: 0
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: 52d3cfe541a1f714da22aa0d3b739d98, type: 3}
+    - {fileID: 2800000, guid: 09c65bcadac2ec34cba3613b8512f3d3, type: 3}
     - {fileID: 2800000, guid: 102f345ea5f12274caedb75db2586da5, type: 3}
     - {fileID: 2800000, guid: 22e4db37828ee4a46b4b1a2dde430138, type: 3}
     - {fileID: 2800000, guid: 08f3f2fd8d2478e45a5624fb3b648729, type: 3}
     - {fileID: 2800000, guid: ed70d5d58b878704c98c643b3ce04fc9, type: 3}
-    - {fileID: 2800000, guid: 09c65bcadac2ec34cba3613b8512f3d3, type: 3}
-    totalSpriteSurfaceArea: 5496966
+    totalSpriteSurfaceArea: 3137670
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: ed70d5d58b878704c98c643b3ce04fc9, type: 3}
-  - {fileID: 21300000, guid: 52d3cfe541a1f714da22aa0d3b739d98, type: 3}
   - {fileID: 21300000, guid: 22e4db37828ee4a46b4b1a2dde430138, type: 3}
   - {fileID: 21300000, guid: 09c65bcadac2ec34cba3613b8512f3d3, type: 3}
   - {fileID: 21300000, guid: 08f3f2fd8d2478e45a5624fb3b648729, type: 3}
   - {fileID: 21300000, guid: 102f345ea5f12274caedb75db2586da5, type: 3}
   m_PackedSpriteNamesToIndex:
   - white_frame
-  - bg_login
   - login_frame
   - "\xA9CyberDataCompany"
   - CODE_CYBER

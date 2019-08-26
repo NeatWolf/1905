@@ -30,12 +30,11 @@ SpriteAtlas:
       enableTightPacking: 0
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: 86059b4f4b0a19c4ca51788ea1a91275, type: 3}
+    - {fileID: 2800000, guid: 5829ae13aad4cfb49810983a49f43af3, type: 3}
     - {fileID: 2800000, guid: 7f9fb19a7493a4746a8dd58ba7acf09d, type: 3}
     - {fileID: 2800000, guid: d5ad2facd0a7952438de181c9ce150f3, type: 3}
     - {fileID: 2800000, guid: 032edcf892292ec46a96da7085a6a659, type: 3}
-    - {fileID: 2800000, guid: 5829ae13aad4cfb49810983a49f43af3, type: 3}
-    totalSpriteSurfaceArea: 2221754
+    totalSpriteSurfaceArea: 2002618
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -43,12 +42,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 032edcf892292ec46a96da7085a6a659, type: 3}
   - {fileID: 21300000, guid: 7f9fb19a7493a4746a8dd58ba7acf09d, type: 3}
   - {fileID: 21300000, guid: d5ad2facd0a7952438de181c9ce150f3, type: 3}
-  - {fileID: 21300000, guid: 86059b4f4b0a19c4ca51788ea1a91275, type: 3}
   m_PackedSpriteNamesToIndex:
   - item_icon
   - curtain
   - item_select_icon
   - bg_particle_fog
-  - pillar
   m_Tag: UIAtlas_Character
   m_IsVariant: 0

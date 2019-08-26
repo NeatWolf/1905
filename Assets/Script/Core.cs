@@ -66,6 +66,7 @@ public class Core : MonoBehaviour
 
     void Update()
     {
+        
         if (Time.time - timer > 1)
         {
             callLua.SecondUpdate();

@@ -23,7 +23,7 @@ public struct CallLua
 [LuaCallCSharp]
 public class Core : MonoBehaviour
 {
-    
+
     public GameObject[] dontDestroy;
     public static Core Instance;
     LuaTable table;
@@ -137,6 +137,7 @@ public class Core : MonoBehaviour
         // print("done");
     }
 
+    // 加载场景
     IEnumerator LoadSceneSync(string name, UnityAction call)
     {
         AsyncOperation async = SceneManager.LoadSceneAsync(name);

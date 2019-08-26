@@ -74,6 +74,7 @@ function MainSceneCtrl:GameStartPeriod()
         end
         dayTimer = 0
     end
+    return true
 end
 
 -- 开始NPC随机购买事件

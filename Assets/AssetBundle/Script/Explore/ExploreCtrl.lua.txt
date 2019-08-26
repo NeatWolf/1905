@@ -15,6 +15,8 @@ function ExploreCtrl:Init()
     self.core:LoadScene(
         "Explore",
         function()
+            ABManager:LoadAtlas()
+
             self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExploreUI"), "UI", true).transform:GetChild(0):GetComponent("UISubObject")
             self.Scene = CS.UnityEngine.GameObject.Find("/Explore/CityPlane/Canvas"):GetComponent("UISubObject")
 
@@ -75,7 +77,6 @@ function ExploreCtrl:Init()
             self:Display()
         end
     )
-
     MainSceneCtrl.Scene.gameObject:SetActive(false)
 end
 
@@ -182,7 +183,10 @@ function ExploreCtrl:InMap(i)
                 self.core:LoadScene(
                     "ExploreIn",
                     function()
+                        ABManager:LoadAtlas()
+                        LoadManager:LoadLua("Explore", "MapModel")
                         LoadManager:LoadLua("Explore", "MapCtrl")
+                        MapModel.data.role = ExploreCtrl.data
                         MapCtrl:Init(i)
                         UICtrl:BlackMaskAni(0, 0.5)
                     end

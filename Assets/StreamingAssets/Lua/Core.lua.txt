@@ -54,7 +54,7 @@ function Core.Update()
         end
     end
 
-    if #Core.updateEvent ~= 0 then
+    if StaticDataModel:TableCount(Core.updateEvent) ~= 0 then
         for k,v in pairs(Core.updateEvent) do
             v()
         end

@@ -19,4 +19,7 @@ public static class MyConfig
 
     public static readonly string ABCopyPath = Application.streamingAssetsPath + "";
     public static readonly string ABConfigName = Application.streamingAssetsPath + "/Config.txt";
+
+    //运行时要加载的AB包根目录
+    public static readonly string ABRootPath = Application.persistentDataPath + "/assets/";
 }

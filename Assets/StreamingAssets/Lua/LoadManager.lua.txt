@@ -146,7 +146,8 @@ end
 function LoadManager:LoadScene(name)
     assert(Core.updateEvent == nil, "帧刷新事件被占用，无法加载场景")
     local co =
-        coroutine.create(
+        coroutine.create
+    (
         function()
             -- 开启Unity中的异步加载场景
             -- while加载未完成：等待

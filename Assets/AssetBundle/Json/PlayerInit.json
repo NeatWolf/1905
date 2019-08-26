@@ -48,9 +48,9 @@
 		"HeroID":"1",
 		"SynItems":
 		[
-			{"ItemID":"11005", "SynTimer":"5"},
-			{"ItemID":"11008", "SynTimer":"10"},
-			{"ItemID":"12006", "SynTimer":"3"}
+			{"ItemID":"15005", "SynTimer":"0"},
+			{"ItemID":"15008", "SynTimer":"0"},
+			{"ItemID":"15006", "SynTimer":"1"}
 		]
 	}
 

@@ -1,7 +1,7 @@
 ABManager = {}
 
 --定义AB包根目录
-ABManager.path = CS.UnityEngine.Application.persistentDataPath .. "/assets/"
+ABManager.path = CS.MyConfig.ABRootPath
 
 --已加载的AB包
 local loaded = {}
@@ -64,4 +64,9 @@ end
 
 -- 释放loaded所有AB包
 function ABManager:function_name()
+end
+
+-- 重新加载图集，切换场景后使用
+function ABManager:LoadAtlas()
+    ABManager:LoadAB("uiatlas"):LoadAllAssets()
 end

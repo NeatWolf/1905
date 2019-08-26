@@ -5081,6 +5081,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 649725175, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1614122489, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
@@ -5105,6 +5109,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 94332022, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3a91a397fb21c4642adcc0bbd40fef4e,
+        type: 3}
     - target: {fileID: 207701114, guid: e3829e60f00cfda4d9e5ae25ddb7dbcf, type: 3}
       propertyPath: m_IsActive
       value: 1

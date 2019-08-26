@@ -75,6 +75,7 @@ function UICtrl:Back2MainScene()
 
             -- 销毁除MainSceneUI以外的组件
             UICtrl:DestroyOthers()
+            ABManager:LoadAtlas()
 
             -- 激活主场景
             MainSceneCtrl:Init()

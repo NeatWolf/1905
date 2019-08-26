@@ -30,6 +30,8 @@ public class WarehouseAnimation : MonoBehaviour
     /// 仓库入场动画
     /// </summary>
     public void WarehouseEnterAnimate(){
+        canvas[0].transform.GetChild(0).gameObject.SetActive(true);
+        canvas[0].transform.GetChild(0).GetComponent<Image>().DOFade(1f,0.5f);
         canvas[1].GetComponent<RectTransform>().DOAnchorPosX( canvas[1].GetComponent<RectTransform>().anchoredPosition.x-7f,1).SetEase(Ease.InOutBack);
         canvas[1].transform.DORotate(new Vector3(0,379,0),1,RotateMode.FastBeyond360);
     }
@@ -39,6 +41,9 @@ public class WarehouseAnimation : MonoBehaviour
     public void WarehouseExitAnimate(){
         canvas[1].GetComponent<RectTransform>().DOAnchorPosX( canvas[1].GetComponent<RectTransform>().anchoredPosition.x+7f,1).SetEase(Ease.InOutBack);
         canvas[1].transform.DORotate(new Vector3(0,379,0),1,RotateMode.FastBeyond360);
+        
+        canvas[0].transform.GetChild(0).GetComponent<Image>().DOFade(0f,0.5f).onComplete = () => canvas[0].transform.GetChild(0).gameObject.SetActive(false);
+        
     }
 
 

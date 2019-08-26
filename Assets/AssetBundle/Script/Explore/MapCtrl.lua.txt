@@ -2,6 +2,7 @@ MapCtrl = {}
 
 MapCtrl.Panel = nil
 
+
 function MapCtrl:Init(index)
     self.Panel = CS.UnityEngine.GameObject.Find("ExUI/ExploreInUI"):GetComponent("UISubObject")
     -- 传入index

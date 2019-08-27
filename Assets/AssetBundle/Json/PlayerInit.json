@@ -1,7 +1,7 @@
 {
-	"User":"user1",
-	"Password":"password1",
-	"Name":"name1",
+	"UserName":"user1",
+	"UserPassword":"password1",
+	"PlayName":"name1",
 	"TexturePath":"female",
 	"StoreLevel":"1",
 	"Money":"10000",
@@ -49,7 +49,7 @@
 		"SynItems":
 		[
 			{"ItemID":"15005", "SynTimer":"0"},
-			{"ItemID":"15008", "SynTimer":"0"},
+			{"ItemID":"15008", "SynTimer":"0.5"},
 			{"ItemID":"15006", "SynTimer":"1"}
 		]
 	}

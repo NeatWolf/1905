@@ -123,13 +123,14 @@ end
 function StaticDataModel:MergeData(playerData)
     local finalData = {}
 
-    finalData.User = playerData.User
-    finalData.Password = playerData.Password
-    finalData.Name = playerData.Name
+    finalData.UserName = playerData.UserName
+    finalData.UserPassword = playerData.UserPassword
+    finalData.PlayName = playerData.PlayName
     finalData.TexturePath = playerData.TexturePath
     finalData.StoreLevel = playerData.StoreLevel
     finalData.Money = playerData.Money
     finalData.Diamond = playerData.Diamond
+    finalData.Troops = ModelTool:CopyTable(playerData.Troops)
 
     finalData.Heros = {}
     -- 合并完整的英雄信息表

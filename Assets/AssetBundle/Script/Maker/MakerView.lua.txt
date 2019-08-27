@@ -98,15 +98,10 @@ function MakerView:ShowSynItermsList(itemsList)
         synItem._Data = v
         synItem._UISub = synItem._Obj:GetComponent("UISubObject")
         synItem._UISub.images[1].sprite = ABManager:LoadAsset("texture", v.ItemID, CS.UnityEngine.Sprite)
-        synItem._UISub.images[0].fillAmount = 0.5 -- v.SynTimer/v.SynTime
+        synItem._UISub.images[0].fillAmount = 0.01 -- v.SynTimer/v.SynTime
 
-        local event = function() MakerCtrl:SynCdTimerEvent(synItem) end
-
-        Core.updateEvent[("Syn" .. synItem._Data.ItemID)] = function() MakerCtrl:SynCdTimerEvent(synItem) end
+        Core.updateEvent[("ShowSyn" .. synItem._Data.ItemID)] = function() MakerCtrl:SynCdTimerEvent(synItem) end
         
-        
-        -- table.insert(Core.updateEvent, tonumber(synItem._Data.ItemID), function() MakerCtrl:SynCdTimerEvent(synItem) end)
-
     end
 end
 

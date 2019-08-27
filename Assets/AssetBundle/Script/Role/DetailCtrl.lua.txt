@@ -45,6 +45,7 @@ end
 
 function DetailCtrl:SortEquips(itemsList)
     local resList = StaticDataModel:ScreenList(itemsList, "Type", 1, "4","5","6","7","8","9")
+    resList = StaticDataModel:ScreenList(resList,"IsOnShelf", 1, "false")
     StaticDataModel:SortItem(resList, "Level", -1)
     return resList
 end
@@ -75,6 +76,9 @@ end
 
 function DetailCtrl:GetNotEquips(heroData)
     local Eqiupments = ModelTool:CopyTable(self:SortEquips(PlayerDataModel.CompletePlayerData.Items))
+    
+        ModelTool:SetMeta(Eqiupments)
+        print(Eqiupments)
     -- 遍历玩家的每一个英雄
     for k1, v1 in pairs(PlayerDataModel.CompletePlayerData.Heros) do
         -- 遍历英雄的每一个装备
@@ -91,6 +95,7 @@ function DetailCtrl:GetNotEquips(heroData)
             end
         end
     end
+
     return Eqiupments
 end
 
@@ -118,6 +123,7 @@ function DetailCtrl:EquipHero(itemData, equipWay)
         getOff = itemData
     else
         print("equipWay传入有误")
+        return
     end
 
     -- 处理英雄Buff
@@ -125,15 +131,15 @@ function DetailCtrl:EquipHero(itemData, equipWay)
     local _hEnergy = self.CurrentHero.EnergyMax
     if getOff ~= nil then
         local _iBuff = ModelTool:SplitStr(getOff.HeroBuff)
-        _hBuff[1] = tostring((_hBuff[1]) + 0 - (_iBuff[3]))----------0.00
-        _hBuff[2] = tostring((_hBuff[2]) + 0 - (_iBuff[4]))
-        _hEnergy = tostring((_hEnergy) + 0 - (_iBuff[1]))
+        _hBuff[1] = tostring(ModelTool:FormatNum( (_hBuff[1]) - (_iBuff[3])) )
+        _hBuff[2] = tostring(ModelTool:FormatNum( (_hBuff[2]) - (_iBuff[4])) )
+        _hEnergy = tostring(ModelTool:FormatNum( (_hEnergy) - (_iBuff[1])) )
     end
     if putOn ~= nil then
         local _iBuff = ModelTool:SplitStr(putOn.HeroBuff)
-        _hBuff[1] = tostring((_hBuff[1]) + 0 + (_iBuff[3]))
-        _hBuff[2] = tostring((_hBuff[2]) + 0 + (_iBuff[4]))
-        _hEnergy = tostring((_hEnergy) + 0 + (_iBuff[1]))
+        _hBuff[1] = tostring(ModelTool:FormatNum( (_hBuff[1]) + (_iBuff[3])) )
+        _hBuff[2] = tostring(ModelTool:FormatNum( (_hBuff[2]) + (_iBuff[4])) )
+        _hEnergy = tostring(ModelTool:FormatNum( (_hEnergy) + (_iBuff[1])) )
     end
 
     -- 刷新 玩家动态数据 相应的英雄信息
@@ -172,13 +178,7 @@ function DetailCtrl:EquipHero(itemData, equipWay)
             v.EnergyMax = _hEnergy
 
             -- 返回 更改后的信息
-            self.CurrentHero = PlayerDataModel.CompletePlayerData.Heros[k] --ModelTool:CopyTable(
-            --)
-            
-            -- 测试打印
-            -- for k,v in pairs(self.CurrentHero.Equips) do
-            --     print("equip:" .. v.ItemID)
-            -- end
+            self.CurrentHero = ModelTool:CopyTable(PlayerDataModel.CompletePlayerData.Heros[k])
 
             break
         end

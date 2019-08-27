@@ -125,11 +125,13 @@ end
     --@fileName: 如：MainSceneCtrl
     @return:
 ]]
-function LoadManager:LoadLua(dirName, ScriptName)
+function LoadManager:LoadLua(dirName, scriptName)
     if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
-        require(dirName .. "/" .. ScriptName .. ".lua.txt")
+        print("loadLua")
+        --require(dirName .. "/" .. scriptName .. ".lua.txt")
+        return require(dirName .. "/" .. scriptName .. ".lua.txt")
     else
-        CS.Luax.Instance:DoString(ABManager:LoadAsset("script", ScriptName .. ".lua").text)
+       return CS.Luax.Instance:DoString(ABManager:LoadAsset("script", scriptName .. ".lua").text)
     end
 end
 

@@ -1,0 +1,88 @@
+MapModel = {}
+
+MapModel.data = {}
+MapModel.data.role = {} -- 数组形式四个角色ID
+MapModel.data.energy = 0 -- 总体力
+MapModel.data.currentEnergy = 0 -- 当前体力
+MapModel.data.lucky = 0 -- 品质爆率
+MapModel.data.efficiency = 0 -- 数量爆率
+MapModel.data.time = 1 -- 时间系数
+ModelTool:SetMeta(MapModel.data)
+
+function MapModel:LoadData()
+    -- 总体力 = 所有角色的体力上限 + 所有角色身上的装备加成
+    self.data.energy = 0
+    -- 当前 = 所有角色的当前体力
+    self.data.currentEnergy = 0
+    -- 装备 + & 英雄 *
+    self.data.lucky = 1
+    self.data.efficiency = 1
+    -- 英雄 *
+    self.data.time = 1
+
+    local roleDatas = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Heros, "HeroID", 1, self.data.role[1], self.data.role[2], self.data.role[3], self.data.role[4])
+    for k, v in pairs(roleDatas) do
+        -- 英雄
+        self.data.energy = self.data.energy + tonumber(v.EnergyMax)
+        self.data.currentEnergy = self.data.currentEnergy + tonumber(v.EnergyNow)
+
+        local colBuff = ModelTool:SplitStr(v.ColBuff)
+        self.data.efficiency = self.data.efficiency * tonumber(colBuff[1])
+        self.data.lucky = self.data.lucky * tonumber(colBuff[2])
+        self.data.time = self.data.time * tonumber(colBuff[3])
+        -- 装备
+        for kItem, vItem in pairs(v.Equips) do
+            local heroBuff = ModelTool:SplitStr(vItem.HeroBuff)
+            self.data.energy = self.data.energy + tonumber(heroBuff[1])
+            self.data.efficiency = self.data.efficiency + tonumber(heroBuff[3])
+            self.data.lucky = self.data.lucky + tonumber(heroBuff[4])
+        end
+    end
+end
+
+--[[
+    @desc: 给定怪物等级
+    @return:所需时间，获得的道具
+]]
+function MapModel:InCombat(level)
+    local time = 0
+    local l3 = 0.05
+    local l2 = 0.15
+    local x = self.data.lucky - 1
+    -- 确定时间
+    if level == "Normal" then
+        time = 3
+    elseif level == "Elite" then
+        time = 6
+        l3 = 0.1
+        l2 = 0.25
+    elseif level == "Boss" then
+        time = 10
+        l3 = 0.15
+        l2 = 0.35
+    else
+        error("无此怪物等级")
+    end
+    -- 确定掉落
+    local count = 1 - (0.5 / (self.data.efficiency - 1 + 0.5))
+    local item = {}
+    count = 3 * (count * 2 + 1)
+    count = math.ceil(count + CS.UnityEngine.Random.Range(count * -0.4, count * 0.3))
+
+    for i = 1, count do
+        local level = "1"
+        -- 随机一个物品
+        local rand = CS.UnityEngine.Random.value
+        if rand < ((x / (0.5 + x)) + 1) * 3 * l3 then
+            -- L3物品
+            level = "3"
+        elseif ((x / (0.5 + x)) + 1) * 1.3 * l2 then
+            -- L2
+            level = "2"
+        end
+        -- 抽取
+        local items = StaticDataModel:ScreenList(StaticDataModel.ItemsTable, "Level", 1, level)
+        table.insert(item, StaticDataModel:RandomTable(items))
+    end
+    return time, item
+end

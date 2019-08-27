@@ -1,18 +1,108 @@
 MapCtrl = {}
 
 MapCtrl.Panel = nil
+MapCtrl.package = {}
 
 function MapCtrl:Init(index)
     self.Panel = CS.UnityEngine.GameObject.Find("ExUI/ExploreInUI"):GetComponent("UISubObject")
     -- 传入index
-    self.Panel:GetComponent("ExploreInAnimation"):Init(index + 1) 
+    self.Panel:GetComponent("ExploreInAnimation"):Init(index + 1)
+    -- 加载所需数据（数量爆率总值、稀有爆率总值、体力总值Energy、体力当前值）
+    MapModel:LoadData()
+
+    -- test
+    MapCtrl:Combat("Normal")
+
+    -- 添加战斗委托
     
-    
+    -- 添加背包委托
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            MapCtrl:DisplayPackage()
+        end
+    )
+    -- 添加返回委托
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            MapCtrl:Save()
+            UICtrl:Back2MainScene()
+        end
+    )
 end
 
--- 返回主场景
-function MapCtrl:BackMainScene( )
-    
+-- 遇怪 level: Normal / Elite / Boss
+function MapCtrl:Combat(level)
+    -- 扣体力
+    if MapModel.data.currentEnergy < 12 then
+        return
+    end
+    MapModel.data.currentEnergy = MapModel.data.currentEnergy - 12
+
+    local time, item = MapModel:InCombat(level)
+
+    -- test
+    ModelTool:SetMeta(item)
+
+    -- 战斗动画
+
+    -- 定时委托
+    Core.timer = time
+    Core.timerEvent = function()
+        self:CombatEnd(item)
+    end
 end
 
--- 加载所需数据（幸运总值、）
+-- 结束战斗
+function MapCtrl:CombatEnd(item)
+    -- 存入背包
+    for k, v in pairs(item) do
+        if self.package[v.ItemID] then
+            self.package[v.ItemID].Count = tostring(tonumber(self.package[v.ItemID].Count) + 1)
+        else
+            self.package[v.ItemID] = v
+            self.package[v.ItemID].Count = "1"
+        end
+    end
+
+    -- 结束战斗动画
+
+    -- 弹窗显示道具
+    local go = MapCtrl:Show()
+    for k, v in pairs(item) do
+        UICtrl:LoadItem(v, go)
+    end
+end
+
+-- 弹窗显示抽到的物品,传要显示的文字,返回可以加载图标的父物体
+function MapCtrl:Show()
+    local subPanel = LoadManager:Load(ABManager:LoadAsset("prefab", "ExpSubwindow"), self.Panel.transform, true):GetComponent("UISubObject")
+    subPanel.buttons[0].onClick:AddListener(
+        function()
+            CS.UnityEngine.Object.Destroy(subPanel.gameObject)
+        end
+    )
+    return subPanel.go[0].transform
+end
+
+-- 返回主菜单时保存账号数据
+function MapCtrl:Save()
+    -- 道具添加到账号数据
+    for k, v in pairs(self.package) do
+        PlayerDataModel:AddNormalItem(v.ItemID)
+    end
+    -- 写入读取
+    PlayerDataModel:WriteIn()
+    PlayerDataModel:ReadOut()
+end
+
+-- 显示背包物品
+function MapCtrl:DisplayPackage()
+    -- 销毁子物体
+    for i = 0, self.Panel.go[8].transform.childCount - 1 do
+        CS.UnityEngine.Object.Destroy(self.Panel.go[8].transform:GetChild(i).gameObject)
+    end
+    -- 加载物体
+    for k, v in pairs(self.package) do
+        UICtrl:LoadItem(v, self.Panel.go[8].transform)
+    end
+end

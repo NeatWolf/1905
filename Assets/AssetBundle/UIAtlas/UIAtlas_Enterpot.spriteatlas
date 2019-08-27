@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UIAtlas_Enterpot
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 06f0a0582e301404daa50f91325e658e, type: 3}
+    - {fileID: 2800000, guid: ec62802616e8f334aa44c1ebcbf93319, type: 3}
+    - {fileID: 2800000, guid: de09576943ef41648bb982c8c0f794dc, type: 3}
+    - {fileID: 2800000, guid: 98999f0136a03cf4191240fd51362d8e, type: 3}
+    - {fileID: 2800000, guid: 77af197f2658d624bafd853803b8ae11, type: 3}
+    - {fileID: 2800000, guid: 8ff949c5c66070a49bc2b5b83e9b99b9, type: 3}
+    - {fileID: 2800000, guid: d65e160309038e34a9d83c6b2a3a1714, type: 3}
+    - {fileID: 2800000, guid: e00278fc4d6d38c41b1735c700fc5f14, type: 3}
+    - {fileID: 2800000, guid: 933ce64ac8b2cff43933bf3ac73f8576, type: 3}
+    - {fileID: 2800000, guid: 96319a63de53f5c4cabefcf070334462, type: 3}
+    - {fileID: 2800000, guid: 7b85dab2f7556e84ebf7d7db7f0d6b91, type: 3}
+    - {fileID: 2800000, guid: 954ac77dcf8d03a40aee152ada9fb959, type: 3}
+    totalSpriteSurfaceArea: 2888889
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 98999f0136a03cf4191240fd51362d8e, type: 3}
+  - {fileID: 21300000, guid: 7b85dab2f7556e84ebf7d7db7f0d6b91, type: 3}
+  - {fileID: 21300000, guid: 96319a63de53f5c4cabefcf070334462, type: 3}
+  - {fileID: 21300000, guid: 8ff949c5c66070a49bc2b5b83e9b99b9, type: 3}
+  - {fileID: 21300000, guid: ec62802616e8f334aa44c1ebcbf93319, type: 3}
+  - {fileID: 21300000, guid: 06f0a0582e301404daa50f91325e658e, type: 3}
+  - {fileID: 21300000, guid: de09576943ef41648bb982c8c0f794dc, type: 3}
+  - {fileID: 21300000, guid: 933ce64ac8b2cff43933bf3ac73f8576, type: 3}
+  - {fileID: 21300000, guid: e00278fc4d6d38c41b1735c700fc5f14, type: 3}
+  - {fileID: 21300000, guid: 954ac77dcf8d03a40aee152ada9fb959, type: 3}
+  - {fileID: 21300000, guid: 77af197f2658d624bafd853803b8ae11, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - putaway_list_one
+  - putaway_frame
+  - putaway_enterpot_buttom_on
+  - enterpot_frame2
+  - Employee
+  - putaway_report_buttom_on
+  - putaway_report_buttom_exit
+  - putaway_enterpot_buttom_exit
+  - enterpot_select
+  - putaway_glass
+  - enterpot_frame
+  m_Tag: UIAtlas_Enterpot
+  m_IsVariant: 0

@@ -5,7 +5,7 @@ MainSceneCtrl.Panel = nil
 MainSceneCtrl.Scene = nil
 
 -- 测试NPCsCtrl程序
-LoadManager:LoadLua("Entrepot", "NPCsCtrl")
+LoadManager:LoadLua("MainScene", "NPCsCtrl")
 
 MainSceneCtrl.DayState = 1
 MainSceneCtrl.NightChange = false
@@ -42,6 +42,9 @@ function MainSceneCtrl:Init()
 
     -- 刷新金币钻石等数据
     
+    -- 删除系统消息栏中所有的子物体
+    LoadManager:DeleteAllChilds(self.Panel.go[2])
+
     math.randomseed(tostring(os.time()):reverse():sub(1, 7))
     -- 随机白天/夜晚
     if math.random(2) == 1 then
@@ -53,9 +56,10 @@ function MainSceneCtrl:Init()
     dayTimer = math.random(Core.GamePeriod / 2)
 
     -- 在Core.updateEvent里添加 白天/黑夜更替事件
-    -- table.insert( Core.updateEvent, function() self:GameStartPeriod() end)
+    -- table.insert( Core.updateEvent, function() MainSceneCtrl:GameStartPeriod() end)
     -- 在Core.secondEvent里添加 NPC购买事件
-    -- table.insert( Core.secondEvent, function() self:NpcStart() end)
+    Core.secondEvent["NpcBuyEvent"] = function() MainSceneCtrl:NpcStart() end
+
 end
 
 -- 开始游戏白天黑夜周期
@@ -66,11 +70,11 @@ function MainSceneCtrl:GameStartPeriod()
         if self.DayState == -1 then
             self.NightChange = true
             self.DayChange = false
-            print("夜晚")
+            -- print("夜晚")
         else
             self.DayChange = true
             self.NightChange = false
-            print("白天")
+            -- print("白天")
         end
         dayTimer = 0
     end
@@ -84,8 +88,19 @@ function MainSceneCtrl:NpcStart()
         local r = math.random(3)
         if r == 3 or NpcTimer >= NpcMaxTime then
             -- 触发npc来的事件
-            NPCsCtrl:NpcCome()
+            local Message = NPCsCtrl:NpcCome()
+            self:UpdateBuyInfo(Message)
             NpcTimer = 0
         end
     end
+end
+
+-- 刷新主界面的系統信息
+function MainSceneCtrl:UpdateBuyInfo(message)
+    if self.Panel.go[2].transform.childCount >10 then
+        CS.UnityEngine.Object.Destroy(self.Panel.go[2].transform:GetChild(0).gameObject)
+    end
+
+    local infoCell = LoadManager:Load(ABManager:LoadAsset("prefab", "Img_BuyInfo"), self.Panel.go[2].transform, true)
+    infoCell.transform:GetChild(0):GetComponent("TextMeshProUGUI").text = message
 end

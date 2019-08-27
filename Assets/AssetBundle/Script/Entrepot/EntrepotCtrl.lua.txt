@@ -4,7 +4,7 @@ EntrepotCtrl.Panel = nil
 EntrepotCtrl.EntrepotItems = nil
 
 function EntrepotCtrl:Init()
-    -- print("进入货架")
+    print("进入货架")
     local _Obj = LoadManager:Load(ABManager:LoadAsset("prefab", "EntrepotUI"), "UI", true)
     self.Panel = _Obj:GetComponent("UISubObject")
     self.Ani = _Obj:GetComponent("EntrepotAnimation")
@@ -12,6 +12,7 @@ function EntrepotCtrl:Init()
     -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
+            Core.secondEvent["UpdateEntrepot"] = nil
             self.Ani:EntrepotExitAnimate()
             UICtrl:Back2MainScene()
         end
@@ -21,7 +22,7 @@ function EntrepotCtrl:Init()
     self.Panel.buttons[1].onClick:AddListener(
         function()
             WarehouseCtrl:ShowWarehouse()
-            EntrepotCtrl.Panel.buttons[0].gameObject:SetActive(false)
+            self.Panel.buttons[0].gameObject:SetActive(false)
             WarehouseCtrl.Panel.buttons[0].gameObject:SetActive(true)
             WarehouseCtrl.Ani:WarehouseEnterAnimate()
         end
@@ -29,23 +30,28 @@ function EntrepotCtrl:Init()
     -- 出售记录按钮
     self.Panel.buttons[2].onClick:AddListener(
         function()
-            CS.AnimateManager.RecordEnterAnimate(self.Panel.go[2], self.Panel.go[3]);
+            self.Panel.buttons[0].gameObject:SetActive(false)
+            RecordsCtrl:ShowRecordsWindow()
         end
     )
 
     -- 货架按钮失效
     for i=3,18 do
-        EntrepotCtrl.Panel.buttons[i].enabled = false
+        self.Panel.buttons[i].enabled = false
     end
 
     -- 加载视图脚本
     LoadManager:LoadLua("Entrepot", "EntrepotView")
-    self:ShowEntrepot()
+    
 
     -- 加载仓库控制脚本
     LoadManager:LoadLua("Warehouse", "WarehouseCtrl")
     WarehouseCtrl:Init()
+    -- 加载记录控制脚本
+    LoadManager:LoadLua("Entrepot", "RecordsCtrl")
+    RecordsCtrl:Init()
 
+    Core.secondEvent["UpdateEntrepot"] = function() self:UpdateEntrepot() end
 end
 
 -- 从动态数据中获取已上架的物品
@@ -58,7 +64,7 @@ function EntrepotCtrl:GetEntrepotItems()
 end
 
 -- 刷新货架的显示
-function EntrepotCtrl:ShowEntrepot()
+function EntrepotCtrl:UpdateEntrepot()
     self.EntrepotItems = self:GetEntrepotItems()
     EntrepotView:ShowEntrepotItems(self.EntrepotItems)
 end

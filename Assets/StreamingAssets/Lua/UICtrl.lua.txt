@@ -129,3 +129,23 @@ function UICtrl:LoadItem(itemData, parent, clickEvent)
     end
     return _Item
 end
+
+
+function UICtrl:LoadWarning(parent, message, callback)
+    local _Warning = {}
+    _Warning.Obj  = LoadManager:Load(ABManager:LoadAsset("prefab", "Warning"), parent, true)
+    _Warning.UISub = _Warning.Obj:GetComponent("UISubObject")
+
+    _Warning.UISub.tmps[0].text = message
+    _Warning.UISub.buttons[0].onClick:AddListener(
+        function()
+            CS.UnityEngine.Object.Destroy(_Warning.Obj)
+        end
+    )
+
+    if callback ~= nil then
+        _Warning.UISub.buttons[0].onClick:AddListener(callback)
+    end
+    
+    return _Warning.Obj
+end

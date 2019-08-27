@@ -1,21 +1,47 @@
 GameStartCtrl = {}
 
+GameStartCtrl.Panel = nil
+
 -- 加载登录系统
 function GameStartCtrl:Init()
-    local subObj = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
-    subObj.buttons[0].onClick:AddListener(
+    self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
+
+    local str = CS.System.IO.File.ReadAllText(self.FilePath)
+    local playerData = JsonUtil.decode(str)
+    if playerData.UserName ~= nil then
+        self.Panel.inputFields[0].text = playerData.UserName
+        self.Panel.inputFields[1].text = playerData.UserPassword
+    end
+
+    local loginCtrl = CS.UnityEngine.Object.FindObjectOfType(typeof(CS.LoginCtrl))
+    if loginCtrl == nil then
+        loginCtrl = CS.UnityEngine.GameObject():AddComponent(typeof(CS.LoginCtrl))
+    end
+
+    self.Panel.buttons[0].onClick:AddListener(
         function()
-            -- 黑遮罩淡入出，登陆成功
-            UICtrl:CutTo(
-                1,
-                function()
-                    CS.UnityEngine.Object.Destroy(subObj.gameObject)
-                    GameStartCtrl:LoadingBar()
-                end
-            )
+            loginCtrl:LoginClick(self.Panel.inputFields[0].text, self.Panel.inputFields[1].text, self.Panel.gameObject)
+        end
+    )
+  
+end
+
+
+--[[
+    @desc: 登陆成功
+]]
+function GameStartCtrl:LoginSuccess()
+    -- 黑遮罩淡入出
+    UICtrl:CutTo(
+        1,
+        function()
+            CS.UnityEngine.Object.Destroy(self.Panel.gameObject)
+            self:LoadingBar()
         end
     )
 end
+
+
 
 -- 登录成功，加载进度条，加载所有数据
 function GameStartCtrl:LoadingBar()
@@ -49,4 +75,18 @@ function GameStartCtrl:LoadingBar()
     StaticDataModel:ReadOut()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
+
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.SynInsInfo.SynItems) do
+        Core.updateEvent["UpdateSynTime".. v.ItemID] = function() self:UpdateSynTime(v) end
+    end
+    
+end
+
+function GameStartCtrl:UpdateSynTime(itemData)
+    itemData.SynTimer = tostring(itemData.SynTimer + 0.001)--CS.UnityEngine.Time.deltaTime)
+    if tonumber(itemData.SynTimer) >= tonumber(itemData.SynTime) then
+        Core.updateEvent["UpdateSynTime".. itemData.ItemID] = nil
+        PlayerDataModel:RemoveSynItem(itemData.ItemID)
+        PlayerDataModel:AddNormalItem(itemData.ItemID, 1, false)
+    end
 end

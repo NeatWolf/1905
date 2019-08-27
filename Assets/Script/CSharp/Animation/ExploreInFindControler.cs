@@ -289,7 +289,7 @@ public class ExploreInFindControler : MonoBehaviour
 
         for (int j = 0; j < 18; j++)
         {
-            if (!monsterDic.ContainsKey(MapNumber)||monsterDic[MapNumber][j].active==false) return;
+            if (!monsterDic.ContainsKey(MapNumber)||monsterDic[MapNumber][j].activeSelf==false) return;
             monsterDic[MapNumber][j].SetActive(false);
         }
 

@@ -19,7 +19,7 @@ public class EntrepotAnimation : MonoBehaviour
     {
 
         btns = GetComponent<UISubObject>().buttons;
-        Records=GetComponent<UISubObject>().go[2];
+        Records=GetComponent<UISubObject>().go[2].transform.GetChild(1).gameObject;
         content=GetComponent<UISubObject>().go[3];
         list=GetComponent<UISubObject>().go[4];
         glass=GetComponent<UISubObject>().go[5];

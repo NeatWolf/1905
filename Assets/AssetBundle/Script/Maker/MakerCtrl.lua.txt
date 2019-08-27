@@ -51,7 +51,7 @@ function MakerCtrl:Init()
     self.Panel.buttons[0].onClick:AddListener(
         function()
             for k,v in pairs(PlayerDataModel.PlayerData.SynInsInfo.SynItems) do
-                Core.updateEvent[("Syn" .. v.ItemID)] = nil
+                Core.updateEvent[("ShowSyn" .. v.ItemID)] = nil
             end
             UICtrl:Back2MainScene()
         end
@@ -315,22 +315,20 @@ end
 
 
 function MakerCtrl:SynCdTimerEvent(synItem)
-    synItem._Data.SynTimer = tostring(synItem._Data.SynTimer + CS.UnityEngine.Time.deltaTime)
-    --print(synItem._Data.SynTimer)
-
-    if tonumber(synItem._Data.SynTimer) >= tonumber(synItem._Data.SynTime) then
+    local itemData = {}
+    for k,v in pairs(PlayerDataModel.CompletePlayerData.SynInsInfo.SynItems) do
+        if v.ItemID == synItem._Data.ItemID then
+            itemData = v
+            break
+        end
+    end
+    if tonumber(itemData.SynTimer) >= tonumber(itemData.SynTime) then
         synItem._UISub.images[0].fillAmount = 1
         CS.UnityEngine.Object.Destroy(synItem._Obj)
-        PlayerDataModel:RemoveSynItem(synItem._Data.ItemID)
-        PlayerDataModel:AddNormalItem(synItem._Data.ItemID, 1, false)
-        Core.updateEvent[("Syn" .. synItem._Data.ItemID)] = nil
+        Core.updateEvent[("ShowSyn" .. itemData.ItemID)] = nil
     else
-        synItem._UISub.images[0].fillAmount = synItem._Data.SynTimer/synItem._Data.SynTime
+        synItem._UISub.images[0].fillAmount = itemData.SynTimer/itemData.SynTime
     end
 
 end
 
-
-function MakerCtrl:RemoveEvent()
-    
-end

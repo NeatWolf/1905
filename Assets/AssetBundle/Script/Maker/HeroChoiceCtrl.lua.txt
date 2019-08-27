@@ -46,11 +46,11 @@ function HeroChoiceCtrl:ShowHeroCell(heroData)
             if isTrue == true then
                 _hero.transform:GetChild(0):GetComponent("Image").color = CS.UnityEngine.Color(0.035,0.105,0.525,1);
                 self.CurrentHero = heroData
-                print("切换英雄成功：" .. self.CurrentHero.HeroID)
+                -- print("切换英雄成功：" .. self.CurrentHero.HeroID)
             else
                 _hero.transform:GetChild(0):GetComponent("Image").color = CS.UnityEngine.Color(1,1,1,1);
                 self.CurrentHero = nil
-                print("取消英雄选择")
+                -- print("取消英雄选择")
             end
         end
     )

@@ -63,14 +63,17 @@ function PlayerDataModel:RemoveNormalItem(itemID, count, isOnShelf)
         end
     end
     for k, v in pairs(self.CompletePlayerData.Items) do
-        if itemID == v.ItemID then
+        if itemID == v.ItemID and v.IsOnShelf == tostring(isOnShelf) then
             v.Count = tostring(tonumber(v.Count) - tonumber(count))
+            print("剩余数量：" .. v.Count)
             itemData = v
             if v.Count == "0" then
                 self.CompletePlayerData.Items[k] = nil
                 itemData = nil
             end
             break
+        elseif k == #self.CompletePlayerData.Items then
+            return nil
         end
     end
     return itemData
@@ -89,15 +92,15 @@ end
 
 
 function PlayerDataModel:AddNormalItem(itemID, count, isOnShelf)
-    -- 默认值为1
-    count = count or 1
+    
     for k1, v1 in pairs(self.PlayerData.Items) do
         -- 如果有这个Item
         if v1.ItemID == itemID and v1.IsOnShelf == tostring(isOnShelf) then
-            v1.Count = tostring(v1.Count + count)
+            v1.Count = tostring(ModelTool:FormatNum(v1.Count + count))
             for _, v2 in pairs(self.CompletePlayerData.Items) do
                 if v2.ItemID == itemID and v2.IsOnShelf == tostring(isOnShelf) then
-                    v2.Count = tostring(v2.Count + count)
+                    v2.Count = tostring(ModelTool:FormatNum(v2.Count + count))
+                    -- print("又合成了" .. v2.Count .. "个" .. v2.Name)
                     break
                 end
             end
@@ -106,7 +109,7 @@ function PlayerDataModel:AddNormalItem(itemID, count, isOnShelf)
         elseif k1 == #(self.PlayerData.Items) then
             local newItem = {}
             newItem.ItemID = itemID
-            newItem.Count = tostring(count)
+            newItem.Count = tostring(ModelTool:FormatNum(count))
             newItem.IsOnShelf = tostring(isOnShelf)
             -- 增加到玩家动态表
             table.insert(self.PlayerData.Items, newItem)
@@ -116,9 +119,12 @@ function PlayerDataModel:AddNormalItem(itemID, count, isOnShelf)
             -- 增加到完整的玩家动态表
             table.insert(self.CompletePlayerData.Items, completeItem)
 
-        -- -- 测试打印
-        -- ModelTool:SetMeta(completeItem)
-        -- print(completeItem)
+            -- print("合成了新的" .. completeItem.Count .. "个" .. completeItem.Name)
+            break
+            
+            -- -- 测试打印
+            -- ModelTool:SetMeta(completeItem)
+            -- print(completeItem)
         end
     end
 end

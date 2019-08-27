@@ -1,6 +1,7 @@
 MapCtrl = {}
 
 MapCtrl.Panel = nil
+MapCtrl.findCtrl = nil
 MapCtrl.package = {}
 
 function MapCtrl:Init(index)
@@ -10,10 +11,20 @@ function MapCtrl:Init(index)
     -- 加载所需数据（数量爆率总值、稀有爆率总值、体力总值Energy、体力当前值）
     MapModel:LoadData()
 
-    -- test
-    MapCtrl:Combat("Normal")
-
     -- 添加战斗委托
+    self.findCtrl = CS.UnityEngine.GameObject.Find("/ExploreIn"):GetComponent("ExploreInFindControler")
+    self.findCtrl.LevelOneMonster = function()
+        MapCtrl:Combat("L0")
+    end
+    self.findCtrl.LevelTwoMonster = function()
+        MapCtrl:Combat("L1")
+    end
+    self.findCtrl.LevelThreeMonster = function()
+        MapCtrl:Combat("L2")
+    end
+    self.findCtrl.LevelFourMonster = function()
+        MapCtrl:Combat("L3")
+    end
     -- 添加背包委托
     self.Panel.buttons[0].onClick:AddListener(
         function()
@@ -27,10 +38,20 @@ function MapCtrl:Init(index)
             UICtrl:Back2MainScene()
         end
     )
+
+    -- 显示头像
+    MapCtrl:DIsplayIcon()
+
+    -- 显示体力
+    MapCtrl:DisplayEnergy()
+
+    -- test
+    MapCtrl:Combat("L0")
 end
 
--- 遇怪 level: Normal / Elite / Boss
+-- 遇怪 level: L0 / L1 / L2 / L3
 function MapCtrl:Combat(level)
+    self.findCtrl.isATK = true
     -- 扣体力
     if MapModel.data.currentEnergy < 12 then
         return
@@ -70,6 +91,9 @@ function MapCtrl:CombatEnd(item)
     for k, v in pairs(item) do
         UICtrl:LoadItem(v, go)
     end
+
+    MapCtrl:DisplayEnergy()
+    self.findCtrl.isATK = false
 end
 
 -- 弹窗显示抽到的物品,传要显示的文字,返回可以加载图标的父物体
@@ -104,4 +128,15 @@ function MapCtrl:DisplayPackage()
     for k, v in pairs(self.package) do
         UICtrl:LoadItem(v, self.Panel.go[8].transform)
     end
+end
+
+-- 显示头像
+function MapCtrl:DIsplayIcon()
+    for i = 0, self.Panel.images.Length - 1 do
+        self.Panel.images[i].sprite = ABManager:LoadAsset("texture", MapModel.data.role[i + 1] .. "_Icon", CS.UnityEngine.Sprite)
+    end
+end
+
+-- 显示体力
+function MapCtrl:DisplayEnergy()
 end

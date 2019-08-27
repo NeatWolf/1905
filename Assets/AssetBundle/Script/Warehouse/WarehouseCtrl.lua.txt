@@ -20,7 +20,7 @@ function WarehouseCtrl:Init()
     -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            EntrepotCtrl:ShowEntrepot()
+            -- EntrepotCtrl:UpdateEntrepot()
             EntrepotCtrl.Panel.buttons[0].gameObject:SetActive(true)
             WarehouseCtrl.Panel.buttons[0].gameObject:SetActive(false)
             self.Ani:WarehouseExitAnimate()

@@ -1437,7 +1437,7 @@ GameObject:
   - component: {fileID: 3840667688881143611}
   - component: {fileID: 6575110947623173033}
   m_Layer: 5
-  m_Name: Fornt
+  m_Name: FrontUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1484,7 +1484,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1586,10 +1586,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttons:
   - {fileID: 357336855299087772}
+  toggles: []
+  sliders: []
+  inputFields:
+  - {fileID: 1967113687606135472}
+  - {fileID: 1967113689402909325}
   texts: []
+  tmps: []
   images: []
-  inputFields: []
-  go: []
+  go:
+  - {fileID: 7108550581671949978}
+  fx: []
 --- !u!1 &8743176659119620344
 GameObject:
   m_ObjectHideFlags: 0

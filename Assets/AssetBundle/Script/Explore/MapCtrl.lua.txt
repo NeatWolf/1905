@@ -18,3 +18,12 @@ function MapCtrl:Init(index)
         end
     )
 end
+
+-- 遇怪 level: Normal / Elite / Boss
+function MapCtrl:Combat(level)
+    local time = MapModel:InCombat()
+
+    -- 战斗动画
+
+    -- 定时委托
+end

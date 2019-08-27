@@ -76,7 +76,6 @@ public class ExploreInFindControler : MonoBehaviour
         }
 
 
-
     }
 
     private void Update()

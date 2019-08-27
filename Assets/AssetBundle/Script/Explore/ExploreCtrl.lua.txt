@@ -8,7 +8,7 @@ ExploreCtrl.data = {} -- 数组形式四个角色id
 ExploreCtrl.core = nil
 
 function ExploreCtrl:Init()
-    print("进入探索")
+    -- print("进入探索")
 
     self.core = CS.UnityEngine.Object.FindObjectOfType(typeof(CS.Core))
 
@@ -146,7 +146,6 @@ end
 function ExploreCtrl:TurnTroops()
     -- Lua通用三目运算符形式
     self.selectedTroop = (self.selectedTroop == 1 and {2} or {1})[1]
-    print("切换到" .. self.selectedTroop .. "编队")
     -- 刷新显示
     if ExploreCtrl.Panel.go[0].activeSelf then
         self:Display()

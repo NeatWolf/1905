@@ -50,16 +50,20 @@ function MapModel:InCombat(level)
     local l2 = 0.15
     local x = self.data.lucky - 1
     -- 确定时间
-    if level == "Normal" then
+    if level == "L0" then
         time = 3
-    elseif level == "Elite" then
+    elseif level == "L1" then
         time = 6
         l3 = 0.1
-        l2 = 0.25
-    elseif level == "Boss" then
+        l2 = 0.2
+    elseif level == "L2" then
         time = 10
         l3 = 0.15
-        l2 = 0.35
+        l2 = 0.3
+    elseif level == "L3" then
+        time = 15
+        l3 = 0.2
+        l2 = 0.4
     else
         error("无此怪物等级")
     end

@@ -9,7 +9,7 @@ RoleCtrl.RoleSelectAniCSharp = nil
 RoleCtrl.CurrentHero = nil
 
 function RoleCtrl:Init()
-    print("进入角色管理")
+    -- print("进入角色管理")
     local _Obj = LoadManager:Load(ABManager:LoadAsset("prefab", "RoleManUI"), "UI", true)
     self.Panel = _Obj:GetComponent("UISubObject")
     self.RoleManAniCSharp = _Obj:GetComponent("RoleManAnimation")
@@ -71,7 +71,7 @@ end
 -- 切换英雄
 function RoleCtrl:ShowCurrentRole(heroData)
     self.CurrentHero = heroData
-    print("当前角色改变为：" .. self.RoleSelectAniCSharp.currentRoleID + 1)
+    -- print("当前角色改变为：" .. self.RoleSelectAniCSharp.currentRoleID + 1)
     RoleView:ShowHeroInfo(self.CurrentHero)
 end
 

@@ -4,7 +4,7 @@ EntrepotCtrl.Panel = nil
 EntrepotCtrl.EntrepotItems = nil
 
 function EntrepotCtrl:Init()
-    print("进入货架")
+    -- print("进入货架")
     local _Obj = LoadManager:Load(ABManager:LoadAsset("prefab", "EntrepotUI"), "UI", true)
     self.Panel = _Obj:GetComponent("UISubObject")
     self.Ani = _Obj:GetComponent("EntrepotAnimation")
@@ -12,7 +12,6 @@ function EntrepotCtrl:Init()
     -- 返回按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            print("按下返回按钮")
             self.Ani:EntrepotExitAnimate()
             UICtrl:Back2MainScene()
         end

@@ -287,6 +287,7 @@ public class ExploreInFindControler : MonoBehaviour
         if (FindWayDone != null)
         {
             FindWayDone();
+            print("Done!!!!!!!!!!!!");
         }
 
     }

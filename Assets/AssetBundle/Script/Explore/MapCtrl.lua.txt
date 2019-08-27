@@ -14,6 +14,7 @@ function MapCtrl:Init(index)
     MapCtrl:Combat("Normal")
 
     -- 添加战斗委托
+    
     -- 添加背包委托
     self.Panel.buttons[0].onClick:AddListener(
         function()

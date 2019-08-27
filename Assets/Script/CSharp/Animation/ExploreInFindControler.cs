@@ -91,7 +91,7 @@ public class ExploreInFindControler : MonoBehaviour
         //点击地面后的寻路
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("鼠标触发");
+            // Debug.Log("鼠标触发");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition + Vector3.forward * 100);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, 1000, LayerMask.GetMask("ExploreMap")) && isATK == false)
@@ -125,7 +125,7 @@ public class ExploreInFindControler : MonoBehaviour
         //点击怪物后的寻路
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("鼠标触发");
+            // Debug.Log("鼠标触发");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition + Vector3.forward * 100);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, 1000, LayerMask.GetMask("Monster")))
@@ -152,7 +152,7 @@ public class ExploreInFindControler : MonoBehaviour
 
             if (Vector3.Distance(heroTroop[i].transform.position, targetPos) <= heroAtkDistance)
             {
-                Debug.Log("播放idle动画");
+                // Debug.Log("播放idle动画");
                // isIdle = true;
                 herosUAC[i].animation.Play("idle");
                 //调用遇怪方法

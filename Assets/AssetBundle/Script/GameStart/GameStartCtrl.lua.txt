@@ -6,7 +6,7 @@ GameStartCtrl.Panel = nil
 function GameStartCtrl:Init()
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
 
-    local str = CS.System.IO.File.ReadAllText(self.FilePath)
+    local str = CS.System.IO.File.ReadAllText(PlayerDataModel.FilePath)
     local playerData = JsonUtil.decode(str)
     if playerData.UserName ~= nil then
         self.Panel.inputFields[0].text = playerData.UserName

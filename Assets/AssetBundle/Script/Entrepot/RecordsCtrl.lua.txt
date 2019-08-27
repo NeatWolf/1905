@@ -1,0 +1,60 @@
+RecordsCtrl = {}
+
+RecordsCtrl.Cells = nil
+
+function RecordsCtrl:Init()
+    EntrepotCtrl.Panel.go[2]:SetActive(false)
+    self.Panel = EntrepotCtrl.Panel.go[2]:GetComponent("UISubObject")
+
+    -- 返回按钮
+    self.Panel.buttons[1].gameObject:SetActive(false)
+    self.Panel.buttons[1].onClick:AddListener(
+        function()
+            self.Panel.buttons[1].gameObject:SetActive(false)
+            EntrepotCtrl.Panel.buttons[0].gameObject:SetActive(true)
+            CS.AnimateManager.RecordPreviousAnimate(self.Panel.go[0]);
+            Core.secondEvent["UpdateRecords"] = nil
+        end
+    )
+
+    -- 出售记录的Mask = 返回按钮
+    self.Panel.buttons[0].onClick:AddListener(
+        function()
+            self.Panel.buttons[1].gameObject:SetActive(false)
+            EntrepotCtrl.Panel.buttons[0].gameObject:SetActive(true)
+            CS.AnimateManager.RecordPreviousAnimate(self.Panel.go[0]);
+            Core.secondEvent["UpdateRecords"] = nil
+        end
+    )
+    self.Cells = {}
+    self:GetMessageCells()
+
+end
+
+
+function RecordsCtrl:GetMessageCells()
+    local index = 1
+    for i = 1, 10 do
+        --if self.Panel.go[1].transform:GetChild(i).gameObject.name ~= "Ima_bttom" then
+            self.Cells[i] = self.Panel.go[1].transform:GetChild(i):GetChild(0):GetComponent("TextMeshProUGUI")
+            self.Cells[i].text = ""
+        --end
+    end
+end
+
+-- 刷新购买记录的显示
+function RecordsCtrl:UpdateAllRecords()
+    local cellLength = StaticDataModel:TableCount(self.Cells)
+    for i=1, cellLength-1, 1 do
+        if NPCsCtrl.Records[i] ~= nil then
+            self.Cells[cellLength+1-i].text = NPCsCtrl.Records[i]
+        end
+    end
+    EntrepotCtrl:UpdateEntrepot()
+end
+
+
+function RecordsCtrl:ShowRecordsWindow()
+    CS.AnimateManager.RecordEnterAnimate(self.Panel.go[0], self.Panel.go[1])
+    Core.secondEvent["UpdateRecords"] = function() self:UpdateAllRecords() end
+end

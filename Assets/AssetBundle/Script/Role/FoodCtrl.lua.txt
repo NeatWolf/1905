@@ -38,6 +38,7 @@ function FoodCtrl:ShowFoodsList(heroData)
     LoadManager:DeleteAllChilds(self.Panel.go[0])
 
     local _itemsList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Items, "Type", 1, "2")
+    _itemsList = StaticDataModel:ScreenList(_itemsList, "IsOnShelf", 1, "false")
     StaticDataModel:SortItem(_itemsList, "Level", -1)
     for k,v in pairs(_itemsList) do
         local _Food = UICtrl:LoadItem(

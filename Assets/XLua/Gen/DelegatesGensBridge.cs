@@ -38,7 +38,54 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp1(int p0)
+		public UnityEngine.GameObject __Gen_Delegate_Imp1(XLua.LuaTable p0, UnityEngine.Transform p1, string p2, UnityEngine.Events.UnityAction p3)
+		{
+#if THREAD_SAFE || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.rawL;
+                int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
+                ObjectTranslator translator = luaEnv.translator;
+                translator.Push(L, p0);
+                translator.Push(L, p1);
+                LuaAPI.lua_pushstring(L, p2);
+                translator.Push(L, p3);
+                
+                PCall(L, 4, 1, errFunc);
+                
+                
+                UnityEngine.GameObject __gen_ret = (UnityEngine.GameObject)translator.GetObject(L, errFunc + 1, typeof(UnityEngine.GameObject));
+                LuaAPI.lua_settop(L, errFunc - 1);
+                return  __gen_ret;
+#if THREAD_SAFE || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
+		public void __Gen_Delegate_Imp2(XLua.LuaTable p0)
+		{
+#if THREAD_SAFE || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.rawL;
+                int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
+                ObjectTranslator translator = luaEnv.translator;
+                translator.Push(L, p0);
+                
+                PCall(L, 1, 0, errFunc);
+                
+                
+                
+                LuaAPI.lua_settop(L, errFunc - 1);
+                
+#if THREAD_SAFE || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
+		public void __Gen_Delegate_Imp3(int p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -60,7 +107,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp2(float p0)
+		public void __Gen_Delegate_Imp4(float p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -82,7 +129,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp3(double p0)
+		public void __Gen_Delegate_Imp5(double p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -104,7 +151,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp4(bool p0)
+		public void __Gen_Delegate_Imp6(bool p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -140,24 +187,34 @@ namespace XLua
 			    return new CallLua.GameObjectEvent(__Gen_Delegate_Imp0);
 			}
 		
+		    if (type == typeof(LoginCtrl.LoadWarning))
+			{
+			    return new LoginCtrl.LoadWarning(__Gen_Delegate_Imp1);
+			}
+		
+		    if (type == typeof(LoginCtrl.Function))
+			{
+			    return new LoginCtrl.Function(__Gen_Delegate_Imp2);
+			}
+		
 		    if (type == typeof(UnityEngine.Events.UnityAction<int>))
 			{
-			    return new UnityEngine.Events.UnityAction<int>(__Gen_Delegate_Imp1);
+			    return new UnityEngine.Events.UnityAction<int>(__Gen_Delegate_Imp3);
 			}
 		
 		    if (type == typeof(UnityEngine.Events.UnityAction<float>))
 			{
-			    return new UnityEngine.Events.UnityAction<float>(__Gen_Delegate_Imp2);
+			    return new UnityEngine.Events.UnityAction<float>(__Gen_Delegate_Imp4);
 			}
 		
 		    if (type == typeof(UnityEngine.Events.UnityAction<double>))
 			{
-			    return new UnityEngine.Events.UnityAction<double>(__Gen_Delegate_Imp3);
+			    return new UnityEngine.Events.UnityAction<double>(__Gen_Delegate_Imp5);
 			}
 		
 		    if (type == typeof(UnityEngine.Events.UnityAction<bool>))
 			{
-			    return new UnityEngine.Events.UnityAction<bool>(__Gen_Delegate_Imp4);
+			    return new UnityEngine.Events.UnityAction<bool>(__Gen_Delegate_Imp6);
 			}
 		
 		    return null;

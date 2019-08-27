@@ -2,4 +2,9 @@
 
 <linker>
 
+	<assembly fullname="Assembly-CSharp">
+	    <type fullname="Core" preserve="all"/>
+		
+	</assembly>
+
 </linker>

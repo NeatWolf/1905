@@ -66,7 +66,8 @@ end
 
 --每秒刷新
 function Core.SecondUpdate()
-    if #Core.secondEvent ~= 0 then
+    if StaticDataModel:TableCount(Core.secondEvent) ~= 0 then
+        -- print(StaticDataModel:TableCount(Core.secondEvent))
         for k,v in pairs(Core.secondEvent) do
             v()
         end

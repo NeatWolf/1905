@@ -30,6 +30,7 @@ public class WarehouseAnimation : MonoBehaviour
     /// 仓库入场动画
     /// </summary>
     public void WarehouseEnterAnimate(){
+        canvas[0].transform.GetChild(0).GetComponent<Image>().color = new Vector4(1,1,1,0);
         canvas[0].transform.GetChild(0).gameObject.SetActive(true);
         canvas[0].transform.GetChild(0).GetComponent<Image>().DOFade(1f,0.5f);
         canvas[1].GetComponent<RectTransform>().DOAnchorPosX( canvas[1].GetComponent<RectTransform>().anchoredPosition.x-7f,1).SetEase(Ease.InOutBack);

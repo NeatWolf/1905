@@ -58,16 +58,6 @@ public static class AnimateManager
     }
 
 
-
-    /**
-    场景UI入场动画
-     */
-    public static void AddScenenAnimate()
-    {
-
-    }
-
-
     /// <summary>
     /// RoleMan出售记录入场动画
     /// </summary>
@@ -75,7 +65,7 @@ public static class AnimateManager
     /// <param name="content">卷轴内的content</param>
     public static void RecordEnterAnimate(GameObject records, GameObject content)
     {
-        records.gameObject.SetActive(true);
+        records.transform.parent.gameObject.SetActive(true);
 
         records.transform.DOLocalMoveY(-2000, 1, true).SetEase(Ease.InOutBack);
         //records.transform.DOLocalMoveY(-2000,1,true);
@@ -100,7 +90,7 @@ public static class AnimateManager
             }
         }
 
-
+        records.transform.GetChild(0).GetComponent<ScrollRect>().verticalScrollbar.value = 0;
     }
 
     /// <summary>
@@ -109,7 +99,7 @@ public static class AnimateManager
     /// <param name="records"></param>
     public static void RecordPreviousAnimate(GameObject records)
     {
-        records.gameObject.SetActive(false);
+        records.transform.parent.gameObject.SetActive(false);
         records.transform.localPosition += new Vector3(0, 2000, 0);
     }
 

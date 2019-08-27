@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2836768196360007415}
   - component: {fileID: 4889682956105364761}
   - component: {fileID: 4086078174871135684}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: headfront
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,13 +89,15 @@ GameObject:
   - component: {fileID: 4368973138646358314}
   - component: {fileID: 1357543627403613113}
   - component: {fileID: 4594552810559232939}
-  m_Layer: 0
+  - component: {fileID: 1679262657}
+  - component: {fileID: 1358484011267069294}
+  m_Layer: 9
   m_Name: 06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4368973138646358314
 Transform:
   m_ObjectHideFlags: 0
@@ -133,7 +135,7 @@ MonoBehaviour:
   armatureName: 06
   isUGUI: 0
   debugDraw: 0
-  animationName: 
+  animationName: idle
   _playTimes: 0
   _timeScale: 1
   _sortingMode: 0
@@ -164,6 +166,57 @@ MonoBehaviour:
   - headin
   - headfront
   dirty: 0
+--- !u!23 &1679262657
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692467900022813150}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!65 &1358484011267069294
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692467900022813150}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &748068014815465483
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +228,7 @@ GameObject:
   - component: {fileID: 4901664099817833519}
   - component: {fileID: 5968663637393185197}
   - component: {fileID: 523315257430556815}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sunbroad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,13 +306,13 @@ GameObject:
   - component: {fileID: 7776843448257975897}
   - component: {fileID: 3677243944996783280}
   - component: {fileID: 1851604292959922810}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: headback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7776843448257975897
 Transform:
   m_ObjectHideFlags: 0
@@ -331,7 +384,7 @@ GameObject:
   - component: {fileID: 6331011438456094951}
   - component: {fileID: 617570038039124970}
   - component: {fileID: 4682695453886065972}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: headin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,13 +462,13 @@ GameObject:
   - component: {fileID: 9153728006055584791}
   - component: {fileID: 8400049862861647716}
   - component: {fileID: 8089623255192961854}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: fan1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9153728006055584791
 Transform:
   m_ObjectHideFlags: 0
@@ -424,7 +477,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3492509429572133733}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.003}
+  m_LocalPosition: {x: 0.08558844, y: 7.870727, z: -0.003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4368973138646358314}
@@ -487,7 +540,7 @@ GameObject:
   - component: {fileID: 4978515391230589387}
   - component: {fileID: 4634765563418015502}
   - component: {fileID: 3224381116517378743}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bodyline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -565,7 +618,7 @@ GameObject:
   - component: {fileID: 303346590009515390}
   - component: {fileID: 1722479472545910100}
   - component: {fileID: 8051465080764829809}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2310135390849774487}
   - component: {fileID: 7195072162074126393}
   - component: {fileID: 8652290079455722338}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: legup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 7887742957500917243}
   - component: {fileID: 5423286305459665776}
   - component: {fileID: 7108410380850939270}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 351309801067007051}
   - component: {fileID: 5480804476679043773}
   - component: {fileID: 1145086945904880417}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 3060692235820000466}
   - component: {fileID: 4674664998613388029}
   - component: {fileID: 1930598726346818735}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,13 +323,14 @@ GameObject:
   - component: {fileID: 8690814590380673501}
   - component: {fileID: 6438466749408248224}
   - component: {fileID: 5752979156163918537}
-  m_Layer: 0
+  - component: {fileID: 1204113913}
+  m_Layer: 9
   m_Name: 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8690814590380673501
 Transform:
   m_ObjectHideFlags: 0
@@ -366,7 +367,7 @@ MonoBehaviour:
   armatureName: 02
   isUGUI: 0
   debugDraw: 0
-  animationName: 
+  animationName: idle
   _playTimes: 0
   _timeScale: 1
   _sortingMode: 0
@@ -396,6 +397,19 @@ MonoBehaviour:
   - head
   - legup
   dirty: 0
+--- !u!65 &1204113913
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2181567129253978796}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 10, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3036480081077457744
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +421,7 @@ GameObject:
   - component: {fileID: 8414898219217459027}
   - component: {fileID: 2226523205176251089}
   - component: {fileID: 3599987875322534916}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: headdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -485,7 +499,7 @@ GameObject:
   - component: {fileID: 7260243044940581110}
   - component: {fileID: 3408010899665739352}
   - component: {fileID: 3571680866004201134}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: legup1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

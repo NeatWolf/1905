@@ -6,11 +6,17 @@ GameStartCtrl.Panel = nil
 function GameStartCtrl:Init()
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
 
-    local str = CS.System.IO.File.ReadAllText(PlayerDataModel.FilePath)
-    local playerData = JsonUtil.decode(str)
-    if playerData.UserName ~= nil then
-        self.Panel.inputFields[0].text = playerData.UserName
-        self.Panel.inputFields[1].text = playerData.UserPassword
+    local file = io.open(PlayerDataModel.FilePath)
+    if file then
+        local str = CS.System.IO.File.ReadAllText(PlayerDataModel.FilePath)
+        local playerData = JsonUtil.decode(str)
+        if playerData.UserName ~= nil then
+            self.Panel.inputFields[0].text = playerData.UserName
+            self.Panel.inputFields[1].text = playerData.UserPassword
+        end
+    else
+        self.Panel.inputFields[0].text = "11111111166"
+        self.Panel.inputFields[1].text = "123"
     end
 
     local loginCtrl = CS.UnityEngine.Object.FindObjectOfType(typeof(CS.LoginCtrl))
@@ -23,9 +29,7 @@ function GameStartCtrl:Init()
             loginCtrl:LoginClick(self.Panel.inputFields[0].text, self.Panel.inputFields[1].text, self.Panel.gameObject)
         end
     )
-  
 end
-
 
 --[[
     @desc: 登陆成功
@@ -40,8 +44,6 @@ function GameStartCtrl:LoginSuccess()
         end
     )
 end
-
-
 
 -- 登录成功，加载进度条，加载所有数据
 function GameStartCtrl:LoadingBar()
@@ -76,16 +78,18 @@ function GameStartCtrl:LoadingBar()
     -- 加载 玩家的本地数据，并合并成完整数据
     PlayerDataModel:ReadOut()
 
-    for k,v in pairs(PlayerDataModel.CompletePlayerData.SynInsInfo.SynItems) do
-        Core.updateEvent["UpdateSynTime".. v.ItemID] = function() self:UpdateSynTime(v) end
+    for k, v in pairs(PlayerDataModel.CompletePlayerData.SynInsInfo.SynItems) do
+        Core.updateEvent["UpdateSynTime" .. v.ItemID] = function()
+            self:UpdateSynTime(v)
+        end
     end
-    
 end
 
 function GameStartCtrl:UpdateSynTime(itemData)
-    itemData.SynTimer = tostring(itemData.SynTimer + 0.001)--CS.UnityEngine.Time.deltaTime)
+    itemData.SynTimer = tostring(itemData.SynTimer + 0.001)
+    --CS.UnityEngine.Time.deltaTime)
     if tonumber(itemData.SynTimer) >= tonumber(itemData.SynTime) then
-        Core.updateEvent["UpdateSynTime".. itemData.ItemID] = nil
+        Core.updateEvent["UpdateSynTime" .. itemData.ItemID] = nil
         PlayerDataModel:RemoveSynItem(itemData.ItemID)
         PlayerDataModel:AddNormalItem(itemData.ItemID, 1, false)
     end

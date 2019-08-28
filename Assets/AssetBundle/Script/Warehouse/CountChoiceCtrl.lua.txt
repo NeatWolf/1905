@@ -19,15 +19,6 @@ function CountChoiceCtrl:Init()
         end
     )
 
-    -- 数量输入
-    self.Panel.inputFields[0].onValueChanged:AddListener(
-        function(str)
-            if tonumber(str) >= self.Panel.sliders[0].minValue then
-                self:ChangeCount(tonumber(str))
-            end
-        end
-    )
-
     -- 确定按钮
     self.Panel.buttons[0].onClick:AddListener(
         function()

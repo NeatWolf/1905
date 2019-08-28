@@ -212,7 +212,7 @@ MonoBehaviour:
     textComponent: {fileID: 2223608637064067585}
     characterCount: 9
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 7
     wordCount: 2
     linkCount: 0
     lineCount: 2

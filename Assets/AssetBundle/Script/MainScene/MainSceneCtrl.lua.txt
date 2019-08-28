@@ -38,7 +38,7 @@ function MainSceneCtrl:Init()
         )
     end
 
-    self:UpdateMainSceneInfo()
+    self:ShowMainScene()
     
     -- 删除系统消息栏中所有的子物体
     LoadManager:DeleteAllChilds(self.Panel.go[2])
@@ -61,11 +61,11 @@ function MainSceneCtrl:Init()
 end
 
 
-function MainSceneCtrl:UpdateMainSceneInfo()
+function MainSceneCtrl:ShowMainScene()
     self.Panel.gameObject:SetActive(true)
     self.Scene.gameObject:SetActive(true)
 
-    -- 刷新金币钻石等数据
+    self:UpdateBuyInfo()
 end
 
 
@@ -102,12 +102,22 @@ function MainSceneCtrl:NpcStart()
     end
 end
 
--- 刷新主界面的系統信息
+-- 刷新主界面的信息
 function MainSceneCtrl:UpdateBuyInfo(message)
+    
+    -- 刷新金币钻石等数据
+    self.Panel.tmps[0].text = PlayerDataModel.PlayerData.Money
+    self.Panel.tmps[1].text = PlayerDataModel.PlayerData.Diamonds
+    
+    if message == nil then
+        return
+    end
+
     if self.Panel.go[2].transform.childCount >10 then
         CS.UnityEngine.Object.Destroy(self.Panel.go[2].transform:GetChild(0).gameObject)
     end
 
     local infoCell = LoadManager:Load(ABManager:LoadAsset("prefab", "Img_BuyInfo"), self.Panel.go[2].transform, true)
     infoCell.transform:GetChild(0):GetComponent("TextMeshProUGUI").text = message
+
 end

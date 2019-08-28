@@ -39,6 +39,14 @@ function FoodCtrl:ShowFoodsList(heroData)
 
     local _itemsList = StaticDataModel:ScreenList(PlayerDataModel.CompletePlayerData.Items, "Type", 1, "2")
     _itemsList = StaticDataModel:ScreenList(_itemsList, "IsOnShelf", 1, "false")
+
+    -- 如果没有食物了
+    if _itemsList == nil then
+        LoadManager:DeleteAllChilds(self.Panel.go[0])
+        self:ShowFoodInfo(heroData,nil)
+        return
+    end
+
     StaticDataModel:SortItem(_itemsList, "Level", -1)
     for k,v in pairs(_itemsList) do
         local _Food = UICtrl:LoadItem(
@@ -58,6 +66,29 @@ function FoodCtrl:ShowFoodsList(heroData)
 end
 
 function FoodCtrl:ShowFoodInfo(heroData, itemData)
+    -- 如果没有食物了
+    if itemData == nil then
+        -- 不显示名字
+        self.Panel.tmps[0].text = "暂无食物"
+        -- 不显示幸运名
+        self.Panel.tmps[3].text = ""
+        -- 不显示幸运值增益
+        self.Panel.tmps[1].text = ""
+        -- 不显示耐力名
+        self.Panel.tmps[4].text = ""
+        -- 不显示耐力值
+        self.Panel.tmps[2].text = ""
+        -- 不显示耐力条
+        self.Panel.sliders[0].value = heroData.EnergyNow / heroData.EnergyMax
+        self.Panel.sliders[1].value = heroData.EnergyNow / heroData.EnergyMax
+        -- 不显示确定按钮
+        self.Panel.buttons[0].interactable = false
+        self.Panel.images[0].color = CS.UnityEngine.Color(self.Panel.images[0].color.r , self.Panel.images[0].color.g , self.Panel.images[0].color.b , 0.2)
+        return
+    end
+
+    -- 如果有食物
+
     -- 显示道具名字
     self.Panel.tmps[0].text = itemData.Name
 
@@ -104,8 +135,13 @@ function FoodCtrl:ShowFoodInfo(heroData, itemData)
             buffText = "—"
         end
 
+    -- 显示幸运名
+    self.Panel.tmps[3].text = "幸運"
+    -- 显示幸运值增益
     self.Panel.tmps[1].text = buffText
 
+    -- 显示耐力名
+    self.Panel.tmps[4].text = "耐力"
     -- 显示耐力值
     self.Panel.tmps[2].text = "+" .. _iBuff[2]
 

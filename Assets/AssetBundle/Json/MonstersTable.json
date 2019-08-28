@@ -1,11 +1,11 @@
 [
-    {"MonsterID":"501","Name":"恶臭鬼","TexturePath":"xxxxx","Level":"1","EnergyCost":"10","Speak":"你们闻不到自己身上的恶臭吗？","Description":""},
-    {"MonsterID":"502","Name":"荼蘼鸟","TexturePath":"xxxxx","Level":"1","EnergyCost":"10","Speak":"他们都说早起的鸟儿有虫吃，对吗，虫子们？","Description":""},
-    {"MonsterID":"503","Name":"遮弥虫","TexturePath":"xxxxx","Level":"2","EnergyCost":"20","Speak":"","Description":""},
-    {"MonsterID":"504","Name":"械原犬","TexturePath":"xxxxx","Level":"2","EnergyCost":"20","Speak":"","Description":""},
-    {"MonsterID":"505","Name":"白博士","TexturePath":"xxxxx","Level":"3","EnergyCost":"30","Speak":"人类给予我的痛苦，我将加倍给予人类！","Description":""},
-    {"MonsterID":"506","Name":"痛苦之萼","TexturePath":"xxxxx","Level":"3","EnergyCost":"30","Speak":"","Description":""},
-    {"MonsterID":"507","Name":"诸神黄昏","TexturePath":"xxxxx","Level":"4","EnergyCost":"50","Speak":"人类的时代，是时候终结了！","Description":""},
-    {"MonsterID":"508","Name":"电索","TexturePath":"xxxxx","Level":"4","EnergyCost":"50","Speak":"最光明的，最黑暗！","Description":""}
+    {"MonsterID":"501","Name":"恶臭鬼","Level":"1","EnergyCost":"10","Speak":"你们闻不到自己身上的恶臭吗？","Description":""},
+    {"MonsterID":"502","Name":"荼蘼鸟","Level":"1","EnergyCost":"10","Speak":"他们都说早起的鸟儿有虫吃，对吗，虫子们？","Description":""},
+    {"MonsterID":"503","Name":"遮弥虫","Level":"2","EnergyCost":"20","Speak":"......","Description":""},
+    {"MonsterID":"504","Name":"械原犬","Level":"2","EnergyCost":"20","Speak":"......","Description":""},
+    {"MonsterID":"505","Name":"白博士","Level":"3","EnergyCost":"30","Speak":"人类给予我的痛苦，我将加倍给予人类！","Description":""},
+    {"MonsterID":"506","Name":"痛苦之萼","Level":"3","EnergyCost":"30","Speak":"......","Description":""},
+    {"MonsterID":"507","Name":"诸神黄昏","Level":"4","EnergyCost":"50","Speak":"人类的时代，是时候终结了！","Description":""},
+    {"MonsterID":"508","Name":"电索","Level":"4","EnergyCost":"50","Speak":"最光明的，最黑暗！","Description":""}
     
 ]

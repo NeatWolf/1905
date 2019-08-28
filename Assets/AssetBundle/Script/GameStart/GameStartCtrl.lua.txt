@@ -26,7 +26,7 @@ function GameStartCtrl:Init()
 
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            loginCtrl:LoginClick(self.Panel.inputFields[0].text, self.Panel.inputFields[1].text, self.Panel.gameObject)
+            loginCtrl:LoginClick(self, self.Panel.inputFields[0].text, self.Panel.inputFields[1].text, self.Panel.gameObject)
         end
     )
 end
@@ -39,8 +39,8 @@ function GameStartCtrl:LoginSuccess()
     UICtrl:CutTo(
         1,
         function()
-            CS.UnityEngine.Object.Destroy(self.Panel.gameObject)
-            self:LoadingBar()
+            CS.UnityEngine.Object.Destroy(GameStartCtrl.Panel.gameObject)
+            GameStartCtrl:LoadingBar()
         end
     )
 end

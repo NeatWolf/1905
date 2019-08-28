@@ -7,7 +7,9 @@ DetailView.EquipList = nil
 
 function DetailView:ShowDetailInfo(heroData, equipList, equipments)
     -- 显示英雄简介
-    DetailCtrl.IntroPanel.tmps[0].text = heroData.Description
+    local names = ModelTool:SplitStr(heroData.Name)
+    DetailCtrl.IntroPanel.tmps[0].text = names[1]
+    DetailCtrl.IntroPanel.tmps[1].text = heroData.Description
 
     -- 显示上方装备列表（已装备）
     self.EquipList = equipList

@@ -85,7 +85,31 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp3(int p0)
+		public UnityEngine.TextAsset __Gen_Delegate_Imp3(XLua.LuaTable p0, string p1, string p2)
+		{
+#if THREAD_SAFE || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.rawL;
+                int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
+                ObjectTranslator translator = luaEnv.translator;
+                translator.Push(L, p0);
+                LuaAPI.lua_pushstring(L, p1);
+                LuaAPI.lua_pushstring(L, p2);
+                
+                PCall(L, 3, 1, errFunc);
+                
+                
+                UnityEngine.TextAsset __gen_ret = (UnityEngine.TextAsset)translator.GetObject(L, errFunc + 1, typeof(UnityEngine.TextAsset));
+                LuaAPI.lua_settop(L, errFunc - 1);
+                return  __gen_ret;
+#if THREAD_SAFE || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
+		public void __Gen_Delegate_Imp4(int p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -107,7 +131,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp4(float p0)
+		public void __Gen_Delegate_Imp5(float p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -129,7 +153,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp5(double p0)
+		public void __Gen_Delegate_Imp6(double p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -151,7 +175,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp6(bool p0)
+		public void __Gen_Delegate_Imp7(bool p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -197,24 +221,29 @@ namespace XLua
 			    return new LoginCtrl.Function(__Gen_Delegate_Imp2);
 			}
 		
+		    if (type == typeof(LoginCtrl.LoadAss))
+			{
+			    return new LoginCtrl.LoadAss(__Gen_Delegate_Imp3);
+			}
+		
 		    if (type == typeof(UnityEngine.Events.UnityAction<int>))
 			{
-			    return new UnityEngine.Events.UnityAction<int>(__Gen_Delegate_Imp3);
+			    return new UnityEngine.Events.UnityAction<int>(__Gen_Delegate_Imp4);
 			}
 		
 		    if (type == typeof(UnityEngine.Events.UnityAction<float>))
 			{
-			    return new UnityEngine.Events.UnityAction<float>(__Gen_Delegate_Imp4);
+			    return new UnityEngine.Events.UnityAction<float>(__Gen_Delegate_Imp5);
 			}
 		
 		    if (type == typeof(UnityEngine.Events.UnityAction<double>))
 			{
-			    return new UnityEngine.Events.UnityAction<double>(__Gen_Delegate_Imp5);
+			    return new UnityEngine.Events.UnityAction<double>(__Gen_Delegate_Imp6);
 			}
 		
 		    if (type == typeof(UnityEngine.Events.UnityAction<bool>))
 			{
-			    return new UnityEngine.Events.UnityAction<bool>(__Gen_Delegate_Imp6);
+			    return new UnityEngine.Events.UnityAction<bool>(__Gen_Delegate_Imp7);
 			}
 		
 		    return null;

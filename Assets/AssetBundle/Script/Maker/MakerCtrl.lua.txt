@@ -257,7 +257,6 @@ function MakerCtrl:ShowLeftSynNeeds(itemData)
             MakerCtrl.Panel.buttons[2].interactable = false
         end
     end
-
     MakerView:ShowSynNeeds(needsList)
 end
 

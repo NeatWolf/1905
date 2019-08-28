@@ -212,7 +212,7 @@ MonoBehaviour:
     textComponent: {fileID: 2223608637064067585}
     characterCount: 9
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 7
     wordCount: 2
     linkCount: 0
     lineCount: 2
@@ -442,7 +442,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.7294118, g: 0.74509805, b: 0.86666673, a: 1}
     m_HighlightedColor: {r: 0.5577163, g: 0.5822058, b: 0.7830189, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.03529412, g: 0.10588236, b: 0.5254902, a: 1}

@@ -89,6 +89,8 @@ function NPCsCtrl:RandomBuy()
             self:AddRecord(_NPC.Name .. " 購買了" .. _Sth.Count .. "個" .. _Sth.Name .. "。")
             -- 玩家道具进行扣除
             PlayerDataModel:RemoveNormalItem(_Sth.ItemID, _Sth.Count, true)
+            PlayerDataModel:AddData("Money", _Sth.Price)
+            print("MONEY: " .. PlayerDataModel.PlayerData.Money)
         end
     -- 不购买
     else

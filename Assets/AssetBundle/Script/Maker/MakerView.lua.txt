@@ -29,8 +29,9 @@ function MakerView:ShowItemsList(itemsList)
         -- 添加事件
         _item.Obj:GetComponent("Button").onClick:AddListener(
             function()
+                -- print(_item.Data.ItemID)
                 MakerCtrl.CurrentItem = _item.Data
-                self:ShowSynNeeds(MakerCtrl.CurrentItem.SynNeeds)
+                MakerCtrl:ShowLeftSynNeeds(MakerCtrl.CurrentItem)
                 -- 合成按钮
                 if v.CouldSyn == "true" then
                     MakerCtrl.Panel.buttons[2].interactable = true
@@ -52,6 +53,7 @@ end
 
 
 function MakerView:ShowSynNeeds(needsStr)
+    
     local needsList = ModelTool:SplitStr(needsStr)
     for i = 1, 3, 1 do
         -- 如果需要道具
@@ -74,7 +76,7 @@ function MakerView:ShowSynNeeds(needsStr)
                 -- 如果ID匹配不到
                 elseif k == #(PlayerDataModel.CompletePlayerData.Items) then
                     MakerCtrl.Panel.texts[i].text = needsList[2 * i] .. "/0"
-                    MakerCtrl.Panel.images[i].sprite = nil
+                    MakerCtrl.Panel.images[i].sprite = ABManager:LoadAsset("texture", needsList[2*i-1] , CS.UnityEngine.Sprite)
                     MakerCtrl.Panel.images[i].color = CS.UnityEngine.Color(1,1,1,0.5)
                 end
             end

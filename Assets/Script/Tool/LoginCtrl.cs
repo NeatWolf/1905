@@ -12,9 +12,11 @@ public class LoginCtrl : MonoBehaviour
     string UserName;
     string UserPassword;
     GameObject LoginPanel;
+    LuaTable GameStartCtrl;
 
-    public void LoginClick(string name, string password, GameObject go)
+    public void LoginClick(LuaTable lua, string name, string password, GameObject go)
     {
+        GameStartCtrl = lua;
         UserName = name;
         UserPassword = password;
         LoginPanel = go;
@@ -38,40 +40,30 @@ public class LoginCtrl : MonoBehaviour
     public delegate GameObject LoadWarning(LuaTable lua, Transform parent, string message, UnityAction callback = null);
     [CSharpCallLua]
     public delegate void Function(LuaTable lua);
+    [CSharpCallLua]
+    public delegate TextAsset LoadAss(LuaTable lua, string ABName, string fileName);
+
+    LuaTable UICtrl = Luax.Instance.DoString("require('UICtrl.lua.txt')").Get<LuaTable>("UICtrl");
+    LuaTable ABManager = Luax.Instance.DoString("require('ABManager.lua.txt')").Get<LuaTable>("ABManager");
 
     void LoginSuccess(string json)
     {
-        LuaTable UICtrl = Luax.Instance.DoString("require('UICtrl.lua.txt')").Get<LuaTable>("UICtrl");
         LoadWarning loadWarning = UICtrl.Get<LoadWarning>("LoadWarning");
-       
-        LuaTable GameStartCtrl = null;
-        if(UnityEngine.Application.platform == UnityEngine.RuntimePlatform.WindowsEditor)
-        {
-            GameStartCtrl = Luax.Instance.DoString("require('GameStart/GameStartCtrl.lua.txt')").Get<LuaTable>("GameStartCtrl");
-        }
-        else
-        {
-            //Luax.Instance.DoString(ABManager:LoadAsset("script", scriptName .. ".lua").text)
-        }
+        LoadAss loadAsset = ABManager.Get<LoadAss>("LoadAsset");
 
-       // Prefabs.Networking(false);
        HttpUserLoginProtocol data = JsonUtility.FromJson<HttpUserLoginProtocol>(json);
        
+        //    Prefabs.Networking(false);
        GameObject window = null;
        switch(data.Code)
        {
            case 1:
                //登陆令牌
                GlobalData.Token = data.Data.Token;
-
-               //PlayerPrefs.SetString("Username", UserName);
-               //PlayerPrefs.SetString("Password", UserPassword);
                 
-                window = loadWarning(UICtrl, LoginPanel.transform.GetChild(1), "LoginSuccess!",
-                ()=> {
-                    Function loginSuccess = GameStartCtrl.Get<Function>("LoginSuccess");
-                    loginSuccess(GameStartCtrl);
-                });
+                Function loginSuccess = GameStartCtrl.Get<Function>("LoginSuccess");
+                loginSuccess(GameStartCtrl);
+                
                break;
            case -100001:
                 window = loadWarning(UICtrl, LoginPanel.transform.GetChild(1), "LoginFail! 手机或邮箱至少填写一个");

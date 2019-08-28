@@ -86,7 +86,13 @@ public class ExploreInFindControler : MonoBehaviour
     /// 怪物池
     /// </summary>
     public GameObject monsterPool;
-    int animateType;
+    /// <summary>
+    /// 控制动画状态切换
+    /// </summary>
+    int[] animateType = new int[4];
+    /// <summary>
+    /// 控制左转还是右转
+    /// </summary>
     int rotateType;
     private void Awake()
     {
@@ -111,7 +117,11 @@ public class ExploreInFindControler : MonoBehaviour
     }
     private void OnEnable()
     {
-        animateType = 0;
+
+        for (int i = 0; i < 4; i++)
+        {
+            animateType[i] = 0;
+        }
     }
 
     private void Update()
@@ -134,19 +144,29 @@ public class ExploreInFindControler : MonoBehaviour
             {
                 cameraTrack = true;
                 targetPos = hitInfo.point;
-                animateType = 1;
+                for (int i = 0; i < 4; i++)
+                {
+                    animateType[i] = 1;
+                }
 
 
                 for (int i = 0; i < heroTroop.Length; i++)
-                {
-                    if (targetPos.x > heroTroop[i].transform.position.x)
-                    {
-                        rotateType = 1;
+                {   
+                    if(Camera.main.WorldToScreenPoint(targetPos).x>Camera.main.WorldToScreenPoint(heroTroop[i].transform.position).x){
+                        rotateType=2;
                     }
-                    if (targetPos.x < heroTroop[i].transform.position.x)
-                    {
-                        rotateType = 2;
+                    if(Camera.main.WorldToScreenPoint(targetPos).x<Camera.main.WorldToScreenPoint(heroTroop[i].transform.position).x){
+                        rotateType=1;
                     }
+
+                    // if (targetPos.x > heroTroop[i].transform.position.x)
+                    // {
+                    //     rotateType = 1;
+                    // }
+                    // if (targetPos.x < heroTroop[i].transform.position.x)
+                    // {
+                    //     rotateType = 2;
+                    // }
                     heroAgent[i].SetDestination(targetPos);
                     heroAgent[i].stoppingDistance = heroAtkDistance;
                     herosUAC[i].animation.FadeIn("run", 0.5f);
@@ -179,9 +199,20 @@ public class ExploreInFindControler : MonoBehaviour
                 cameraTrack = true;
                 targetPos = hitInfo.collider.transform.position;
 
-                animateType = 1;
+                for (int i = 0; i < 4; i++)
+                {
+                    animateType[i] = 1;
+                }
                 for (int i = 0; i < heroTroop.Length; i++)
                 {
+                    if (targetPos.x > heroTroop[i].transform.position.x)
+                    {
+                        rotateType = 1;
+                    }
+                    if (targetPos.x < heroTroop[i].transform.position.x)
+                    {
+                        rotateType = 2;
+                    }
 
                     heroAgent[i].SetDestination(targetPos);
                     heroAgent[i].stoppingDistance = heroAtkDistance;
@@ -193,15 +224,17 @@ public class ExploreInFindControler : MonoBehaviour
             }
         }
         //idle动画状态切换
-        if (animateType == 0)
+
+        for (int i = 0; i < heroTroop.Length; i++)
         {
-            for (int i = 0; i < heroTroop.Length; i++)
+            if (animateType[i] == 0)
             {
                 herosUAC[i].animation.FadeIn("idle", 0.5f);
                 Debug.Log("isidle动画");
-                animateType = 2;
+                animateType[i] = 2;
             }
         }
+
 
 
 
@@ -211,11 +244,12 @@ public class ExploreInFindControler : MonoBehaviour
 
             if (Vector3.Distance(heroTroop[i].transform.position, targetPos) <= heroAtkDistance)
             {
-                if (animateType == 1) animateType = 0;
+                //if (animateType == 1) animateType = 0;
+                if (animateType[i] == 1) animateType[i] = 0;
                 isIdle = true;
 
 
-                
+
 
                 //调用遇怪方法
                 if (CurrentMonster != null)
@@ -263,22 +297,21 @@ public class ExploreInFindControler : MonoBehaviour
                 monsterDic[MapNumber][i].transform.LookAt(relaCamera.transform.position);
             }
         }
+        //hero转向
+        for (int i = 0; i < heroTroop.Length; i++)
+        {
+            if (rotateType == 1)
+            {
+                heroTroop[i].transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
+            }
+            if (rotateType == 2)
+            {
+                heroTroop[i].transform.rotation *= Quaternion.AngleAxis(0, Vector3.up);
+            }
+           
 
-        // for (int i = 0; i < heroTroop.Length; i++)
-        // {
-        //     if (rotateType==1)
-        //     {
-        //         heroTroop[i].transform.rotation *= Quaternion.AngleAxis(180, Vector3.up);
-        //     }
-        //     if (rotateType==2)
-        //     {
-        //         heroTroop[i].transform.rotation *= Quaternion.AngleAxis(90, Vector3.up);
-        //     }
-        //     heroAgent[i].SetDestination(targetPos);
-        //     heroAgent[i].stoppingDistance = heroAtkDistance;
 
-
-        // }
+        }
 
 
     }
@@ -336,11 +369,12 @@ public class ExploreInFindControler : MonoBehaviour
     {
         //怪物失活
 
-        for (int j = 0; j < 18; j++)
-        {
-            if (!monsterDic.ContainsKey(MapNumber) && monsterDic[MapNumber][j].active == false) return;
-            monsterDic[MapNumber][j].SetActive(false);
-        }
+        // for (int j = 0; j < 18; j++)
+        // {
+        //     if (!monsterDic.ContainsKey(MapNumber) ) return;
+        //     monsterDic[MapNumber][j].SetActive(false);
+        // }
+        camera.transform.position=new Vector3(0,0,0);
 
 
     }

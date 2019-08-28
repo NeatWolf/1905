@@ -6,7 +6,7 @@ DetailCtrl.EquipPanel = nil
 DetailCtrl.CurrentHero = nil
 
 function DetailCtrl:Init()
-    -- print("进入详情页控制系统")
+    print("进入详情页控制系统")
     self.IntroPanel = RoleCtrl.Panel.go[8]:GetComponent("UISubObject")
     self.EquipPanel = RoleCtrl.Panel.go[4]:GetComponent("UISubObject")
 

@@ -137,7 +137,7 @@ public class ExploreInFindControler : MonoBehaviour
         //点击地面后的寻路
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("鼠标触发");
+            // Debug.Log("鼠标触发");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition + Vector3.forward * 100);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, 1000, LayerMask.GetMask("ExploreMap")) && isATK == false)
@@ -187,7 +187,8 @@ public class ExploreInFindControler : MonoBehaviour
         //点击怪物后的寻路
         if (Input.GetMouseButtonDown(0))
         {
-
+            // Debug.Log("鼠标触发");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition + Vector3.forward * 100);
             RaycastHit hitInfo;
 
 

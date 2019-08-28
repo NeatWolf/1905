@@ -92,7 +92,8 @@ end
 
 
 function PlayerDataModel:AddNormalItem(itemID, count, isOnShelf)
-    
+    count = count or 1
+    isOnShelf = isOnShelf or false
     for k1, v1 in pairs(self.PlayerData.Items) do
         -- 如果有这个Item
         if v1.ItemID == itemID and v1.IsOnShelf == tostring(isOnShelf) then

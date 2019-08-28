@@ -121,12 +121,12 @@ end
 -- 显示背包物品
 function MapCtrl:DisplayPackage()
     -- 销毁子物体
-    for i = 0, self.Panel.go[8].transform.childCount - 1 do
+    for i = 0, self.Panel.go[7].transform.childCount - 1 do
         CS.UnityEngine.Object.Destroy(self.Panel.go[8].transform:GetChild(i).gameObject)
     end
     -- 加载物体
     for k, v in pairs(self.package) do
-        UICtrl:LoadItem(v, self.Panel.go[8].transform)
+        UICtrl:LoadItem(v, self.Panel.go[7].transform)
     end
 end
 

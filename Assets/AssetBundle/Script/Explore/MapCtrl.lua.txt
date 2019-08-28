@@ -126,7 +126,7 @@ function MapCtrl:DisplayPackage()
     end
     -- 加载物体
     for k, v in pairs(self.package) do
-        UICtrl:LoadItem(v, self.Panel.go[8].transform)
+        UICtrl:LoadItem(v, self.Panel.go[7].transform)
     end
 end
 

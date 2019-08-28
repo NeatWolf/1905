@@ -116,12 +116,10 @@ public class RolePanelSelectAnimation : MonoBehaviour
         float speed = Mathf.Abs(lastValue - scrollbar.value);
         dir = buttons[currentRoleID].transform.position.x - OPosition;
         distance = Mathf.Abs(dir);
-        if (needBack && speed < backSpeed * 0.0005f && distance > 0.01f)
+        if (needBack && speed < backSpeed * 0.0005f && speed > backSpeed * 0.00001f && distance > 0.01f)
         {
             Back();
         }
-
-
 
         //移动立绘
         MovePage();
@@ -165,14 +163,14 @@ public class RolePanelSelectAnimation : MonoBehaviour
         if (touchMask.activeSelf)
         {
             scrollbar.value = Mathf.Lerp(scrollbar.value, targetValue, 0.15f * lerp);
-            if (Mathf.Abs(scrollbar.value - targetValue) < 0.001f)
+            if (Mathf.Abs(scrollbar.value - targetValue) < 0.00001f)
             {
                 touchMask.SetActive(false);
             }
         }
         //抬手时激活onValueChange
-        if (Input.GetMouseButtonUp(0))
-            scrollbar.value += 0.001f;
+        if (Input.GetMouseButtonUp(0) && Mathf.Abs(lastValue - scrollbar.value) < 0.0001f)
+            scrollbar.value += 0.00001f;
         bottomTouchMask.SetActive(Mathf.Abs(scrollbar.value - lastValue) < maskValue * 0.0002f ? false : true);
         lastValue = scrollbar.value;
     }

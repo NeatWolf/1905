@@ -45,7 +45,7 @@ public class ExploreInAnimation : MonoBehaviour
         listBG = GetComponent<UISubObject>().go[5];
         listBack = GetComponent<UISubObject>().buttons[1];
         packagePos = GetComponent<UISubObject>().go[6];
-        cameraRotate = GetComponent<UISubObject>().go[7];
+        cameraRotate = GameObject.Find("ExploreIn/CameraRotate");
 
 
 

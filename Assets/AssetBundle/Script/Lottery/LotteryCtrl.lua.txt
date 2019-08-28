@@ -3,7 +3,7 @@ LotteryCtrl = {}
 LotteryCtrl.Panel = nil
 
 function LotteryCtrl:Init()
-    print("进入抽奖")
+    -- print("进入抽奖")
     LoadManager:LoadLua("Lottery", "LotteryModel")
     LotteryCtrl.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LotteryUI"), "UI", true):GetComponent("UISubObject")
     -- 注册委托
@@ -72,12 +72,9 @@ function LotteryCtrl:Get(type)
             PlayerDataModel:AddNormalItem("10003", 1, false)
 
             -- 转换成卷轴，显示转换成卷轴文字
-            print("重复获得" .. roleData.Name .. "转换成卷轴")
         else
             -- 显示抽到角色UI效果
             UICtrl:LoadRole({roleData}, LotteryCtrl:Show(roleData.Name))
-
-            print(roleData.Name)
 
             -- 角色添加到账号数据
             LotteryModel:AddRole(roleData)
@@ -89,8 +86,6 @@ function LotteryCtrl:Get(type)
 
         -- 显示抽到道具UI效果
         UICtrl:LoadItem(prop, LotteryCtrl:Show(prop.Name))
-
-        print("获得L" .. prop.Level .. "道具:" .. prop.Name)
 
         -- 道具添加到账号数据
         PlayerDataModel:AddNormalItem(prop.ItemID, 1, false)

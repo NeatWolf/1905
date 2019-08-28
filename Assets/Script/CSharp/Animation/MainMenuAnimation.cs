@@ -35,13 +35,16 @@ public class MainMenuAnimation : MonoBehaviour
         color = btn_RoleMan.GetComponent<Image>().color;
         btn_Explore_Color = btn_Explore.GetComponent<Image>().color;
         mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        //添加普通按钮动画
+       // AnimateManager.AddButtonsAnimate(GetComponent<UISubObject>().buttons);
+
     }
 
 
     private void OnEnable()
     {
         mainCam.gameObject.SetActive(true);
-        
+
         SetButtonLeave();
         StartCoroutine("ButtonEnter");
         btn_Explore.transform.localScale = Vector3.one;
@@ -49,10 +52,10 @@ public class MainMenuAnimation : MonoBehaviour
         avChoice.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.001f);
         avChoice.transform.localScale = Vector3.zero;
 
-        
+
         //相机动画
         CameraAnimate();
-        mainCam.transform.localPosition=new Vector3(-0.5848389f,-40.74725f,-63.32324f);
+        mainCam.transform.localPosition = new Vector3(-0.5848389f, -40.74725f, -63.32324f);
     }
 
     private void Start()
@@ -102,10 +105,10 @@ public class MainMenuAnimation : MonoBehaviour
             btn_Explore.transform.DOScale(0.8f, 0.2f);
             btn_Explore.transform.DOScale(1.2f, 0.3f);
             btnActive_Move();
-            
+
 
         });
-        
+
 
     }
     IEnumerator _ActiveBlack()
@@ -137,9 +140,9 @@ public class MainMenuAnimation : MonoBehaviour
 
         btn_Lottery.transform.DOLocalMoveX(-1000, 0.5f);
         btn_Lottery.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.8f);
-        
+
         info.transform.DOLocalMoveX(-1000, 0.5f);
-       
+
 
         btn_AV.transform.DOScale(0, 0.5f);
         btn_AV.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), 0.5f);
@@ -203,11 +206,12 @@ public class MainMenuAnimation : MonoBehaviour
     /// <summary>
     /// 相机动画，场景中的主相机与UI相机
     /// </summary>
-    void CameraAnimate(){
-        mainCam.transform.DOLocalMove(new Vector3(-0.018534f,-29.87421f,-41.47861f),2).From();
-       // UICam.transform.DOLocalMove(new Vector3(-0.018534f,-29.87421f,-41.47861f),2).From();
+    void CameraAnimate()
+    {
+        mainCam.transform.DOLocalMove(new Vector3(-0.018534f, -29.87421f, -41.47861f), 2).From();
+        // UICam.transform.DOLocalMove(new Vector3(-0.018534f,-29.87421f,-41.47861f),2).From();
     }
 
-        
+
 
 }

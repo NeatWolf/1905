@@ -9,7 +9,7 @@ RoleCtrl.RoleSelectAniCSharp = nil
 RoleCtrl.CurrentHero = nil
 
 function RoleCtrl:Init()
-    print("进入角色管理")
+    -- print("进入角色管理")
     local _Obj = LoadManager:Load(ABManager:LoadAsset("prefab", "RoleManUI"), "UI", true)
     self.Panel = _Obj:GetComponent("UISubObject")
     self.RoleManAniCSharp = _Obj:GetComponent("RoleManAnimation")
@@ -31,6 +31,7 @@ function RoleCtrl:Init()
     -- 详情按钮
     self.Panel.buttons[2].onClick:AddListener(
         function()
+            print(DetailCtrl)
             DetailCtrl:ShowDetails(self.CurrentHero)
             self.RoleManAniCSharp:EquipClickAnimate(self.RoleSelectAniCSharp.currentRoleID)
             
@@ -65,6 +66,8 @@ function RoleCtrl:Init()
     LevelCtrl:Init()
     LoadManager:LoadLua("Role", "DetailCtrl")
     DetailCtrl:Init()
+    print(DetailCtrl)
+
 end
 
 

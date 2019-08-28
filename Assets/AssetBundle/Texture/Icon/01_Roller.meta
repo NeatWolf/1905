@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/AssetBundle/Texture/Icon/01_Roller.meta
 guid: 379c5b371b66621429495151af1b60bf
+=======
+guid: c2b686b9eb0eded479f2ec631159497b
+>>>>>>> 0426e5f336b925b8917bd0b1318484cefc5f42ef:Assets/AssetBundle/Prefab/Monsters.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

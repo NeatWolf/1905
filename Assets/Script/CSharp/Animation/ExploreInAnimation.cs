@@ -31,9 +31,9 @@ public class ExploreInAnimation : MonoBehaviour
     /// </summary>
     public UnityAction Action_ExploreInPackageExitAnimate;
 
-    
    
-
+   
+    
     private void Awake()
     {
         Img_Troops = GetComponent<UISubObject>().go[0];
@@ -56,7 +56,8 @@ public class ExploreInAnimation : MonoBehaviour
     [LuaCallCSharp]
     public void Init(int sceneIndex)
     {
-
+        
+        
         ExploreInEnterAnimate();
         //背包界面入场前设置
         package.transform.localScale = Vector3.zero;

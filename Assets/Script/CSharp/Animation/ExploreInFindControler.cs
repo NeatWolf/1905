@@ -94,6 +94,9 @@ public class ExploreInFindControler : MonoBehaviour
     /// 控制左转还是右转
     /// </summary>
     int rotateType;
+
+
+
     private void Awake()
     {
 
@@ -107,16 +110,22 @@ public class ExploreInFindControler : MonoBehaviour
             heroAgent[i] = heroTroop[i].GetComponent<NavMeshAgent>();
         }
 
+
+
+    }
+
+    private void OnEnable()
+    {
+        //音效控制
+        GameObject.Find("Bootstrap").GetComponent<AudioSource>().Pause();
+        GetComponent<AudioSource>().Play();
         //根据地图编号分配怪物出生点
 
+        
         SpawnMonster(MapNumber);
 
         Quaternion quaternion = Quaternion.LookRotation((heroTroop[0].transform.position - camera.transform.GetChild(0).transform.position));
         camera.transform.GetChild(0).transform.rotation = Quaternion.Lerp(camera.transform.GetChild(0).transform.rotation, quaternion, 0.5f);
-
-    }
-    private void OnEnable()
-    {
 
         for (int i = 0; i < 4; i++)
         {
@@ -151,22 +160,17 @@ public class ExploreInFindControler : MonoBehaviour
 
 
                 for (int i = 0; i < heroTroop.Length; i++)
-                {   
-                    if(Camera.main.WorldToScreenPoint(targetPos).x>Camera.main.WorldToScreenPoint(heroTroop[i].transform.position).x){
-                        rotateType=2;
+                {
+                    if (Camera.main.WorldToScreenPoint(targetPos).x > Camera.main.WorldToScreenPoint(heroTroop[i].transform.position).x)
+                    {
+                        rotateType = 2;
                     }
-                    if(Camera.main.WorldToScreenPoint(targetPos).x<Camera.main.WorldToScreenPoint(heroTroop[i].transform.position).x){
-                        rotateType=1;
+                    if (Camera.main.WorldToScreenPoint(targetPos).x < Camera.main.WorldToScreenPoint(heroTroop[i].transform.position).x)
+                    {
+                        rotateType = 1;
                     }
 
-                    // if (targetPos.x > heroTroop[i].transform.position.x)
-                    // {
-                    //     rotateType = 1;
-                    // }
-                    // if (targetPos.x < heroTroop[i].transform.position.x)
-                    // {
-                    //     rotateType = 2;
-                    // }
+
                     heroAgent[i].SetDestination(targetPos);
                     heroAgent[i].stoppingDistance = heroAtkDistance;
                     herosUAC[i].animation.FadeIn("run", 0.5f);
@@ -261,24 +265,29 @@ public class ExploreInFindControler : MonoBehaviour
                     }
                     if (CurrentMonster.name == "01" || CurrentMonster.name == "02")
                     {
-                        if (LevelOneMonster == null) return;
                         Debug.Log("遇怪");
+                        if (LevelOneMonster == null) return;
+
                         LevelOneMonster();
+                        LevelOneMonster = null;
                     }
                     else if (CurrentMonster.name == "03" || CurrentMonster.name == "04")
                     {
                         if (LevelTwoMonster == null) return;
                         LevelTwoMonster();
+                        LevelTwoMonster = null;
                     }
                     else if (CurrentMonster.name == "05" || CurrentMonster.name == "06")
                     {
                         if (LevelThreeMonster == null) return;
                         LevelThreeMonster();
+                        LevelThreeMonster = null;
                     }
                     else if (CurrentMonster.name == "07" || CurrentMonster.name == "08")
                     {
                         if (LevelFourMonster == null) return;
                         LevelFourMonster();
+                        LevelFourMonster = null;
                     }
 
 
@@ -309,7 +318,7 @@ public class ExploreInFindControler : MonoBehaviour
             {
                 heroTroop[i].transform.rotation *= Quaternion.AngleAxis(0, Vector3.up);
             }
-           
+
 
 
         }
@@ -375,7 +384,9 @@ public class ExploreInFindControler : MonoBehaviour
         //     if (!monsterDic.ContainsKey(MapNumber) ) return;
         //     monsterDic[MapNumber][j].SetActive(false);
         // }
-        camera.transform.position=new Vector3(0,0,0);
+        camera.transform.position = new Vector3(0, 0, 0);
+        GameObject.Find("Bootstrap").GetComponent<AudioSource>().Play();
+        GetComponent<AudioSource>().Pause();
 
 
     }

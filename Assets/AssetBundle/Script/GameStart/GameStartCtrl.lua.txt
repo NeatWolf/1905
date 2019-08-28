@@ -6,7 +6,7 @@ GameStartCtrl.Panel = nil
 function GameStartCtrl:Init()
     self.Panel = LoadManager:Load(ABManager:LoadAsset("prefab", "LoginTest"), "UI", true):GetComponent("UISubObject")
 
-    local str = CS.System.IO.File.ReadAllText(self.FilePath)
+    local str = CS.System.IO.File.ReadAllText(PlayerDataModel.FilePath)
     local playerData = JsonUtil.decode(str)
     if playerData.UserName ~= nil then
         self.Panel.inputFields[0].text = playerData.UserName
@@ -20,10 +20,10 @@ function GameStartCtrl:Init()
 
     self.Panel.buttons[0].onClick:AddListener(
         function()
-            loginCtrl:LoginClick(self.Panel.inputFields[0].text, self.Panel.inputFields[1].text, self.Panel.gameObject)
+            loginCtrl:LoginClick(self, self.Panel.inputFields[0].text, self.Panel.inputFields[1].text, self.Panel.gameObject)
         end
     )
-  
+
 end
 
 
@@ -35,8 +35,8 @@ function GameStartCtrl:LoginSuccess()
     UICtrl:CutTo(
         1,
         function()
-            CS.UnityEngine.Object.Destroy(self.Panel.gameObject)
-            self:LoadingBar()
+            CS.UnityEngine.Object.Destroy(GameStartCtrl.Panel.gameObject)
+            GameStartCtrl:LoadingBar()
         end
     )
 end

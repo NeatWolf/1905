@@ -78,7 +78,7 @@ function UICtrl:Back2MainScene()
             ABManager:LoadAtlas()
 
             -- 激活主场景
-            MainSceneCtrl:Init()
+            MainSceneCtrl:UpdateMainSceneInfo()
         end
     )
 end
@@ -149,3 +149,12 @@ function UICtrl:LoadWarning(parent, message, callback)
     
     return _Warning.Obj
 end
+
+function UICtrl:LoadNetworking(open)
+    if open == true then
+        LoadManager:Load(ABManager:LoadAsset("prefab", "Networking"), "UI", true)
+    else
+        CS.UnityEngine.Object.Destroy(CS.UnityEngine.GameObject:Find("Networking"))
+    end
+end
+

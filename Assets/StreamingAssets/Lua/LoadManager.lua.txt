@@ -127,11 +127,11 @@ end
 ]]
 function LoadManager:LoadLua(dirName, scriptName)
     if CS.UnityEngine.Application.platform == CS.UnityEngine.RuntimePlatform.WindowsEditor then
-        print("loadLua")
+        --print("loadLua")
         --require(dirName .. "/" .. scriptName .. ".lua.txt")
-        return require(dirName .. "/" .. scriptName .. ".lua.txt")
+         require(dirName .. "/" .. scriptName .. ".lua.txt")
     else
-       return CS.Luax.Instance:DoString(ABManager:LoadAsset("script", scriptName .. ".lua").text)
+        CS.Luax.Instance:DoString(ABManager:LoadAsset("script", scriptName .. ".lua").text)
     end
 end
 

@@ -65,7 +65,7 @@ function PlayerDataModel:RemoveNormalItem(itemID, count, isOnShelf)
     for k, v in pairs(self.CompletePlayerData.Items) do
         if itemID == v.ItemID and v.IsOnShelf == tostring(isOnShelf) then
             v.Count = tostring(tonumber(v.Count) - tonumber(count))
-            print("剩余数量：" .. v.Count)
+            -- print("剩余数量：" .. v.Count)
             itemData = v
             if v.Count == "0" then
                 self.CompletePlayerData.Items[k] = nil
@@ -145,6 +145,16 @@ function PlayerDataModel:AddSynItem(itemID)
             break
         end
     end
+end
+
+--[[
+    @desc: 更改玩家数据的商店等级/金币/钻石
+    --@key: 哪个数据
+	--@count: 多少
+]]
+function PlayerDataModel:AddData(key, count)
+    self.PlayerData[key] = tostring(ModelTool:FormatNum(self.PlayerData[key] + count))
+    self.CompletePlayerData[key] = tostring(ModelTool:FormatNum(self.CompletePlayerData[key] + count))
 end
 
 

@@ -37,10 +37,8 @@ function MainSceneCtrl:Init()
             end
         )
     end
-    self.Panel.gameObject:SetActive(true)
-    self.Scene.gameObject:SetActive(true)
 
-    -- 刷新金币钻石等数据
+    self:UpdateMainSceneInfo()
     
     -- 删除系统消息栏中所有的子物体
     LoadManager:DeleteAllChilds(self.Panel.go[2])
@@ -61,6 +59,15 @@ function MainSceneCtrl:Init()
     Core.secondEvent["NpcBuyEvent"] = function() MainSceneCtrl:NpcStart() end
 
 end
+
+
+function MainSceneCtrl:UpdateMainSceneInfo()
+    self.Panel.gameObject:SetActive(true)
+    self.Scene.gameObject:SetActive(true)
+
+    -- 刷新金币钻石等数据
+end
+
 
 -- 开始游戏白天黑夜周期
 function MainSceneCtrl:GameStartPeriod()
